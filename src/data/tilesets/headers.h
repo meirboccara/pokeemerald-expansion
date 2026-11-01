@@ -28,7 +28,7 @@ const struct Tileset gTileset_SecretBaseRedCave =
 const struct Tileset *const gTilesetPointer_SecretBase = &gTileset_SecretBase;
 const struct Tileset *const gTilesetPointer_SecretBaseRedCave = &gTileset_SecretBaseRedCave;
 
-#if !IS_FRLG
+#if 1 // KJH ENG-3 spike: Hoenn tilesets in every build
 
 const struct Tileset gTileset_General =
 {
@@ -833,7 +833,8 @@ const struct Tileset gTileset_UnionRoom =
     .callback = NULL,
 };
 
-#else
+#endif
+#if IS_FRLG // KJH ENG-3 spike
 
 // FRLG tilesets
 const struct Tileset gTileset_BuildingFrlg =
@@ -1541,3 +1542,26 @@ const struct Tileset gTileset_HallOfFame =
 };
 
 #endif // IS_FRLG
+
+// KJH ENG-3 spike: Johto (New Bark Town)
+const struct Tileset gTileset_J_johto =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_J_johto,
+    .palettes = gTilesetPalettes_J_johto,
+    .metatiles = gMetatiles_J_johto,
+    .metatileAttributes = gMetatileAttributes_J_johto,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_J_johto_outdoor_day_new_bark_24 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_J_johto_outdoor_day_new_bark_24,
+    .palettes = gTilesetPalettes_J_johto_outdoor_day_new_bark_24,
+    .metatiles = gMetatiles_J_johto_outdoor_day_new_bark_24,
+    .metatileAttributes = gMetatileAttributes_J_johto_outdoor_day_new_bark_24,
+    .callback = NULL,
+};

@@ -9323,6 +9323,17 @@
       "border_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa_Frlg/border.bin",
       "blockdata_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa_Frlg/map.bin",
       "layout_version": "frlg"
+    },
+    {
+      "id": "LAYOUT_JOHTO_NEW_BARK_TOWN",
+      "name": "JohtoNewBarkTown_Layout",
+      "width": 20,
+      "height": 18,
+      "primary_tileset": "gTileset_J_johto",
+      "secondary_tileset": "gTileset_J_johto_outdoor_day_new_bark_24",
+      "border_filepath": "data/layouts/JohtoNewBarkTown/border.bin",
+      "blockdata_filepath": "data/layouts/JohtoNewBarkTown/map.bin",
+      "layout_version": "emerald"
     }
   ]
 }

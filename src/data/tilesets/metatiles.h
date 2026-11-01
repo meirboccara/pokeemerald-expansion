@@ -4,7 +4,7 @@ const u16 gMetatileAttributes_SecretBasePrimary[] = INCBIN_U16("data/tilesets/pr
 const u16 gMetatiles_SecretBaseSecondary[] = INCBIN_U16("data/tilesets/secondary/secret_base/metatiles.bin");
 const u16 gMetatileAttributes_SecretBaseSecondary[] = INCBIN_U16("data/tilesets/secondary/secret_base/metatile_attributes.bin");
 
-#if !IS_FRLG
+#if 1 // KJH ENG-3 spike: Hoenn tilesets in every build
 
 const u16 gMetatiles_General[] = INCBIN_U16("data/tilesets/primary/general/metatiles.bin");
 const u16 gMetatileAttributes_General[] = INCBIN_U16("data/tilesets/primary/general/metatile_attributes.bin");
@@ -210,7 +210,8 @@ const u16 gMetatileAttributes_MysteryEventsHouse[] = INCBIN_U16("data/tilesets/s
 const u16 gMetatiles_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatiles.bin");
 const u16 gMetatileAttributes_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatile_attributes.bin");
 
-#else
+#endif
+#if IS_FRLG // KJH ENG-3 spike
 
 const u16 gMetatiles_Building_Frlg[] = INCBIN_U16("data/tilesets/primary/building_frlg/metatiles.bin");
 const u16 gMetatileAttributes_Building_Frlg[] = INCBIN_U16("data/tilesets/primary/building_frlg/metatile_attributes.bin");
@@ -408,3 +409,10 @@ const u16 gMetatiles_HallOfFame[] = INCBIN_U16("data/tilesets/secondary/hall_of_
 const u16 gMetatileAttributes_HallOfFame[] = INCBIN_U16("data/tilesets/secondary/hall_of_fame_frlg/metatile_attributes.bin");
 
 #endif // IS_FRLG
+
+// KJH ENG-3 spike: Johto (New Bark Town)
+const u16 gMetatiles_J_johto[] = INCBIN_U16("data/tilesets/primary/johto_johto/metatiles.bin");
+const u16 gMetatileAttributes_J_johto[] = INCBIN_U16("data/tilesets/primary/johto_johto/metatile_attributes.bin");
+
+const u16 gMetatiles_J_johto_outdoor_day_new_bark_24[] = INCBIN_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/metatiles.bin");
+const u16 gMetatileAttributes_J_johto_outdoor_day_new_bark_24[] = INCBIN_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/metatile_attributes.bin");

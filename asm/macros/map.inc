@@ -105,7 +105,7 @@
 
 	@ Defines a background hidden item event for map data
 	.macro bg_hidden_item_event x:req, y:req, elevation:req, item:req, flag:req, quantity=1, underfoot=FALSE
-	.if \flag < FLAG_HIDDEN_ITEMS_START
+	.if \flag && \flag < FLAG_HIDDEN_ITEMS_START @ KJH ENG-3 spike: Hoenn flags are 0 in a FireRed build
 	.error "Hidden Item flag \flag is too small. Must be >= FLAG_HIDDEN_ITEMS_START."
 	.endif
 	.if \item >= (1 << 12)

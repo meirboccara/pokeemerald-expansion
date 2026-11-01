@@ -42,7 +42,7 @@ const u16 gTilesetPalettes_SecretBaseRedCave[][16] =
 };
 
 
-#if !IS_FRLG
+#if 1 // KJH ENG-3 spike: Hoenn tilesets in every build
 
 const u32 gTilesetTiles_Petalburg[] = INCGFX_U32("data/tilesets/secondary/petalburg/tiles.png", ".4bpp.fastSmol", "-num_tiles 159 -Wnum_tiles");
 
@@ -1625,7 +1625,8 @@ const u16 gTilesetPalettes_UnionRoom[][16] =
 
 const u32 gTilesetTiles_UnionRoom[] = INCGFX_U32("data/tilesets/secondary/union_room/tiles.png", ".4bpp.fastSmol");
 
-#else
+#endif
+#if IS_FRLG // KJH ENG-3 spike
 
 const u32 gTilesetTiles_Building_Frlg[] = INCGFX_U32("data/tilesets/primary/building_frlg/tiles.png", ".4bpp.smol");
 
@@ -3038,3 +3039,48 @@ const u16 ALIGNED(4) gTilesetPalettes_General_Frlg[][16] =
 const u32 gTilesetTiles_General_Frlg[] = INCGFX_U32("data/tilesets/primary/general_frlg/tiles.png", ".4bpp.smol");
 
 #endif // IS_FRLG
+
+// KJH ENG-3 spike: Johto (New Bark Town)
+const u16 ALIGNED(4) gTilesetPalettes_J_johto[][16] =
+{
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/12.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/13.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/14.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/primary/johto_johto/palettes/15.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_J_johto[] = INCGFX_U32("data/tilesets/primary/johto_johto/tiles.png", ".4bpp.smol");
+
+const u16 ALIGNED(4) gTilesetPalettes_J_johto_outdoor_day_new_bark_24[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/12.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/13.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/14.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/palettes/15.pal", ".gbapal"),
+};
+
+const u32 gTilesetTiles_J_johto_outdoor_day_new_bark_24[] = INCGFX_U32("data/tilesets/secondary/johto_johto_outdoor_day_new_bark_24/tiles.png", ".4bpp.smol");

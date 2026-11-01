@@ -1,5 +1,6 @@
 #ifndef GUARD_GLOBAL_H
 #define GUARD_GLOBAL_H
+#define KJH_DEBUG_WARP 4 // KJH emulator harness (spike)
 
 #include <string.h>
 #include <limits.h>
