@@ -50,6 +50,7 @@
 #include "union_room_chat.h"
 #include "constants/map_groups.h"
 #include "constants/items.h"
+#include "script_pokemon_util.h"
 #include "difficulty.h"
 #include "follower_npc.h"
 
@@ -135,12 +136,46 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
+#if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
+    // KJH emulator harness (source/kjh_tools/test in the KJH repo): the test writes the map group, map number, x
+    // and y at 0x0203FF00 before "New Game"; KJH_DebugHarnessStart gives the party and flags
+    vu8 *p = (vu8 *)0x0203FF00;
+    SetWarpDestination(p[0], p[1], WARP_ID_NONE, p[2], p[3]);
+#else
     if (IS_FRLG)
         SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
     else
         SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+#endif
     WarpIntoMap();
 }
+
+#if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
+// KJH emulator harness, same layout as the KJH pokefirered tree: 0x0203FF04 up to 16 flags to set;
+// 0x0203FF24 species, held item and level of the first Pokemon (0: Pikachu Lv 20), 0x0203FF2A a bag item,
+// 0x0203FF2C species and level of a second Pokemon (0: none)
+static void KJH_DebugHarnessStart(void)
+{
+    vu16 *flags = (vu16 *)0x0203FF04;
+    vu16 *dbgMon = (vu16 *)0x0203FF24;
+
+    if (dbgMon[0] != SPECIES_NONE)
+        ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
+    else
+        ScriptGiveMon(SPECIES_PIKACHU, 20, ITEM_NONE);
+    if (dbgMon[4] != SPECIES_NONE)
+        ScriptGiveMon(dbgMon[4], dbgMon[5], ITEM_NONE);
+    if (dbgMon[3] != ITEM_NONE)
+        AddBagItem(dbgMon[3], 1);
+    FlagSet(FLAG_SYS_POKEMON_GET);
+    FlagSet(FLAG_SYS_POKEDEX_GET);
+    FlagSet(FLAG_SYS_B_DASH);
+    AddBagItem(ITEM_POKE_BALL, 20);
+    AddBagItem(ITEM_POTION, 10);
+    for (u32 i = 0; i < 16 && flags[i] != 0; i++)
+        FlagSet(flags[i]);
+}
+#endif
 
 void Sav2_ClearSetDefault(void)
 {
@@ -234,6 +269,9 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+#if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
+    KJH_DebugHarnessStart();
+#endif
 }
 
 static void ResetMiniGamesRecords(void)

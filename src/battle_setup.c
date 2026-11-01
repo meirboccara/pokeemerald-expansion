@@ -26,6 +26,7 @@
 #include "follower_npc.h"
 #include "gym_leader_rematch.h"
 #include "item.h"
+#include "kjh_progression.h"
 #include "load_save.h"
 #include "malloc.h"
 #include "metatile_behavior.h"
@@ -2190,8 +2191,16 @@ void SetMultiTrainerBattle(struct ScriptContext *ctx)
 
 void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer *trainer)
 {
+    CreateOpponentTrainerParty(party, trainer, TRAINER_NONE);
+}
+
+// KJH: an opponent's party (trainerNum: its TRAINER_* id) gets KJH's levels and boss rules
+// (src/kjh_progression.c); TRAINER_NONE (battle partners, the debug menu's own test parties) keeps the trainer
+// data as it is.
+void CreateOpponentTrainerParty(struct Pokemon *party, const struct Trainer *trainer, u16 trainerNum)
+{
     s32 i;
-    u8 monsCount;
+    u8 monsCount, kjhBoost;
 
     ZeroPartyMons(party);
 
@@ -2206,11 +2215,16 @@ void CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Traine
     struct TrainerGenerator *trainerGen = AllocZeroed(sizeof(struct TrainerGenerator));
     MakeTrainerGenerator(trainerGen, trainer);
     DoTrainerPartyPool(trainer, monIndices, monsCount, gBattleTypeFlags);
+    // the team catches up with the player's party, from the Pokemon it sends
+    kjhBoost = KJH_TeamLevelBoost(trainer, trainerNum, monIndices, monsCount);
 
     for (i = 0; i < monsCount; i++)
     {
         u32 monIndex = monIndices[i];
-        GenerateMonFromTrainerMon(&party[i], &trainer->party[monIndex], trainerGen);
+        struct TrainerMon kjhMon;
+        KJH_PrepareTrainerMon(&kjhMon, &trainer->party[monIndex], trainerNum, kjhBoost);
+        GenerateMonFromTrainerMon(&party[i], &kjhMon, trainerGen);
+        KJH_FinishTrainerMon(&party[i], &trainer->party[monIndex], trainer, trainerNum, kjhBoost);
     }
     Free(trainerGen);
 }
@@ -2219,7 +2233,7 @@ static void CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
 {
     if (!GetTrainerStructFromId(trainerNum)->overrideTrainer)
     {
-        CreateNPCTrainerPartyFromTrainer(party, GetTrainerStructFromId(trainerNum));
+        CreateOpponentTrainerParty(party, GetTrainerStructFromId(trainerNum), trainerNum);
         return;
     }
 
@@ -2232,7 +2246,7 @@ static void CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
     tempTrainer.poolSize = origTrainer->poolSize;
     if (tempTrainer.partySize == 0)
         tempTrainer.partySize = origTrainer->partySize;
-    CreateNPCTrainerPartyFromTrainer(party, (const struct Trainer *)(&tempTrainer));
+    CreateOpponentTrainerParty(party, (const struct Trainer *)(&tempTrainer), trainerNum);
 }
 
 void CreateTrainerPartyForPlayer(void)

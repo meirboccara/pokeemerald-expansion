@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "event_data.h"
 #include "item.h"
+#include "kjh_progression.h"
 #include "math_util.h"
 #include "pokemon.h"
 #include "random.h"
@@ -282,8 +283,10 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
             flags = GetAiScriptsInBattleFactory();
         else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
             flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
-        else
+        else if (trainerId == TRAINER_NONE || IsPartnerTrainerId(trainerId))
             flags = GetTrainerAIFlagsFromId(trainerId);
+        else // KJH: an opponent's own flags, plus the boss AI for bosses (src/kjh_progression.c)
+            flags = KJH_AiFlags(GetTrainerAIFlagsFromId(trainerId), GetTrainerStructFromId(trainerId)->trainerClass, trainerId);
     }
 
     if (IsDoubleBattle() && flags != 0)
