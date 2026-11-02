@@ -22,6 +22,7 @@ Route25_SeaCottage_EventScript_SetReturnedAfterSSTicket::
 Route25_SeaCottage_EventScript_Bill::
 	lock
 	faceplayer
+	call_if_set FLAG_GOT_SS_TICKET, Route25_SeaCottage_EventScript_BillGiveBoxLink
 	goto_if_set RETURN_AFTER_SS_TICKET, Route25_SeaCottage_EventScript_BillGoLookAtPC
 	goto_if_set FLAG_GOT_SS_TICKET, Route25_SeaCottage_EventScript_BillGoToSSAnne
 	goto_if_set FLAG_HELPED_BILL_IN_SEA_COTTAGE, Route25_SeaCottage_EventScript_BillGiveSSTicket
@@ -103,8 +104,22 @@ Route25_SeaCottage_EventScript_BillGiveSSTicket::
 	setflag FLAG_HIDE_NUGGET_BRIDGE_ROCKET
 	setflag FLAG_GOT_SS_TICKET
 	setflag FLAG_SYS_PC_LANETTE
+	call Route25_SeaCottage_EventScript_BillGiveBoxLink
 	goto Route25_SeaCottage_EventScript_BillGoToSSAnne
 	end
+
+@ KJH (CF-1): Bill built the PC, so he gives the Box Link once, after the S.S. Ticket. A save made after the
+@ ticket gets it the next time the player talks to him here.
+Route25_SeaCottage_EventScript_BillGiveBoxLink::
+	goto_if_set FLAG_KJH_GOT_BOX_LINK, Route25_SeaCottage_EventScript_BillGiveBoxLinkEnd
+	checkitemspace ITEM_POKEMON_BOX_LINK
+	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_BillGiveBoxLinkEnd
+	msgbox Route25_SeaCottage_Text_TakeThisBoxLink
+	giveitem_msg Route25_SeaCottage_Text_ReceivedBoxLinkFromBill, ITEM_POKEMON_BOX_LINK, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_KJH_GOT_BOX_LINK
+	msgbox Route25_SeaCottage_Text_BoxLinkOpensPC
+Route25_SeaCottage_EventScript_BillGiveBoxLinkEnd:
+	return
 
 Route25_SeaCottage_EventScript_BillThanksMale::
 	msgbox Route25_SeaCottage_Text_ThanksBudTakeThis
@@ -383,6 +398,20 @@ Route25_SeaCottage_Text_SSAnnePartyYouGoInstead::
 	.string "I can't stand fancy do's.\p"
 	.string "Why don't you go instead of me?\n"
 	.string "Go on and have a good time.$"
+
+Route25_SeaCottage_Text_TakeThisBoxLink::
+	.string "BILL: Oh, one more thing!\p"
+	.string "I built the POKéMON STORAGE SYSTEM,\n"
+	.string "you know. Here, take this gadget.$"
+
+Route25_SeaCottage_Text_ReceivedBoxLinkFromBill::
+	.string "{PLAYER} received the\n"
+	.string "{PKMN} BOX LINK from BILL.$"
+
+Route25_SeaCottage_Text_BoxLinkOpensPC::
+	.string "BILL: With the BOX LINK, your BOXES\n"
+	.string "open right from your BAG.\p"
+	.string "No need to look for a PC!$"
 
 Route25_SeaCottage_Text_CheckOutRareMonsOnPC::
 	.string "BILL: Feel like checking out some\n"

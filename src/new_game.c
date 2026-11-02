@@ -151,16 +151,19 @@ static void WarpToTruck(void)
 }
 
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
-// KJH emulator harness, same layout as the KJH pokefirered tree: 0x0203FF04 up to 16 flags to set;
+// KJH emulator harness, same layout as the KJH pokefirered tree: 0x0203FF04 up to 16 flags to set
+// (0x8000 | flag clears it);
 // 0x0203FF24 species, held item and level of the first Pokemon (0: Pikachu Lv 20), 0x0203FF2A a bag item,
 // 0x0203FF2C species and level of a second Pokemon (0: none),
 // 0x0203FF34 the VS Seeker's charge in steps (100: ready), 0x0203FF36 an item registered to SELECT
-// (0x0203FF30-33 are the KJH tree's pack and journey switches)
+// (0x0203FF30-33 are the KJH tree's pack and journey switches),
+// 0x0203FF38 a variable and its value (0: none)
 static void KJH_DebugHarnessStart(void)
 {
     vu16 *flags = (vu16 *)0x0203FF04;
     vu16 *dbgMon = (vu16 *)0x0203FF24;
     vu16 *vsSeeker = (vu16 *)0x0203FF34; // charge, registered item
+    vu16 *var = (vu16 *)0x0203FF38;
 
     if (dbgMon[0] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
@@ -176,9 +179,16 @@ static void KJH_DebugHarnessStart(void)
     AddBagItem(ITEM_POKE_BALL, 20);
     AddBagItem(ITEM_POTION, 10);
     for (u32 i = 0; i < 16 && flags[i] != 0; i++)
-        FlagSet(flags[i]);
+    {
+        if (flags[i] & 0x8000) // a flag to clear, such as an object's hide flag set by the new game's reset
+            FlagClear(flags[i] & 0x7FFF);
+        else
+            FlagSet(flags[i]);
+    }
     gSaveBlock1Ptr->trainerRematchStepCounter = vsSeeker[0];
     gSaveBlock1Ptr->registeredItem = vsSeeker[1];
+    if (var[0] >= VARS_START && var[0] <= VARS_END)
+        VarSet(var[0], var[1]);
 }
 #endif
 

@@ -152,6 +152,7 @@
 #define FLAG_0x0AF               0x0AF
 #define FLAG_KJH_EXP_SHARE                                 FLAG_0x0AF // KJH: the party Exp. Share (I_EXP_SHARE_FLAG), on from a new game
 #define FLAG_0x0B0               0x0B0
+#define FLAG_KJH_GOT_BOX_LINK                              FLAG_0x0B0 // KJH: Bill gave the Pokemon Box Link (CF-1)
 #define FLAG_0x0B1               0x0B1
 #define FLAG_0x0B2               0x0B2
 #define FLAG_0x0B3               0x0B3
