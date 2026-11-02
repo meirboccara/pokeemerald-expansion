@@ -430,13 +430,13 @@
 #define SHOW_TYPES_ALWAYS   1                    // Always show types in battle.
 #define SHOW_TYPES_CAUGHT   2                    // Only show types if you've caught a Pokémon of that species.
 #define SHOW_TYPES_SEEN     3                    // Only show types if you've seen a Pokémon of that species.
-#define B_SHOW_TYPES        SHOW_TYPES_NEVER     // When to show type indicators next to Pokémon HP bars, while choosing a move after selecting a target Pokémon.
+#define B_SHOW_TYPES        SHOW_TYPES_ALWAYS    // KJH: always, as in KJH (ENG-4). When to show type indicators next to Pokémon HP bars, while choosing a move after selecting a target Pokémon.
 
 #define SHOW_EFFECTIVENESS_NEVER    0           // Never show type effectiveness when selecting moves.
 #define SHOW_EFFECTIVENESS_ALWAYS   1           // Always show type effectiveness when selecting moves.
 #define SHOW_EFFECTIVENESS_CAUGHT   2           // Only show type effectiveness if you've caught a Pokémon of that species.
 #define SHOW_EFFECTIVENESS_SEEN     3           // Only show type effectiveness if you've seen a Pokémon of that species.
-#define B_SHOW_EFFECTIVENESS        SHOW_EFFECTIVENESS_SEEN // If not SHOW_EFFECTIVENESS_NEVER, the PP string is replaced by a type effectiveness indicator based on the move and the target.
+#define B_SHOW_EFFECTIVENESS        SHOW_EFFECTIVENESS_ALWAYS // KJH: always, as in KJH (ENG-4). If not SHOW_EFFECTIVENESS_NEVER, the PP string is replaced by a type effectiveness indicator based on the move and the target.
 
 // Pokémon battle sprite settings
 #define B_ENEMY_MON_SHADOW_STYLE        GEN_LATEST // In Gen4+, all opposing Pokémon will have a shadow drawn beneath them.

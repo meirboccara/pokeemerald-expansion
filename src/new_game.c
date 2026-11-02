@@ -274,6 +274,8 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+    if (I_EXP_SHARE_FLAG != 0)
+        FlagSet(I_EXP_SHARE_FLAG); // KJH: the party Exp. Share is on from the start.
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
     KJH_DebugHarnessStart();
 #endif
