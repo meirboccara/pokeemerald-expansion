@@ -38,7 +38,7 @@
 
 // Vs. Seeker
 #if defined(FIRERED) || defined(LEAFGREEN)
-#define I_VS_SEEKER_CHARGING        FLAG_SYS_VS_SEEKER_CHARGING // KJH: Kanto's rematches, src/vs_seeker_frlg.c
+#define I_VS_SEEKER_CHARGING        FLAG_SYS_VS_SEEKER_CHARGING // KJH: Kanto's rematches, src/vs_seeker_frlg.c.
 #else
 #define I_VS_SEEKER_CHARGING        0                     // If this flag is assigned, the Vs. Seeker functionality will be enabled. When the player has the Vs. Seeker, Match Call rematch functions will stop working. Documentation for the Vs. Seeker can be found in docs/tutorials/vs_seeker.md.
 #endif

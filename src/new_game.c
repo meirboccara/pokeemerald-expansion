@@ -160,7 +160,7 @@ static void KJH_DebugHarnessStart(void)
 {
     vu16 *flags = (vu16 *)0x0203FF04;
     vu16 *dbgMon = (vu16 *)0x0203FF24;
-    vu16 *field = (vu16 *)0x0203FF34;
+    vu16 *vsSeeker = (vu16 *)0x0203FF34; // charge, registered item
 
     if (dbgMon[0] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
@@ -177,8 +177,8 @@ static void KJH_DebugHarnessStart(void)
     AddBagItem(ITEM_POTION, 10);
     for (u32 i = 0; i < 16 && flags[i] != 0; i++)
         FlagSet(flags[i]);
-    gSaveBlock1Ptr->trainerRematchStepCounter = field[0];
-    gSaveBlock1Ptr->registeredItem = field[1];
+    gSaveBlock1Ptr->trainerRematchStepCounter = vsSeeker[0];
+    gSaveBlock1Ptr->registeredItem = vsSeeker[1];
 }
 #endif
 

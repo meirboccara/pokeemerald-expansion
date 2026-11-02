@@ -1487,7 +1487,7 @@ static bool32 IsValidLocationForVsSeeker(void)
     };
 
 #if IS_FRLG
-    // KJH: FireRed's rule, outdoors but not in its forests
+    // KJH: FireRed's rule, outdoors but not in its forests.
     Location frlgForests[] =
     {
         { MAP_GROUP(MAP_VIRIDIAN_FOREST),           MAP_NUM(MAP_VIRIDIAN_FOREST) },

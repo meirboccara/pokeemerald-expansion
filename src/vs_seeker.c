@@ -189,6 +189,7 @@ static s32 GetRematchRow(u16 trainerId)
 {
     if (IS_FRLG)
         return FrlgRematch_GetRow(trainerId);
+
     return TrainerIdToRematchTableId(gRematchTable, trainerId);
 }
 
@@ -207,6 +208,20 @@ u16 VsSeekerConvertLocalIdToTableId(u16 localId)
     }
     return -1;
 }
+
+#if FREE_MATCH_CALL == FALSE
+// KJH: the save's trainerRematches holds Kanto's bits in a FireRed build, Hoenn's bytes otherwise.
+static void SetTrainerWantsRematch(u32 vsSeekerIdx, u16 rematchTrainerIdx)
+{
+    if (IS_FRLG)
+    {
+        FrlgRematch_SetWaiting(sVsSeeker->trainerInfo[vsSeekerIdx].trainerIdx);
+        return;
+    }
+
+    gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId)] = rematchTrainerIdx;
+}
+#endif //FREE_MATCH_CALL
 
 void VsSeekerResetObjectMovementAfterChargeComplete(void)
 {
@@ -458,6 +473,23 @@ static u8 CanUseVsSeeker(void)
 #endif //FREE_MATCH_CALL
 }
 
+#if FREE_MATCH_CALL == FALSE
+#define FRLG_REMATCH_NO_PERCENT 30
+
+// KJH: FireRed's answer. A trainer with a rematch says no 3 times in 10, and a trainer seen twice on screen (twins)
+// answers once for both.
+static bool32 FrlgTrainerSaysNo(s32 vsSeekerIdx, u16 trainerIdx)
+{
+    for (s32 i = 0; i < vsSeekerIdx; i++)
+    {
+        if (sVsSeeker->trainerInfo[i].trainerIdx == trainerIdx && IsTrainerVisibleOnScreen(&sVsSeeker->trainerInfo[i]))
+            return !FrlgRematch_IsWaiting(trainerIdx);
+    }
+
+    return Random() % 100 < FRLG_REMATCH_NO_PERCENT;
+}
+#endif //FREE_MATCH_CALL
+
 static u8 GetVsSeekerResponseInArea(void)
 {
 #if FREE_MATCH_CALL == FALSE
@@ -485,17 +517,13 @@ static u8 GetVsSeekerResponseInArea(void)
         }
 
         rematchTrainerIdx = GetRematchTrainerIdVSSeeker(trainerIdx);
-        // KJH: in FireRed, each trainer with a rematch says yes 7 times in 10
-        if (rematchTrainerIdx == 0 || (IS_FRLG && Random() % 100 < 30))
+        if (rematchTrainerIdx == 0 || (IS_FRLG && FrlgTrainerSaysNo(vsSeekerIdx, trainerIdx)))
         {
             StartTrainerObjectMovementScript(&sVsSeeker->trainerInfo[vsSeekerIdx], sMovementScript_TrainerNoRematch);
             continue;
         }
 
-        if (IS_FRLG)
-            FrlgRematch_SetWaiting(trainerIdx);
-        else
-            gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId)] = rematchTrainerIdx;
+        SetTrainerWantsRematch(vsSeekerIdx, rematchTrainerIdx);
         ShiftStillObjectEventCoords(&gObjectEvents[sVsSeeker->trainerInfo[vsSeekerIdx].objectEventId]);
         StartTrainerObjectMovementScript(&sVsSeeker->trainerInfo[vsSeekerIdx], sMovementScript_TrainerRematch);
         sVsSeeker->trainerIdxArray[sVsSeeker->numRematchableTrainers] = vsSeekerIdx;
@@ -846,7 +874,7 @@ static void StartAllRespondantIdleMovements(void)
                 SetTrainerMovementType(objectEvent, sVsSeeker->runningBehaviourEtcArray[i]);
             TryOverrideTemplateCoordsForObjectEvent(objectEvent, sVsSeeker->runningBehaviourEtcArray[i]);
         }
-        gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[j].localId)] = GetRematchTrainerIdVSSeeker(sVsSeeker->trainerInfo[j].trainerIdx);
+        SetTrainerWantsRematch(j, GetRematchTrainerIdVSSeeker(sVsSeeker->trainerInfo[j].trainerIdx));
     }
 #endif //FREE_MATCH_CALL
 }

@@ -28,22 +28,30 @@ static const u16 sBenParties[] =
 // Progress: how many tier flags are set, in order. Beaten: how many of Ben's parties the player has beaten.
 static void SetUpBen(u32 progress, u32 beaten)
 {
-    u32 i;
-
-    for (i = 0; i < ARRAY_COUNT(sTierFlags); i++)
+    for (u32 i = 0; i < ARRAY_COUNT(sTierFlags); i++)
     {
         if (i < progress)
+        {
             FlagSet(sTierFlags[i]);
+        }
         else
+        {
             FlagClear(sTierFlags[i]);
+        }
     }
-    for (i = 0; i < ARRAY_COUNT(sBenParties); i++)
+
+    for (u32 i = 0; i < ARRAY_COUNT(sBenParties); i++)
     {
         if (i < beaten)
+        {
             FlagSet(TRAINER_FLAGS_START + sBenParties[i]);
+        }
         else
+        {
             FlagClear(TRAINER_FLAGS_START + sBenParties[i]);
+        }
     }
+
     memset(gSaveBlock1Ptr->trainerRematches, 0, sizeof(gSaveBlock1Ptr->trainerRematches));
 }
 
