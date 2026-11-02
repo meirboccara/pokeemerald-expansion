@@ -1486,6 +1486,23 @@ static bool32 IsValidLocationForVsSeeker(void)
         { MAP_GROUP(MAP_SOOTOPOLIS_CITY_GYM_B1F),  MAP_NUM(MAP_SOOTOPOLIS_CITY_GYM_B1F) },
     };
 
+#if IS_FRLG
+    // KJH: FireRed's rule, outdoors but not in its forests
+    Location frlgForests[] =
+    {
+        { MAP_GROUP(MAP_VIRIDIAN_FOREST),           MAP_NUM(MAP_VIRIDIAN_FOREST) },
+        { MAP_GROUP(MAP_MT_EMBER_EXTERIOR),         MAP_NUM(MAP_MT_EMBER_EXTERIOR) },
+        { MAP_GROUP(MAP_THREE_ISLAND_BERRY_FOREST), MAP_NUM(MAP_THREE_ISLAND_BERRY_FOREST) },
+        { MAP_GROUP(MAP_SIX_ISLAND_PATTERN_BUSH),   MAP_NUM(MAP_SIX_ISLAND_PATTERN_BUSH) },
+    };
+
+    for (i = 0; i < ARRAY_COUNT(frlgForests); i++)
+    {
+        if (mapNum == frlgForests[i].mapNum && mapGroup == frlgForests[i].mapGroup)
+            return FALSE;
+    }
+#endif
+
     if (IsMapTypeOutdoors(mapType))
         return TRUE;
 

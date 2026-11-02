@@ -17,6 +17,7 @@
 #include "field_player_avatar.h"
 #include "fieldmap.h"
 #include "vs_seeker.h"
+#include "vs_seeker_frlg.h"
 #include "menu.h"
 #include "string_util.h"
 #include "tv.h"
@@ -182,6 +183,14 @@ static void Task_ResetObjectsRematchWantedState(u8 taskId)
 }
 #undef tIsPlayerFrozen
 #undef tAreObjectsFrozen
+
+// KJH: a FireRed build looks trainers up in Kanto's table (src/vs_seeker_frlg.c), not in Hoenn's gRematchTable.
+static s32 GetRematchRow(u16 trainerId)
+{
+    if (IS_FRLG)
+        return FrlgRematch_GetRow(trainerId);
+    return TrainerIdToRematchTableId(gRematchTable, trainerId);
+}
 
 u16 VsSeekerConvertLocalIdToTableId(u16 localId)
 {
@@ -476,13 +485,17 @@ static u8 GetVsSeekerResponseInArea(void)
         }
 
         rematchTrainerIdx = GetRematchTrainerIdVSSeeker(trainerIdx);
-        if (rematchTrainerIdx == 0)
+        // KJH: in FireRed, each trainer with a rematch says yes 7 times in 10
+        if (rematchTrainerIdx == 0 || (IS_FRLG && Random() % 100 < 30))
         {
             StartTrainerObjectMovementScript(&sVsSeeker->trainerInfo[vsSeekerIdx], sMovementScript_TrainerNoRematch);
             continue;
         }
 
-        gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId)] = rematchTrainerIdx;
+        if (IS_FRLG)
+            FrlgRematch_SetWaiting(trainerIdx);
+        else
+            gSaveBlock1Ptr->trainerRematches[VsSeekerConvertLocalIdToTableId(sVsSeeker->trainerInfo[vsSeekerIdx].localId)] = rematchTrainerIdx;
         ShiftStillObjectEventCoords(&gObjectEvents[sVsSeeker->trainerInfo[vsSeekerIdx].objectEventId]);
         StartTrainerObjectMovementScript(&sVsSeeker->trainerInfo[vsSeekerIdx], sMovementScript_TrainerRematch);
         sVsSeeker->trainerIdxArray[sVsSeeker->numRematchableTrainers] = vsSeekerIdx;
@@ -520,7 +533,7 @@ void ClearRematchMovementByTrainerId(void)
     struct ObjectEventTemplate *objectEventTemplates = gSaveBlock1Ptr->objectEventTemplates;
     struct ObjectEvent *objectEvent;
 
-    int vsSeekerDataIdx = TrainerIdToRematchTableId(gRematchTable, TRAINER_BATTLE_PARAM.opponentA);
+    int vsSeekerDataIdx = GetRematchRow(TRAINER_BATTLE_PARAM.opponentA);
 
     if (!I_VS_SEEKER_CHARGING) return;
 
@@ -530,7 +543,7 @@ void ClearRematchMovementByTrainerId(void)
     for (i = 0; i < gMapHeader.events->objectEventCount; i++)
     {
         if (!ShouldChangeMovementForTrainerType(objectEventTemplates[i].trainerType)
-        || vsSeekerDataIdx != TrainerIdToRematchTableId(gRematchTable, GetTrainerFlagFromScript(objectEventTemplates[i].script)))
+        || vsSeekerDataIdx != GetRematchRow(GetTrainerFlagFromScript(objectEventTemplates[i].script)))
             continue;
 
         TryGetObjectEventIdByLocalIdAndMap(objectEventTemplates[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objEventId);
@@ -571,6 +584,8 @@ u16 GetRematchTrainerIdVSSeeker(u16 trainerId)
 
     if (!I_VS_SEEKER_CHARGING)
         return 0;
+    if (IS_FRLG)
+        return FrlgRematch_GetOpponent(trainerId);
     if (tableId == -1)
         return 0;
     if (tableId >= REMATCH_ELITE_FOUR_ENTRIES)

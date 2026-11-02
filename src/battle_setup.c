@@ -49,6 +49,7 @@
 #include "tv.h"
 #include "overworld.h"
 #include "vs_seeker.h"
+#include "vs_seeker_frlg.h"
 #include "wild_encounter_ow.h"
 #include "window.h"
 #include "constants/battle_frontier.h"
@@ -1981,6 +1982,11 @@ static u16 GetLastBeatenRematchTrainerIdFromTable(const struct RematchTrainer *t
 static void ClearTrainerWantRematchState(const struct RematchTrainer *table, u16 firstBattleTrainerId)
 {
 #if FREE_MATCH_CALL == FALSE
+    if (IS_FRLG)
+    {
+        FrlgRematch_ClearWaiting(firstBattleTrainerId);
+        return;
+    }
     s32 tableId = TrainerIdToRematchTableId(table, firstBattleTrainerId);
 
     if (tableId != -1)
@@ -1993,6 +1999,11 @@ void ClearCurrentTrainerWantRematchVsSeeker(void)
 #if FREE_MATCH_CALL == FALSE
     if ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) && FlagGet(I_VS_SEEKER_CHARGING) && (I_VS_SEEKER_CHARGING != 0))
     {
+        if (IS_FRLG)
+        {
+            FrlgRematch_ClearWaiting(TRAINER_BATTLE_PARAM.opponentA);
+            return;
+        }
         for (u32 i = 0; i < REMATCH_TABLE_ENTRIES; i++)
         {
             if (gSaveBlock1Ptr->trainerRematches[i] == TRAINER_BATTLE_PARAM.opponentA)
@@ -2066,6 +2077,8 @@ static bool32 HasEnoughBadgesForRematch(void)
 void IncrementRematchStepCounter(void)
 {
 #if FREE_MATCH_CALL == FALSE
+    if (IS_FRLG) // KJH: no Match Call in Kanto; the VS Seeker uses this counter
+        return;
     if (!HasEnoughBadgesForRematch())
         return;
 
@@ -2090,6 +2103,8 @@ static bool32 IsRematchStepCounterMaxed(void)
 
 void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum)
 {
+    if (IS_FRLG) // KJH: Hoenn's Match Call table would write Kanto's VS Seeker state
+        return;
     if (IsRematchStepCounterMaxed() && UpdateRandomTrainerRematches(gRematchTable, mapGroup, mapNum) == TRUE)
         gSaveBlock1Ptr->trainerRematchStepCounter = 0;
 }
@@ -2098,6 +2113,8 @@ void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum)
 #if FREE_MATCH_CALL == FALSE
 static u16 GetRematchTrainerId(u16 trainerId)
 {
+    if (IS_FRLG)
+        return FrlgRematch_GetOpponent(trainerId);
     if (FlagGet(I_VS_SEEKER_CHARGING) && (I_VS_SEEKER_CHARGING != 0))
         return GetRematchTrainerIdVSSeeker(trainerId);
     else
@@ -2117,6 +2134,8 @@ bool8 ShouldTryRematchBattle(void)
 
 bool8 ShouldTryRematchBattleForTrainerId(u16 trainerId)
 {
+    if (IS_FRLG) // KJH: only a trainer the VS Seeker found; one who sees the player walks up to them
+        return FrlgRematch_IsWaiting(trainerId);
     if (IsFirstTrainerIdReadyForRematch(gRematchTable, trainerId))
         return TRUE;
 
@@ -2125,6 +2144,8 @@ bool8 ShouldTryRematchBattleForTrainerId(u16 trainerId)
 
 bool8 IsTrainerReadyForRematch(void)
 {
+    if (IS_FRLG)
+        return FrlgRematch_IsWaiting(TRAINER_BATTLE_PARAM.opponentA);
     return IsTrainerReadyForRematch_(gRematchTable, TRAINER_BATTLE_PARAM.opponentA);
 }
 

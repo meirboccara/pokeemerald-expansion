@@ -33,6 +33,8 @@ static const u16 GymLeaderRematches_BeforeNewMauville[] = {
 
 void UpdateGymLeaderRematch(void)
 {
+    if (IS_FRLG) // KJH: Hoenn's gym leaders; their rematch bytes are Kanto's VS Seeker state in a FireRed build
+        return;
     if (FlagGet(FLAG_SYS_GAME_CLEAR) && (Random() % 100) <= 30)
     {
         if (FlagGet(FLAG_WATTSON_REMATCH_AVAILABLE))

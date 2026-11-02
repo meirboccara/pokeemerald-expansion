@@ -153,11 +153,14 @@ static void WarpToTruck(void)
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
 // KJH emulator harness, same layout as the KJH pokefirered tree: 0x0203FF04 up to 16 flags to set;
 // 0x0203FF24 species, held item and level of the first Pokemon (0: Pikachu Lv 20), 0x0203FF2A a bag item,
-// 0x0203FF2C species and level of a second Pokemon (0: none)
+// 0x0203FF2C species and level of a second Pokemon (0: none),
+// 0x0203FF34 the VS Seeker's charge in steps (100: ready), 0x0203FF36 an item registered to SELECT
+// (0x0203FF30-33 are the KJH tree's pack and journey switches)
 static void KJH_DebugHarnessStart(void)
 {
     vu16 *flags = (vu16 *)0x0203FF04;
     vu16 *dbgMon = (vu16 *)0x0203FF24;
+    vu16 *field = (vu16 *)0x0203FF34;
 
     if (dbgMon[0] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
@@ -174,6 +177,8 @@ static void KJH_DebugHarnessStart(void)
     AddBagItem(ITEM_POTION, 10);
     for (u32 i = 0; i < 16 && flags[i] != 0; i++)
         FlagSet(flags[i]);
+    gSaveBlock1Ptr->trainerRematchStepCounter = field[0];
+    gSaveBlock1Ptr->registeredItem = field[1];
 }
 #endif
 
