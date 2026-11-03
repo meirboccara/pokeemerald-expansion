@@ -153,6 +153,13 @@ class WildEncounterAssembler:
         self.WriteLine("},", 2)
         self.WriteLine("},", 1)
 
+    @staticmethod
+    def VersionCondition(version):
+        # KJH (ENG-9): Emerald's (Hoenn's) tables are in the FireRed version too (HAS_HOENN_MAPS, constants/global.h)
+        if version == "EMERALD":
+            return "#if HAS_HOENN_MAPS"
+        return f"#ifdef {version}"
+
     def WritePokemonHeaders(self, headers):
         label = headers["label"]
         self.WriteLine(f"const struct WildPokemonHeader {label}[] =")
@@ -169,7 +176,7 @@ class WildEncounterAssembler:
             elif "LeafGreen" in shared_label:
                 version = "LEAFGREEN"
             
-            self.WriteLine(f"#ifdef {version}")
+            self.WriteLine(self.VersionCondition(version))
 
             self.WriteLine("{", 1)
             self.WriteLine(f".mapGroup = {map_group},", 2)
@@ -241,7 +248,7 @@ class WildEncounterAssembler:
                     version = "FIRERED"
                 elif "LeafGreen" in shared_label:
                     version = "LEAFGREEN"
-                self.WriteLine(f"#ifdef {version}")
+                self.WriteLine(self.VersionCondition(version))
                 for mon_type in self.config.mon_types:
                     if mon_type not in map_encounters:
                         headers["data"][shared_label][mon_type] = "NULL"

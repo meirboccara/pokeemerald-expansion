@@ -34,6 +34,30 @@ using json11::Json;
 #include <filesystem>
 
 string version;
+
+// KJH: the fork's FireRed version holds Kanto, Johto (kjh_tools/johto/to_expansion.py) and expansion's native Hoenn
+// (ENG-9); keep in step with KJH_HOENN_IN_FRLG (include/constants/global.h).
+static const bool kjh_hoenn_in_firered = true;
+
+// The maps of this region are built in this version.
+static bool region_in_version(const string &region) {
+    if (version == "emerald")
+        return region == "REGION_HOENN";
+    if (version == "firered")
+        return region == "REGION_KANTO" || region == "REGION_JOHTO" || (kjh_hoenn_in_firered && region == "REGION_HOENN");
+    return true;
+}
+
+// The layouts of this layout version are built in this version. A layout with "kjh_every_build" (Johto's) always is.
+static bool layout_in_version(const string &layout_version, bool every_build) {
+    if (every_build)
+        return true;
+    if (version == "emerald")
+        return layout_version == "emerald";
+    if (version == "firered")
+        return layout_version == "frlg" || (kjh_hoenn_in_firered && layout_version == "emerald");
+    return true;
+}
 // System directory separator
 string sep;
 
@@ -251,6 +275,11 @@ string generate_map_events_text(Json map_data) {
 
     ostringstream text;
     text << get_generated_warning("data/maps/" + mapName + "/map.json", true);
+    // KJH (ENG-9): Hoenn's badges and the like are Hoenn's own flags in its map events (in the FireRed version: the
+    // header is empty in Emerald's, and the per-map files are always made as "emerald")
+    bool hoenn_scope = json_to_string(map_data, "region", true) == "REGION_HOENN";
+    if (hoenn_scope)
+        text << "#include \"constants/kjh_hoenn_scope_begin.h\"\n";
     text << "\t.align 2\n\n";
 
     string objects_label, warps_label, coords_label, bgs_label;
@@ -386,6 +415,8 @@ string generate_map_events_text(Json map_data) {
     text << mapName << "_MapEvents::\n"
          << "\tmap_events " << objects_label << ", " << warps_label << ", "
          << coords_label << ", " << bgs_label << "\n\n";
+    if (hoenn_scope)
+        text << "#include \"constants/kjh_hoenn_scope_end.h\"\n";
 
     return text.str();
 }
@@ -750,9 +781,7 @@ void process_groups(string groups_filepath, vector<string> &map_filepaths, strin
         }
         string map_name = json_to_string(map_data, "name");
 
-        // KJH (ENG-9): Johto's maps (kjh_tools/johto/to_expansion.py) are built in the FireRed version too
-        if ((version == "emerald" && region != "REGION_HOENN")
-         || (version == "firered" && region != "REGION_KANTO" && region != "REGION_JOHTO")) {
+        if (!region_in_version(region)) {
             invalid_maps.push_back(map_name);
         }
     }
@@ -791,11 +820,7 @@ string generate_layout_headers_text(Json layouts_data) {
             else if (version == "firered")
                 layout_version = "frlg";
         }
-        // KJH: a layout with "kjh_every_build" (Johto's, kjh_tools/johto/to_expansion.py) is built in every version
-        bool every_build = layout["kjh_every_build"].bool_value();
-        if (!every_build
-         && ((version == "emerald" && layout_version != "emerald")
-          || (version == "firered" && layout_version != "frlg")))
+        if (!layout_in_version(layout_version, layout["kjh_every_build"].bool_value()))
             continue;
         string layoutName = json_to_string(layout, "name");
         string border_label = layoutName + "_Border";
@@ -852,8 +877,7 @@ string generate_layouts_table_text(Json layouts_data) {
             else if (version == "firered")
                 layout_version = "frlg";
         }
-        bool every_build = layout["kjh_every_build"].bool_value(); // KJH: see generate_layout_headers_text
-        if (!every_build && ((version == "emerald" && layout_version != "emerald") || (version == "firered" && layout_version != "frlg"))) {
+        if (!layout_in_version(layout_version, layout["kjh_every_build"].bool_value())) {
             text << "\t.4byte NULL\n";
         } else {
             string layout_name = json_to_string(layout, "name", true);

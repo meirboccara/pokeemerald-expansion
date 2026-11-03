@@ -78,6 +78,11 @@ enum Language
 #endif
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
 
+// KJH (ENG-9): the FireRed version also holds expansion's native Hoenn (its tilesets, layouts, maps and wild
+// Pokemon); keep in step with kjh_hoenn_in_firered (tools/mapjson/mapjson.cpp).
+#define KJH_HOENN_IN_FRLG 1
+#define HAS_HOENN_MAPS (!IS_FRLG || KJH_HOENN_IN_FRLG)
+
 // party sizes
 #define PARTY_SIZE 6
 #define MULTI_PARTY_SIZE (PARTY_SIZE / 2)
