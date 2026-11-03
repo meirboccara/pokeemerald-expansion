@@ -250,6 +250,8 @@
     F(B_USE_FROSTBITE,             useFrostbite,            (u32, GEN_COUNT - 1)) /* TODO: use in tests */ \
     F(B_SANDSTORM_SOLAR_BEAM,      standstormSolarBeam,     (u32, GEN_COUNT - 1)) \
     F(B_MULTI_BATTLE_WHITEOUT,     multiBattleWhiteout,     (u32, GEN_COUNT - 1)) \
+    /* KJH: the power cap (LV-11) */ \
+    F(B_KJH_POWER_CAP,             kjhPowerCap,             (u32, TRUE))          \
 
 
 #define POKEMON_CONFIG_DEFINITIONS(F) \

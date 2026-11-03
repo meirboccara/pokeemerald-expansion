@@ -37,6 +37,7 @@
 #include "kjh_field.h"
 #include "kjh_legendary.h"
 #include "kjh_pack.h"
+#include "kjh_power_cap.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "load_save.h"
@@ -573,6 +574,7 @@ static void CB2_InitBattleInternal(void)
     if (TestRunner_Battle_GetForcedEnvironment())
         gBattleEnvironment = TestRunner_Battle_GetForcedEnvironment() - 1;
     KJH_FieldStartBattle(); // KJH: LV-14
+    KJH_PowerCapStartBattle(); // KJH: LV-11
 
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();

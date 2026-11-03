@@ -18,6 +18,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_power_cap.h"
 #include "link.h"
 #include "m4a.h"
 #include "malloc.h"
@@ -4125,6 +4126,39 @@ static void PrintMoveNameAndPP(u8 moveIndex)
     PrintTextOnWindow(ppValueWindowId, text, x, moveIndex * 16 + 1, 0, ppState);
 }
 
+// KJH: a held-back move's POWER line reads "[category icon] 60 (70)", the power it hits with now and its real one
+// (LV-11). Next to the label and the icon the value has 24 pixels, too few for "112 (140)", so the icon moves over
+// the label for that move. Other moves get the label and the icon back. Returns whether the move is held back.
+#define KJH_POWER_LINE_HEIGHT        16
+#define KJH_CATEGORY_ICON_X          48   // ShowCategoryIcon's
+#define KJH_CATEGORY_ICON_X_ON_LABEL 16
+#define KJH_CATEGORY_ICON_WIDTH      16
+
+static bool32 KJH_PrintPowerLine(u32 power)
+{
+    u32 heldBackPower = KJH_SummaryHeldBackPower(power);
+    u32 windowRight = sSummaryTemplate[PSS_LABEL_WINDOW_MOVES_POWER_ACC].width * TILE_WIDTH;
+    u32 textLeft = KJH_CATEGORY_ICON_WIDTH + 2;
+    u8 iconId = sMonSummaryScreen->categoryIconSpriteId;
+    u32 fontId;
+
+    FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 0, 0, windowRight, KJH_POWER_LINE_HEIGHT);
+    if (heldBackPower == 0 || iconId == 0xFF)
+        PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Power, 0, 1, 0, 1);
+    if (iconId != 0xFF)
+        gSprites[iconId].x = (heldBackPower == 0) ? KJH_CATEGORY_ICON_X : KJH_CATEGORY_ICON_X_ON_LABEL;
+    else
+        textLeft = GetStringWidth(FONT_NORMAL, gText_Power, 0) + 2;
+    if (heldBackPower == 0)
+        return FALSE;
+
+    KJH_StringHeldBackPower(gStringVar1, heldBackPower, power);
+    fontId = GetFontIdToFit(gStringVar1, FONT_NORMAL, 0, windowRight - textLeft);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gStringVar1,
+                              windowRight - GetStringWidth(fontId, gStringVar1, 0), 1, 0, 0, fontId);
+    return TRUE;
+}
+
 static void PrintMovePowerAndAccuracy(enum Move moveIndex)
 {
     const u8 *text;
@@ -4133,7 +4167,11 @@ static void PrintMovePowerAndAccuracy(enum Move moveIndex)
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
 
         u32 power = GetMovePower(moveIndex);
-        if (power < 2)
+        if (KJH_PrintPowerLine(power)) // KJH: a held-back move's POWER line (LV-11)
+        {
+            text = NULL;
+        }
+        else if (power < 2)
         {
             text = gText_ThreeDashes;
         }
@@ -4143,7 +4181,8 @@ static void PrintMovePowerAndAccuracy(enum Move moveIndex)
             text = gStringVar1;
         }
 
-        PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 1, 0, 0);
+        if (text != NULL) // KJH: LV-11
+            PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, text, 53, 1, 0, 0);
 
         u32 accuracy = GetMoveAccuracy(moveIndex);
         if (accuracy == 0)

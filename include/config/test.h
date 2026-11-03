@@ -1145,4 +1145,8 @@
 //  Move animation testing
 #define T_SHOULD_RUN_MOVE_ANIM  FALSE       //  If TRUE, enables the move animation tests, these are very computationally heavy and takes a long time to run.
 
+// KJH: the power cap is off so expansion's tests keep their numbers; KJH's own use WITH_CONFIG(B_KJH_POWER_CAP, TRUE)
+#undef B_KJH_POWER_CAP
+#define B_KJH_POWER_CAP                  FALSE
+
 #endif // GUARD_CONFIG_TEST_H

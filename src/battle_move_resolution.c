@@ -13,6 +13,7 @@
 #include "battle_anim_scripts.h"
 #include "item.h"
 #include "battle_controllers.h"
+#include "kjh_power_cap.h"
 #include "move.h"
 #include "test_runner.h"
 #include "constants/battle_move_resolution.h"
@@ -654,6 +655,16 @@ static enum CancelerResult CancelerAttackstring(struct BattleCalcValues *cv)
         gLastPrintedMoves[gBattlerAttacker] = gChosenMove;
         RecordKnownMove(gBattlerAttacker, gChosenMove);
     }
+    return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
+}
+
+// KJH: "Overheat is held back… (50%)", once per battle, after the attack's name (LV-11, src/kjh_power_cap.c)
+static enum CancelerResult CancelerKjhPowerHeldBack(struct BattleCalcValues *cv)
+{
+    if (gBattleMons[cv->battlerAtk].volatiles.bideTurns || !KJH_TryPreparePowerHeldBack(gCurrentMove))
+        return CANCELER_RESULT_SUCCESS;
+
+    BattleScriptCall(BattleScript_KjhPowerHeldBack);
     return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
 }
 
@@ -3116,6 +3127,7 @@ static enum CancelerResult (*const sMoveSuccessOrderCancelers[])(struct BattleCa
     [CANCELER_THAW] = CancelerThaw,
     [CANCELER_STANCE_CHANGE_2] = CancelerStanceChangeTwo,
     [CANCELER_ATTACKSTRING] = CancelerAttackstring,
+    [CANCELER_KJH_POWER_HELD_BACK] = CancelerKjhPowerHeldBack,
     [CANCELER_PLEDGE_ATTACK] = CancelerPledgeAttack,
     [CANCELER_SET_TARGETS] = CancelerSetTargets,
     [CANCELER_PPDEDUCTION] = CancelerPPDeduction,

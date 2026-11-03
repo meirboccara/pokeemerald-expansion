@@ -729,6 +729,8 @@ enum StringID
     STRINGID_KJH_PACKCALL,    // KJH: wild packs (ENG-6, src/kjh_pack.c)
     STRINGID_KJH_PACKNOONE,
     STRINGID_KJH_PACKWAITING,
+    STRINGID_KJH_POWER_HELD_BACK, // KJH: the power cap (LV-11)
+    STRINGID_KJH_OHKO_LOCKED,
     STRINGID_COUNT
 };
 

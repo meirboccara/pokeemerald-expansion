@@ -6409,6 +6409,16 @@ BattleScript_Attackstring::
 	waitmessage B_WAIT_TIME_SHORT
 	return
 
+@ KJH: the power cap (LV-11, src/kjh_power_cap.c), once per battle, after the attack's name (CANCELER_KJH_POWER_HELD_BACK)
+BattleScript_KjhPowerHeldBack::
+	printstring STRINGID_KJH_POWER_HELD_BACK
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_KjhSelectingOhkoLocked::
+	printselectionstring STRINGID_KJH_OHKO_LOCKED
+	endselectionscript
+
 BattleScript_SubmoveAttackstring::
 	printattackstring
 	pause B_WAIT_TIME_LONG

@@ -20,6 +20,7 @@
 #include "international_string_util.h"
 #include "item.h"
 #include "kjh_field.h"
+#include "kjh_power_cap.h"
 #include "util.h"
 #include "battle_scripts.h"
 #include "random.h"
@@ -1560,6 +1561,14 @@ u32 TrySetCantSelectMoveBattleScript(enum BattlerId battler)
             limitations++;
     }
 
+    // KJH: one-hit KO moves are locked until the region's 6th badge (LV-11)
+    if (dynamaxBypassCheck && zMoveBypassCheck && moveEffect == EFFECT_OHKO && KJH_IsOhkoLockedInBattle())
+    {
+        PREPARE_MOVE_BUFFER(gBattleTextBuff1, move);
+        if (SetCantSelectScript(battler, move, BattleScript_SelectingCantUseMoveInPalace, BattleScript_KjhSelectingOhkoLocked))
+            limitations++;
+    }
+
     gPotentialItemEffectBattler = battler;
     if (dynamaxBypassCheck && IsHoldEffectChoice(holdEffect) && *choicedMove != MOVE_NONE && *choicedMove != MOVE_UNAVAILABLE && *choicedMove != move)
     {
@@ -1682,6 +1691,9 @@ u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u32 check)
             unusableMoves |= 1u << i;
         // Can't Use Twice flag
         else if (check & MOVE_LIMITATION_CANT_USE_TWICE && MoveCantBeUsedTwice(move) && move == gLastResultingMoves[battler])
+            unusableMoves |= 1u << i;
+        // KJH: one-hit KO moves, until the region's 6th badge (LV-11)
+        else if (check & MOVE_LIMITATION_KJH_OHKO_LOCK && moveEffect == EFFECT_OHKO && KJH_IsOhkoLockedInBattle())
             unusableMoves |= 1u << i;
         else if (check & MOVE_LIMITATION_UNUSABLE)
         {
@@ -6475,7 +6487,8 @@ static bool32 DmgCalc_IsAbilityOnField(enum Ability ability, enum Ability abilit
 static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
 {
     u32 holdEffectParamAtk;
-    u32 basePower = CalcMoveBasePower(ctx);
+    u32 ownPower = CalcMoveBasePower(ctx);
+    u32 basePower = KJH_CapBattleMovePower(ownPower); // KJH: the power cap (LV-11)
     enum BattlerId battlerAtk = ctx->battlerAtk;
     enum BattlerId battlerDef = ctx->battlerDef;
     enum Move move = ctx->move;
@@ -6558,7 +6571,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
     switch (ctx->abilities[battlerAtk])
     {
     case ABILITY_TECHNICIAN:
-        if (basePower <= 60)
+        if (ownPower <= 60) // KJH: the move's own power, so a held-back move isn't boosted past it (LV-11)
            modifier = uq4_12_multiply(modifier, UQ_4_12(1.5));
         break;
     case ABILITY_FLARE_BOOST:
