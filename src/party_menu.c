@@ -45,6 +45,7 @@
 #include "menu_specialized.h"
 #include "metatile_behavior.h"
 #include "move_relearner.h"
+#include "kjh_fair_fight.h"
 #include "kjh_move_library.h"
 #include "overworld.h"
 #include "palette.h"
@@ -7340,6 +7341,7 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
+    case KJH_FACILITY_FAIR_FIGHT: // KJH (LV-17): any healthy Pokemon
     case FACILITY_MULTI_OR_EREADER:
         if (GetMonData(mon, MON_DATA_HP) != 0)
             return TRUE;
@@ -7372,7 +7374,7 @@ static u8 CheckBattleEntriesAndGetMessage(void)
     }
 
     facility = VarGet(VAR_FRONTIER_FACILITY);
-    if (facility == FACILITY_UNION_ROOM || facility == FACILITY_MULTI_OR_EREADER)
+    if (facility == FACILITY_UNION_ROOM || facility == FACILITY_MULTI_OR_EREADER || facility == KJH_FACILITY_FAIR_FIGHT)
         return 0xFF;
 
     maxBattlers = GetMaxBattleEntries();
@@ -7435,6 +7437,8 @@ static u8 GetMaxBattleEntries(void)
 {
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
+    case KJH_FACILITY_FAIR_FIGHT: // KJH (LV-17): as many as the Gym Leader has
+        return gSpecialVar_0x8005;
     case FACILITY_MULTI_OR_EREADER:
         return MULTI_PARTY_SIZE;
     case FACILITY_UNION_ROOM:
@@ -7448,6 +7452,8 @@ static u8 GetMinBattleEntries(void)
 {
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
+    case KJH_FACILITY_FAIR_FIGHT:
+        return gSpecialVar_0x8005;
     case FACILITY_MULTI_OR_EREADER:
         return 1;
     case FACILITY_UNION_ROOM:
@@ -7461,6 +7467,7 @@ static u8 GetBattleEntryLevelCap(void)
 {
     switch (VarGet(VAR_FRONTIER_FACILITY))
     {
+    case KJH_FACILITY_FAIR_FIGHT:
     case FACILITY_MULTI_OR_EREADER:
         return MAX_LEVEL;
     case FACILITY_UNION_ROOM:

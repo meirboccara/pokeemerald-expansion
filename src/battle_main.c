@@ -10,6 +10,7 @@
 #include "battle_interface.h"
 #include "battle_main.h"
 #include "kjh_bond.h"
+#include "kjh_fair_fight.h"
 #include "battle_message.h"
 #include "battle_pyramid.h"
 #include "battle_scripts.h"
@@ -5304,6 +5305,7 @@ static void HandleEndTurn_FinishBattle(void)
         {
             KJH_BondAfterBattle(); // KJH (LV-5)
             KJH_BondRecalculatePartyStats(); // KJH (LV-6): the stat bonus follows the Bond the battle left
+            KJH_RestoreFairFightParty(); // KJH (LV-17): the Pokemon that waited come back
         }
 
         for (u32 i = 0; i < PARTY_SIZE; i++)

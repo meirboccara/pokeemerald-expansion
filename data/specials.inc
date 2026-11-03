@@ -650,3 +650,7 @@ gSpecials::
 	def_special KJH_SetStarterBond
 	@ KJH (LV-10): the move library, src/kjh_move_library.c
 	def_special KJH_BufferNextNewLibraryMoves
+	@ KJH (LV-17): fair fights, src/kjh_fair_fight.c
+	def_special KJH_FairFightCount
+	def_special KJH_ChooseFairFightParty
+	def_special KJH_ApplyFairFightParty

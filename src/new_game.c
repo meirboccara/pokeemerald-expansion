@@ -162,9 +162,11 @@ static void WarpToTruck(void)
 // (0x0203FF30-33 are the KJH tree's pack and journey switches),
 // 0x0203FF38 a variable and its value (0: none), 0x0203FF3C a game stat and its value (0: none),
 // 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none),
-// 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one)
+// 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one),
+// 0x0203FF48 species and level of a third Pokemon (0: none)
 static void KJH_DebugHarnessStart(void)
 {
+    vu16 *thirdMon = (vu16 *)0x0203FF48;
     vu16 *swarm = (vu16 *)0x0203FF44;
     vu16 *stat = (vu16 *)0x0203FF3C;
     vu16 *caughtUpTo = (vu16 *)0x0203FF40;
@@ -190,6 +192,8 @@ static void KJH_DebugHarnessStart(void)
         ScriptGiveMon(SPECIES_PIKACHU, 20, ITEM_NONE);
     if (dbgMon[4] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[4], dbgMon[5], ITEM_NONE);
+    if (thirdMon[0] != SPECIES_NONE)
+        ScriptGiveMon(thirdMon[0], thirdMon[1], ITEM_NONE);
     if (dbgMon[3] != ITEM_NONE)
         AddBagItem(dbgMon[3], 1);
     FlagSet(FLAG_SYS_POKEMON_GET);
