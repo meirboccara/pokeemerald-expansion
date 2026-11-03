@@ -2361,7 +2361,7 @@ void IncrementDailyBattlePoints(u16 delta)
 
 static void TryPutRandomPokeNewsOnAir(void)
 {
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR)) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
     {
         sCurTVShowSlot = GetFirstEmptyPokeNewsSlot(gSaveBlock1Ptr->pokeNews);
         if (sCurTVShowSlot != -1 && RandomChance(RNG_NONE, 1, 100))
@@ -2547,7 +2547,7 @@ static void UpdatePokeNewsCountdown(u16 days)
             else
             {
                 // Progress countdown to news event
-                if (gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_INACTIVE && FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
+                if (gSaveBlock1Ptr->pokeNews[i].state == POKENEWS_STATE_INACTIVE && FlagGet(FLAG_HOENN_GAME_CLEAR) == TRUE) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
                     gSaveBlock1Ptr->pokeNews[i].state = POKENEWS_STATE_UPCOMING;
 
                 gSaveBlock1Ptr->pokeNews[i].dayCountdown -= days;
@@ -3582,7 +3582,7 @@ static void DeactivateGameCompleteShowsIfNotUnlocked(void)
 {
     u16 i;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) != TRUE)
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR) != TRUE) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
         {
@@ -3733,7 +3733,7 @@ static void ClearPokeNewsIfGameNotComplete(void)
 {
     u8 i;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) != TRUE)
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR) != TRUE) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
     {
         for (i = 0; i < POKE_NEWS_COUNT; i++)
             gSaveBlock1Ptr->pokeNews[i].state = POKENEWS_STATE_INACTIVE;

@@ -1494,7 +1494,7 @@ static void Task_SpinPokenavIcon(u8 taskId)
 static bool32 TrainerIsEligibleForRematch(int matchCallId)
 {
 #if FREE_MATCH_CALL == FALSE
-    return gSaveBlock1Ptr->trainerRematches[matchCallId] > 0;
+    return GetHoennRematchState(matchCallId) > 0;
 #else
     return FALSE;
 #endif //FREE_MATCH_CALL
@@ -1850,6 +1850,8 @@ static bool32 ShouldTrainerRequestBattle(int matchCallId)
     int numRematchTrainersFought;
     int max, rand, n;
 
+    if (IS_FRLG) // KJH: Hoenn's trainers have no rematches in a FireRed build (GetHoennRematchState): no call asks for one
+        return FALSE;
     if (GetNumOwnedBadges() < 5)
         return FALSE;
 
@@ -2009,7 +2011,7 @@ void SetTrainerRematchStepCounter(u32 value)
 u32 GetActiveTrainerRematches(u32 matchCallId)
 {
 #if FREE_MATCH_CALL == FALSE
-    return gSaveBlock1Ptr->trainerRematches[matchCallId];
+    return GetHoennRematchState(matchCallId);
 #else
     return 0;
 #endif
@@ -2018,6 +2020,6 @@ u32 GetActiveTrainerRematches(u32 matchCallId)
 void SetActiveTrainerRematches(u32 matchCallId, u32 value)
 {
 #if FREE_MATCH_CALL == FALSE
-    gSaveBlock1Ptr->trainerRematches[matchCallId] = value;
+    SetHoennRematchState(matchCallId, value);
 #endif
 }

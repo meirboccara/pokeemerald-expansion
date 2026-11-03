@@ -326,7 +326,7 @@ bool32 ShouldDrawRematchPokeballIcon(int index)
     if (index == REMATCH_TABLE_ENTRIES)
         return FALSE;
 
-    return gSaveBlock1Ptr->trainerRematches[index] != 0;
+    return GetHoennRematchState(index) != 0;
 #else
     return FALSE;
 #endif //FREE_MATCH_CALL
@@ -478,7 +478,7 @@ static bool32 UNUSED HasRematchEntry(void)
 
     for (i = 0; i < REMATCH_TABLE_ENTRIES; i++)
     {
-        if (IsRematchEntryRegistered(i) && gSaveBlock1Ptr->trainerRematches[i])
+        if (IsRematchEntryRegistered(i) && GetHoennRematchState(i))
             return TRUE;
     }
 
@@ -487,7 +487,7 @@ static bool32 UNUSED HasRematchEntry(void)
         if (MatchCall_GetEnabled(i))
         {
             int index = MatchCall_GetRematchTableIdx(i);
-            if (gSaveBlock1Ptr->trainerRematches[index])
+            if (GetHoennRematchState(index))
                 return TRUE;
         }
     }
@@ -505,7 +505,7 @@ static bool32 ShouldDoNearbyMessage(void)
     {
         if (GetMatchCallMapSec(selection) == gMapHeader.regionMapSectionId)
         {
-            if (!gSaveBlock1Ptr->trainerRematches[state->matchCallEntries[selection].headerId])
+            if (!GetHoennRematchState(state->matchCallEntries[selection].headerId))
                 return TRUE;
         }
     }

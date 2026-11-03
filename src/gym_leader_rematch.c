@@ -34,7 +34,7 @@ static const u16 GymLeaderRematches_BeforeNewMauville[] = {
 void UpdateGymLeaderRematch(void)
 {
     if (IS_FRLG) return; // KJH: Hoenn's gym leaders; their bytes hold Kanto's VS Seeker state in a FireRed build.
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && (Random() % 100) <= 30)
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR) && (Random() % 100) <= 30) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
     {
         if (FlagGet(FLAG_WATTSON_REMATCH_AVAILABLE))
             UpdateGymLeaderRematchFromArray(GymLeaderRematches_AfterNewMauville, ARRAY_COUNT(GymLeaderRematches_AfterNewMauville), 5);
@@ -47,7 +47,7 @@ s32 GetCurrentGymLeaderRematchLevel(void)
 {
     u32 i, j;
     u32 maxLevel = REMATCHES_COUNT;
-    if (!FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (!FlagGet(FLAG_HOENN_GAME_CLEAR)) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
         return 0;
     for (i = REMATCH_SPECIAL_TRAINER_START; i < REMATCH_ELITE_FOUR_ENTRIES; i++)
     {
@@ -72,7 +72,7 @@ static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 ma
 
     for (i = 0; i < size; i++)
     {
-        if (!gSaveBlock1Ptr->trainerRematches[data[i]])
+        if (!GetHoennRematchState(data[i]))
         {
             rematchIndex = GetRematchIndex(data[i]);
             if (lowestRematchIndex > rematchIndex)
@@ -85,7 +85,7 @@ static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 ma
         whichLeader = 0;
         for (i = 0; i < size; i++)
         {
-            if (!gSaveBlock1Ptr->trainerRematches[data[i]])
+            if (!GetHoennRematchState(data[i]))
             {
                 rematchIndex = GetRematchIndex(data[i]);
                 if (rematchIndex == lowestRematchIndex)
@@ -97,14 +97,14 @@ static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 ma
             whichLeader = Random() % whichLeader;
             for (i = 0; i < size; i++)
             {
-                if (!gSaveBlock1Ptr->trainerRematches[data[i]])
+                if (!GetHoennRematchState(data[i]))
                 {
                     rematchIndex = GetRematchIndex(data[i]);
                     if (rematchIndex == lowestRematchIndex)
                     {
                         if (whichLeader == 0)
                         {
-                            gSaveBlock1Ptr->trainerRematches[data[i]] = lowestRematchIndex;
+                            SetHoennRematchState(data[i], lowestRematchIndex);
                             break;
                         }
                         whichLeader--;

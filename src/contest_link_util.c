@@ -56,7 +56,7 @@ void Task_LinkContest_StartCommunicationEm(u8 taskId)
     }
 
     gContestMons[gContestPlayerMonIndex].highestRank = gHighestRibbonRank;
-    gameCleared = FlagGet(FLAG_SYS_GAME_CLEAR) > 0;
+    gameCleared = FlagGet(FLAG_HOENN_GAME_CLEAR) > 0; // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
     gContestMons[gContestPlayerMonIndex].gameCleared = gameCleared;
     SetTaskFuncWithFollowupFunc(taskId, Task_LinkContest_CommunicateMonsEm, Task_LinkContest_StartCommunicateRngEm);
 }

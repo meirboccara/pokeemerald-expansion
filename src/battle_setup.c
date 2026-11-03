@@ -1859,6 +1859,29 @@ static inline bool32 IsRematchForbidden(s32 rematchTableId)
         return FALSE;
 }
 
+// KJH: every read and write of Emerald's rematch state (Match Call, the Gym Leaders, the Pokénav) goes through these
+// two. A FireRed build keeps Kanto's VS Seeker bits in trainerRematches, so Hoenn's trainers get none: Emerald's
+// byte for Rose (row 0) would be Kanto's rows 0-7. Hoenn's own rematches would need their own bytes (SaveBlock3).
+u8 GetHoennRematchState(u32 rematchTableId)
+{
+#if FREE_MATCH_CALL == FALSE
+    if (IS_FRLG)
+        return 0;
+    return gSaveBlock1Ptr->trainerRematches[rematchTableId];
+#else
+    return 0;
+#endif
+}
+
+void SetHoennRematchState(u32 rematchTableId, u8 state)
+{
+#if FREE_MATCH_CALL == FALSE
+    if (IS_FRLG)
+        return;
+    gSaveBlock1Ptr->trainerRematches[rematchTableId] = state;
+#endif
+}
+
 static void SetRematchIdForTrainer(const struct RematchTrainer *table, u32 tableId)
 {
 #if FREE_MATCH_CALL == FALSE
@@ -1874,7 +1897,7 @@ static void SetRematchIdForTrainer(const struct RematchTrainer *table, u32 table
             break;
     }
 
-    gSaveBlock1Ptr->trainerRematches[tableId] = i;
+    SetHoennRematchState(tableId, i);
 #endif //FREE_MATCH_CALL
 }
 
@@ -1901,7 +1924,7 @@ static bool32 UpdateRandomTrainerRematches(const struct RematchTrainer *table, u
         if (!DoesCurrentMapMatchRematchTrainerMap(i,table,mapGroup,mapNum) || IsRematchForbidden(i))
             continue; // Only check permitted trainers within the current map.
 
-        if (gSaveBlock1Ptr->trainerRematches[i] != 0)
+        if (GetHoennRematchState(i) != 0)
         {
             // Trainer already wants a rematch. Don't bother updating it.
             return TRUE;
@@ -1933,7 +1956,7 @@ static bool8 IsFirstTrainerIdReadyForRematch(const struct RematchTrainer *table,
     if (tableId >= MAX_REMATCH_ENTRIES)
         return FALSE;
 #if FREE_MATCH_CALL == FALSE
-    if (gSaveBlock1Ptr->trainerRematches[tableId] == 0)
+    if (GetHoennRematchState(tableId) == 0)
         return FALSE;
 #endif //FREE_MATCH_CALL
 
@@ -1949,7 +1972,7 @@ static bool8 IsTrainerReadyForRematch_(const struct RematchTrainer *table, u16 t
     if (tableId >= MAX_REMATCH_ENTRIES)
         return FALSE;
 #if FREE_MATCH_CALL == FALSE
-    if (gSaveBlock1Ptr->trainerRematches[tableId] == 0)
+    if (GetHoennRematchState(tableId) == 0)
         return FALSE;
 #endif //FREE_MATCH_CALL
 
@@ -2010,7 +2033,7 @@ static void ClearTrainerWantRematchState(const struct RematchTrainer *table, u16
     s32 tableId = TrainerIdToRematchTableId(table, firstBattleTrainerId);
 
     if (tableId != -1)
-        gSaveBlock1Ptr->trainerRematches[tableId] = 0;
+        SetHoennRematchState(tableId, 0);
 #endif //FREE_MATCH_CALL
 }
 
@@ -2027,8 +2050,8 @@ void ClearCurrentTrainerWantRematchVsSeeker(void)
 
         for (u32 i = 0; i < REMATCH_TABLE_ENTRIES; i++)
         {
-            if (gSaveBlock1Ptr->trainerRematches[i] == TRAINER_BATTLE_PARAM.opponentA)
-                gSaveBlock1Ptr->trainerRematches[i] = 0;
+            if (GetHoennRematchState(i) == TRAINER_BATTLE_PARAM.opponentA)
+                SetHoennRematchState(i, 0);
         }
     }
 #endif //FREE_MATCH_CALL
@@ -2068,7 +2091,7 @@ static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBa
 #if FREE_MATCH_CALL == FALSE
     if (I_VS_SEEKER_CHARGING)
     {
-        if (gSaveBlock1Ptr->trainerRematches[tableId] == 0)
+        if (GetHoennRematchState(tableId) == 0)
             return FALSE;
     }
 #endif

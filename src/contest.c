@@ -2968,7 +2968,7 @@ void SetContestants(enum ContestCategories contestType, u8 rank)
 
     TryPutPlayerLast();
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && !(gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK))
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR) && !(gLinkContestFlags & LINK_CONTEST_FLAG_IS_LINK)) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
         allowPostgameContestants = TRUE;
 
     // Find all suitable opponents

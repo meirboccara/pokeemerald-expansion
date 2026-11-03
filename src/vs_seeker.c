@@ -590,7 +590,7 @@ static u32 GetGameProgressFlags()
     const u32 gameProgressFlags[] = {
         FLAG_VISITED_LAVARIDGE_TOWN,
         FLAG_VISITED_FORTREE_CITY,
-        FLAG_SYS_GAME_CLEAR,
+        FLAG_HOENN_GAME_CLEAR, // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
         FLAG_DEFEATED_METEOR_FALLS_STEVEN
     };
     u32 i = 0, numGameProgressFlags = 0;

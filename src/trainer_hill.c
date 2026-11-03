@@ -1075,9 +1075,9 @@ static enum Item GetPrizeItemId(void)
 
     // Now get which prize list to use from the set. See GetPrizeListId for details.
     // The below conditional will always be true, because a Trainer Hill challenge can't be entered
-    // until the player has entered the Hall of Fame (FLAG_SYS_GAME_CLEAR is set) and because all
+    // until the player has entered the Hall of Fame (FLAG_HOENN_GAME_CLEAR is set) and because all
     // of the available challenge modes have the full 8 trainers (NUM_TRAINER_HILL_TRAINERS).
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && sHillData->challenge.numTrainers == NUM_TRAINER_HILL_TRAINERS)
+    if (FlagGet(FLAG_HOENN_GAME_CLEAR) && sHillData->challenge.numTrainers == NUM_TRAINER_HILL_TRAINERS) // KJH: Hoenn's League (FireRed's FLAG_SYS_GAME_CLEAR is Kanto's)
         i = GetPrizeListId(TRUE);
     else
         i = GetPrizeListId(FALSE);

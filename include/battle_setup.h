@@ -124,6 +124,11 @@ const u8 *GetTrainerALoseText(void);
 const u8 *GetTrainerBLoseText(void);
 const u8 *GetTrainerWonSpeech(void);
 void UpdateRematchIfDefeated(s32 rematchTableId);
+// KJH: Emerald's "wants a rematch" byte for a row of gRematchTable (Hoenn's trainers). In a FireRed build the save's
+// trainerRematches holds Kanto's VS Seeker bits (src/vs_seeker_frlg.c): Hoenn's trainers read 0 there and their
+// writes are dropped, so they never offer a rematch.
+u8 GetHoennRematchState(u32 rematchTableId);
+void SetHoennRematchState(u32 rematchTableId, u8 state);
 void ClearCurrentTrainerWantRematchVsSeeker(void);
 void IncrementRematchStepCounter(void);
 void TryUpdateRandomTrainerRematches(u16 mapGroup, u16 mapNum);
