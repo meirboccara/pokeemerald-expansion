@@ -32,9 +32,10 @@ s32 KJH_TeamLevelShift(u16 trainerNum);
 // 2. before each Pokemon is created: its level (+ shift) and, for a moved team, no fixed moves, so it gets its
 //    level-up moves for its new level;
 void KJH_PrepareTrainerMon(struct TrainerMon *out, const struct TrainerMon *in, u16 trainerNum, s32 shift);
-// 3. after: a boss's IVs, held item, moveset, EVs and nature.
+// 3. after: a boss's held item and moveset; in the levels-free game every trainer's IVs, EVs and Bond from its
+//    group's table (LV-16, KJH_TrainerTraining; ace: the team's highest level), else a boss's IVs, EVs and nature.
 void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer,
-                          u16 trainerNum, s32 shift);
+                          u16 trainerNum, s32 shift, bool32 ace);
 
 // A boss's AI: expansion's smart trainer AI, without Terastallization (KJH's trainers don't Terastallize)
 #define KJH_BOSS_AI_FLAGS (AI_FLAG_SMART_TRAINER & ~AI_FLAG_SMART_TERA)

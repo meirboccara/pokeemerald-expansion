@@ -2244,6 +2244,13 @@ void CreateOpponentTrainerParty(struct Pokemon *party, const struct Trainer *tra
     DoTrainerPartyPool(trainer, monIndices, monsCount, gBattleTypeFlags);
     // KJH (LV-3): a Gym's trainers follow the badges.
     kjhShift = KJH_TeamLevelShift(trainerNum);
+    // KJH (LV-16): the ace, the highest level of those it sends (the last of them on a tie), is trained more.
+    u32 kjhAce = 0;
+    for (i = 1; i < monsCount; i++)
+    {
+        if (trainer->party[monIndices[i]].lvl >= trainer->party[monIndices[kjhAce]].lvl)
+            kjhAce = i;
+    }
 
     for (i = 0; i < monsCount; i++)
     {
@@ -2251,7 +2258,7 @@ void CreateOpponentTrainerParty(struct Pokemon *party, const struct Trainer *tra
         struct TrainerMon kjhMon;
         KJH_PrepareTrainerMon(&kjhMon, &trainer->party[monIndex], trainerNum, kjhShift);
         GenerateMonFromTrainerMon(&party[i], &kjhMon, trainerGen);
-        KJH_FinishTrainerMon(&party[i], &trainer->party[monIndex], trainer, trainerNum, kjhShift);
+        KJH_FinishTrainerMon(&party[i], &trainer->party[monIndex], trainer, trainerNum, kjhShift, i == kjhAce);
     }
     Free(trainerGen);
 }

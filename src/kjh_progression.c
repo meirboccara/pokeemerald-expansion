@@ -14,6 +14,7 @@
 #include "event_data.h"
 #include "move.h"
 #include "pokemon.h"
+#include "kjh_bond.h"
 #include "kjh_boss_rules.h"
 #include "kjh_hidden_ability.h"
 #include "kjh_progression.h"
@@ -241,13 +242,12 @@ static void BuildBossMoveset(struct Pokemon *mon, const enum Move *customMoves)
 
 // A boss Pokemon's EVs, growing with the player's badges, and a nature that fits its moves (kjh_boss_rules.c).
 // On expansion each move has its own physical/special category (in FireRed it came from the move's type).
-static void SetBossEvsAndNature(struct Pokemon *mon)
+// The species' base stats and the summed power of its physical and special moves.
+static void GetBaseStatsAndPower(struct Pokemon *mon, u8 *baseStats, u16 *physicalPower, u16 *specialPower)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES);
-    u8 baseStats[NUM_STATS], evs[NUM_STATS];
-    u16 physicalPower = 0, specialPower = 0;
-    u32 nature;
 
+    *physicalPower = *specialPower = 0;
     for (u32 i = 0; i < NUM_STATS; i++)
         baseStats[i] = GetSpeciesBaseStat(species, i);
     for (u32 i = 0; i < MAX_MON_MOVES; i++)
@@ -257,31 +257,122 @@ static void SetBossEvsAndNature(struct Pokemon *mon)
         if (move == MOVE_NONE)
             continue;
         if (GetMoveCategory(move) == DAMAGE_CATEGORY_PHYSICAL)
-            physicalPower += EffectivePower(move);
+            *physicalPower += EffectivePower(move);
         else if (GetMoveCategory(move) == DAMAGE_CATEGORY_SPECIAL)
-            specialPower += EffectivePower(move);
+            *specialPower += EffectivePower(move);
     }
-    KJH_BossEvs(baseStats, physicalPower, specialPower, KJH_CountKantoBadges(), evs);
-    for (u32 i = 0; i < NUM_STATS; i++)
-        SetMonData(mon, MON_DATA_HP_EV + i, &evs[i]);
-    // the nature that counts for stats (as a mint sets it); the Pokemon's personality stays as generated
-    nature = KJH_BossNature(baseStats, physicalPower, specialPower);
+}
+
+// The nature that counts for stats (as a mint sets it); the Pokemon's personality stays as generated.
+static void SetBossNature(struct Pokemon *mon, const u8 *baseStats, u16 physicalPower, u16 specialPower)
+{
+    u32 nature = KJH_BossNature(baseStats, physicalPower, specialPower);
+
     SetMonData(mon, MON_DATA_HIDDEN_NATURE, &nature);
 }
 
+static void SetBossEvsAndNature(struct Pokemon *mon)
+{
+    u8 baseStats[NUM_STATS], evs[NUM_STATS];
+    u16 physicalPower, specialPower;
+
+    GetBaseStatsAndPower(mon, baseStats, &physicalPower, &specialPower);
+    KJH_BossEvs(baseStats, physicalPower, specialPower, KJH_CountKantoBadges(), evs);
+    for (u32 i = 0; i < NUM_STATS; i++)
+        SetMonData(mon, MON_DATA_HP_EV + i, &evs[i]);
+    SetBossNature(mon, baseStats, physicalPower, specialPower);
+}
+
+// The rival's battles in order (each has a party per starter, in a row); 0 for another trainer.
+#define RIVAL_PARTIES_PER_BATTLE 3
+static u32 RivalBattleNumber(u16 trainerNum)
+{
+#if IS_FRLG
+    static const u16 sFirstParties[] =
+    {
+        TRAINER_RIVAL_OAKS_LAB_SQUIRTLE, TRAINER_RIVAL_ROUTE22_EARLY_SQUIRTLE, TRAINER_RIVAL_CERULEAN_SQUIRTLE,
+        TRAINER_RIVAL_SS_ANNE_SQUIRTLE, TRAINER_RIVAL_POKEMON_TOWER_SQUIRTLE, TRAINER_RIVAL_SILPH_SQUIRTLE,
+        TRAINER_RIVAL_ROUTE22_LATE_SQUIRTLE,
+    };
+
+    for (u32 i = 0; i < ARRAY_COUNT(sFirstParties); i++)
+    {
+        if (trainerNum >= sFirstParties[i] && trainerNum < sFirstParties[i] + RIVAL_PARTIES_PER_BATTLE)
+            return i + 1;
+    }
+#endif
+
+    return 0;
+}
+
+// LV-16: the trainer's group and step for KJH_TrainerTraining.
+static struct KjhTraining GetTraining(const struct Trainer *trainer, u16 trainerNum, bool32 ace)
+{
+    u32 badges = KJH_CountKantoBadges(), rivalBattle = RivalBattleNumber(trainerNum);
+    u8 gymNumber = min(badges + 1, NUM_BADGES);
+
+    switch (KJH_BossKind(trainer->trainerClass))
+    {
+    case KJH_BOSS_ELITE_FOUR:
+    case KJH_BOSS_CHAMPION:
+        return KJH_TrainerTraining(KJH_GROUP_LEAGUE, 0, ace);
+    case KJH_BOSS_LEADER:
+    case KJH_BOSS_TEAM:
+        return KJH_TrainerTraining(KJH_GROUP_GYM_LEADER, gymNumber, ace);
+    case KJH_BOSS_RIVAL:
+        if (rivalBattle)
+            return KJH_TrainerTraining(KJH_GROUP_RIVAL, rivalBattle, ace);
+        break;
+    default:
+        if (KJH_IsInGym())
+            return KJH_TrainerTraining(KJH_GROUP_GYM_TRAINER, gymNumber, ace);
+        break;
+    }
+    return KJH_TrainerTraining(KJH_GROUP_ROUTE, badges, ace);
+}
+
+static void SetTraining(struct Pokemon *mon, struct KjhTraining training, bool32 boss)
+{
+    u8 baseStats[NUM_STATS], evs[NUM_STATS];
+    u16 physicalPower, specialPower;
+    u32 iv = training.iv, friendship = KJH_BondToFriendship(training.bond);
+
+    GetBaseStatsAndPower(mon, baseStats, &physicalPower, &specialPower);
+    KJH_TrainingEvs(baseStats, physicalPower, specialPower, training.evs, evs);
+    for (u32 i = 0; i < NUM_STATS; i++)
+    {
+        SetMonData(mon, MON_DATA_HP_IV + i, &iv);
+        SetMonData(mon, MON_DATA_HP_EV + i, &evs[i]);
+    }
+
+    if (boss)
+        SetBossNature(mon, baseStats, physicalPower, specialPower);
+    SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+}
+
 void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer,
-                          u16 trainerNum, s32 shift)
+                          u16 trainerNum, s32 shift, bool32 ace)
 {
     bool32 moved = shift != 0;
     bool32 hasCustomMoves = HasCustomMoves(in);
+    bool32 trained = trainerNum != TRAINER_NONE && KJH_IsLevelsFree() && !IsFirstRivalBattle(trainerNum);
     bool32 late;
     u32 iv, item;
 
     if (!KJH_IsBossTrainer(trainer, trainerNum))
+    {
+        // LV-16: in the levels-free game every trainer's Pokemon is trained by its group's table
+        if (trained)
+        {
+            SetTraining(mon, GetTraining(trainer, trainerNum, ace), FALSE);
+            CalculateMonStats(mon);
+        }
         return; // KJH_PrepareTrainerMon already chose its moves
+    }
 
     // Bosses get tougher as the adventure goes on: early bosses get good IVs, later ones perfect IVs and a Sitrus
-    // Berry. A Gym met late (moved by the badges) is a late one.
+    // Berry. A Gym met late (moved by the badges) is a late one. In the levels-free game, IVs come from the
+    // boss's group table instead (below).
     late = GetMonData(mon, MON_DATA_LEVEL) >= KJH_LATE_BOSS_LEVEL;
     iv = late ? MAX_PER_STAT_IVS : KJH_EARLY_BOSS_IV;
     for (u32 i = 0; i < NUM_STATS; i++)
@@ -295,7 +386,10 @@ void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, cons
     // Bosses that weren't moved keep FireRed's handmade movesets (GenerateMonFromTrainerMon set them)
     if (moved || !hasCustomMoves)
         BuildBossMoveset(mon, hasCustomMoves ? in->moves : NULL);
-    SetBossEvsAndNature(mon);
+    if (trained)
+        SetTraining(mon, GetTraining(trainer, trainerNum, ace), TRUE);
+    else
+        SetBossEvsAndNature(mon);
     // Bosses use their Pokemon's Hidden Abilities (ENG-7), unless their party data sets an ability
     if (in->ability == ABILITY_NONE)
     {

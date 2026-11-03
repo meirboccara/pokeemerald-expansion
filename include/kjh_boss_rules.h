@@ -20,6 +20,28 @@ void KJH_BossEvs(const u8 *baseStats, u16 physicalPower, u16 specialPower, u8 ba
 // use it, else its weaker defence
 u8 KJH_BossNature(const u8 *baseStats, u16 physicalPower, u16 specialPower);
 
+// KJH (LV-16): how trained a trainer's Pokemon are, by group (docs/LEVELLESS_DESIGN.md §9, "Trainer tiers"). The
+// numbers are the design's draft. step: the Gym's place in the player's run (1-8) for Gyms and team bosses, the
+// player's badges for route trainers, the battle's number (2-7) for the rival; unused for the League.
+enum KjhTrainerGroup
+{
+    KJH_GROUP_ROUTE,       // IVs 5 + badges, no EVs, Bond 5
+    KJH_GROUP_GYM_TRAINER, // IVs Leader - 6, half the Leader's EVs, Bond 8
+    KJH_GROUP_GYM_LEADER,  // IVs 12 + 2N, EVs 64N, Bond 12; the ace IVs +4, EVs +128, Bond 20
+    KJH_GROUP_LEAGUE,      // the Elite Four and the Champion: IVs 31, EVs 510, Bond 20
+    KJH_GROUP_RIVAL,       // battle k: IVs 6 + 3k, EVs 64 (k - 1), Bond 4 + 2k
+};
+struct KjhTraining
+{
+    u8 iv;     // in each stat
+    u16 evs;   // in all, spread by KJH_TrainingEvs
+    u8 bond;   // 1-20
+};
+struct KjhTraining KJH_TrainerTraining(enum KjhTrainerGroup group, u8 step, bool8 ace);
+// A total of EVs spread like a boss's: up to 252 in the stat it attacks with and in its best other stat (as
+// KJH_BossEvs), the rest in a third stat (HP, or Speed when HP is already one); evs[NUM_STATS] gets them.
+void KJH_TrainingEvs(const u8 *baseStats, u16 physicalPower, u16 specialPower, u16 total, u8 *evs);
+
 // Trainer slides: the boss slides in and says a line (src/kjh_battle_scenes.c)
 #define KJH_SLIDE_NONE        0
 #define KJH_SLIDE_LAST_MON    1 // its last Pokemon is out

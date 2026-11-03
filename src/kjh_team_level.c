@@ -73,20 +73,33 @@ static u32 CurrentZoneTop(void)
     return KJH_ZoneTop(gMapHeader.regionMapSectionId, CurrentMapId());
 }
 
-s32 KJH_GymLevelShift(void)
+// The ace of the Gym the player stands in (sKantoGyms), 0 outside a Gym.
+static u32 CurrentGymAce(void)
 {
-    u32 i, map = CurrentMapId();
+    u32 map = CurrentMapId();
 
-    if (!KJH_IsLevelsFree())
-        return 0;
-
-    for (i = 0; i < ARRAY_COUNT(sKantoGyms); i++)
+    for (u32 i = 0; i < ARRAY_COUNT(sKantoGyms); i++)
     {
         if (sKantoGyms[i].map == map)
-            return (s32)KJH_TeamLevelCap(KJH_CountKantoBadges()) - sKantoGyms[i].ace;
+            return sKantoGyms[i].ace;
     }
 
     return 0;
+}
+
+bool32 KJH_IsInGym(void)
+{
+    return CurrentGymAce() != 0;
+}
+
+s32 KJH_GymLevelShift(void)
+{
+    u32 ace = CurrentGymAce();
+
+    if (!KJH_IsLevelsFree() || ace == 0)
+        return 0;
+
+    return (s32)KJH_TeamLevelCap(KJH_CountKantoBadges()) - (s32)ace;
 }
 
 void KJH_RecordZone(void)

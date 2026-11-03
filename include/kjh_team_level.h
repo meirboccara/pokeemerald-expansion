@@ -22,6 +22,8 @@ void KJH_RecordZone(void);
 // In the levels-free game, how many levels the trainers of the Gym the player stands in move (LV-3): the Gym's ace
 // becomes the team's ceiling for the player's badges, so Gyms can be done in any order. 0 outside a Gym.
 s32 KJH_GymLevelShift(void);
+// The player stands in one of Kanto's Gyms (sKantoGyms).
+bool32 KJH_IsInGym(void);
 
 // Sets a Pokémon's level (and its peak level). Eggs and empty slots are left alone.
 void KJH_SetMonLevel(struct Pokemon *mon, u32 level);
