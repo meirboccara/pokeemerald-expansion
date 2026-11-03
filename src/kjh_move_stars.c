@@ -2,17 +2,31 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_controllers.h"
+#include "battle_message.h"
+#include "battle_scripts.h"
+#include "battle_setup.h"
+#include "data.h"
+#include "kjh_progression.h"
 #include "config_changes.h"
 #include "kjh_levelless.h"
 #include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
+#include "string_util.h"
+#include "constants/characters.h"
 
 // docs/LEVELLESS_DESIGN.md §12: the points each star needs, counted from 1 star, and the share of power it gives
 static const u8 sPointsForStars[KJH_STARS_MAX + 1] = {[1] = 0, [2] = 10, [3] = 30, [4] = 60, [5] = 100};
 static const u8 sStarsPercent[KJH_STARS_MAX + 1] = {[1] = 60, [2] = 70, [3] = 80, [4] = 90, [5] = 100};
-#define LATE_MOVE_POINTS 30 // a level-up move learned while with the team starts at 3 stars
+#define LATE_MOVE_POINTS 30
+#define MAX_STAR_MESSAGES (PARTY_SIZE * MAX_MON_MOVES)
+
+// This battle's moves used by each of the player's Pokemon, and the messages left to show after a win
+static EWRAM_DATA u16 sUsedMoves[PARTY_SIZE][MAX_MON_MOVES] = {0};
+static EWRAM_DATA struct { u8 partyId; u8 stars; u16 move; } sStarMessages[MAX_STAR_MESSAGES] = {0};
+static EWRAM_DATA u8 sStarMessageCount = 0;
+static EWRAM_DATA u8 sStarMessageNext = 0; // a level-up move learned while with the team starts at 3 stars
 
 u32 KJH_StarsFromPoints(u32 points)
 {
@@ -149,6 +163,136 @@ u32 KJH_BattleMovePercent(u32 battler, enum Move move)
             return KJH_StarsAndCapPercent(KJH_GetMoveStars(&GetBattlerMon(battler)->box, move), percent);
     }
     return percent;
+}
+
+void KJH_MoveStarsStartBattle(void)
+{
+    memset(sUsedMoves, 0, sizeof(sUsedMoves));
+    sStarMessageCount = sStarMessageNext = 0;
+}
+
+void KJH_NoteMoveUsed(u32 battler, enum Move move)
+{
+    u16 *used;
+    u32 i;
+
+    if (!GetConfig(B_KJH_MOVE_STARS) || GetBattlerTrainer(battler) != B_TRAINER_PLAYER
+     || gBattlerPartyIndexes[battler] >= PARTY_SIZE)
+        return;
+    for (i = 0; i < MAX_MON_MOVES && gBattleMons[battler].moves[i] != move; i++)
+        ;
+    if (i == MAX_MON_MOVES) // a move it calls (Metronome) or copies
+        return;
+    used = sUsedMoves[gBattlerPartyIndexes[battler]];
+    for (i = 0; i < MAX_MON_MOVES && used[i] != MOVE_NONE; i++)
+    {
+        if (used[i] == move)
+            return;
+    }
+    if (i < MAX_MON_MOVES)
+        used[i] = move;
+}
+
+static bool32 KnowsMove(struct BoxPokemon *boxMon, enum Move move)
+{
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (GetBoxMonData(boxMon, MON_DATA_MOVE1 + i) == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static enum KjhWinKind BattleWinKind(void)
+{
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return KJH_WIN_WILD;
+    if (TRAINER_BATTLE_PARAM.opponentA < TRAINERS_COUNT // not a special one (secret bases, tests)
+     && KJH_IsBossTrainer(GetTrainerStructFromId(TRAINER_BATTLE_PARAM.opponentA), TRAINER_BATTLE_PARAM.opponentA))
+        return KJH_WIN_BOSS;
+    return KJH_WIN_TRAINER;
+}
+
+bool32 KJH_MoveStarsBattleWon(void)
+{
+    enum KjhWinKind kind;
+    u32 points;
+
+    if (!GetConfig(B_KJH_MOVE_STARS) || (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER)))
+        return FALSE;
+    kind = BattleWinKind();
+    points = KJH_MovePointsForWin(kind, GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_TIER_MARK));
+    sStarMessageCount = sStarMessageNext = 0;
+    for (u32 partyId = 0; partyId < PARTY_SIZE; partyId++)
+    {
+        struct BoxPokemon *boxMon = &gParties[B_TRAINER_PLAYER][partyId].box;
+
+        for (u32 i = 0; i < MAX_MON_MOVES && sUsedMoves[partyId][i] != MOVE_NONE; i++)
+        {
+            enum Move move = sUsedMoves[partyId][i];
+            u32 before, after;
+
+            if (!KnowsMove(boxMon, move)) // forgotten during the battle
+                continue;
+            before = KJH_GetMoveStars(boxMon, move);
+            after = KJH_AddMovePoints(boxMon, move, points);
+            if (after > before && sStarMessageCount < MAX_STAR_MESSAGES)
+            {
+                sStarMessages[sStarMessageCount].partyId = partyId;
+                sStarMessages[sStarMessageCount].move = move;
+                sStarMessages[sStarMessageCount].stars = after;
+                sStarMessageCount++;
+            }
+        }
+    }
+    memset(sUsedMoves, 0, sizeof(sUsedMoves));
+    return sStarMessageCount > 0;
+}
+
+void BS_KjhTryMoveGrewStronger(void)
+{
+    // battle_script_commands.c's NATIVE_ARGS(const u8 *doneInstr), which is local to it
+    const struct __attribute__((packed)) { u8 opcode; void (*func)(void); const u8 *doneInstr; const u8 nextInstr[0]; }
+        *const cmd = (const void *)gBattlescriptCurrInstr;
+    u8 *stars = gBattleTextBuff3;
+
+    if (sStarMessageNext >= sStarMessageCount)
+    {
+        gBattlescriptCurrInstr = cmd->doneInstr;
+        return;
+    }
+    PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, B_POSITION_PLAYER_LEFT, sStarMessages[sStarMessageNext].partyId);
+    PREPARE_MOVE_BUFFER(gBattleTextBuff2, sStarMessages[sStarMessageNext].move);
+    for (u32 i = 0; i < sStarMessages[sStarMessageNext].stars; i++)
+        stars = StringCopy(stars, COMPOUND_STRING("{STAR}"));
+    sStarMessageNext++;
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+u32 KJH_SummaryHeldBackMovePower(struct BoxPokemon *boxMon, enum Move move, u32 power)
+{
+    u32 percent = KJH_PowerCapPercentNow();
+    u32 heldBackPower;
+
+    if (GetConfig(B_KJH_MOVE_STARS))
+        percent = KJH_StarsAndCapPercent(KJH_GetMoveStars(boxMon, move), percent);
+    heldBackPower = KJH_CappedPower(power, percent);
+    return heldBackPower < power ? heldBackPower : 0;
+}
+
+u8 *KJH_StringMoveStars(u8 *dest, struct BoxPokemon *boxMon, enum Move move)
+{
+    u32 points = KJH_GetMovePoints(boxMon, move);
+    u32 stars = KJH_StarsFromPoints(points);
+
+    for (u32 i = 0; i < stars; i++)
+        dest = StringCopy(dest, COMPOUND_STRING("{STAR}"));
+    if (stars == KJH_STARS_MAX)
+        return dest;
+    *dest++ = CHAR_SPACE;
+    dest = ConvertIntToDecimalStringN(dest, points, STR_CONV_MODE_LEFT_ALIGN, 3);
+    *dest++ = CHAR_SLASH;
+    return ConvertIntToDecimalStringN(dest, KJH_PointsForStars(stars + 1), STR_CONV_MODE_LEFT_ALIGN, 3);
 }
 
 void KJH_ClearNotebook(void)

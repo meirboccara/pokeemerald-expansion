@@ -18,6 +18,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
 #include "link.h"
 #include "m4a.h"
@@ -105,6 +106,7 @@
 #define PSS_DATA_WINDOW_MOVE_NAMES 0
 #define PSS_DATA_WINDOW_MOVE_PP 1
 #define PSS_DATA_WINDOW_MOVE_DESCRIPTION 2
+#define PSS_DATA_WINDOW_MOVE_KJH_STARS 3 // KJH (LV-12): the selected move's stars, in the title bar
 
 #define MOVE_SELECTOR_SPRITES_COUNT 10
 #define TYPE_ICON_SPRITE_COUNT (MAX_MON_MOVES + 1)
@@ -748,6 +750,15 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
         .height = 4,
         .paletteNum = 6,
         .baseBlock = 617,
+    },
+    [PSS_DATA_WINDOW_MOVE_KJH_STARS] = {
+        .bg = 0,
+        .tilemapLeft = 12,  // between the page title (0-10) and the button prompt (22-29)
+        .tilemapTop = 0,
+        .width = 10,
+        .height = 2,
+        .paletteNum = 6,
+        .baseBlock = 697,
     },
 };
 static const u8 sTextColors[][3] =
@@ -4134,9 +4145,9 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 #define KJH_CATEGORY_ICON_X_ON_LABEL 16
 #define KJH_CATEGORY_ICON_WIDTH      16
 
-static bool32 KJH_PrintPowerLine(u32 power)
+static bool32 KJH_PrintPowerLine(u32 power, enum Move move)
 {
-    u32 heldBackPower = KJH_SummaryHeldBackPower(power);
+    u32 heldBackPower = KJH_SummaryHeldBackMovePower(&sMonSummaryScreen->currentMon.box, move, power); // and stars (LV-12)
     u32 windowRight = sSummaryTemplate[PSS_LABEL_WINDOW_MOVES_POWER_ACC].width * TILE_WIDTH;
     u32 textLeft = KJH_CATEGORY_ICON_WIDTH + 2;
     u8 iconId = sMonSummaryScreen->categoryIconSpriteId;
@@ -4167,7 +4178,7 @@ static void PrintMovePowerAndAccuracy(enum Move moveIndex)
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
 
         u32 power = GetMovePower(moveIndex);
-        if (KJH_PrintPowerLine(power)) // KJH: a held-back move's POWER line (LV-11)
+        if (KJH_PrintPowerLine(power, moveIndex)) // KJH: a held-back move's POWER line (LV-11, LV-12)
         {
             text = NULL;
         }
@@ -4277,10 +4288,27 @@ static void PrintContestMoveDescription(u8 moveSlot)
     }
 }
 
+// KJH (LV-12): the selected move's stars and points in the title bar; status moves have none
+static void KjhPrintMoveStars(enum Move move)
+{
+    u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_KJH_STARS);
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    if (move == MOVE_NONE || GetMovePower(move) == 0 || sMonSummaryScreen->currPageIndex != PSS_PAGE_BATTLE_MOVES)
+    {
+        ClearWindowTilemap(windowId);
+        return;
+    }
+    KJH_StringMoveStars(gStringVar1, &sMonSummaryScreen->currentMon.box, move);
+    PrintTextOnWindow(windowId, gStringVar1, 0, 1, 0, 1);
+    PutWindowTilemap(windowId);
+}
+
 static void PrintMoveDetails(enum Move move)
 {
     u8 windowId = AddWindowFromTemplateList(sPageMovesTemplate, PSS_DATA_WINDOW_MOVE_DESCRIPTION);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    KjhPrintMoveStars(move);
     if (move != MOVE_NONE)
     {
         if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)

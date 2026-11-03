@@ -6415,6 +6415,16 @@ BattleScript_KjhPowerHeldBack::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+@ KJH: move stars (LV-12, src/kjh_move_stars.c): after a win, one message per move that gained a star
+BattleScript_KjhMovesGrewStronger::
+	callnative BS_KjhTryMoveGrewStronger
+	.4byte BattleScript_KjhMovesGrewStrongerDone
+	printstring STRINGID_KJH_MOVE_GREW_STRONGER
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_KjhMovesGrewStronger
+BattleScript_KjhMovesGrewStrongerDone::
+	return
+
 BattleScript_KjhSelectingOhkoLocked::
 	printselectionstring STRINGID_KJH_OHKO_LOCKED
 	endselectionscript

@@ -211,3 +211,24 @@ SINGLE_BATTLE_TEST("KJH: move stars, the opponent's moves have none", s16 damage
         EXPECT_EQ(results[0].damage, results[1].damage);
     }
 }
+
+// A test battle is against a trainer (not a boss): +2 to each move used, nothing to the others. (The test runner
+// rebuilds the party around the battle, so the points are read from the notebook, not set beforehand.)
+SINGLE_BATTLE_TEST("KJH: move stars, a won battle gives each move used its points")
+{
+    GIVEN {
+        WITH_CONFIG(B_KJH_MOVE_STARS, TRUE);
+        KJH_ClearNotebook();
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_TACKLE, MOVE_SPLASH); }
+        OPPONENT(SPECIES_WOBBUFFET) { HP(1); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_TACKLE); }
+    } SCENE {
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, player);
+    } THEN {
+        EXPECT_EQ(KJH_NotebookCount(), 1);
+        EXPECT_EQ(gPokemonStoragePtr->kjhNotebook[0].move, MOVE_TACKLE);
+        EXPECT_EQ(gPokemonStoragePtr->kjhNotebook[0].points, 2);
+        KJH_ClearNotebook();
+    }
+}

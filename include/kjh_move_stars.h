@@ -39,6 +39,18 @@ u32 KJH_AddMovePoints(struct BoxPokemon *boxMon, enum Move move, u32 points); //
 // In battle: the lower of the power cap and, for a move the player's own Pokemon knows, its stars (B_KJH_MOVE_STARS)
 u32 KJH_BattleMovePercent(u32 battler, enum Move move);
 
+// Earning: the moves each of the player's Pokemon uses in a battle (noted when their PP is taken), and at a win
+// their points, by the battle's kind; *"CHARMANDER's EMBER grew stronger! {STAR}{STAR}"* for each new star
+void KJH_MoveStarsStartBattle(void);
+void KJH_NoteMoveUsed(u32 battler, enum Move move);
+bool32 KJH_MoveStarsBattleWon(void);   // TRUE when there are messages (BattleScript_KjhMovesGrewStronger)
+void BS_KjhTryMoveGrewStronger(void);   // callnative: the next message in gBattleTextBuff1-3, or jump when none
+
+// The Summary: the POWER line's power with the cap and the stars (0 when the move isn't held back), and
+// "{STAR}{STAR}{STAR} 12/30" (the stars, the points and the next star's), or the five stars
+u32 KJH_SummaryHeldBackMovePower(struct BoxPokemon *boxMon, enum Move move, u32 power);
+u8 *KJH_StringMoveStars(u8 *dest, struct BoxPokemon *boxMon, enum Move move);
+
 // The notebook
 void KJH_ClearNotebook(void);
 u32 KJH_NotebookCount(void);

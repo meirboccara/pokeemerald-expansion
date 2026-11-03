@@ -37,6 +37,7 @@
 #include "kjh_field.h"
 #include "kjh_legendary.h"
 #include "kjh_pack.h"
+#include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
 #include "link.h"
 #include "link_rfu.h"
@@ -575,6 +576,7 @@ static void CB2_InitBattleInternal(void)
         gBattleEnvironment = TestRunner_Battle_GetForcedEnvironment() - 1;
     KJH_FieldStartBattle(); // KJH: LV-14
     KJH_PowerCapStartBattle(); // KJH: LV-11
+    KJH_MoveStarsStartBattle(); // KJH: LV-12
 
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();
@@ -5130,6 +5132,12 @@ static void HandleEndTurn_BattleWon(void)
     else
     {
         gBattlescriptCurrInstr = BattleScript_PayDayMoneyAndPickUpItems;
+    }
+
+    if (KJH_MoveStarsBattleWon()) // KJH (LV-12): "... grew stronger!" first
+    {
+        BattleScriptPush(gBattlescriptCurrInstr);
+        gBattlescriptCurrInstr = BattleScript_KjhMovesGrewStronger;
     }
 
     gBattleMainFunc = HandleEndTurn_FinishBattle;

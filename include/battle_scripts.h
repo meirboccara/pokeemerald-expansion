@@ -58,6 +58,7 @@ extern const u8 BattleScript_OverworldWeatherStarts[];
 extern const u8 BattleScript_KjhFieldStarts[];
 extern const u8 BattleScript_KjhPackCall[]; // KJH: ENG-6
 extern const u8 BattleScript_KjhPowerHeldBack[];
+extern const u8 BattleScript_KjhMovesGrewStronger[];
 extern const u8 BattleScript_KjhSelectingOhkoLocked[];
 extern const u8 BattleScript_OverworldSSWeatherStarts[];
 extern const u8 BattleScript_OverworldTerrain[];

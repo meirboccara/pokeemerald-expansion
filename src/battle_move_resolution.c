@@ -13,6 +13,7 @@
 #include "battle_anim_scripts.h"
 #include "item.h"
 #include "battle_controllers.h"
+#include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
 #include "move.h"
 #include "test_runner.h"
@@ -1049,6 +1050,7 @@ static enum CancelerResult CancelerPPDeduction(struct BattleCalcValues *cv)
         gBattleMons[cv->battlerAtk].pp[movePosition] = 0;
 
     gLastMoves[cv->battlerAtk] = gChosenMove;
+    KJH_NoteMoveUsed(cv->battlerAtk, cv->move); // KJH: move stars (LV-12)
 
     if (MOVE_IS_PERMANENT(cv->battlerAtk, movePosition))
     {
