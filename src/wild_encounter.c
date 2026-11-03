@@ -22,6 +22,7 @@
 #include "script.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "kjh_pack.h"
 #include "battle_debug.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
@@ -513,9 +514,11 @@ static u8 PickWildMonNature(enum Species species)
 void CreateWildMon(enum Species species, u8 level)
 {
     ZeroEnemyPartyMons();
+    level = KJH_PackWildEncounterLevel(species, level); // KJH: 1 in 20 leads a pack, a few levels higher (ENG-6)
     u32 personality = GetMonPersonality(species, GetSynchronizedGender(WILDMON_ORIGIN, species), PickWildMonNature(species), RANDOM_UNOWN_LETTER);
     CreateMonWithIVs(&gParties[B_TRAINER_OPPONENT_A][0], species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(&gParties[B_TRAINER_OPPONENT_A][0]);
+    KJH_PackFinishWildMon(&gParties[B_TRAINER_OPPONENT_A][0]); // KJH: a pack leader has perfect IVs
 }
 
 #ifdef BUGFIX

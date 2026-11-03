@@ -258,6 +258,7 @@ enum RandomTag
     RNG_DAYCARE_ABILITY_INHERITANCE,
     RNG_DEXNAV_RANDOM_EGG_MOVE,
     RNG_RANDOM_BALL,
+    RNG_KJH_PACK_LEADER, // KJH: a wild Pokemon leads a pack (src/kjh_pack.c, ENG-6); 0: it leads one
 };
 
 #define RandomWeighted(tag, ...) \

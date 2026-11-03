@@ -14,6 +14,7 @@
 #include "battle_stat_change.h"
 #include "battle_move_resolution.h"
 #include "item.h"
+#include "kjh_pack.h"
 #include "item_menu.h"
 #include "util.h"
 #include "pokemon.h"
@@ -2212,6 +2213,7 @@ static void Cmd_getexp(void)
 
             if (GetConfig(B_TRAINER_EXP_MULTIPLIER) <= GEN_7 && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
                 calculatedExp = (calculatedExp * 150) / 100;
+            calculatedExp = KJH_PackExp(calculatedExp, KJH_PackRole(gBattlerFainted)); // KJH: a pack leader and its helpers give more Exp. (ENG-6)
 
             if (GetConfig(B_SPLIT_EXP) < GEN_6)
             {
@@ -8071,7 +8073,7 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
         catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
     else
-        catchRate = GetBattleMonCatchRate(battleMon);
+        catchRate = KJH_PackCatchRate(GetBattleMonCatchRate(battleMon), KJH_PackIsLeader(wildMonBattler)); // KJH: a pack leader is harder to catch (ENG-6)
 
     catchRate += ball.flatBonus;
     if (catchRate <= 0)

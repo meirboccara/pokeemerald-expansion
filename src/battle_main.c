@@ -34,6 +34,7 @@
 #include "item.h"
 #include "kjh_field.h"
 #include "kjh_legendary.h"
+#include "kjh_pack.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "load_save.h"
@@ -2727,6 +2728,7 @@ void BeginBattleIntroDummy(void)
 void BeginBattleIntro(void)
 {
     BattleStartClearSetData();
+    KJH_PackBattleStart(); // KJH: a random wild battle may have a pack leader (ENG-6)
     gBattleCommunication[1] = 0;
     gBattleStruct->eventState.battleIntro = 0;
     gBattleMainFunc = DoBattleIntro;

@@ -320,7 +320,7 @@ static void CreateBattleStartTask_Debug(u8 transition, u16 song)
 #undef tState
 #undef tTransition
 
-static bool8 CheckSilphScopeInPokemonTower(u16 mapGroup, u16 mapNum)
+bool8 CheckSilphScopeInPokemonTower(u16 mapGroup, u16 mapNum)
 {
     if (mapGroup == MAP_GROUP(MAP_POKEMON_TOWER_1F)
      && (mapNum == MAP_NUM(MAP_POKEMON_TOWER_1F)

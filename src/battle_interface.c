@@ -26,6 +26,7 @@
 #include "strings.h"
 #include "battle_debug.h"
 #include "item.h"
+#include "kjh_pack.h"
 #include "item_icon.h"
 #include "item_use.h"
 #include "test_runner.h"
@@ -1833,6 +1834,7 @@ void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 
     gSprites[healthboxSpriteId].data[1] = savedValue1;
     gSprites[healthboxSpriteId2].data[1] = savedValue2;
+    KJH_PackDecorateHealthbox(healthboxSpriteId, gSprites[healthboxSpriteId].hMain_Battler); // KJH: a pack leader's gold name and crown (ENG-6)
 }
 
 void TryAddPokeballIconToHealthbox(u8 healthboxSpriteId, bool8 noStatus)

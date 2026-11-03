@@ -82,6 +82,8 @@ extern u16 gPartnerTrainerId;
         battleParameter->params.cannotBattleText)
 
 void BattleSetup_StartWildBattle(void);
+// TRUE in the Pokemon Tower without the Silph Scope: the next wild battle is a ghost battle (KJH: wild packs use it too)
+bool8 CheckSilphScopeInPokemonTower(u16 mapGroup, u16 mapNum);
 void BattleSetup_StartDoubleWildBattle(void);
 void BattleSetup_StartBattlePikeWildBattle(void);
 void BattleSetup_StartRoamerBattle(void);
