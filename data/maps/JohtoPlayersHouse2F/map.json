@@ -1,0 +1,120 @@
+{
+  "id": "MAP_JOHTO_PLAYERS_HOUSE_2F",
+  "name": "JohtoPlayersHouse2F",
+  "layout": "LAYOUT_JOHTO_PLAYERS_HOUSE_2F",
+  "music": "MUS_RG_PALLET",
+  "region": "REGION_JOHTO",
+  "region_map_section": "MAPSEC_J_NEW_BARK_TOWN",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": false,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKEDEX",
+      "x": 4,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_PlayersHouseGameConsoleScript",
+      "flag": "FLAG_J_PLAYERS_HOUSE_2F_CONSOLE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_PIKACHU_DOLL",
+      "x": 4,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_PlayersHouseDoll1Script",
+      "flag": "FLAG_J_PLAYERS_HOUSE_2F_DOLL_1"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_JIGGLYPUFF_DOLL",
+      "x": 5,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_PlayersHouseDoll2Script",
+      "flag": "FLAG_J_PLAYERS_HOUSE_2F_DOLL_2"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BIG_SNORLAX_DOLL",
+      "x": 0,
+      "y": 1,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_PlayersHouseBigDollScript",
+      "flag": "FLAG_J_PLAYERS_HOUSE_2F_BIG_DOLL"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 7,
+      "y": 0,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_PLAYERS_HOUSE_1F",
+      "dest_warp_id": "2"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 2,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
+      "script": "J_S_PlayersHousePCScript"
+    },
+    {
+      "type": "sign",
+      "x": 3,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "J_S_PlayersHouseRadioScript"
+    },
+    {
+      "type": "sign",
+      "x": 5,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "J_S_PlayersHouseBookshelfScript"
+    },
+    {
+      "type": "sign",
+      "x": 6,
+      "y": 0,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "J_S_PlayersHousePosterScript"
+    }
+  ]
+}

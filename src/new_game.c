@@ -316,6 +316,9 @@ void NewGameInitData(void)
     if (I_EXP_SHARE_FLAG != 0)
         FlagSet(I_EXP_SHARE_FLAG); // KJH: the party Exp. Share is on from the start.
     FlagSet(FLAG_KJH_LEVELLESS); // KJH (LV-2): the team's level follows the zones.
+#if IS_FRLG
+    FlagSet(FLAG_J_ALWAYS_SET); // KJH (ENG-9): Johto's objects that Crystal shows at night or in the morning stay hidden.
+#endif
     if (OW_USE_FAKE_RTC)
         KJH_StartClock(); // KJH (CF-4): the in-game clock starts in the morning, with no question.
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4

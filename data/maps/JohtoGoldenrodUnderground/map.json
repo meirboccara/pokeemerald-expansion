@@ -1,0 +1,239 @@
+{
+  "id": "MAP_JOHTO_GOLDENROD_UNDERGROUND",
+  "name": "JohtoGoldenrodUnderground",
+  "layout": "LAYOUT_JOHTO_GOLDENROD_UNDERGROUND",
+  "music": "MUS_RG_MT_MOON",
+  "region": "REGION_JOHTO",
+  "region_map_section": "MAPSEC_J_GOLDENROD_CITY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 5,
+      "y": 31,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
+      "script": "J_T_TrainerSupernerdEric",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 6,
+      "y": 9,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "2",
+      "script": "J_T_TrainerSupernerdTeru",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 3,
+      "y": 27,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "2",
+      "script": "J_T_TrainerPokemaniacIssac",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 2,
+      "y": 6,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_RIGHT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
+      "script": "J_T_TrainerPokemaniacDonald",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 7,
+      "y": 25,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_GoldenrodUndergroundCoinCase",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_COIN_CASE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "x": 7,
+      "y": 11,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_BargainMerchantScript",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_GRAMPS"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 7,
+      "y": 14,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_OlderHaircutBrotherScript",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_OLDER_HAIRCUT_BROTHER"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 7,
+      "y": 15,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_YoungerHaircutBrotherScript",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_YOUNGER_HAIRCUT_BROTHER"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN_FRLG",
+      "x": 7,
+      "y": 21,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_BitterMerchantScript",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_GRANNY"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 2,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND_SWITCH_ROOM_ENTRANCES",
+      "dest_warp_id": "6"
+    },
+    {
+      "x": 3,
+      "y": 34,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND_SWITCH_ROOM_ENTRANCES",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 18,
+      "y": 6,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 21,
+      "y": 31,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 22,
+      "y": 31,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 22,
+      "y": 27,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_UNDERGROUND_SWITCH_ROOM_ENTRANCES",
+      "dest_warp_id": "0"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 18,
+      "y": 6,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "J_S_BasementDoorScript"
+    },
+    {
+      "type": "sign",
+      "x": 19,
+      "y": 6,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "J_S_GoldenrodUndergroundNoEntrySign"
+    },
+    {
+      "type": "hidden_item",
+      "x": 6,
+      "y": 13,
+      "elevation": 3,
+      "item": "ITEM_PARALYZE_HEAL",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_HIDDEN_PARLYZ_HEAL",
+      "quantity": 1,
+      "underfoot": false
+    },
+    {
+      "type": "hidden_item",
+      "x": 4,
+      "y": 18,
+      "elevation": 3,
+      "item": "ITEM_SUPER_POTION",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_HIDDEN_SUPER_POTION",
+      "quantity": 1,
+      "underfoot": false
+    },
+    {
+      "type": "hidden_item",
+      "x": 17,
+      "y": 8,
+      "elevation": 3,
+      "item": "ITEM_ANTIDOTE",
+      "flag": "FLAG_J_GOLDENROD_UNDERGROUND_HIDDEN_ANTIDOTE",
+      "quantity": 1,
+      "underfoot": false
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "id": "MAP_JOHTO_DARK_CAVE_VIOLET_ENTRANCE",
+  "name": "JohtoDarkCaveVioletEntrance",
+  "layout": "LAYOUT_JOHTO_DARK_CAVE_VIOLET_ENTRANCE",
+  "music": "MUS_RG_SEVII_CAVE",
+  "region": "REGION_JOHTO",
+  "region_map_section": "MAPSEC_J_DARK_CAVE",
+  "requires_flash": true,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 6,
+      "y": 8,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_DarkCaveVioletEntrancePotion",
+      "flag": "FLAG_J_DARK_CAVE_VIOLET_ENTRANCE_POTION"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG",
+      "x": 16,
+      "y": 14,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_DarkCaveVioletEntranceRock",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG",
+      "x": 27,
+      "y": 6,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_DarkCaveVioletEntranceRock",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG",
+      "x": 7,
+      "y": 14,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_DarkCaveVioletEntranceRock",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG",
+      "x": 36,
+      "y": 31,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_DarkCaveVioletEntranceRock",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 36,
+      "y": 22,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_DarkCaveVioletEntranceFullHeal",
+      "flag": "FLAG_J_DARK_CAVE_VIOLET_ENTRANCE_FULL_HEAL"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 35,
+      "y": 9,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_DarkCaveVioletEntranceHyperPotion",
+      "flag": "FLAG_J_DARK_CAVE_VIOLET_ENTRANCE_HYPER_POTION"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 30,
+      "y": 28,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_DarkCaveVioletEntranceDireHit",
+      "flag": "FLAG_J_DARK_CAVE_VIOLET_ENTRANCE_DIRE_HIT"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 15,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_ROUTE_31",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 17,
+      "y": 1,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_DARK_CAVE_BLACKTHORN_ENTRANCE",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 35,
+      "y": 33,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_ROUTE_46",
+      "dest_warp_id": "2"
+    }
+  ],
+  "coord_events": [],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 26,
+      "y": 3,
+      "elevation": 3,
+      "item": "ITEM_ELIXIR",
+      "flag": "FLAG_J_DARK_CAVE_VIOLET_ENTRANCE_HIDDEN_ELIXER",
+      "quantity": 1,
+      "underfoot": false
+    }
+  ]
+}

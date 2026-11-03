@@ -648,6 +648,11 @@ gSpecials::
 	def_special KJH_HeadbuttWildEncounter
 	@ KJH (LV-5): Bond, src/kjh_bond.c
 	def_special KJH_SetStarterBond
+	@ KJH (ENG-9): Johto (Crystal port), src/kjh_johto_specials.c
+	def_special KJH_CrystalReadVar
+	def_special KJH_CheckPartySpecies
+	def_special KJH_GetLeadFriendship
+	def_special KJH_BeastsCheck
 	@ KJH (LV-10): the move library, src/kjh_move_library.c
 	def_special KJH_BufferNextNewLibraryMoves
 	@ KJH (LV-17): fair fights, src/kjh_fair_fight.c

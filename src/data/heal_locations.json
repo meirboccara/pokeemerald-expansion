@@ -349,6 +349,102 @@
       "y": 12,
       "respawn_map": "MAP_SIX_ISLAND_POKEMON_CENTER_1F",
       "respawn_npc": "LOCALID_SIX_ISLAND_NURSE"
+    },
+    {
+      "id": "HEAL_LOCATION_J_OLIVINE",
+      "map": "MAP_JOHTO_OLIVINE_CITY",
+      "x": 13,
+      "y": 22,
+      "respawn_map": "MAP_JOHTO_OLIVINE_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_MAHOGANY",
+      "map": "MAP_JOHTO_MAHOGANY_TOWN",
+      "x": 15,
+      "y": 14,
+      "respawn_map": "MAP_JOHTO_MAHOGANY_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_ECRUTEAK",
+      "map": "MAP_JOHTO_ECRUTEAK_CITY",
+      "x": 23,
+      "y": 28,
+      "respawn_map": "MAP_JOHTO_ECRUTEAK_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_BLACKTHORN",
+      "map": "MAP_JOHTO_BLACKTHORN_CITY",
+      "x": 21,
+      "y": 30,
+      "respawn_map": "MAP_JOHTO_BLACKTHORN_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_AZALEA",
+      "map": "MAP_JOHTO_AZALEA_TOWN",
+      "x": 15,
+      "y": 10,
+      "respawn_map": "MAP_JOHTO_AZALEA_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_VIOLET",
+      "map": "MAP_JOHTO_VIOLET_CITY",
+      "x": 31,
+      "y": 26,
+      "respawn_map": "MAP_JOHTO_VIOLET_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_ROUTE_32",
+      "map": "MAP_JOHTO_ROUTE_32",
+      "x": 11,
+      "y": 74,
+      "respawn_map": "MAP_JOHTO_ROUTE_32_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_GOLDENROD",
+      "map": "MAP_JOHTO_GOLDENROD_CITY",
+      "x": 15,
+      "y": 28,
+      "respawn_map": "MAP_JOHTO_GOLDENROD_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_SILVER_CAVE",
+      "map": "MAP_JOHTO_SILVER_CAVE_OUTSIDE",
+      "x": 23,
+      "y": 20,
+      "respawn_map": "MAP_JOHTO_SILVER_CAVE_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_CIANWOOD",
+      "map": "MAP_JOHTO_CIANWOOD_CITY",
+      "x": 23,
+      "y": 44,
+      "respawn_map": "MAP_JOHTO_CIANWOOD_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_CHERRYGROVE",
+      "map": "MAP_JOHTO_CHERRYGROVE_CITY",
+      "x": 29,
+      "y": 4,
+      "respawn_map": "MAP_JOHTO_CHERRYGROVE_POKECENTER_1F",
+      "respawn_npc": "1"
+    },
+    {
+      "id": "HEAL_LOCATION_J_NEW_BARK_TOWN",
+      "map": "MAP_JOHTO_NEW_BARK_TOWN",
+      "x": 13,
+      "y": 6,
+      "respawn_map": "MAP_JOHTO_PLAYERS_HOUSE_1F",
+      "respawn_npc": "1"
     }
   ]
 }

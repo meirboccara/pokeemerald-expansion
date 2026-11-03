@@ -1,0 +1,171 @@
+{
+  "id": "MAP_JOHTO_GOLDENROD_POKECENTER_1F",
+  "name": "JohtoGoldenrodPokecenter1F",
+  "layout": "LAYOUT_JOHTO_GOLDENROD_POKECENTER_1F",
+  "music": "MUS_RG_POKE_CENTER",
+  "region": "REGION_JOHTO",
+  "region_map_section": "MAPSEC_J_GOLDENROD_CITY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": false,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_NURSE_FRLG",
+      "x": 3,
+      "y": 1,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_GoldenrodPokecenter1FNurseScript",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_CABLE_CLUB_RECEPTIONIST",
+      "x": 16,
+      "y": 8,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "0x0",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_GBA_KID",
+      "x": 6,
+      "y": 1,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_GoldenrodPokecenter1FGameboyKidScript",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_LASS_FRLG",
+      "x": 1,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_WALK_LEFT_AND_RIGHT",
+      "movement_range_x": 1,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_GoldenrodPokecenter1FLassScript",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKEFAN_F",
+      "x": 7,
+      "y": 5,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_GoldenrodPokecenter1FPokefanF",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT_FRLG",
+      "x": 11,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "KJH_EventScript_StatTrainer",
+      "flag": "0",
+      "local_id": "LOCALID_KJH_STAT_TRAINER_GOLDENROD"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_SCIENTIST",
+      "x": 10,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "KJH_EventScript_MegaStoneDealerJohto",
+      "flag": "0",
+      "local_id": "LOCALID_KJH_MEGA_DEALER_GOLDENROD"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 3,
+      "y": 7,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_CITY",
+      "dest_warp_id": "14"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_CITY",
+      "dest_warp_id": "14"
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_POKECENTER_1F",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_GOLDENROD_POKECENTER_1F",
+      "dest_warp_id": "3"
+    }
+  ],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 3,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_J_SCENE_GOLDENROD_POKECENTER_1F",
+      "var_value": "0",
+      "script": "J_C_GoldenrodPokecenter1F_GSBallSceneLeft"
+    },
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_J_SCENE_GOLDENROD_POKECENTER_1F",
+      "var_value": "0",
+      "script": "J_C_GoldenrodPokecenter1F_GSBallSceneRight"
+    }
+  ],
+  "bg_events": []
+}

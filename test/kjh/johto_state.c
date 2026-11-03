@@ -3,7 +3,9 @@
 // TRAINER_FLAGS_START + id is a Johto flag.
 #include "global.h"
 #include "battle_setup.h"
+#include "data.h"
 #include "event_data.h"
+#include "string_util.h"
 #include "test/test.h"
 #include "constants/opponents.h"
 
@@ -47,7 +49,8 @@ TEST("KJH: a Johto trainer's flag is a Johto flag")
 {
     EXPECT_EQ(TRAINER_FLAGS_START + JOHTO_TRAINERS_START, JOHTO_TRAINER_FLAGS_START);
     EXPECT_GE(JOHTO_TRAINER_FLAGS_START, FLAGS_COUNT);
-    EXPECT_LT(JOHTO_TRAINERS_START + JOHTO_TRAINERS_COUNT, TRAINER_FLAGS_START + JOHTO_TRAINER_FLAGS_COUNT);
+    EXPECT_LE(JOHTO_TRAINERS_COUNT, JOHTO_TRAINER_FLAGS_COUNT);
+    EXPECT_EQ(TRAINERS_COUNT, JOHTO_TRAINERS_START + JOHTO_TRAINERS_COUNT);
 
     ClearTrainerFlag(JOHTO_TRAINERS_START);
     EXPECT(!HasTrainerBeenFought(JOHTO_TRAINERS_START));
@@ -55,6 +58,16 @@ TEST("KJH: a Johto trainer's flag is a Johto flag")
     EXPECT(HasTrainerBeenFought(JOHTO_TRAINERS_START));
     EXPECT(FlagGet(JOHTO_TRAINER_FLAGS_START));
     ClearTrainerFlag(JOHTO_TRAINERS_START);
+}
+
+// Tests have their own gTrainers; Johto's parties are checked in the emulator (emu_expansion_eng9.py).
+TEST("KJH: Johto's trainer classes and pics are in the fork's tables")
+{
+    EXPECT_EQ(StringCompare(gTrainerClasses[TRAINER_CLASS_J_SAGE].name, COMPOUND_STRING("SAGE")), 0);
+    EXPECT_EQ(gTrainerClasses[TRAINER_CLASS_J_KIMONO_GIRL].money, 15);
+    EXPECT_EQ(StringCompare(gTrainerClasses[TRAINER_CLASS_J_BOARDER].name, COMPOUND_STRING("BOARDER")), 0);
+    EXPECT(gTrainerPicInfo[TRAINER_PIC_J_FALKNER].frontPic != NULL);
+    EXPECT(gTrainerPicInfo[TRAINER_PIC_J_WHITNEY].frontPic->imageData != NULL);
 }
 
 #endif

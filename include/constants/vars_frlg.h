@@ -281,6 +281,7 @@
 #define JOHTO_VARS_COUNT           0x40
 #define KJH_SAVE3_VARS_END         (JOHTO_VARS_START + JOHTO_VARS_COUNT)
 #define KJH_SAVE3_VARS_COUNT       (KJH_SAVE3_VARS_END - KJH_SAVE3_VARS_START)
+#include "constants/johto_vars.h"
 
 #define SPECIAL_VARS_START         0x8000
 

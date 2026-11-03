@@ -1507,6 +1507,7 @@
 #define JOHTO_FLAGS_COUNT           0x600
 #define KJH_SAVE3_FLAGS_END         (JOHTO_FLAGS_START + JOHTO_FLAGS_COUNT) // 0x1100
 #define KJH_SAVE3_FLAGS_COUNT       (KJH_SAVE3_FLAGS_END - KJH_SAVE3_FLAGS_START)
+#include "constants/johto_flags.h"
 
 // Special Flags (Stored in EWRAM (sSpecialFlags, not in the SaveBlock)
 #define SPECIAL_FLAGS_START           0x4000

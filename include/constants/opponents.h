@@ -868,7 +868,8 @@
 #define MAX_TRAINERS_COUNT_EMERALD 864
 
 #if IS_FRLG
-#define TRAINERS_COUNT                      TRAINERS_COUNT_FRLG
+// KJH (ENG-9): Johto's trainers come after FireRed's, from JOHTO_TRAINERS_START (gTrainers has a gap between)
+#define TRAINERS_COUNT                      (JOHTO_TRAINERS_START + JOHTO_TRAINERS_COUNT)
 #define MAX_TRAINERS_COUNT                  MAX_TRAINERS_COUNT_FRLG
 #else
 #define TRAINERS_COUNT                      TRAINERS_COUNT_EMERALD

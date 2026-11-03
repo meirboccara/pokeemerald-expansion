@@ -1022,6 +1022,8 @@ gStdScripts_End::
 	.include "data/maps/SixIsland_WaterPath_House1_Frlg/scripts.inc"
 	.include "data/maps/SixIsland_WaterPath_House2_Frlg/scripts.inc"
 	.include "data/maps/SevenIsland_SevaultCanyon_House_Frlg/scripts.inc"
+	.include "data/maps/johto_scripts.inc" @ KJH (ENG-9): Johto
+	.include "data/scripts/kjh_johto_pending.inc"
 
 	.include "data/scripts/trainer_tower.inc"
 	.include "data/scripts/fame_checker_frlg.inc"

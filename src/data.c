@@ -232,6 +232,7 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 {
 #if IS_FRLG
 #include "data/trainers_frlg.h"
+#include "data/trainers_johto.h" // KJH (ENG-9)
 #else
 #include "data/trainers.h"
 #endif

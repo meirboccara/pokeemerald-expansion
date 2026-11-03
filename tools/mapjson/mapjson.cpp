@@ -750,8 +750,9 @@ void process_groups(string groups_filepath, vector<string> &map_filepaths, strin
         }
         string map_name = json_to_string(map_data, "name");
 
+        // KJH (ENG-9): Johto's maps (kjh_tools/johto/to_expansion.py) are built in the FireRed version too
         if ((version == "emerald" && region != "REGION_HOENN")
-         || (version == "firered" && region != "REGION_KANTO")) {
+         || (version == "firered" && region != "REGION_KANTO" && region != "REGION_JOHTO")) {
             invalid_maps.push_back(map_name);
         }
     }

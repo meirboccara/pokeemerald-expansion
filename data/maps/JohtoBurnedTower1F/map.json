@@ -1,0 +1,223 @@
+{
+  "id": "MAP_JOHTO_BURNED_TOWER_1F",
+  "name": "JohtoBurnedTower1F",
+  "layout": "LAYOUT_JOHTO_BURNED_TOWER_1F",
+  "music": "MUS_RG_POKE_MANSION",
+  "region": "REGION_JOHTO",
+  "region_map_section": "MAPSEC_J_BURNED_TOWER",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_UNDERGROUND",
+  "allow_cycling": true,
+  "allow_escaping": true,
+  "allow_running": true,
+  "show_map_name": true,
+  "floor_number": 0,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": null,
+  "object_events": [
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK_FRLG",
+      "x": 15,
+      "y": 4,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_BurnedTower1FRock",
+      "flag": "0"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_POKE_MANIAC_FRLG",
+      "x": 12,
+      "y": 12,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_BurnedTower1FEusineScript",
+      "flag": "FLAG_J_BURNED_TOWER_1F_EUSINE"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_BLUE",
+      "x": 8,
+      "y": 9,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
+      "script": "0x0",
+      "flag": "FLAG_J_RIVAL_BURNED_TOWER"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
+      "x": 14,
+      "y": 14,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_W_BurnedTower1FMortyScript",
+      "flag": "FLAG_J_BURNED_TOWER_MORTY"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 14,
+      "y": 2,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "J_BurnedTower1FHPUp",
+      "flag": "FLAG_J_BURNED_TOWER_1F_HP_UP"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 9,
+      "y": 15,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_ECRUTEAK_CITY",
+      "dest_warp_id": "12"
+    },
+    {
+      "x": 10,
+      "y": 15,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_ECRUTEAK_CITY",
+      "dest_warp_id": "12"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 15,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 4,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "3"
+    },
+    {
+      "x": 14,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 15,
+      "y": 14,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "4"
+    },
+    {
+      "x": 7,
+      "y": 15,
+      "elevation": 0,
+      "dest_map": "MAP_JOHTO_BURNED_TOWER_B1F",
+      "dest_warp_id": "5"
+    }
+  ],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_J_SCENE_BURNED_TOWER_1F",
+      "var_value": "1",
+      "script": "J_C_BurnedTowerRivalBattleScript"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 8,
+      "y": 7,
+      "elevation": 3,
+      "item": "ITEM_ETHER",
+      "flag": "FLAG_J_BURNED_TOWER_1F_HIDDEN_ETHER",
+      "quantity": 1,
+      "underfoot": false
+    },
+    {
+      "type": "hidden_item",
+      "x": 13,
+      "y": 11,
+      "elevation": 3,
+      "item": "ITEM_ULTRA_BALL",
+      "flag": "FLAG_J_BURNED_TOWER_1F_HIDDEN_ULTRA_BALL",
+      "quantity": 1,
+      "underfoot": false
+    }
+  ]
+}
