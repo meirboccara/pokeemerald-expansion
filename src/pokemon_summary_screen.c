@@ -37,6 +37,7 @@
 #include "pokemon_summary_screen.h"
 #include "kjh_bond.h"
 #include "kjh_move_library.h"
+#include "kjh_training.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -349,6 +350,15 @@ static struct BoxPokemon *GetCurrentBoxmon(void);
 #define KJH_BOND_PAGE IS_FRLG
 static void PrintKjhBondPage(void);
 static const u8 *KjhMemoWithoutLevel(const u8 *text);
+// KJH (LV-7): Training points on the SKILLS page
+#define KJH_TRAINING_MENU_LEFT       1     // tiles: over the portrait, which is hidden meanwhile
+#define KJH_TRAINING_MENU_TOP        4
+#define KJH_TRAINING_MENU_WIDTH      9
+#define KJH_TRAINING_MENU_BASE_BLOCK 830   // after the summary's own windows (up to 822)
+#define KJH_TRAINING_R_POINTS        10    // R places ten points at once
+static bool32 KJH_CanPlaceTrainingHere(void);
+static void KJH_PrintTrainingPoints(u8 windowId);
+static void KJH_OpenTrainingMenu(u8 taskId);
 static const struct WindowTemplate sKjhBondPageTemplate[] =
 {
     [PSS_DATA_WINDOW_MOVE_NAMES] = {
@@ -1834,6 +1844,12 @@ static void Task_HandleInput(u8 taskId)
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
         }
+        else if (JOY_NEW(START_BUTTON) && sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS
+              && KJH_CanPlaceTrainingHere())
+        {
+            PlaySE(SE_SELECT);
+            KJH_OpenTrainingMenu(taskId); // KJH (LV-7): place Training points
+        }
         else if (DEBUG_POKEMON_SPRITE_VISUALIZER && JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
         {
             sMonSummaryScreen->callback = CB2_Pokemon_Sprite_Visualizer;
@@ -3092,7 +3108,14 @@ static void DrawExperienceProgressBar(struct Pokemon *unused)
     u16 *dst;
     u8 i;
 
-    if (summary->level < MAX_LEVEL)
+    if (KJH_HideLevels()) // KJH (LV-7): the bar shows the points toward the next evolution
+    {
+        u32 goal;
+        u32 toward = KJH_TrainingTowardEvolution(&sMonSummaryScreen->currentMon, &goal);
+
+        numExpProgressBarTicks = (goal == 0) ? 0 : toward * 64 / goal;
+    }
+    else if (summary->level < MAX_LEVEL)
     {
         u32 expBetweenLevels = gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level + 1] - gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level];
         u32 expSinceLastLevel = summary->exp - gExperienceTables[gSpeciesInfo[summary->species].growthRate][summary->level];
@@ -3329,8 +3352,16 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_SpDef4, statsXPos, 17, 0, 1);
     statsXPos = 2 + GetStringCenterAlignXOffset(FONT_NORMAL, gText_Speed2, 36);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATS_RIGHT, gText_Speed2, statsXPos, 33, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_ExpPoints, 6, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_NextLv, 6, 17, 0, 1);
+    if (KJH_HideLevels()) // KJH (LV-7): Training points where the Exp. was
+    {
+        PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("TO PLACE"), 6, 1, 0, 1);
+        PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, COMPOUND_STRING("EARNED"), 6, 17, 0, 1);
+    }
+    else
+    {
+        PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_ExpPoints, 6, 1, 0, 1);
+        PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, gText_NextLv, 6, 17, 0, 1);
+    }
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_STATUS, gText_Status, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Power, 0, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, gText_Accuracy2, 0, 17, 0, 1);
@@ -4021,6 +4052,12 @@ static void PrintExpPointsNextLevel(void)
     u8 windowId = AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_EXP);
     int x;
     u32 expToNextLevel;
+
+    if (KJH_HideLevels()) // KJH (LV-7)
+    {
+        KJH_PrintTrainingPoints(windowId);
+        return;
+    }
 
     ConvertIntToDecimalStringN(gStringVar1, sum->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
     x = GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 42) + 2;
@@ -5009,3 +5046,129 @@ static void CB2_PssChangePokemonNickname(void)
 {
     ChangePokemonNicknameWithCallback(CB2_ReturnToSummaryScreenFromNamingScreen);
 }
+
+// KJH (LV-7): the SKILLS page's Training lines, where the Exp. was: the points to place, and the points earned
+// toward the next evolution ("87/100"), or all the points earned for a Pokémon with no evolution by level
+static void KJH_PrintTrainingPoints(u8 windowId)
+{
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    ConvertIntToDecimalStringN(gStringVar1, KJH_TrainingPointsToPlace(mon), STR_CONV_MODE_LEFT_ALIGN, 3);
+    PrintTextOnWindow(windowId, gStringVar1, GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 42) + 2, 1, 0, 0);
+    KJH_StringTrainingEarned(gStringVar1, mon);
+    PrintTextOnWindow(windowId, gStringVar1, GetStringRightAlignXOffset(FONT_NORMAL, gStringVar1, 42) + 2, 17, 0, 0);
+    CopyWindowToVram(windowId, COPYWIN_GFX);
+}
+
+// Placing points: one of the player's own Pokémon, from the party, outside battle (not the PC's copy, not a trade
+// partner's party), in the levels-free game, with points to place
+static bool32 KJH_CanPlaceTrainingHere(void)
+{
+    return KJH_HideLevels()
+        && sMonSummaryScreen->mode == SUMMARY_MODE_NORMAL
+        && !sMonSummaryScreen->isBoxMon
+        && sMonSummaryScreen->monList.mons == gParties[B_TRAINER_PLAYER]
+        && !gMain.inBattle
+        && KJH_TrainingPointsToPlace(&sMonSummaryScreen->currentMon) > 0;
+}
+
+// KJH (LV-7): placing Training points. START on the SKILLS page opens a menu of the six stats in the portrait's place;
+// the stats show their points (EVs) meanwhile. A places one point in the chosen stat, R ten, B closes.
+#define tKjhTrainingWindow data[15]
+
+static const struct WindowTemplate sKjhTrainingMenuTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = KJH_TRAINING_MENU_LEFT,
+    .tilemapTop = KJH_TRAINING_MENU_TOP,
+    .width = KJH_TRAINING_MENU_WIDTH,
+    .height = 2 * NUM_STATS,
+    .paletteNum = 6, // the summary's text windows'
+    .baseBlock = KJH_TRAINING_MENU_BASE_BLOCK,
+};
+
+static const enum Stat sKjhTrainingMenuStats[NUM_STATS] = {STAT_HP, STAT_ATK, STAT_DEF, STAT_SPATK, STAT_SPDEF, STAT_SPEED};
+
+static const struct MenuAction sKjhTrainingMenuItems[NUM_STATS] =
+{
+    {gText_HP4,      {NULL}},
+    {gText_Attack3,  {NULL}},
+    {gText_Defense3, {NULL}},
+    {gText_SpAtk4,   {NULL}},
+    {gText_SpDef4,   {NULL}},
+    {gText_Speed2,   {NULL}},
+};
+
+static void Task_KjhTrainingMenu(u8 taskId);
+
+static void KJH_ShowTrainingEvs(u8 taskId)
+{
+    sMonSummaryScreen->skillsPageMode = SUMMARY_SKILLS_MODE_EVS;
+    ShowMonSkillsInfo(taskId, SUMMARY_SKILLS_MODE_EVS); // also sets the task back to Task_HandleInput
+    gTasks[taskId].func = Task_KjhTrainingMenu;
+}
+
+static void KJH_OpenTrainingMenu(u8 taskId)
+{
+    u8 windowId = AddWindow(&sKjhTrainingMenuTemplate);
+
+    gTasks[taskId].tKjhTrainingWindow = windowId;
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+    PrintMenuTable(windowId, NUM_STATS, sKjhTrainingMenuItems);
+    InitMenuInUpperLeftCornerNormal(windowId, NUM_STATS, 0);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].invisible = TRUE; // the menu takes the portrait's place
+    KJH_ShowTrainingEvs(taskId);
+}
+
+static void KJH_CloseTrainingMenu(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].tKjhTrainingWindow;
+
+    ClearWindowTilemap(windowId);
+    RemoveWindow(windowId);
+    ScheduleBgCopyTilemapToVram(0);
+    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].invisible = FALSE;
+    sMonSummaryScreen->skillsPageMode = SUMMARY_SKILLS_MODE_STATS;
+    ShowMonSkillsInfo(taskId, SUMMARY_SKILLS_MODE_STATS); // and back to Task_HandleInput
+}
+
+static void Task_KjhTrainingMenu(u8 taskId)
+{
+    struct Pokemon *partyMon = &sMonSummaryScreen->monList.mons[sMonSummaryScreen->curMonIndex];
+    u32 count = 0;
+    s8 input;
+
+    if (JOY_NEW(R_BUTTON))
+    {
+        count = KJH_TRAINING_R_POINTS;
+    }
+    else
+    {
+        input = Menu_ProcessInputNoWrap();
+        if (input == MENU_B_PRESSED)
+        {
+            KJH_CloseTrainingMenu(taskId);
+            return;
+        }
+        if (input >= 0)
+            count = 1;
+    }
+    if (count == 0)
+        return;
+
+    if (KJH_PlaceTrainingPoints(partyMon, sKjhTrainingMenuStats[Menu_GetCursorPos()], count) == 0)
+    {
+        PlaySE(SE_FAILURE);
+        return;
+    }
+    PlaySE(SE_SELECT);
+    CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
+    KJH_ShowTrainingEvs(taskId);
+    PrintExpPointsNextLevel();
+    TryDrawExperienceProgressBar();
+}
+
+#undef tKjhTrainingWindow

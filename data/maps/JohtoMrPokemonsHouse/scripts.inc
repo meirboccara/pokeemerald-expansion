@@ -107,7 +107,7 @@ J_MrPokemonsHouse_MrPokemonScript_RedScale:
 	waitmessage
 	yesnobox 20, 8
 	goto_if_eq VAR_RESULT, 0, J_MrPokemonsHouse_MrPokemonScript_refused
-	giveitem ITEM_EXP_SHARE, 1
+	giveitem ITEM_SOOTHE_BELL, 1 @ KJH (LV-7): the Exp. Share is gone
 	goto_if_eq VAR_RESULT, 0, J_MrPokemonsHouse_MrPokemonScript_full
 	clearflag FLAG_J_HAS_RED_SCALE
 	setvar VAR_RESULT, 1
@@ -243,7 +243,7 @@ J_MrPokemonsHouse_GetDexText::
 J_MrPokemonsHouse_OakText2::
 	.string "Go meet many kinds\nof POKéMON and\pcomplete that\nPOKéDEX!\pBut I've stayed\ntoo long.\pI have to get to\nGOLDENROD for my\lusual radio show.\p{PLAYER}, I'm\ncounting on you!$"
 J_MrPokemonText_GimmeTheScale::
-	.string "Hm? That SCALE!\nWhat's that?\lA red GYARADOS?\pThat's rare! \nI, I want it…\p{PLAYER}, would you\ncare to trade it?\pI can offer this\nEXP.SHARE I got\lfrom PROF.OAK.$"
+	.string "Hm? That SCALE!\nWhat's that?\lA red GYARADOS?\pThat's rare! \nI, I want it…\p{PLAYER}, would you\ncare to trade it?\pI can offer this\nSOOTHE BELL I got\lfrom PROF.OAK.$"
 J_MrPokemonText_Disappointed::
 	.string "That's disappoint-\ning. That happens\lto be very rare.$"
 J_MrPokemonsHouse_ForeignMagazinesText::

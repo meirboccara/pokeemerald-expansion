@@ -195,7 +195,8 @@ TEST("KJH: a Rare Candy has no effect in the levels-free game")
     EXPECT_EQ(GetMonData(&mon, MON_DATA_LEVEL), 15);
 }
 
-WILD_BATTLE_TEST("KJH: in the levels-free game, a knockout gives no Exp. but still gives EVs")
+// LV-7: no EVs either; Training points replace them (test/kjh/training.c)
+WILD_BATTLE_TEST("KJH: in the levels-free game, a knockout gives no Exp. and no EVs, but Training points")
 {
     GIVEN {
         FLAG_SET(FLAG_KJH_LEVELLESS);
@@ -208,7 +209,8 @@ WILD_BATTLE_TEST("KJH: in the levels-free game, a knockout gives no Exp. but sti
         NOT EXPERIENCE_BAR(player);
     } THEN {
         EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_LEVEL), 20);
-        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HP_EV), 1);
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HP_EV), 0);
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_TRAINING_BANK), 1);
     }
 }
 

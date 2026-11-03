@@ -164,9 +164,11 @@ static void WarpToTruck(void)
 // 0x0203FF38 a variable and its value (0: none), 0x0203FF3C a game stat and its value (0: none),
 // 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none),
 // 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one),
-// 0x0203FF48 species and level of a third Pokemon (0: none)
+// 0x0203FF48 species and level of a third Pokemon (0: none),
+// 0x0203FF4C the first Pokemon's Training bank (LV-7; 0: none)
 static void KJH_DebugHarnessStart(void)
 {
+    vu16 *trainingBank = (vu16 *)0x0203FF4C;
     vu16 *thirdMon = (vu16 *)0x0203FF48;
     vu16 *swarm = (vu16 *)0x0203FF44;
     vu16 *stat = (vu16 *)0x0203FF3C;
@@ -195,6 +197,11 @@ static void KJH_DebugHarnessStart(void)
         ScriptGiveMon(dbgMon[4], dbgMon[5], ITEM_NONE);
     if (thirdMon[0] != SPECIES_NONE)
         ScriptGiveMon(thirdMon[0], thirdMon[1], ITEM_NONE);
+    if (trainingBank[0] != 0)
+    {
+        u32 bank = trainingBank[0];
+        SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_TRAINING_BANK, &bank);
+    }
     if (dbgMon[3] != ITEM_NONE)
         AddBagItem(dbgMon[3], 1);
     FlagSet(FLAG_SYS_POKEMON_GET);
@@ -314,8 +321,6 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
-    if (I_EXP_SHARE_FLAG != 0)
-        FlagSet(I_EXP_SHARE_FLAG); // KJH: the party Exp. Share is on from the start.
     FlagSet(FLAG_KJH_LEVELLESS); // KJH (LV-2): the team's level follows the zones.
 #if IS_FRLG
     FlagSet(FLAG_J_ALWAYS_SET); // KJH (ENG-9): Johto's objects that Crystal shows at night or in the morning stay hidden.

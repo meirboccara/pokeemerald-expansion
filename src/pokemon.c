@@ -28,6 +28,7 @@
 #include "item.h"
 #include "kjh_levelless.h"
 #include "kjh_team_level.h"
+#include "kjh_training.h"
 #include "link.h"
 #include "m4a.h"
 #include "main.h"
@@ -3681,6 +3682,12 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, u8 partyIndex, 
                                 itemEffectParam++;
                                 break;
                             }
+                            if (KJH_IsLevelsFree())
+                            {
+                                // KJH (LV-7): the stat's Training points go back to the bank
+                                KJH_TrainingRefund(mon, dataSigned);
+                                dataSigned = 0;
+                            }
                             dataSigned += evChange;
                             if (I_BERRY_EV_JUMP == GEN_4 && dataSigned > 100)
                                 dataSigned = 100;
@@ -3874,6 +3881,12 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, u8 partyIndex, 
                                 friendshipOnly = TRUE;
                                 itemEffectParam++;
                                 break;
+                            }
+                            if (KJH_IsLevelsFree())
+                            {
+                                // KJH (LV-7): the stat's Training points go back to the bank
+                                KJH_TrainingRefund(mon, dataSigned);
+                                dataSigned = 0;
                             }
                             dataSigned += evChange;
                             if (I_BERRY_EV_JUMP == GEN_4 && dataSigned > 100)

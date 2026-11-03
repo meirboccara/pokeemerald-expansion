@@ -130,7 +130,7 @@ J_RadioTower1FLuckyNumberManScript_SecondPlace:
 	playse SE_SUCCESS
 	waitse
 	waitbuttonpress
-	additem ITEM_EXP_SHARE, 1
+	additem ITEM_PP_MAX, 1 @ KJH (LV-7): the Exp. Share is gone
 	goto_if_eq VAR_RESULT, 0, J_RadioTower1FLuckyNumberManScript_BagFull
 	setflag FLAG_J_ENGINE_LUCKY_NUMBER_SHOW
 	goto J_RadioTower1FLuckyNumberManScript_GameOver
@@ -288,7 +288,7 @@ J_RadioTower1FLuckyNumberManComeAgainText::
 J_RadioTower1FLuckyNumberManPerfectMatchText::
 	.string "Wow! You have a\nperfect match of\lall five numbers!\pWe have a grand\nprize winner!\pYou have won a\nMASTER BALL!$"
 J_RadioTower1FLuckyNumberManOkayMatchText::
-	.string "Hey! You've\nmatched the last\lthree numbers!\pYou've won second\nprize, an EXP.\lSHARE!$"
+	.string "Hey! You've\nmatched the last\lthree numbers!\pYou've won second\nprize, a PP MAX!$"
 J_RadioTower1FLuckyNumberManWeakMatchText::
 	.string "Ooh, you've\nmatched the last\ltwo numbers.\pYou've won third\nprize, a PP UP.$"
 J_RadioTower1FLuckyNumberManNoneOfYourIDNumbersMatchText::

@@ -32,9 +32,10 @@ Route15_WestEntrance_2F_EventScript_Aide::
 	call Route15_WestEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_lt VAR_0x8006, REQUIRED_CAUGHT_MONS, Aide_EventScript_HaventCaughtEnough
 	msgbox Route15_WestEntrance_2F_Text_GreatHereYouGo
-	checkitemspace ITEM_EXP_SHARE
+	@ KJH (LV-7): a Soothe Bell, as the Exp. Share is gone; the labels and the flag keep their Exp. Share names
+	checkitemspace ITEM_SOOTHE_BELL
 	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
-	giveitem_msg Route15_WestEntrance_2F_Text_ReceivedItemFromAide, ITEM_EXP_SHARE
+	giveitem_msg Route15_WestEntrance_2F_Text_ReceivedItemFromAide, ITEM_SOOTHE_BELL
 	setflag FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE
 	msgbox Route15_WestEntrance_2F_Text_ExplainExpShare
 	release
@@ -47,7 +48,7 @@ Route15_WestEntrance_2F_EventScript_AlreadyGotExpShare::
 
 Route15_WestEntrance_2F_EventScript_GetAideRequestInfo::
 	buffernumberstring STR_VAR_1, REQUIRED_CAUGHT_MONS
-	bufferitemname STR_VAR_2, ITEM_EXP_SHARE
+	bufferitemname STR_VAR_2, ITEM_SOOTHE_BELL @ KJH (LV-7)
 	return
 
 Route15_WestEntrance_2F_Text_GiveItemIfCaughtEnough::
@@ -72,12 +73,12 @@ Route15_WestEntrance_2F_Text_ReceivedItemFromAide::
 	.string "{PLAYER} received the {STR_VAR_2}\n"
 	.string "from the AIDE.$"
 
+@ KJH (LV-7): the Exp. Share is gone (the whole party gets Training points), so the aide gives a Soothe Bell
 Route15_WestEntrance_2F_Text_ExplainExpShare::
-	.string "EXP. SHARE is an item to be held\n"
-	.string "by a POKéMON.\p"
-	.string "The POKéMON will receive a share\n"
-	.string "of the EXP. Points without having\l"
-	.string "to battle.$"
+	.string "The SOOTHE BELL is an item to be\n"
+	.string "held by a POKéMON.\p"
+	.string "Its clear chime calms the POKéMON,\n"
+	.string "so its bond with you grows faster.$"
 
 Route15_WestEntrance_2F_Text_LargeShiningBird::
 	.string "Let's see what the binoculars have\n"

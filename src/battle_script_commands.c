@@ -17,6 +17,7 @@
 #include "kjh_pack.h"
 #include "item_menu.h"
 #include "kjh_team_level.h"
+#include "kjh_training.h"
 #include "util.h"
 #include "pokemon.h"
 #include "random.h"
@@ -2260,6 +2261,9 @@ static void Cmd_getexp(void)
                     gBattleStruct->expShareExpValue = 1;
             }
 
+            if (KJH_IsLevelsFree())
+                KJH_GiveTrainingPoints(gBattlerFainted, sentInBits); // KJH: the whole party's Training points (LV-7)
+
             gBattleScripting.getexpState++;
             gBattleStruct->expOrderId = 0;
             *expMonId = gBattleStruct->expGettersOrder[0];
@@ -2282,17 +2286,16 @@ static void Cmd_getexp(void)
             {
                 gBattleScripting.getexpState = 5;
                 gBattleStruct->battlerExpReward = 0;
-                if (B_MAX_LEVEL_EV_GAINS >= GEN_5)
+                if (B_MAX_LEVEL_EV_GAINS >= GEN_5 && !KJH_IsLevelsFree()) // KJH: Training points instead (LV-7)
                     MonGainEVs(&gParties[B_TRAINER_PLAYER][*expMonId], faintedSpecies);
             }
             else if (KJH_IsLevelsFree())
             {
-                // KJH (LV-2): levels follow the zones, so no Exp.; EVs are still gained.
+                // KJH (LV-2): levels follow the zones, so no Exp. (LV-7): no EVs either, the Training points given in
+                // case 1 replace them.
                 TryPlayWildVictoryMusic();
                 gBattleScripting.getexpState = 5;
                 gBattleStruct->battlerExpReward = 0;
-                if (IsValidForBattle(&gParties[B_TRAINER_PLAYER][*expMonId]))
-                    MonGainEVs(&gParties[B_TRAINER_PLAYER][*expMonId], faintedSpecies);
             }
             else
             {
