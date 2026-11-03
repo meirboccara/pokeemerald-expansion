@@ -17,6 +17,7 @@
 
 static const u8 sText_RadarKanto[] = _("KANTO");
 static const u8 sText_RadarJohto[] = _("JOHTO");
+static const u8 sText_RadarHoenn[] = _("HOENN");
 static const u8 sText_RadarUnseen[] = _("?????");
 
 // Johto's map sections were added in no particular order: list them the way the player travels
@@ -34,6 +35,23 @@ static const u16 sJohtoTravelOrder[] =
     MAPSEC_J_TOHJO_FALLS, MAPSEC_J_ROUTE_26, MAPSEC_J_ROUTE_28, MAPSEC_J_SILVER_CAVE,
 };
 
+// Hoenn's, the way Emerald's story goes (its map sections are in the Town Map's order); the post-game's caves last
+static const u16 sHoennTravelOrder[] =
+{
+    MAPSEC_ROUTE_101, MAPSEC_ROUTE_103, MAPSEC_ROUTE_102, MAPSEC_PETALBURG_CITY, MAPSEC_ROUTE_104,
+    MAPSEC_PETALBURG_WOODS, MAPSEC_ROUTE_116, MAPSEC_RUSTURF_TUNNEL, MAPSEC_DEWFORD_TOWN, MAPSEC_ROUTE_106,
+    MAPSEC_GRANITE_CAVE, MAPSEC_ROUTE_107, MAPSEC_ROUTE_108, MAPSEC_ROUTE_109, MAPSEC_SLATEPORT_CITY, MAPSEC_ROUTE_110,
+    MAPSEC_ROUTE_117, MAPSEC_ROUTE_111, MAPSEC_ROUTE_112, MAPSEC_FIERY_PATH, MAPSEC_ROUTE_113, MAPSEC_ROUTE_114,
+    MAPSEC_METEOR_FALLS, MAPSEC_ROUTE_115, MAPSEC_JAGGED_PASS, MAPSEC_MIRAGE_TOWER, MAPSEC_NEW_MAUVILLE,
+    MAPSEC_ROUTE_105, MAPSEC_ABANDONED_SHIP, MAPSEC_ROUTE_118, MAPSEC_ROUTE_119, MAPSEC_ROUTE_120, MAPSEC_ROUTE_121,
+    MAPSEC_SAFARI_ZONE, MAPSEC_LILYCOVE_CITY, MAPSEC_ROUTE_122, MAPSEC_MT_PYRE, MAPSEC_ROUTE_123, MAPSEC_MAGMA_HIDEOUT,
+    MAPSEC_ROUTE_124, MAPSEC_UNDERWATER_124, MAPSEC_MOSSDEEP_CITY, MAPSEC_ROUTE_125, MAPSEC_SHOAL_CAVE,
+    MAPSEC_ROUTE_127, MAPSEC_ROUTE_126, MAPSEC_UNDERWATER_126, MAPSEC_ROUTE_128, MAPSEC_SEAFLOOR_CAVERN,
+    MAPSEC_SOOTOPOLIS_CITY, MAPSEC_CAVE_OF_ORIGIN, MAPSEC_SKY_PILLAR, MAPSEC_ROUTE_129, MAPSEC_ROUTE_130,
+    MAPSEC_ROUTE_131, MAPSEC_PACIFIDLOG_TOWN, MAPSEC_ROUTE_132, MAPSEC_ROUTE_133, MAPSEC_ROUTE_134,
+    MAPSEC_EVER_GRANDE_CITY, MAPSEC_VICTORY_ROAD, MAPSEC_DESERT_UNDERPASS, MAPSEC_ARTISAN_CAVE, MAPSEC_ALTERING_CAVE,
+};
+
 static bool32 IsKantoReached(void)
 {
     return TRUE;
@@ -44,13 +62,15 @@ static bool32 IsJohtoReached(void)
     return FlagGet(FLAG_KJH_JOHTO_ARRIVED);
 }
 
+static bool32 IsHoennReached(void)
+{
+    return FlagGet(KJH_HOENN_REACHED_FLAG);
+}
+
 // The radar's regions, in the order the route list shows them. A region's wild tables are those of its map groups
 // (include/constants/map_groups.h: Emerald's Hoenn groups come first, then FireRed's, then Johto's). A region
-// without a travel order lists its routes by map section.
-//
-// Hoenn (ENG-9 step 2) is one more row once its native maps are in the FireRed build: its groups are
-// MAP_GROUP(MAP_LITTLEROOT_TOWN) to MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG) - 1, its wild tables need a FireRed label
-// in wild_encounters.json (today they are Emerald's only), and its "reached" test is Hoenn's arrival flag.
+// without a travel order lists its routes by map section. Hoenn's wild tables are Emerald's own (wild_encounters.json,
+// built in the FireRed version with Hoenn's maps, HAS_HOENN_MAPS).
 static const struct RadarRegion
 {
     const u8 *name;
@@ -74,6 +94,14 @@ static const struct RadarRegion
         .isReached = IsJohtoReached,
         .travelOrder = sJohtoTravelOrder,
         .travelOrderCount = ARRAY_COUNT(sJohtoTravelOrder),
+    },
+    {
+        .name = sText_RadarHoenn,
+        .firstMapGroup = MAP_GROUP(MAP_LITTLEROOT_TOWN),
+        .lastMapGroup = MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG) - 1,
+        .isReached = IsHoennReached,
+        .travelOrder = sHoennTravelOrder,
+        .travelOrderCount = ARRAY_COUNT(sHoennTravelOrder),
     },
 };
 

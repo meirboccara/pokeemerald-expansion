@@ -10,6 +10,7 @@
 #include "string_util.h"
 #include "test/test.h"
 #include "constants/johto_flags.h"
+#include "constants/hoenn_flags.h"
 #include "constants/map_groups.h"
 #include "constants/region_map_sections.h"
 
@@ -215,4 +216,71 @@ TEST("KJH radar: the route list marks today's swarm routes, Kanto's and Johto's,
     count = KJH_RadarBuildRoutes(sRoutes, KJH_RADAR_MAX_ROUTES);
     EXPECT(!sRoutes[RouteIndex(count, MAPSEC_ROUTE_1)].swarm);
     FlagClear(FLAG_KJH_JOHTO_ARRIVED);
+}
+
+TEST("KJH radar: the radar lists Hoenn's routes once the player has reached it, after Johto's, in Emerald's order")
+{
+    static const u16 sOrder[] = {MAPSEC_ROUTE_101, MAPSEC_ROUTE_103, MAPSEC_ROUTE_102, MAPSEC_PETALBURG_WOODS,
+                                 MAPSEC_GRANITE_CAVE, MAPSEC_ROUTE_111, MAPSEC_ROUTE_119, MAPSEC_SKY_PILLAR,
+                                 MAPSEC_ROUTE_134, MAPSEC_VICTORY_ROAD};
+    u32 count, hoenn;
+
+    NoSwarms();
+    FlagSet(FLAG_KJH_JOHTO_ARRIVED);
+    FlagClear(KJH_HOENN_REACHED_FLAG);
+    count = KJH_RadarBuildRoutes(sRoutes, KJH_RADAR_MAX_ROUTES);
+    EXPECT_EQ(RouteIndex(count, MAPSEC_ROUTE_101), NOT_LISTED);
+    EXPECT_EQ(RouteIndex(count, MAPSEC_PETALBURG_WOODS), NOT_LISTED);
+
+    FlagSet(KJH_HOENN_REACHED_FLAG);
+    count = KJH_RadarBuildRoutes(sRoutes, KJH_RADAR_MAX_ROUTES);
+    EXPECT_LT(count, KJH_RADAR_MAX_ROUTES); // all three regions fit
+    hoenn = RouteIndex(count, MAPSEC_ROUTE_101);
+    EXPECT_NE(hoenn, NOT_LISTED);
+    EXPECT_EQ(StringCompare(KJH_RadarRegionName(sRoutes[hoenn].region), COMPOUND_STRING("HOENN")), 0);
+    EXPECT_GT(hoenn, RouteIndex(count, MAPSEC_J_ROUTE_46)); // Kanto, Johto, then Hoenn
+    for (u32 i = 1; i < ARRAY_COUNT(sOrder); i++)
+        EXPECT_LT(RouteIndex(count, sOrder[i - 1]), RouteIndex(count, sOrder[i]));
+    EXPECT_NE(RouteIndex(count, sOrder[ARRAY_COUNT(sOrder) - 1]), NOT_LISTED);
+    FlagClear(KJH_HOENN_REACHED_FLAG);
+    FlagClear(FLAG_KJH_JOHTO_ARRIVED);
+}
+
+TEST("KJH radar: a Hoenn route page shows Emerald's wild table")
+{
+    u32 count;
+
+    NoSwarms();
+    count = KJH_RadarBuildRoute(MAPSEC_ROUTE_101, sEntries, KJH_RADAR_MAX_ENTRIES);
+    EXPECT_EQ(count, 3);
+    EXPECT_EQ(Rate(count, SPECIES_WURMPLE, KJH_RADAR_GRASS), 45);
+    EXPECT_EQ(Rate(count, SPECIES_POOCHYENA, KJH_RADAR_GRASS), 45);
+    EXPECT_EQ(Rate(count, SPECIES_ZIGZAGOON, KJH_RADAR_GRASS), 10);
+}
+
+TEST("KJH radar: the route list marks Hoenn's swarm route, and its page shows the swarm")
+{
+    u32 count;
+
+    NoSwarms();
+    FlagSet(KJH_HOENN_REACHED_FLAG);
+    for (u32 i = 0; i < KJH_RegionSwarmCount(KJH_SWARM_HOENN); i++)
+    {
+        if (KJH_GetRegionSwarm(KJH_SWARM_HOENN, i)->species == SPECIES_SKITTY) // Route 116, 50% of the grass
+            KJH_StartRegionSwarm(KJH_SWARM_HOENN, i);
+    }
+    ASSUME(gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species == SPECIES_SKITTY);
+
+    count = KJH_RadarBuildRoutes(sRoutes, KJH_RADAR_MAX_ROUTES);
+    EXPECT(sRoutes[RouteIndex(count, MAPSEC_ROUTE_116)].swarm);
+    EXPECT(!sRoutes[RouteIndex(count, MAPSEC_ROUTE_117)].swarm);
+
+    count = KJH_RadarBuildRoute(MAPSEC_ROUTE_116, sEntries, KJH_RADAR_MAX_ENTRIES);
+    EXPECT_EQ(sEntries[0].species, SPECIES_SKITTY);
+    EXPECT_EQ(sEntries[0].method, KJH_RADAR_SWARM_LAND);
+    EXPECT_EQ(sEntries[0].rate, 50);
+    EXPECT_EQ(Rate(count, SPECIES_POOCHYENA, KJH_RADAR_GRASS), 14); // Emerald's 28%, halved
+
+    NoSwarms();
+    FlagClear(KJH_HOENN_REACHED_FLAG);
 }

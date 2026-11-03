@@ -10,7 +10,7 @@
 // the player stands on; the radar covers every route.
 //
 // The regions are rows of a table (src/kjh_dex_radar.c, sRadarRegions): a region lists its routes once it is
-// reached; its wild tables are found by map group. A new region (Hoenn) is one more row.
+// reached; its wild tables are found by map group. Kanto, Johto and Hoenn.
 
 enum
 {
@@ -86,13 +86,13 @@ struct KjhRadarRoute
 };
 
 // The routes of the regions reached so far (Sevii Islands: once unlocked), by region in the table's order, then the
-// region's own order (Kanto: map sections, Johto: the way the player travels). Returns how many.
+// region's own order (Kanto: map sections; Johto and Hoenn: the way the player travels). Returns how many.
 u16 KJH_RadarBuildRoutes(struct KjhRadarRoute *routes, u16 max);
 // One route's encounters with today's swarm on it, sorted (KJH_RadarSort). Returns how many.
 u8 KJH_RadarBuildRoute(u16 mapSec, struct KjhRadarEntry *entries, u8 max);
 // The name the radar shows for a species: its name once seen, else ?????
 const u8 *KJH_RadarSpeciesName(u16 species);
-// A region row's name (KANTO, JOHTO)
+// A region row's name (KANTO, JOHTO, HOENN)
 const u8 *KJH_RadarRegionName(u8 region);
 
 // The screen (src/kjh_dex_radar_screen.c): opens the radar; B on the route list goes to returnCallback
