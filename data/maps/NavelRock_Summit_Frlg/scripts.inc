@@ -57,6 +57,7 @@ NavelRock_Summit_EventScript_HoOh::
 	special RemoveCameraObject
 	seteventmon SPECIES_HO_OH, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	setvar VAR_LAST_TALKED, LOCALID_NAVEL_ROCK_HO_OH

@@ -79,6 +79,7 @@ BirthIsland_Exterior_Frlg_EventScript_Deoxys::
 	setvar VAR_LAST_TALKED, LOCALID_BIRTH_ISLAND_DEOXYS
 	seteventmon SPECIES_DEOXYS, 30
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

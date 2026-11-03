@@ -34,6 +34,7 @@ MtEmber_Summit_EventScript_Moltres::
 	playbgm MUS_RG_ENCOUNTER_GYM_LEADER, 0
 	waitbuttonpress
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

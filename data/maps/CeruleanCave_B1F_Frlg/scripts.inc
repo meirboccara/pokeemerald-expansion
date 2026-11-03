@@ -34,6 +34,7 @@ CeruleanCave_B1F_EventScript_Mewtwo::
 	waitbuttonpress
 	setwildbattle SPECIES_MEWTWO, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome
