@@ -1049,6 +1049,7 @@ gStdScripts_End::
 	.include "data/scripts/kjh_swarm.inc"
 	.include "data/scripts/kjh_headbutt.inc"
 	.include "data/scripts/kjh_hidden_ability.inc"
+	.include "data/scripts/kjh_stat_trainer.inc"
 
 .endif
 
