@@ -54,6 +54,7 @@
 #include "difficulty.h"
 #include "kjh_clock.h"
 #include "kjh_swarms.h"
+#include "constants/heal_locations.h"
 #include "follower_npc.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
@@ -172,6 +173,9 @@ static void KJH_DebugHarnessStart(void)
     vu16 *vsSeeker = (vu16 *)0x0203FF34; // charge, registered item
     vu16 *var = (vu16 *)0x0203FF38;
 
+    // A real game sets this in the player's house (setrespawn), which the harness skips: without it, losing a battle
+    // warps to nowhere
+    SetLastHealLocationWarp(HEAL_LOCATION_PALLET_TOWN);
     if (dbgMon[0] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
     else
