@@ -81,4 +81,9 @@ bool32 OnStep_DexNavSearch(void);
 
 extern enum Species gDexNavSpecies;
 
+// KJH (ENG-8): DexNav's Pokemon follow KJH's rules in the FireRed build: the map's own (zone) level, without DexNav's
+// chain bonus, and the wild Hidden Ability roll of ENG-7 (test/kjh/dexnav.c)
+u8 DexNavTryGenerateMonLevel(enum Species species, enum EncounterType environment);
+void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8 abilityNum, enum Item item, enum Move *moves);
+
 #endif // GUARD_DEXNAV_H

@@ -148,9 +148,7 @@ static void DexNavGenerateMoveset(enum Species species, u8 searchLevel, u8 encou
 static enum Item DexNavGenerateHeldItem(enum Species species, u8 searchLevel);
 static u8 DexNavGetAbilityNum(enum Species species, u8 searchLevel);
 static u8 DexNavGeneratePotential(u8 searchLevel);
-static u8 DexNavTryGenerateMonLevel(enum Species species, enum EncounterType environment);
 static u8 GetEncounterLevelFromMapData(enum Species species, enum EncounterType environment);
-static void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8 abilityNum, enum Item item, enum Move *moves);
 static u8 GetPlayerDistance(s16 x, s16 y);
 static u8 DexNavPickTile(enum EncounterType environment, u8 xSize, u8 ySize, bool8 smallScan);
 static void DexNavProximityUpdate(void);
@@ -1177,15 +1175,18 @@ static void DexNavUpdateSearchWindow(u8 proximity, u8 searchLevel)
 //////////////////////////////
 //// DEXNAV MON GENERATOR ////
 //////////////////////////////
-static void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8 abilityNum, enum Item item, enum Move *moves)
+// KJH (ENG-8): not static, for test/kjh/dexnav.c
+void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8 abilityNum, enum Item item, enum Move *moves)
 {
     struct Pokemon *mon = &gParties[B_TRAINER_OPPONENT_A][0];
 
     CreateWildMon(species, level);  // shiny rate bonus handled in CreateBoxMon
     SetBoxMonPerfectIVs(&mon->box, min(3, potential)); // Will not exceed 3 Perfect IVs
 
-    //Set ability
-    SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);
+    // KJH (ENG-8): the ability is KJH's: CreateWildMon rolled ENG-7's Hidden Ability (1 in 20) like for any wild
+    // Pokemon, and DexNav's own pick (no Hidden Ability without search levels) would undo it
+    if (!IS_FRLG)
+        SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);
 
     // Set Held Item
     if (item)
@@ -1200,13 +1201,19 @@ static void CreateDexNavWildMon(enum Species species, u8 potential, u8 level, u8
 
 // gets a random level of the species based on map data.
 //if it was a hidden encounter, updates the environment it is to be found from the wildheader encounterRate
-static u8 DexNavTryGenerateMonLevel(enum Species species, enum EncounterType environment)
+// KJH (ENG-8): not static, for test/kjh/dexnav.c
+u8 DexNavTryGenerateMonLevel(enum Species species, enum EncounterType environment)
 {
     u8 levelBase = GetEncounterLevelFromMapData(species, environment);
     u8 levelBonus = gSaveBlock3Ptr->dexNavChain / 5;
 
     if (levelBase == MON_LEVEL_NONEXISTENT)
         return MON_LEVEL_NONEXISTENT;   //species not found in the area
+
+    // KJH (ENG-8): the level is the map's own, as for any wild Pokemon there: the wild tables carry the levels-free
+    // zone levels (LV-3, kjh_tools/zone_levels.py). DexNav's chain and +10 bonuses would break the zone's cap.
+    if (IS_FRLG)
+        return levelBase;
 
     if (Random() % 100 < 4)
         levelBonus += 10; //4% chance of having a +10 level

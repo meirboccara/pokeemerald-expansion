@@ -1,15 +1,31 @@
 #ifndef GUARD_CONFIG_DEXNAV_H
 #define GUARD_CONFIG_DEXNAV_H
 
+// KJH (ENG-8): DexNav is on in the FireRed build, beside KJH's route radar (R on the Pokedex list). Prof. Oak's
+// script sets its flag with the Pokedex's (a flag of its own, so the emulator harness's new games keep their menu). Search levels stay off: they need 1 byte per species in SaveBlock3, which Hoenn's state needs (ENG-9); so
+// DexNav's search-level bonuses (egg moves, Hidden Ability, perfect IVs) never apply, and KJH's own rules decide the
+// Pokemon (src/dexnav.c: the zone's level, ENG-7's Hidden Ability roll). The chain (dexNavChain) is 1 byte.
+#if defined(FIRERED) || defined(LEAFGREEN)
+#define DEXNAV_ENABLED                TRUE
+#else
 #define DEXNAV_ENABLED                FALSE  // Whether or not DexNav is enabled. If TRUE, flags/vars below must all be non-zero
+#endif
 #define USE_DEXNAV_SEARCH_LEVELS      FALSE  /* WARNING: POSSIBLY EXCEEDS SAVEBLOCK SPACE! REQUIRES 1 BYTE PER SPECIES */
 
 // Flag/var defines
+#if defined(FIRERED) || defined(LEAFGREEN)
+#define DN_FLAG_SEARCHING             FLAG_KJH_DEXNAV_SEARCHING // KJH: FireRed's free flag 0x0CA
+#define DN_FLAG_DEXNAV_GET            FLAG_KJH_DEXNAV_GET       // KJH: FireRed's free flag 0x0CC, set with the Pokedex
+#define DN_FLAG_DETECTOR_MODE         FLAG_KJH_DEXNAV_DETECTOR  // KJH: FireRed's free flag 0x0CB
+#define DN_VAR_SPECIES                VAR_KJH_DEXNAV_SPECIES    // KJH: FireRed's free variable 0x40C8
+#define DN_VAR_STEP_COUNTER           VAR_KJH_DEXNAV_STEPS      // KJH: FireRed's free variable 0x40C9
+#else
 #define DN_FLAG_SEARCHING             0 // Searching for mon
 #define DN_FLAG_DEXNAV_GET            0 // DexNav shows in start menu
 #define DN_FLAG_DETECTOR_MODE         0 // Allow player to find hidden mons
 #define DN_VAR_SPECIES                0 // Registered DexNav species
 #define DN_VAR_STEP_COUNTER           0 // Steps for finding hidden Pokémon
+#endif
 
 // Search parameters
 #define DEXNAV_TIMEOUT                  15  // 15 seconds is the time out. Max of 1092 seconds allowed

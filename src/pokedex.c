@@ -8,6 +8,7 @@
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "kjh_dex_radar.h" // KJH (ENG-8): the route radar, R on the list
 #include "main.h"
 #include "malloc.h"
 #include "menu.h"
@@ -83,6 +84,7 @@ static void Task_OpenInfoScreenAfterMonMovement(u8);
 static void Task_WaitForExitInfoScreen(u8);
 static void Task_WaitForExitSearch(u8);
 static void Task_ClosePokedex(u8);
+static void Task_OpenRouteRadar(u8); // KJH (ENG-8)
 static void Task_OpenSearchResults(u8);
 static void Task_HandleSearchResultsInput(u8);
 static void Task_WaitForSearchResultsScroll(u8);
@@ -1565,6 +1567,13 @@ void Task_HandlePokedexInput(u8 taskId)
             PlaySE(SE_PC_LOGIN);
             FreeWindowAndBgBuffers();
         }
+        else if (IS_FRLG && JOY_NEW(R_BUTTON)) // KJH (ENG-8): the route radar
+        {
+            HandleDestroyStatBars_HGSS();
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
+            gTasks[taskId].func = Task_OpenRouteRadar;
+            PlaySE(SE_PC_LOGIN);
+        }
         else if (JOY_NEW(B_BUTTON))
         {
             HandleDestroyStatBars_HGSS();
@@ -1722,6 +1731,26 @@ static void Task_ClosePokedex(u8 taskId)
         SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
         FREE_AND_SET_NULL(sPokedexView);
+    }
+}
+
+// KJH (ENG-8): closes the Pokedex as B does, keeping the list's place, and opens the route radar, which comes back
+// to the Pokedex
+static void Task_OpenRouteRadar(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        sLastSelectedPokemon = sPokedexView->selectedPokemon;
+        sPokeBallRotation = sPokedexView->pokeBallRotation;
+        gSaveBlock2Ptr->pokedex.mode = sPokedexView->dexMode;
+        if (!IsNationalPokedexEnabled())
+            gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
+        gSaveBlock2Ptr->pokedex.order = sPokedexView->dexOrder;
+        ClearMonSprites();
+        FreeWindowAndBgBuffers();
+        DestroyTask(taskId);
+        FREE_AND_SET_NULL(sPokedexView);
+        KJH_OpenRouteRadar(CB2_OpenPokedex);
     }
 }
 

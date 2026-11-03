@@ -216,6 +216,8 @@
 #define VAR_0x40C7                 0x40C7
 #define VAR_0x40C8                 0x40C8
 #define VAR_0x40C9                 0x40C9
+#define VAR_KJH_DEXNAV_SPECIES     VAR_0x40C8 // KJH (ENG-8): DexNav's registered species (DN_VAR_SPECIES)
+#define VAR_KJH_DEXNAV_STEPS       VAR_0x40C9 // KJH (ENG-8): DexNav's hidden Pokemon step counter (DN_VAR_STEP_COUNTER)
 #define VAR_0x40CA                 0x40CA
 #define VAR_0x40CB                 0x40CB
 #define VAR_0x40CC                 0x40CC

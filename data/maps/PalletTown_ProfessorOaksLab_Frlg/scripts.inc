@@ -655,6 +655,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	waitfanfare
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_KJH_DEXNAV_GET @ KJH (ENG-8): DexNav comes with the Pokedex
 	special SetUnlockedPokedexFlags
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese

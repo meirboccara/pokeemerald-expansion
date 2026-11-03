@@ -182,7 +182,10 @@
 #define FLAG_0x0C9               0x0C9
 #define FLAG_0x0CA               0x0CA
 #define FLAG_0x0CB               0x0CB
+#define FLAG_KJH_DEXNAV_SEARCHING                          FLAG_0x0CA // KJH (ENG-8): DexNav's DN_FLAG_SEARCHING
+#define FLAG_KJH_DEXNAV_DETECTOR                           FLAG_0x0CB // KJH (ENG-8): DexNav's DN_FLAG_DETECTOR_MODE
 #define FLAG_0x0CC               0x0CC
+#define FLAG_KJH_DEXNAV_GET                                FLAG_0x0CC // KJH (ENG-8): DexNav is in the start menu (DN_FLAG_DEXNAV_GET), set with the Pokedex
 #define FLAG_0x0CD               0x0CD
 #define FLAG_0x0CE               0x0CE
 #define FLAG_0x0CF               0x0CF
