@@ -2,6 +2,7 @@
 EventScript_KjhSwarmReporter::
 	lock
 	faceplayer
+	dotimebasedevents @ a day that just turned over gets its swarm first (the periodic check runs about once a minute)
 	specialvar VAR_RESULT, KJH_BufferTodaysSwarm
 	goto_if_eq VAR_RESULT, FALSE, EventScript_KjhSwarmReporterNone
 	msgbox Text_KjhSwarmToday

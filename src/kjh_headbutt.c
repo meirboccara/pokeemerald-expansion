@@ -8,7 +8,9 @@
 #include "wild_encounter.h"
 #include "constants/flags.h"
 
-// The odds of each slot of a headbutt_mons table: wild_encounters.json's headbutt_mons field (HeartGold/SoulSilver's)
+// The odds of each slot of a headbutt_mons table: wild_encounters.json's headbutt_mons field (HeartGold/SoulSilver's).
+// The generated ENCOUNTER_CHANCE_HEADBUTT_MONS_* macros live in data/wild_encounters.h, which only wild_encounter.c
+// can include; kjh_tools/headbutt_trees.py writes the field and every table with these 6 slots.
 static const u8 sHeadbuttSlotRates[] = {50, 15, 15, 10, 5, 5};
 
 // Level-up (any level: the levels-free design opens them with the team) or a TM, HM or tutor move
@@ -57,9 +59,14 @@ const struct WildPokemonInfo *KJH_GetHeadbuttTable(void)
 {
     u32 headerId = GetCurrentMapWildMonHeaderId();
 
+    const struct WildPokemonInfo *tree;
+
     if (headerId == HEADER_NONE)
         return NULL;
-    return gWildMonHeaders[headerId].encounterTypes[GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND)].headbuttMonsInfo;
+    tree = gWildMonHeaders[headerId].encounterTypes[GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND)].headbuttMonsInfo;
+    if (tree == NULL) // tables are written for the default time only (kjh_tools/headbutt_trees.py)
+        tree = gWildMonHeaders[headerId].encounterTypes[TIME_OF_DAY_DEFAULT].headbuttMonsInfo;
+    return tree;
 }
 
 bool32 KJH_TryCreateHeadbuttMon(void)

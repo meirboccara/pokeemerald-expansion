@@ -915,6 +915,7 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
      && KJH_IsRunning(heldKeys) // KJH (CF-11): B, or no B with auto-run on
+     && !(FlagGet(DN_FLAG_SEARCHING) && (heldKeys & A_BUTTON)) // ...but holding A creeps in a DexNav search
      && FlagGet(FLAG_SYS_B_DASH)
      && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0
      && !FollowerNPCComingThroughDoor()
