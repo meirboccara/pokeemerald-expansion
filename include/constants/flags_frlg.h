@@ -1498,6 +1498,16 @@
 
 #define FLAGS_COUNT (FLAG_0x8FF + 1)
 
+// KJH (ENG-9): Johto's flags, past FireRed's, are kept in SaveBlock3 (GetFlagPointer). Johto's trainer ids start at
+// JOHTO_TRAINERS_START, so TRAINER_FLAGS_START + id is one of the first JOHTO_TRAINER_FLAGS_COUNT flags here.
+#define KJH_SAVE3_FLAGS_START       FLAGS_COUNT // 0x900
+#define JOHTO_TRAINER_FLAGS_START   KJH_SAVE3_FLAGS_START
+#define JOHTO_TRAINER_FLAGS_COUNT   0x200
+#define JOHTO_FLAGS_START           (JOHTO_TRAINER_FLAGS_START + JOHTO_TRAINER_FLAGS_COUNT) // 0xB00
+#define JOHTO_FLAGS_COUNT           0x600
+#define KJH_SAVE3_FLAGS_END         (JOHTO_FLAGS_START + JOHTO_FLAGS_COUNT) // 0x1100
+#define KJH_SAVE3_FLAGS_COUNT       (KJH_SAVE3_FLAGS_END - KJH_SAVE3_FLAGS_START)
+
 // Special Flags (Stored in EWRAM (sSpecialFlags, not in the SaveBlock)
 #define SPECIAL_FLAGS_START           0x4000
 #define FLAG_HIDE_MAP_NAME_POPUP                (SPECIAL_FLAGS_START + 0x0)

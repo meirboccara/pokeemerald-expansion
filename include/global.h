@@ -272,6 +272,10 @@ struct SaveBlock3
 #if APRICORN_TREE_COUNT > 0
     u8 apricornTrees[NUM_APRICORN_TREE_BYTES];
 #endif
+#if IS_FRLG
+    u16 kjhVars[KJH_SAVE3_VARS_COUNT]; // KJH (ENG-9): Johto's variables (GetVarPointer)
+    u8 kjhFlags[KJH_SAVE3_FLAGS_COUNT / 8]; // KJH (ENG-9): Johto's trainer and event flags (GetFlagPointer)
+#endif
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;

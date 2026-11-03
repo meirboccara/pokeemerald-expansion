@@ -164,6 +164,10 @@ u16 *GetVarPointer(u16 id)
 {
     if (id < VARS_START)
         return NULL;
+#if IS_FRLG
+    else if (id >= KJH_SAVE3_VARS_START && id < KJH_SAVE3_VARS_END) // KJH (ENG-9): Johto's
+        return &gSaveBlock3Ptr->kjhVars[id - KJH_SAVE3_VARS_START];
+#endif
     else if (id < SPECIAL_VARS_START)
         return &gSaveBlock1Ptr->vars[id - VARS_START];
 #if TESTING
@@ -208,6 +212,10 @@ u8 *GetFlagPointer(u16 id)
 {
     if (id == 0)
         return NULL;
+#if IS_FRLG
+    else if (id >= KJH_SAVE3_FLAGS_START && id < KJH_SAVE3_FLAGS_END) // KJH (ENG-9): Johto's
+        return &gSaveBlock3Ptr->kjhFlags[(id - KJH_SAVE3_FLAGS_START) / 8];
+#endif
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];
 #if TESTING

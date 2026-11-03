@@ -635,4 +635,11 @@
 #define TRAINERS_COUNT_FRLG                      624
 #define MAX_TRAINERS_COUNT_FRLG                  768
 
+// KJH (ENG-9): Johto's trainers. Their ids start at 0x400, past the battle partners, where TRAINER_FLAGS_START + id
+// is a Johto flag in SaveBlock3 (JOHTO_TRAINER_FLAGS_START, constants/flags_frlg.h).
+#define JOHTO_TRAINERS_START                     0x400
+#ifndef JOHTO_TRAINERS_COUNT
+#define JOHTO_TRAINERS_COUNT                     0
+#endif
+
 #endif  // GUARD_CONSTANTS_OPPONENTS_FRLG_H

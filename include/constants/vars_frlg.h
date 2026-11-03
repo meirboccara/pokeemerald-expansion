@@ -275,6 +275,13 @@
 #define VARS_END_FRLG              0x40FF
 #define VARS_COUNT_FRLG            (VARS_END_FRLG - VARS_START_FRLG + 1)
 
+// KJH (ENG-9): Johto's variables, past FireRed's, are kept in SaveBlock3 (GetVarPointer).
+#define KJH_SAVE3_VARS_START       (VARS_END_FRLG + 1) // 0x4100
+#define JOHTO_VARS_START           KJH_SAVE3_VARS_START
+#define JOHTO_VARS_COUNT           0x40
+#define KJH_SAVE3_VARS_END         (JOHTO_VARS_START + JOHTO_VARS_COUNT)
+#define KJH_SAVE3_VARS_COUNT       (KJH_SAVE3_VARS_END - KJH_SAVE3_VARS_START)
+
 #define SPECIAL_VARS_START         0x8000
 
 #define VAR_0x8000                 0x8000
