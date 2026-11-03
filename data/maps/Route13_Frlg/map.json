@@ -218,6 +218,30 @@
       "flag": "FLAG_HIDDEN_ITEM_ROUTE13_PP_UP",
       "quantity": 1,
       "underfoot": false
+    },
+    {
+      "type": "sign",
+      "x": 61,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "EventScript_HeadbuttTree"
+    },
+    {
+      "type": "sign",
+      "x": 1,
+      "y": 4,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "EventScript_HeadbuttTree"
+    },
+    {
+      "type": "sign",
+      "x": 32,
+      "y": 4,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "EventScript_HeadbuttTree"
     }
   ]
 }
