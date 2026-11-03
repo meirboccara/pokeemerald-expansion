@@ -15,8 +15,12 @@ u32 KJH_PowerCapPercent(u32 regionBadges);
 u32 KJH_CappedPower(u32 power, u32 percent);
 bool32 KJH_IsOhkoLocked(u32 regionBadges);
 
-// The badges of the region the player stands in (LV-18: Kanto's or Johto's; Kanto's outside every region)
+// The badges of the region the player stands in (LV-18: Kanto's, Johto's or Hoenn's; Kanto's outside every region)
 u32 KJH_RegionBadges(void);
+// The cap where the player stands, whether or not it is on (B_KJH_POWER_CAP): by the region's badges, and none once
+// the three Leagues are beaten (LV-18)
+u32 KJH_PowerCapPercentHere(void);
+bool32 KJH_IsOhkoLockedHere(void);
 
 // In battle
 void KJH_PowerCapStartBattle(void);

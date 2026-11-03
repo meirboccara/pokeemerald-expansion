@@ -42,6 +42,19 @@ u32 KJH_RegionBadges(void)
     return KJH_CountBadgesHere(); // LV-18: the region the player stands in
 }
 
+// LV-18: "After all three Leagues, the cap is removed" (docs/LEVELLESS_DESIGN.md §10)
+u32 KJH_PowerCapPercentHere(void)
+{
+    if (KJH_AllLeaguesBeaten())
+        return 100;
+    return KJH_PowerCapPercent(KJH_RegionBadges());
+}
+
+bool32 KJH_IsOhkoLockedHere(void)
+{
+    return !KJH_AllLeaguesBeaten() && KJH_IsOhkoLocked(KJH_RegionBadges());
+}
+
 // Off in the test build, and in link battles: the two players' badges differ
 static bool32 IsCapOn(void)
 {
@@ -56,7 +69,7 @@ static u32 CurrentPercent(void)
 {
     if (!IsCapOn())
         return 100;
-    return KJH_PowerCapPercent(KJH_RegionBadges());
+    return KJH_PowerCapPercentHere();
 }
 
 u32 KJH_PowerCapPercentNow(void)
@@ -77,7 +90,7 @@ u32 KJH_CapBattleMovePower(u32 power)
 
 bool32 KJH_IsOhkoLockedInBattle(void)
 {
-    return IsCapOn() && KJH_IsOhkoLocked(KJH_RegionBadges());
+    return IsCapOn() && KJH_IsOhkoLockedHere();
 }
 
 // "Overheat is held back… (50%)", the first time in a battle that a move of either side is. It goes by the move's

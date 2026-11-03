@@ -6,18 +6,19 @@
 // a gift or a Pokémon from the PC joins at that level at once. No Exp. is earned. All of it is on only while
 // FLAG_KJH_LEVELLESS is set (from a new game).
 
-// LV-18: Johto has its own zones (src/data/kjh_johto_zones.h), team level and badge count, on the same curve. A
-// region's zone tables also say which maps are in it.
+// LV-18: Johto and Hoenn have their own zones (src/data/kjh_johto_zones.h, src/data/kjh_hoenn_zones.h), team level
+// and badge count, on the same curve. A region's zone tables also say which maps are in it; Hoenn's maps are its map
+// groups.
 enum KjhRegion
 {
     KJH_REGION_NONE,
     KJH_REGION_KANTO,
     KJH_REGION_JOHTO,
-    KJH_REGION_HOENN, // ENG-9: expansion's native Hoenn maps (no zone tables yet: LV-18's Hoenn part)
+    KJH_REGION_HOENN, // ENG-9: expansion's native Hoenn maps, Emerald's story
     KJH_REGION_COUNT,
 };
 
-// The zone tables' rows (src/data/kjh_kanto_zones.h, src/data/kjh_johto_zones.h).
+// The zone tables' rows (src/data/kjh_kanto_zones.h, src/data/kjh_johto_zones.h, src/data/kjh_hoenn_zones.h).
 struct KjhZoneRange { u8 min, max; };
 struct KjhGymAce { u16 map; u8 ace; };
 struct KjhMapZone { u16 map; u8 zone; };
@@ -40,14 +41,16 @@ enum KjhRegion KJH_RegionHere(void);
 // The badges of the region the player stands in; Kanto's outside every region.
 u32 KJH_CountBadgesHere(void);
 // The team's level now in the region the player stands in (Kanto's outside every region), 0 before any of its
-// zones is reached: the Champion's level once the region's League is beaten (LV-3).
+// zones is reached: the Champion's level once the region's League is beaten (LV-3), or all three (LV-18).
 u32 KJH_TeamLevel(void);
+// Kanto's, Johto's and Hoenn's Leagues are all beaten: the team is at 100 everywhere and no move is held back.
+bool32 KJH_AllLeaguesBeaten(void);
 // Records the zone the player stands in, if it is further than the furthest one so far in its region.
 void KJH_RecordZone(void);
 // In the levels-free game, how many levels the trainers of the Gym the player stands in move (LV-3): the Gym's ace
 // becomes the team's ceiling for the player's badges, so Gyms can be done in any order. 0 outside a Gym.
 s32 KJH_GymLevelShift(void);
-// The player stands in one of Kanto's or Johto's Gyms (sKantoGyms, sJohtoGyms).
+// The player stands in one of the regions' Gyms (sKantoGyms, sJohtoGyms, sHoennGyms).
 bool32 KJH_IsInGym(void);
 
 // Sets a Pokémon's level (and its peak level). Eggs and empty slots are left alone.

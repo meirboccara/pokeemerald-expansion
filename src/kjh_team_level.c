@@ -1,4 +1,4 @@
-// KJH: the team's level follows Kanto's zones (LV-2), and Johto's (LV-18) (include/kjh_team_level.h).
+// KJH: the team's level follows Kanto's zones (LV-2), and Johto's and Hoenn's (LV-18) (include/kjh_team_level.h).
 #include "global.h"
 #include "event_data.h"
 #include "kjh_team_level.h"
@@ -10,6 +10,7 @@
 #include "constants/johto_flags.h"
 #include "data/kjh_kanto_zones.h"
 #include "data/kjh_johto_zones.h"
+#include "data/kjh_hoenn_zones.h"
 
 extern const u8 EventScript_KjhTeamFeelsStronger[];
 
@@ -61,14 +62,20 @@ static const struct KjhRegionZones sRegions[KJH_REGION_COUNT] =
         .firstBadgeFlag = FLAG_JOHTO_BADGE01_GET,
         .leagueFlag = FLAG_KJH_JOHTO_CHAMPION, // the Hall of Fame in the Johto League season (ENG-10)
     },
-    // ENG-9: Emerald's own badges and Hall of Fame, in Hoenn's flag range. Its zone tables, Gyms and League levels
-    // are LV-18's Hoenn part: until then no Hoenn place has a zone, so the team level doesn't apply there.
+    // ENG-9: Emerald's own badges and Hall of Fame, in Hoenn's flag range; LV-18: Emerald's road on the curve
     [KJH_REGION_HOENN] =
     {
+        .zones = sHoennZones,
+        .mapZones = sHoennMapZones,
+        .mapsecZones = sHoennMapsecZones,
+        .gyms = sHoennGyms,
+        .mapZoneCount = ARRAY_COUNT(sHoennMapZones),
+        .mapsecZoneCount = ARRAY_COUNT(sHoennMapsecZones),
+        .gymCount = ARRAY_COUNT(sHoennGyms),
         .zoneTopVar = VAR_KJH_HOENN_ZONE_TOP,
         .teamLevelVar = VAR_KJH_HOENN_TEAM_LEVEL,
         .firstBadgeFlag = FLAG_HOENN_BADGE01_GET,
-        .leagueFlag = FLAG_HOENN_GAME_CLEAR,
+        .leagueFlag = FLAG_HOENN_GAME_CLEAR, // Ever Grande's Hall of Fame (ENG-10's Hoenn story)
     },
 };
 
@@ -108,10 +115,18 @@ static u32 ZoneIn(const struct KjhRegionZones *region, u32 mapsec, u32 map)
     return 0;
 }
 
-// The region whose tables have this place, and its zone there (0 and KJH_REGION_NONE for none). A place in two
-// regions' tables (Indigo Plateau) is Kanto's, and Johto's during the Johto League season (ENG-10).
+// The region whose tables have this place, and its zone there (0 and KJH_REGION_NONE for none). A Hoenn map is
+// Hoenn's, with or without a zone, and only Hoenn's tables are looked at for it (some of Emerald's section names are
+// Kanto's too). A place in Kanto's and Johto's tables (Indigo Plateau) is Kanto's, and Johto's during the Johto
+// League season (ENG-10).
 static enum KjhRegion FindZone(u32 mapsec, u32 map, u32 *zone)
 {
+    if (IsHoennMap(map))
+    {
+        *zone = ZoneIn(&sRegions[KJH_REGION_HOENN], mapsec, map);
+        return KJH_REGION_HOENN;
+    }
+
     if (FlagGet(FLAG_KJH_JOHTO_LEAGUE_OPEN))
     {
         *zone = ZoneIn(&sRegions[KJH_REGION_JOHTO], mapsec, map);
@@ -119,7 +134,7 @@ static enum KjhRegion FindZone(u32 mapsec, u32 map, u32 *zone)
             return KJH_REGION_JOHTO;
     }
 
-    for (enum KjhRegion region = KJH_REGION_KANTO; region < KJH_REGION_COUNT; region++)
+    for (enum KjhRegion region = KJH_REGION_KANTO; region <= KJH_REGION_JOHTO; region++)
     {
         *zone = ZoneIn(&sRegions[region], mapsec, map);
         if (*zone)
@@ -127,8 +142,6 @@ static enum KjhRegion FindZone(u32 mapsec, u32 map, u32 *zone)
     }
 
     *zone = 0;
-    if (IsHoennMap(map))
-        return KJH_REGION_HOENN;
     return KJH_REGION_NONE;
 }
 
@@ -144,7 +157,7 @@ u32 KJH_ZoneTop(u32 mapsec, u32 map)
     u32 zone;
     enum KjhRegion region = FindZone(mapsec, map, &zone);
 
-    if (region == KJH_REGION_NONE || zone == 0) // a Hoenn map has no zone yet (LV-18)
+    if (region == KJH_REGION_NONE || zone == 0) // a Hoenn map outside the story's road (the Battle Frontier...)
         return 0;
 
     return sRegions[region].zones[zone].max;
@@ -191,12 +204,24 @@ u32 KJH_CountBadgesHere(void)
     return CountRegionBadges(KJH_RegionHere());
 }
 
+bool32 KJH_AllLeaguesBeaten(void)
+{
+    for (enum KjhRegion region = KJH_REGION_KANTO; region < KJH_REGION_COUNT; region++)
+    {
+        if (!FlagGet(sRegions[region].leagueFlag))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
 u32 KJH_TeamLevel(void)
 {
     enum KjhRegion region = KJH_RegionHere();
 
-    // KJH (LV-3): the region's League beaten, the region uses its Champion's level.
-    if (FlagGet(sRegions[region].leagueFlag))
+    // KJH (LV-3): the region's League beaten, the region uses its Champion's level; LV-18: after the three Leagues,
+    // 100 everywhere.
+    if (FlagGet(sRegions[region].leagueFlag) || KJH_AllLeaguesBeaten())
         return KJH_TeamLevelCap(NUM_BADGES);
 
     return min(VarGet(sRegions[region].zoneTopVar), KJH_TeamLevelCap(CountRegionBadges(region)));
@@ -247,7 +272,7 @@ void KJH_RecordZone(void)
         VarSet(zoneTopVar, top);
 }
 
-// The team level applies only on a region's maps (Hoenn's come with ENG-9's step 2).
+// The team level applies only on a region's zones (not on the Battle Frontier's maps, for one).
 static bool32 TeamLevelApplies(void)
 {
     return KJH_IsLevelsFree() && CurrentZoneTop() != 0;
