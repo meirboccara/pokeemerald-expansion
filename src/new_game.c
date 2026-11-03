@@ -176,6 +176,14 @@ static void KJH_DebugHarnessStart(void)
     // A real game sets this in the player's house (setrespawn), which the harness skips: without it, losing a battle
     // warps to nowhere
     SetLastHealLocationWarp(HEAL_LOCATION_PALLET_TOWN);
+    // Flags first: clearing FLAG_KJH_LEVELLESS (LV-2) keeps the given Pokemon at their own levels.
+    for (u32 i = 0; i < 16 && flags[i] != 0; i++)
+    {
+        if (flags[i] & 0x8000) // a flag to clear, such as an object's hide flag set by the new game's reset
+            FlagClear(flags[i] & 0x7FFF);
+        else
+            FlagSet(flags[i]);
+    }
     if (dbgMon[0] != SPECIES_NONE)
         ScriptGiveMon(dbgMon[0], dbgMon[2], dbgMon[1]);
     else
@@ -189,13 +197,6 @@ static void KJH_DebugHarnessStart(void)
     FlagSet(FLAG_SYS_B_DASH);
     AddBagItem(ITEM_POKE_BALL, 20);
     AddBagItem(ITEM_POTION, 10);
-    for (u32 i = 0; i < 16 && flags[i] != 0; i++)
-    {
-        if (flags[i] & 0x8000) // a flag to clear, such as an object's hide flag set by the new game's reset
-            FlagClear(flags[i] & 0x7FFF);
-        else
-            FlagSet(flags[i]);
-    }
     gSaveBlock1Ptr->trainerRematchStepCounter = vsSeeker[0];
     gSaveBlock1Ptr->registeredItem = vsSeeker[1];
     if (var[0] >= VARS_START && var[0] <= VARS_END)
@@ -310,6 +311,7 @@ void NewGameInitData(void)
     ClearFollowerNPCData();
     if (I_EXP_SHARE_FLAG != 0)
         FlagSet(I_EXP_SHARE_FLAG); // KJH: the party Exp. Share is on from the start.
+    FlagSet(FLAG_KJH_LEVELLESS); // KJH (LV-2): the team's level follows the zones.
     if (OW_USE_FAKE_RTC)
         KJH_StartClock(); // KJH (CF-4): the in-game clock starts in the morning, with no question.
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4

@@ -158,6 +158,7 @@
 #define FLAG_0x0B2               0x0B2
 #define FLAG_KJH_GOT_OVAL_CHARM                            FLAG_0x0B2 // KJH: the Day Care man gave the Oval Charm (CF-3)
 #define FLAG_0x0B3               0x0B3
+#define FLAG_KJH_LEVELLESS                                 FLAG_0x0B3 // KJH (LV-2): levels follow the zones, no Exp.; on from a new game
 #define FLAG_0x0B4               0x0B4
 #define FLAG_0x0B5               0x0B5
 #define FLAG_0x0B6               0x0B6

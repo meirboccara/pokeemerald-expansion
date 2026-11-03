@@ -159,6 +159,7 @@
 #define VAR_0x408F                 0x408F
 #define VAR_0x4090                 0x4090
 #define VAR_0x4091                 0x4091
+#define VAR_KJH_KANTO_ZONE_TOP     VAR_0x4091 // KJH (LV-2): the top level of the furthest Kanto zone reached
 #define VAR_0x4092                 0x4092
 #define VAR_0x4093                 0x4093
 #define VAR_0x4094                 0x4094
@@ -169,6 +170,7 @@
 #define VAR_0x4099                 0x4099
 #define VAR_0x409A                 0x409A
 #define VAR_0x409B                 0x409B
+#define VAR_KJH_TEAM_LEVEL         VAR_0x409B // KJH (LV-2): the team level last applied, for "Your team feels stronger!"
 #define VAR_0x409C                 0x409C
 #define VAR_0x409D                 0x409D
 #define VAR_0x409E                 0x409E

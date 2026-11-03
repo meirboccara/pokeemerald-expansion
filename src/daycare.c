@@ -3,6 +3,7 @@
 #include "battle.h"
 #include "daycare.h"
 #include "kjh_bond.h"
+#include "kjh_team_level.h"
 #include "string_util.h"
 #include "caps.h"
 #include "mail.h"
@@ -336,7 +337,11 @@ static u16 TakeSelectedPokemonFromDaycare(struct DaycareMon *daycareMon)
     if (IS_FRLG)
         KJH_BondOnDaycarePickup(&pokemon); // KJH (LV-5): -20 friendship once, however long the stay
 
-    if (GetMonData(&pokemon, MON_DATA_LEVEL) < GetCurrentLevelCap())
+    if (KJH_IsLevelsFree())
+    {
+        KJH_JoinTeam(&pokemon, FALSE); // KJH (LV-2): no growth at the Day Care, it rejoins at the team's level.
+    }
+    else if (GetMonData(&pokemon, MON_DATA_LEVEL) < GetCurrentLevelCap())
     {
         experience = GetMonData(&pokemon, MON_DATA_EXP) + daycareMon->steps;
         u32 maxExp = GetExpAtLevelCap(&pokemon);
@@ -385,6 +390,9 @@ static u8 GetNumLevelsGainedFromSteps(struct DaycareMon *daycareMon)
 {
     u8 levelBefore;
     u8 levelAfter;
+
+    if (KJH_IsLevelsFree())
+        return 0; // KJH (LV-2): Pokémon don't grow at the Day Care, so the fee stays at its base.
 
     levelBefore = GetLevelFromBoxMonExp(&daycareMon->mon);
     levelAfter = GetLevelAfterDaycareSteps(&daycareMon->mon, daycareMon->steps);

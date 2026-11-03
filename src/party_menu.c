@@ -34,6 +34,7 @@
 #include "item.h"
 #include "item_menu.h"
 #include "item_use.h"
+#include "kjh_team_level.h"
 #include "caps.h"
 #include "link.h"
 #include "link_rfu.h"
@@ -5846,7 +5847,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
         sInitialLevel = 0;
         sFinalLevel = 0;
 
-        if (holdEffectParam == 0) // Rare Candy
+        if (holdEffectParam == 0 && !KJH_IsLevelsFree()) // Rare Candy. KJH (LV-2): no level evolution from it either.
         {
             targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, CHECK_EVO);
         }

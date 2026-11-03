@@ -13,6 +13,7 @@
 #include "fieldmap.h"
 #include "field_control_avatar.h"
 #include "kjh_bond.h"
+#include "kjh_team_level.h"
 #include "kjh_travel.h"
 #include "field_message_box.h"
 #include "field_move.h"
@@ -772,6 +773,8 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             return TRUE;
         }
     #endif
+        if (KJH_TryTeamLevelStep()) // KJH (LV-2): the team's level follows the zones.
+            return TRUE;
         if (ShouldEggHatch())
         {
             IncrementGameStat(GAME_STAT_HATCHED_EGGS);

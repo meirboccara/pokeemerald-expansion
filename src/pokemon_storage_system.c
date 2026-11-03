@@ -16,6 +16,7 @@
 #include "item.h"
 #include "item_icon.h"
 #include "item_menu.h"
+#include "kjh_team_level.h"
 #include "mail.h"
 #include "main.h"
 #include "menu.h"
@@ -6456,6 +6457,7 @@ static void SetPlacedMonData(u8 boxId, u8 position)
     {
         gParties[B_TRAINER_PLAYER][position] = sStorage->movingMon;
         struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][position];
+        KJH_JoinTeam(mon, FALSE); // KJH (LV-2): a withdrawn Pokémon joins at the team's level.
         if (mon == GetFirstLiveMon())
             gFollowerSteps = 0;
         SetMonFormPSS(&mon->box, FORM_CHANGE_WITHDRAW);

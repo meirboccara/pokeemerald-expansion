@@ -150,6 +150,12 @@ TEST("KJH: a boxed Pokémon keeps its levels-free values")
 TEST("KJH: a Pokémon put in the PC and taken out keeps its levels-free values")
 {
     struct Pokemon mon, back;
+    u32 box, pos;
+    for (box = 0; box < TOTAL_BOXES_COUNT; box++)
+    {
+        for (pos = 0; pos < IN_BOX_COUNT; pos++)
+            ZeroBoxMonAt(box, pos);
+    }
     CreatePikachu(&mon);
     SetMonValue(&mon, MON_DATA_PEAK_LEVEL, 54);
     SetMonValue(&mon, MON_DATA_TRAINING_BANK, 333);

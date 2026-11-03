@@ -16,6 +16,7 @@
 #include "item.h"
 #include "kjh_pack.h"
 #include "item_menu.h"
+#include "kjh_team_level.h"
 #include "util.h"
 #include "pokemon.h"
 #include "random.h"
@@ -2133,6 +2134,22 @@ static enum BattlerId GetBattlerFromPlayerPartyId(u32 partyId)
     return MAX_BATTLERS_COUNT;
 }
 
+// Music change in a wild battle after fainting opposing Pokémon. KJH (LV-2): moved out of Cmd_getexp, which plays
+// it in its levels-free branch too.
+static void TryPlayWildVictoryMusic(void)
+{
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        && (gBattleMons[0].hp || (IsDoubleBattle() && gBattleMons[2].hp))
+        && !IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+        && (!IsDoubleBattle() || !IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
+        && !gBattleStruct->wildVictorySong)
+    {
+        BattleStopLowHpSound();
+        PlayBGM(MUS_VICTORY_WILD);
+        gBattleStruct->wildVictorySong++;
+    }
+}
+
 static void Cmd_getexp(void)
 {
     CMD_ARGS(u8 battler);
@@ -2268,19 +2285,18 @@ static void Cmd_getexp(void)
                 if (B_MAX_LEVEL_EV_GAINS >= GEN_5)
                     MonGainEVs(&gParties[B_TRAINER_PLAYER][*expMonId], faintedSpecies);
             }
+            else if (KJH_IsLevelsFree())
+            {
+                // KJH (LV-2): levels follow the zones, so no Exp.; EVs are still gained.
+                TryPlayWildVictoryMusic();
+                gBattleScripting.getexpState = 5;
+                gBattleStruct->battlerExpReward = 0;
+                if (IsValidForBattle(&gParties[B_TRAINER_PLAYER][*expMonId]))
+                    MonGainEVs(&gParties[B_TRAINER_PLAYER][*expMonId], faintedSpecies);
+            }
             else
             {
-                // Music change in a wild battle after fainting opposing Pokémon.
-                if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-                    && (gBattleMons[0].hp || (IsDoubleBattle() && gBattleMons[2].hp))
-                    && !IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
-                    && (!IsDoubleBattle() || !IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)))
-                    && !gBattleStruct->wildVictorySong)
-                {
-                    BattleStopLowHpSound();
-                    PlayBGM(MUS_VICTORY_WILD);
-                    gBattleStruct->wildVictorySong++;
-                }
+                TryPlayWildVictoryMusic();
 
                 if (IsValidForBattle(&gParties[B_TRAINER_PLAYER][*expMonId]))
                 {

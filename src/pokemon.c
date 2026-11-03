@@ -27,6 +27,7 @@
 #include "graphics.h"
 #include "item.h"
 #include "kjh_levelless.h"
+#include "kjh_team_level.h"
 #include "link.h"
 #include "m4a.h"
 #include "main.h"
@@ -2993,6 +2994,7 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
     SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
     SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
     SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+    KJH_JoinTeam(mon, TRUE); // KJH (LV-2): a catch joins at the team's level.
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -3553,7 +3555,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, enum Item item, u8 partyIndex, 
         case 3:
             // Rare Candy / EXP Candy
             if ((itemEffect[i] & ITEM3_LEVEL_UP)
-             && GetMonData(mon, MON_DATA_LEVEL) != MAX_LEVEL)
+             && GetMonData(mon, MON_DATA_LEVEL) != MAX_LEVEL
+             && !KJH_IsLevelsFree()) // KJH (LV-2): levels follow the zones.
             {
                 u8 param = GetItemHoldEffectParam(item);
                 dataUnsigned = 0;
@@ -6771,6 +6774,8 @@ u32 GiveScriptedMonToPlayer(struct Pokemon *mon, u8 slot)
 {
     u32 sentToPc;
     u32 i = 0;
+
+    KJH_JoinTeam(mon, FALSE); // KJH (LV-2): a gift joins at the team's level.
     if (slot < PARTY_SIZE)
     {
         CopyMon(&gParties[B_TRAINER_PLAYER][slot], mon, sizeof(struct Pokemon));
