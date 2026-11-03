@@ -186,6 +186,12 @@ void KJH_PackSetNextEncounterAlpha(void)
     sPackNextEncounter = PACK_FLAG_ALPHA;
 }
 
+void KJH_PackMakeScriptedAlpha(struct Pokemon *mon)
+{
+    MakeAlpha(mon);
+    sPackNextEncounter = PACK_FLAG_ALPHA;
+}
+
 void KJH_MakeAlwaysAlpha(struct Pokemon *mon, enum KjhJoinWay way)
 {
     enum Species species = GetMonData(mon, MON_DATA_SPECIES);
@@ -200,9 +206,9 @@ void KJH_MakeAlwaysAlpha(struct Pokemon *mon, enum KjhJoinWay way)
 
 void KJH_PackBattleStart(void)
 {
-    // Only a plain random wild battle: not a trainer, safari, ghost, roamer, legendary or scripted battle (those
-    // set battle type flags), and not one of expansion's double wild battles. A recorded one (the test runner's)
-    // plays the same.
+    // Only a battle with no battle type flags: a plain random wild battle or a plain scripted one (LV-20's Mt. Moon
+    // guardian, made an Alpha by KJH_PackMakeScriptedAlpha), not a trainer, safari, ghost, roamer or legendary battle
+    // nor one of expansion's double wild battles. A recorded one (the test runner's) plays the same.
     sPackBattleFlags = (gBattleTypeFlags & ~(BATTLE_TYPE_IS_MASTER | BATTLE_TYPE_RECORDED)) == 0 ? sPackNextEncounter : 0;
     sPackNextEncounter = 0;
     sPack = (struct PackBattle) {.partner = KJH_PACK_NO_PARTNER};

@@ -1,18 +1,85 @@
-@ KJH: the MEGA RESEARCHER in Saffron City's Pokemon Center (LV-19, ported from KJH's pokefirered tree,
-@ src/kjh_mega.c). With 6 Kanto badges he gives the MEGA BRACELET (expansion's MEGA RING) and the Mega Stone of the
-@ player's Kanto starter. LV-20 moves the starter's stone to the Mt. Moon quest; the stone dealers come with LV-21.
+@ KJH: Mega Evolution's story in Kanto (LV-19, LV-20, src/kjh_mega.c, STORY.md in the KJH repo).
+@ With 6 Kanto badges the MEGA RESEARCHER in Saffron City's Pokemon Center sends the player to Mt. Moon, where a
+@ meteorite fell long ago. A guardian Alpha CLEFABLE stands by it (Mt. Moon B2F, by the fossils); once it is beaten
+@ or caught the meteorite splits into a KEY STONE and a stone that glows next to the player's starter. Back in
+@ Saffron the researcher sets the Key Stone in the MEGA BRACELET (expansion's MEGA RING) and gives the starter's
+@ stone (Charizard: X or Y); at Bond 18 the starter answers at once, otherwise when its bond is complete.
+@ The stone dealers come with LV-21.
 KJH_EventScript_MegaResearcher::
 	lock
 	faceplayer
 	checkitem ITEM_MEGA_RING
-	goto_if_eq VAR_RESULT, TRUE, KJH_EventScript_MegaResearcherExplain
+	goto_if_eq VAR_RESULT, TRUE, KJH_EventScript_MegaResearcherAgain
+	goto_if_set FLAG_KJH_MEGA_GUARDIAN_DONE, KJH_EventScript_MegaResearcherKeyStone
+	goto_if_set FLAG_KJH_MEGA_QUEST_STARTED, KJH_EventScript_MegaResearcherGoToMtMoon
 	callnative KJH_ScriptCountKantoBadges, requests_effects=1
 	goto_if_lt VAR_RESULT, 6, KJH_EventScript_MegaResearcherNotYet
-	msgbox KJH_Text_MegaResearcherGive
+	msgbox KJH_Text_MegaResearcherQuest
+	setflag FLAG_KJH_MEGA_QUEST_STARTED
+	release
+	end
+
+KJH_EventScript_MegaResearcherGoToMtMoon::
+	msgbox KJH_Text_MegaResearcherGoToMtMoon
+	release
+	end
+
+@ The Mega Stones share the Items pocket: room for one, or nothing is given yet
+KJH_EventScript_MegaResearcherKeyStone::
+	checkitemspace ITEM_VENUSAURITE
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MegaResearcherBagFull
+	msgbox KJH_Text_MegaResearcherKeyStone
 	giveitem ITEM_MEGA_RING
+	msgbox KJH_Text_MegaResearcherStarterStone
 	call_if_eq VAR_STARTER_MON, 0, KJH_EventScript_MegaGiveVenusaurite
 	call_if_eq VAR_STARTER_MON, 1, KJH_EventScript_MegaGiveBlastoisinite
 	call_if_eq VAR_STARTER_MON, 2, KJH_EventScript_MegaGiveCharizardite
+	call KJH_EventScript_MegaStarterScene
+	goto KJH_EventScript_MegaResearcherExplain
+
+KJH_EventScript_MegaResearcherBagFull::
+	msgbox KJH_Text_MegaResearcherBagFull
+	release
+	end
+
+@ With the bracelet: the starter's first Mega Evolution, if it is still owed and the starter is ready now
+KJH_EventScript_MegaResearcherAgain::
+	goto_if_set FLAG_KJH_MEGA_FIRST_SCENE, KJH_EventScript_MegaResearcherExplain
+	call KJH_EventScript_MegaStarterScene
+	goto KJH_EventScript_MegaResearcherExplain
+
+@ The starter steps forward: its picture, then its Mega form's; otherwise what it still needs
+KJH_EventScript_MegaStarterScene::
+	callnative KJH_ScriptMegaStarterReady, requests_effects=1
+	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_MISSING, KJH_EventScript_MegaStarterMissing
+	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_EVOLVE, KJH_EventScript_MegaStarterEvolve
+	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_BOND, KJH_EventScript_MegaStoneWaiting
+	msgbox KJH_Text_MegaStarterStepsForward
+	showmonpic VAR_0x8005, 10, 3
+	playmoncry VAR_0x8005, CRY_MODE_NORMAL
+	waitmoncry
+	msgbox KJH_Text_MegaStonesReact
+	hidemonpic
+	showmonpic VAR_0x8006, 10, 3
+	playfanfare MUS_EVOLVED
+	waitfanfare
+	msgbox KJH_Text_MegaBondComplete
+	hidemonpic
+	setflag FLAG_KJH_MEGA_FIRST_SCENE
+	return
+
+KJH_EventScript_MegaStarterMissing::
+	msgbox KJH_Text_MegaStarterMissing
+	return
+
+KJH_EventScript_MegaStarterEvolve::
+	msgbox KJH_Text_MegaStarterEvolve
+	return
+
+KJH_EventScript_MegaStoneWaiting::
+	msgbox KJH_Text_MegaStoneWaiting
+	return
+
 KJH_EventScript_MegaResearcherExplain::
 	goto_if_set FLAG_KJH_LEVELLESS, KJH_EventScript_MegaResearcherExplainBond
 	msgbox KJH_Text_MegaResearcherExplain
@@ -30,19 +97,55 @@ KJH_EventScript_MegaResearcherNotYet::
 	end
 
 KJH_EventScript_MegaGiveVenusaurite::
-	msgbox KJH_Text_MegaResearcherStarterStone
 	giveitem ITEM_VENUSAURITE
 	return
 
 KJH_EventScript_MegaGiveBlastoisinite::
-	msgbox KJH_Text_MegaResearcherStarterStone
 	giveitem ITEM_BLASTOISINITE
 	return
 
+@ The other one is sold later (LV-21)
 KJH_EventScript_MegaGiveCharizardite::
-	msgbox KJH_Text_MegaResearcherStarterStone
+	message KJH_Text_MegaCharizarditeWhich
+	waitmessage
+	dynmultipush KJH_Text_CharizarditeX, 0
+	dynmultipush KJH_Text_CharizarditeY, 1
+	dynmultistack 0, 0, TRUE, 2, FALSE, 0, NULL @ B does nothing: the player must pick
+	goto_if_eq VAR_RESULT, 1, KJH_EventScript_MegaGiveCharizarditeY
 	giveitem ITEM_CHARIZARDITE_X
 	return
+
+KJH_EventScript_MegaGiveCharizarditeY::
+	giveitem ITEM_CHARIZARDITE_Y
+	return
+
+@ Mt. Moon B2F: the guardian, hidden by FLAG_KJH_MEGA_GUARDIAN_DONE once fought
+KJH_EventScript_MegaGuardian::
+	lock
+	goto_if_unset FLAG_KJH_MEGA_QUEST_STARTED, KJH_EventScript_MegaGuardianAsleep
+	msgbox KJH_Text_MegaGuardianWakes
+	playmoncry SPECIES_CLEFABLE, CRY_MODE_ENCOUNTER
+	waitmoncry
+	setwildbattle SPECIES_CLEFABLE, 45 @ KJH_MEGA_GUARDIAN_LEVEL; KJH_ScriptSetupMegaGuardian sets the level
+	callnative KJH_ScriptSetupMegaGuardian, requests_effects=1
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, KJH_EventScript_MegaGuardianDone
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, KJH_EventScript_MegaGuardianDone
+	release
+	end
+
+KJH_EventScript_MegaGuardianDone::
+	setflag FLAG_KJH_MEGA_GUARDIAN_DONE
+	removeobject VAR_LAST_TALKED
+	msgbox KJH_Text_MegaMeteoriteSplits
+	release
+	end
+
+KJH_EventScript_MegaGuardianAsleep::
+	msgbox KJH_Text_MegaGuardianAsleep
+	release
+	end
 
 KJH_Text_MegaResearcherNotYet::
 	.string "I study MEGA EVOLUTION, a power\n"
@@ -50,14 +153,87 @@ KJH_Text_MegaResearcherNotYet::
 	.string "It answers only a strong bond.\n"
 	.string "Come back with six KANTO BADGES!$"
 
-KJH_Text_MegaResearcherGive::
-	.string "Six BADGES! Your bond with your\n"
-	.string "POKéMON is strong enough.\p"
-	.string "Take this MEGA BRACELET!$"
+KJH_Text_MegaResearcherQuest::
+	.string "Six BADGES! Then listen.\p"
+	.string "MEGA EVOLUTION needs a KEY STONE,\n"
+	.string "a shard of a fallen star.\p"
+	.string "Long ago a meteorite fell on\n"
+	.string "MT. MOON. It lies deep inside.\p"
+	.string "But they say a CLEFABLE guards it,\n"
+	.string "stronger than any other.\p"
+	.string "Bring me what you find there!$"
+
+KJH_Text_MegaResearcherGoToMtMoon::
+	.string "The meteorite lies deep in\n"
+	.string "MT. MOON, by the old fossils.\p"
+	.string "Mind its CLEFABLE guardian!$"
+
+KJH_Text_MegaResearcherKeyStone::
+	.string "A KEY STONE! You did it!\p"
+	.string "Let me set it in this BRACELET…\n"
+	.string "There! Take the MEGA BRACELET!$"
 
 KJH_Text_MegaResearcherStarterStone::
-	.string "And the MEGA STONE of the first\n"
-	.string "partner you chose in PALLET TOWN!$"
+	.string "And that other stone glows next to\n"
+	.string "the first partner you chose in\l"
+	.string "PALLET TOWN. It's a MEGA STONE!$"
+
+KJH_Text_MegaCharizarditeWhich::
+	.string "It shines two ways… Which do\n"
+	.string "you want it to become?$"
+
+KJH_Text_CharizarditeX::
+	.string "CHARIZARDITE X$"
+
+KJH_Text_CharizarditeY::
+	.string "CHARIZARDITE Y$"
+
+KJH_Text_MegaStarterStepsForward::
+	.string "{STR_VAR_1} steps forward…$"
+
+KJH_Text_MegaStonesReact::
+	.string "The stones are reacting!$"
+
+KJH_Text_MegaBondComplete::
+	.string "{STR_VAR_1} MEGA EVOLVED!\p"
+	.string "Your bond with {STR_VAR_1}\n"
+	.string "is complete!$"
+
+KJH_Text_MegaStoneWaiting::
+	.string "The stone is waiting…\p"
+	.string "It will answer when your bond with\n"
+	.string "{STR_VAR_1} is complete.\p"
+	.string "Come back and show me then!$"
+
+KJH_Text_MegaStarterEvolve::
+	.string "The stone glows for {STR_VAR_1},\n"
+	.string "but only a {STR_VAR_2} can hold\l"
+	.string "its power. Come back then!$"
+
+KJH_Text_MegaStarterMissing::
+	.string "The stone glows for your first\n"
+	.string "partner… Bring {STR_VAR_1} here\l"
+	.string "one day, and show me!$"
+
+KJH_Text_MegaResearcherBagFull::
+	.string "A KEY STONE! But your BAG has no\n"
+	.string "room for what I have to give you.\p"
+	.string "Make some room and come back!$"
+
+KJH_Text_MegaGuardianAsleep::
+	.string "A CLEFABLE sleeps against a strange\n"
+	.string "old rock. It won't let you near.$"
+
+KJH_Text_MegaGuardianWakes::
+	.string "The CLEFABLE wakes and glows with\n"
+	.string "the light of the old rock!$"
+
+KJH_Text_MegaMeteoriteSplits::
+	.string "The old meteorite splits open!\p"
+	.string "Inside: a KEY STONE, and a stone\n"
+	.string "that glows warmly…\p"
+	.string "The researcher in SAFFRON will\n"
+	.string "know what to do with them.$"
 
 KJH_Text_MegaResearcherExplain::
 	.string "A POKéMON with its MEGA STONE can\n"

@@ -4,6 +4,7 @@
 #include "constants/battle.h"
 #include "constants/form_change_types.h"
 #include "constants/items.h"
+#include "constants/kjh_mega.h"
 #include "constants/species.h"
 
 struct Pokemon;
@@ -61,6 +62,16 @@ void BS_KjhTryMegaHeldBackMessage(void);                              // callnat
 // callnative: VAR_RESULT = Kanto's badges (the researcher's 6)
 struct ScriptContext;
 void KJH_ScriptCountKantoBadges(struct ScriptContext *ctx);
+
+// LV-20, the Mt. Moon quest (data/scripts/kjh_mega.inc)
+#define KJH_MEGA_GUARDIAN_LEVEL 45 // the guardian's level in the classic game; levels-free: an Alpha above the team
+// The level of the guardian Alpha Clefable: an Alpha above the team's level, levels-free
+u32 KJH_MegaGuardianLevel(u32 teamLevel);
+// callnative after setwildbattle: the guardian is an Alpha at KJH_MegaGuardianLevel
+void KJH_ScriptSetupMegaGuardian(struct ScriptContext *ctx);
+// callnative: VAR_RESULT = KJH_MEGA_STARTER_* (include/constants/kjh_mega.h) for the player's starter: a Pokemon of
+// the line chosen in Pallet Town (VAR_STARTER_MON), the player's own (OT ID), in the party; the most advanced one
+void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx);
 
 // Trainers (src/kjh_progression.c): a boss's ace gets its stone when the player's bracelet works here
 void KJH_GiveBossAceMegaStone(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer);

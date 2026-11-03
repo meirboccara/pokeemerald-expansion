@@ -5,10 +5,14 @@
 #include "item.h"
 #include "kjh_bond.h"
 #include "kjh_mega.h"
+#include "kjh_pack.h"
 #include "kjh_power_cap.h"
 #include "pokemon.h"
+#include "script.h"
 #include "string_util.h"
+#include "tv.h"
 #include "test/battle.h"
+#include "test/overworld_script.h"
 #include "test/test.h"
 #include "constants/characters.h"
 #include "constants/johto_flags.h"
@@ -155,4 +159,42 @@ SINGLE_BATTLE_TEST("KJH: in the levels-free game a Bond 17 Charizard can't Mega 
     } THEN {
         EXPECT_EQ(player->species, bond == 18 ? SPECIES_CHARIZARD_MEGA_X : SPECIES_CHARIZARD);
     }
+}
+
+// LV-20: the Mt. Moon quest
+TEST("KJH: the Mt. Moon guardian is an Alpha above the team's level, 45 in the classic game")
+{
+    EXPECT_EQ(KJH_MegaGuardianLevel(0), KJH_MEGA_GUARDIAN_LEVEL);
+    EXPECT_EQ(KJH_MegaGuardianLevel(60), KJH_AlphaLevel(60));
+    EXPECT_GT(KJH_MegaGuardianLevel(60), 60);
+}
+
+TEST("KJH: the starter's stone answers at once only for its final form at Bond 18")
+{
+    u32 trainerId = GetPlayerIDAsU32();
+
+    ZeroPlayerPartyMons();
+    FlagSet(FLAG_KJH_LEVELLESS);
+    VarSet(VAR_STARTER_MON, 2); // Charmander
+    CreateBondMon(&gPlayerParty[0], SPECIES_CHARMELEON, 20);
+    SetMonData(&gPlayerParty[0], MON_DATA_OT_ID, &trainerId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_EVOLVE);
+    CreateBondMon(&gPlayerParty[1], SPECIES_CHARIZARD, 17);
+    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &trainerId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_BOND);
+    CreateBondMon(&gPlayerParty[1], SPECIES_CHARIZARD, 18);
+    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &trainerId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_READY);
+    EXPECT_EQ(gSpecialVar_0x8005, SPECIES_CHARIZARD);
+    trainerId++; // a Charizard traded in isn't the starter
+    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &trainerId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_EVOLVE);
+    VarSet(VAR_STARTER_MON, 0); // Bulbasaur's player
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_MISSING);
+    FlagClear(FLAG_KJH_LEVELLESS);
 }

@@ -7,12 +7,16 @@
 #include "item.h"
 #include "kjh_bond.h"
 #include "kjh_mega.h"
+#include "kjh_pack.h"
 #include "kjh_power_cap.h"
 #include "kjh_team_level.h"
+#include "party_menu.h"
+#include "tv.h"
 #include "pokemon.h"
 #include "script.h"
 #include "string_util.h"
 #include "constants/abilities.h"
+#include "constants/vars.h"
 
 // The held-back message is shown once per battle
 static EWRAM_DATA bool8 sMegaHeldBackShown = FALSE;
@@ -280,4 +284,101 @@ void KJH_ScriptCountKantoBadges(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1);
     gSpecialVar_Result = KJH_CountKantoBadges();
+}
+
+u32 KJH_MegaGuardianLevel(u32 teamLevel)
+{
+    if (teamLevel == 0)
+        return KJH_MEGA_GUARDIAN_LEVEL;
+    return KJH_AlphaLevel(teamLevel);
+}
+
+void KJH_ScriptSetupMegaGuardian(struct ScriptContext *ctx)
+{
+    struct Pokemon *mon = &gEnemyParty[0];
+
+    Script_RequestEffects(SCREFF_V1);
+    u32 level, exp;
+
+    if (!KJH_IsLevelsFree())
+        return; // the classic game has no Alphas (LV-15): a plain Clefable at the script's level
+    // Its level, without a peak level (a caught guardian joins the team at the team's level, LV-2), and its moves
+    // for that level
+    level = KJH_MegaGuardianLevel(KJH_TeamLevel());
+    exp = gExperienceTables[gSpeciesInfo[SPECIES_CLEFABLE].growthRate][level];
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
+    GiveMonInitialMoveset(mon);
+    KJH_PackMakeScriptedAlpha(mon);
+}
+
+// FireRed's VAR_STARTER_MON: 0 Bulbasaur, 1 Squirtle, 2 Charmander; each line's three stages
+static const enum Species sStarterLines[][3] =
+{
+    {SPECIES_BULBASAUR, SPECIES_IVYSAUR, SPECIES_VENUSAUR},
+    {SPECIES_SQUIRTLE, SPECIES_WARTORTLE, SPECIES_BLASTOISE},
+    {SPECIES_CHARMANDER, SPECIES_CHARMELEON, SPECIES_CHARIZARD},
+};
+
+// Its Mega form, by the stone held or in the bag (Charizard: the one the player picked)
+static enum Species MegaFormOf(struct Pokemon *mon)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    enum Item held = GetMonData(mon, MON_DATA_HELD_ITEM);
+    const struct FormChange *formChanges = GetSpeciesFormChanges(species);
+
+    for (u32 i = 0; formChanges != NULL && formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
+    {
+        if (formChanges[i].method == FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM
+         && (formChanges[i].param1 == held || CheckBagHasItem(formChanges[i].param1, 1)))
+            return formChanges[i].targetSpecies;
+    }
+    return species;
+}
+
+void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx)
+{
+    const enum Species *line = sStarterLines[min(VarGet(VAR_STARTER_MON), ARRAY_COUNT(sStarterLines) - 1)];
+    struct Pokemon *starter = NULL;
+    u32 stage = 0;
+
+    Script_RequestEffects(SCREFF_V1);
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gPlayerParty[i];
+        enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+
+        if (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_OT_ID) != GetPlayerIDAsU32())
+            continue;
+        for (u32 s = 0; s < ARRAY_COUNT(sStarterLines[0]); s++)
+        {
+            if (species == line[s] && (starter == NULL || s > stage))
+            {
+                starter = mon;
+                stage = s;
+            }
+        }
+    }
+
+    if (starter == NULL)
+    {
+        StringCopy(gStringVar1, GetSpeciesName(line[2]));
+        gSpecialVar_Result = KJH_MEGA_STARTER_MISSING;
+        return;
+    }
+    GetMonNickname(starter, gStringVar1);
+    if (stage < 2)
+    {
+        StringCopy(gStringVar2, GetSpeciesName(line[2]));
+        gSpecialVar_Result = KJH_MEGA_STARTER_EVOLVE;
+        return;
+    }
+    if (!KJH_HasMegaBond(starter))
+    {
+        gSpecialVar_Result = KJH_MEGA_STARTER_BOND;
+        return;
+    }
+    gSpecialVar_0x8005 = line[2];
+    gSpecialVar_0x8006 = MegaFormOf(starter);
+    gSpecialVar_Result = KJH_MEGA_STARTER_READY;
 }

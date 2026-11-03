@@ -60,6 +60,7 @@
 #include "constants/roulette.h"
 #include "constants/script_menu.h"
 #include "constants/kjh_stat_trainer.h"
+#include "constants/kjh_mega.h"
 #include "constants/seagallop.h"
 #include "constants/secret_bases.h"
 #include "constants/siirtc.h"

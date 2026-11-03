@@ -220,6 +220,9 @@
 #define FLAG_0x0EF               0x0EF
 #define FLAG_KJH_MOVES_LOCKED                              FLAG_0x0EF // KJH: moves can't be changed, League run (LV-10)
 #define FLAG_KJH_SAW_FIELD_TRAINING                        FLAG_0x0EE // KJH: "... train twice as fast!" was said (LV-13)
+#define FLAG_KJH_MEGA_QUEST_STARTED                        FLAG_0x0ED // KJH: the Mega researcher sent the player to Mt. Moon (LV-20)
+#define FLAG_KJH_MEGA_GUARDIAN_DONE                        FLAG_0x0EC // KJH: the guardian Clefable fought, the Key Stone found (LV-20)
+#define FLAG_KJH_MEGA_FIRST_SCENE                          FLAG_0x0EB // KJH: the starter's first Mega Evolution scene played (LV-20)
 #define FLAG_0x0F0               0x0F0
 #define FLAG_KJH_AUTO_RUN                                  FLAG_0x0F0 // KJH: L turned auto-run on (CF-11)
 #define FLAG_0x0F1               0x0F1
