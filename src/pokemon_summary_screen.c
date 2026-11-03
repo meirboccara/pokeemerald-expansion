@@ -345,6 +345,7 @@ static struct BoxPokemon *GetCurrentBoxmon(void);
 // KJH (LV-5): in a FireRed build the contest moves page is the BOND page (KJH has no contests)
 #define KJH_BOND_PAGE IS_FRLG
 static void PrintKjhBondPage(void);
+static const u8 *KjhMemoWithoutLevel(const u8 *text);
 static const struct WindowTemplate sKjhBondPageTemplate[] =
 {
     [PSS_DATA_WINDOW_MOVE_NAMES] = {
@@ -3234,10 +3235,18 @@ static void PrintNotEggInfo(void)
         else
             SetMonPicBackgroundPalette(TRUE);
     }
-    StringCopy(gStringVar1, gText_LevelSymbol);
-    ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(gStringVar1, gStringVar2);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gStringVar1, 24, 17, 0, 1);
+    if (KJH_HideLevels()) // KJH (LV-4): Bond where the level was
+    {
+        KJH_BufferBondLabel(gStringVar1, GetMonData(mon, MON_DATA_FRIENDSHIP));
+        PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gStringVar1, 24, 17, 0, 1, FONT_SMALL);
+    }
+    else
+    {
+        StringCopy(gStringVar1, gText_LevelSymbol);
+        ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringAppend(gStringVar1, gStringVar2);
+        PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gStringVar1, 24, 17, 0, 1);
+    }
     GetMonNickname(mon, gStringVar1);
     PrintTextOnWindowToFitPx(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME, gStringVar1, 0, 1, 0, 1, WindowWidthPx(PSS_LABEL_WINDOW_PORTRAIT_NICKNAME) - 9);
     PrintTextOnWindow(PSS_LABEL_WINDOW_PORTRAIT_SPECIES, gText_Slash, 0, 1, 0, 1);
@@ -3606,10 +3615,30 @@ static void BufferMonTrainerMemo(void)
             text = gText_XNatureObtainedInTrade;
         }
 
+        if (KJH_HideLevels()) // KJH (LV-4): the memo without the level
+            text = KjhMemoWithoutLevel(text);
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
         Free(metLocationString);
     }
+}
+
+// KJH (LV-4): the trainer memo without "at Lv. X"
+static const u8 *KjhMemoWithoutLevel(const u8 *text)
+{
+    if (text == gText_XNatureMetAtYZ)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (text == gText_XNatureHatchedAtYZ)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (text == gText_XNatureProbablyMetAt)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nprobably met in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (text == gText_XNatureMetSomewhereAt)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet somewhere.");
+    if (text == gText_XNatureHatchedSomewhereAt)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nhatched somewhere.");
+    if (text == gText_XNatureFatefulEncounter)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nobtained in a fateful\nencounter.");
+    return text;
 }
 
 static void PrintMonTrainerMemo(void)

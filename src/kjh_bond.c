@@ -363,3 +363,15 @@ enum KjhBondShake KJH_TryBondShake(u32 battler)
         return KJH_BOND_SHAKE_OFF_INFATUATION;
     return KJH_BOND_SHAKE_NONE;
 }
+
+// LV-4: no level shown
+bool32 KJH_HideLevels(void)
+{
+    return IS_FRLG && FlagGet(FLAG_KJH_LEVELLESS);
+}
+
+u8 *KJH_BufferBondLabel(u8 *dest, u32 friendship)
+{
+    dest = StringCopy(dest, COMPOUND_STRING("BOND "));
+    return ConvertIntToDecimalStringN(dest, KJH_FriendshipToBond(friendship), STR_CONV_MODE_LEFT_ALIGN, 2);
+}

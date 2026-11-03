@@ -4,6 +4,7 @@
 #include "pokemon.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
+#include "kjh_bond.h"
 #include "battle_z_move.h"
 #include "graphics.h"
 #include "sprite.h"
@@ -877,6 +878,23 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
     u8 text[16];
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     u32 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
+
+    if (KJH_HideLevels()) // KJH (LV-4): a heart and the Bond for the player's Pokemon, nothing for the others
+    {
+        if (IsOnPlayerSide(battler))
+        {
+            text[0] = CHAR_EXTRA_SYMBOL;
+            text[1] = 0xE7; // EMOJI_HEART
+            ConvertIntToDecimalStringN(text + 2, KJH_FriendshipToBond(GetMonData(GetBattlerMon(battler), MON_DATA_FRIENDSHIP)), STR_CONV_MODE_LEFT_ALIGN, 2);
+            FillSpriteRectColor(spriteId, 8, 5, 24, 11, HEALTHBOX_BG_INDEX);
+            AddSpriteTextPrinterParameterized6(spriteId, FONT_SMALL, 32 - GetStringWidth(FONT_SMALL, text, 0), 3, 0, 0, sHealthBoxTextColor, 0, text);
+        }
+        else
+        {
+            FillSpriteRectColor(spriteId, 0, 5, 24, 11, HEALTHBOX_BG_INDEX);
+        }
+        return;
+    }
 
     // Don't print Lv char if mon has a gimmick with an indicator active.
     if (GetIndicatorPalTag(battler) != TAG_NONE)

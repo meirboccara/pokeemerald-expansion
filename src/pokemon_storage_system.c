@@ -29,6 +29,7 @@
 #include "pokemon_icon.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
+#include "kjh_bond.h"
 #include "script.h"
 #include "sound.h"
 #include "string_util.h"
@@ -7007,7 +7008,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
 
             GetMonData(mon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGet_Nickname(sStorage->displayMonName);
-            sStorage->displayMonLevel = GetMonData(mon, MON_DATA_LEVEL);
+            sStorage->displayMonLevel = KJH_HideLevels() ? KJH_FriendshipToBond(GetMonData(mon, MON_DATA_FRIENDSHIP)) : GetMonData(mon, MON_DATA_LEVEL); // KJH (LV-4)
             sStorage->displayMonMarkings = GetMonData(mon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetMonData(mon, MON_DATA_PERSONALITY);
             sStorage->displayMonPalette = GetMonFrontSpritePal(mon);
@@ -7031,7 +7032,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
 
             GetBoxMonData(boxMon, MON_DATA_NICKNAME, sStorage->displayMonName);
             StringGet_Nickname(sStorage->displayMonName);
-            sStorage->displayMonLevel = GetLevelFromBoxMonExp(boxMon);
+            sStorage->displayMonLevel = KJH_HideLevels() ? KJH_FriendshipToBond(GetBoxMonData(boxMon, MON_DATA_FRIENDSHIP)) : GetLevelFromBoxMonExp(boxMon); // KJH (LV-4)
             sStorage->displayMonMarkings = GetBoxMonData(boxMon, MON_DATA_MARKINGS);
             sStorage->displayMonPersonality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY);
             sStorage->displayMonIsEgg = GetBoxMonData(boxMon, MON_DATA_IS_EGG);
@@ -7110,8 +7111,15 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         *(txtPtr++) = TEXT_COLOR_LIGHT_GRAY;
         *(txtPtr++) = TEXT_COLOR_WHITE;
         *(txtPtr++) = CHAR_SPACE;
-        *(txtPtr++) = CHAR_EXTRA_SYMBOL;
-        *(txtPtr++) = CHAR_LV_2;
+        if (KJH_HideLevels()) // KJH (LV-4): "BOND 12", displayMonLevel holds the Bond
+        {
+            txtPtr = StringCopy(txtPtr, COMPOUND_STRING("BOND "));
+        }
+        else
+        {
+            *(txtPtr++) = CHAR_EXTRA_SYMBOL;
+            *(txtPtr++) = CHAR_LV_2;
+        }
 
         txtPtr = ConvertIntToDecimalStringN(txtPtr, sStorage->displayMonLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
         txtPtr[0] = CHAR_SPACE;

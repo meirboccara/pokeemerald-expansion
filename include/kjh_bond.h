@@ -68,6 +68,12 @@ enum KjhBondShake
 };
 enum KjhBondShake KJH_TryBondShake(u32 battler);     // the end-of-turn perk, rolled; the caller runs its script
 
+// LV-4: no level shown. While the levels-free design is on (FLAG_KJH_LEVELLESS), the player's Pokemon show their
+// Bond where the level was (Summary, party menu, PC: "BOND 12"; battle healthbox: a heart and the number), and wild
+// and trainers' Pokemon show none.
+bool32 KJH_HideLevels(void);
+u8 *KJH_BufferBondLabel(u8 *dest, u32 friendship); // "BOND 12"
+
 // The milestones (§3) and the Summary's BOND page. A one-time unlock is kept at the peak Bond; an ongoing perk
 // follows the current Bond.
 struct KjhBondMilestone
