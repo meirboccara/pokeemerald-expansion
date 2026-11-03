@@ -1217,6 +1217,13 @@
 	.4byte \ptr
 	.endm
 
+	@ KJH: one step of a wild pack's call for help (ENG-6, src/kjh_pack.c); op is a KJH_PACK_OP_* value
+	.macro kjhpack op:req, jumpInstr=NULL
+	callnative BS_KjhPack
+	.byte \op
+	.4byte \jumpInstr
+	.endm
+
 	.macro jumpifcantloseitem ptr:req
 	callnative BS_JumpIfCantLoseItem
 	.4byte \ptr

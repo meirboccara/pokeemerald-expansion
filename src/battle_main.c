@@ -5050,6 +5050,8 @@ static void RunTurnActionsFunctions(void)
         {
             if (TryDoGimmicksBeforeMoves())
                 return;
+            else if (KJH_TryPackCallsBeforeTurn()) // KJH: a wild Pokemon may call for help (ENG-6)
+                return;
             else if (TryDoMoveEffectsBeforeMoves())
                 return;
             gBattleStruct->effectsBeforeUsingMoveDone = TRUE;

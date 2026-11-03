@@ -14,6 +14,7 @@
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "item.h"
+#include "kjh_pack.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "m4a.h"
@@ -2059,6 +2060,13 @@ void StartSendOutAnim(enum BattlerId battler, bool32 dontClearTransform, bool32 
 
     gSprites[gBattleControllerData[battler]].data[1] = gBattlerSpriteIds[battler];
     gSprites[gBattleControllerData[battler]].data[2] = battler;
+    if (KJH_PackIsHelperSendOut(battler)) // KJH: a wild pack's helper comes without a ball, with its cry (ENG-6)
+    {
+        gSprites[gBattlerSpriteIds[battler]].invisible = FALSE;
+        gSprites[gBattleControllerData[battler]].callback = SpriteCallbackDummy;
+        PlayCry_Normal(species, 25);
+        return;
+    }
     gSprites[gBattleControllerData[battler]].data[0] = DoPokeballSendOutAnimation(battler, 0, sendoutType);
 }
 

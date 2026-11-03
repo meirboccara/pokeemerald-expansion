@@ -78,7 +78,7 @@ WILD_BATTLE_TEST("KJH: a pack leader's battle opens with \"It leads a pack!\"")
         MESSAGE("You encountered a wild Pidgey! It leads a pack!");
     } THEN {
         EXPECT(KJH_PackIsLeaderBattle());
-        EXPECT(KJH_PackIsLeader(B_POSITION_OPPONENT_LEFT));
+        EXPECT(KJH_PackIsLeader(B_BATTLER_1));
     }
 }
 
@@ -108,7 +108,7 @@ SINGLE_BATTLE_TEST("KJH: a trainer's Pokemon never leads a pack")
         TURN { MOVE(player, MOVE_CELEBRATE); }
     } THEN {
         EXPECT(!KJH_PackIsLeaderBattle());
-        EXPECT(!KJH_PackIsLeader(B_POSITION_OPPONENT_LEFT));
+        EXPECT(!KJH_PackIsLeader(B_BATTLER_1));
     }
 }
 
@@ -130,5 +130,87 @@ WILD_BATTLE_TEST("KJH: knocking out a pack leader gives 4 times the Exp.", s32 e
         EXPERIENCE_BAR(player, captureGainedExp: &results[i].exp);
     } FINALLY {
         EXPECT_MUL_EQ(results[1].exp, Q_4_12(4.0), results[0].exp); // results[0]: the leader
+    }
+}
+
+TEST("KJH: a leader calls more the more it is hurt, never on the first turn, half as often with no free slot")
+{
+    EXPECT_EQ(KJH_PackCallChance(TRUE, 0, TRUE, TRUE, 100, 100), 0);
+    EXPECT_EQ(KJH_PackCallChance(TRUE, 0, TRUE, FALSE, 100, 100), KJH_PACK_CALL_LEADER_HEALTHY);
+    EXPECT_EQ(KJH_PackCallChance(TRUE, 0, TRUE, FALSE, 50, 100), KJH_PACK_CALL_LEADER_HURT);
+    EXPECT_EQ(KJH_PackCallChance(TRUE, 0, TRUE, FALSE, 25, 100), KJH_PACK_CALL_LEADER_DESPERATE);
+    EXPECT_EQ(KJH_PackCallChance(TRUE, 1, FALSE, FALSE, 25, 100), KJH_PACK_CALL_LEADER_DESPERATE / 2);
+    EXPECT_EQ(KJH_PackCallChance(TRUE, KJH_PACK_MAX_HELPERS, TRUE, FALSE, 25, 100), 0);
+}
+
+TEST("KJH: another wild Pokemon calls now and then, from the first turn")
+{
+    EXPECT_EQ(KJH_PackCallChance(FALSE, 0, TRUE, TRUE, 100, 100), KJH_PACK_CALL_ORDINARY);
+    EXPECT_EQ(KJH_PackCallChance(FALSE, 0, FALSE, FALSE, 10, 100), KJH_PACK_CALL_ORDINARY);
+    EXPECT_EQ(KJH_PackCallChance(FALSE, KJH_PACK_MAX_HELPERS, TRUE, FALSE, 100, 100), 0);
+    EXPECT_EQ(KJH_PackAnswerChance(TRUE), KJH_PACK_ANSWER_LEADER);
+    EXPECT_EQ(KJH_PackAnswerChance(FALSE), KJH_PACK_ANSWER_ORDINARY);
+}
+
+TEST("KJH: a helper is at the pack's level or up to 2 below, never under 1")
+{
+    EXPECT_EQ(KJH_PackHelperLevel(13, TRUE, 0), 10);
+    EXPECT_EQ(KJH_PackHelperLevel(13, TRUE, 2), 8);
+    EXPECT_EQ(KJH_PackHelperLevel(10, FALSE, 1), 9);
+    EXPECT_EQ(KJH_PackHelperLevel(2, FALSE, 2), 1);
+}
+
+TEST("KJH: the player's first healthy Pokemon that isn't fighting steps in, listed second")
+{
+    bool8 usable[PARTY_SIZE] = {TRUE, FALSE, TRUE, TRUE, FALSE, FALSE};
+    bool8 alone[PARTY_SIZE] = {TRUE, FALSE, FALSE, FALSE, FALSE, FALSE};
+    u8 order[PARTY_SIZE / 2] = {0x01, 0x23, 0x45};
+
+    EXPECT_EQ(KJH_PackPartnerSlot(usable, 0), 2);
+    EXPECT_EQ(KJH_PackPartnerSlot(usable, 2), 0);
+    EXPECT_EQ(KJH_PackPartnerSlot(alone, 0), KJH_PACK_NO_PARTNER);
+    EXPECT_EQ(KJH_PackEmptySlot(alone, 0), 1);
+
+    KJH_PackPutPartnerSecond(order, 2);
+    EXPECT_EQ(order[0], 0x02);
+    EXPECT_EQ(order[1], 0x13);
+    EXPECT_EQ(order[2], 0x45);
+}
+
+WILD_BATTLE_TEST("KJH: a wild Pokemon that calls for help spends its turn, even when no one answers")
+{
+    u32 speed = 0;
+
+    PARAMETRIZE { speed = 1; }   // the player moves after the call
+    PARAMETRIZE { speed = 200; } // the player moves first: the call comes before it all the same
+
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET) { Speed(speed); }
+        OPPONENT(SPECIES_PIDGEY) { Speed(50); Moves(MOVE_TACKLE); }
+        KJH_PackSetNextEncounter(FALSE);
+    } WHEN {
+        // The calls are rolled at the turn's first move, whoever's it is: a rigged roll applies to its own action
+        TURN { MOVE(player, MOVE_SCRATCH, WITH_RNG(RNG_KJH_PACK_CALL, 0)); MOVE(opponent, MOVE_TACKLE, WITH_RNG(RNG_KJH_PACK_CALL, 0)); }
+    } SCENE {
+        MESSAGE("The wild Pidgey called for help!");
+        MESSAGE("But no one answered!");
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SCRATCH, player);
+        NOT ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
+    } THEN {
+        EXPECT_EQ(KJH_PackHelpers(), 0);
+    }
+}
+
+WILD_BATTLE_TEST("KJH: an ordinary wild Pokemon usually doesn't call for help")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_PIDGEY) { Moves(MOVE_TACKLE); }
+        KJH_PackSetNextEncounter(FALSE);
+    } WHEN {
+        TURN { MOVE(player, MOVE_CELEBRATE); MOVE(opponent, MOVE_TACKLE); }
+    } SCENE {
+        NONE_OF { MESSAGE("The wild Pidgey called for help!"); }
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_TACKLE, opponent);
     }
 }

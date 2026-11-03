@@ -9,6 +9,7 @@
 #include "constants/battle_script_commands.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_string_ids.h"
+#include "constants/kjh_pack.h"
 #include "constants/abilities.h"
 #include "constants/hold_effects.h"
 #include "constants/moves.h"
@@ -3215,6 +3216,50 @@ BattleScript_OverworldWeatherStarts::
 	waitmessage B_WAIT_TIME_LONG
 	playanimation_var BS_BATTLER_0, sB_ANIM_ARG1
 	call BattleScript_ActivateWeatherAbilities
+	end3
+
+@ KJH: a wild Pokemon calls for help, before this turn's moves (ENG-6, src/kjh_pack.c). The call is its turn. The
+@ first helper turns the battle into a double battle and the player's next healthy Pokemon steps in. Started with
+@ BattleScriptPushCursorAndCallback, so it ends with end3 and the turn goes on.
+BattleScript_KjhPackCall::
+	printstring STRINGID_KJH_PACKCALL
+	waitmessage B_WAIT_TIME_LONG
+	kjhpack KJH_PACK_OP_ANSWER, BattleScript_KjhPackNoOne
+	kjhpack KJH_PACK_OP_JUMP_IF_WAITING, BattleScript_KjhPackWaiting
+	kjhpack KJH_PACK_OP_JUMP_IF_DOUBLE, BattleScript_KjhPackFillSlot
+	kjhpack KJH_PACK_OP_TO_DOUBLE
+	kjhpack KJH_PACK_OP_PREPARE_HELPER
+	call BattleScript_KjhPackSendOut
+	kjhpack KJH_PACK_OP_PREPARE_PARTNER, BattleScript_KjhPackEnd
+	call BattleScript_KjhPackSendOut
+BattleScript_KjhPackEnd::
+	switchinevents
+	end3
+
+BattleScript_KjhPackFillSlot::
+	kjhpack KJH_PACK_OP_PREPARE_HELPER
+	call BattleScript_KjhPackSendOut
+	goto BattleScript_KjhPackEnd
+
+@ Sends out the scripting battler (a helper or the player's partner), as a fainted Pokemon's replacement does
+BattleScript_KjhPackSendOut:
+	getswitchedmondata BS_SCRIPTING
+	switchindataupdate BS_SCRIPTING
+	hpthresholds BS_SCRIPTING
+	printstring STRINGID_SWITCHINMON
+	switchinanim BS_SCRIPTING, FALSE, TRUE
+	waitstate
+	switchineffects BS_SCRIPTING
+	return
+
+BattleScript_KjhPackWaiting::
+	printstring STRINGID_KJH_PACKWAITING
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
+BattleScript_KjhPackNoOne::
+	printstring STRINGID_KJH_PACKNOONE
+	waitmessage B_WAIT_TIME_LONG
 	end3
 
 @ KJH: the field bonus (LV-14, src/kjh_field.c)

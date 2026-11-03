@@ -56,6 +56,7 @@ extern const u8 BattleScript_IceBodyHeal[];
 extern const u8 BattleScript_OverworldStatusStarts[];
 extern const u8 BattleScript_OverworldWeatherStarts[];
 extern const u8 BattleScript_KjhFieldStarts[];
+extern const u8 BattleScript_KjhPackCall[]; // KJH: ENG-6
 extern const u8 BattleScript_OverworldSSWeatherStarts[];
 extern const u8 BattleScript_OverworldTerrain[];
 extern const u8 BattleScript_OverworldHazard[];

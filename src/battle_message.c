@@ -91,6 +91,8 @@ static const u8 sText_PlayerDefeatedLinkTrainerTrainer1[] = _("You defeated {B_T
 static const u8 sText_OpponentMon1Appeared[] = _("{B_OPPONENT_MON1_NAME} appeared!\p");
 static const u8 sText_WildPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_KjhWildLeaderAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\nIt leads a pack!\p"); // KJH: ENG-6
+static const u8 sText_KjhPackJoinedLeft[] = _("Another wild {B_OPPONENT_MON1_NAME}\njoined the fight!"); // KJH: ENG-6
+static const u8 sText_KjhPackJoinedRight[] = _("Another wild {B_OPPONENT_MON2_NAME}\njoined the fight!");
 static const u8 sText_LegendaryPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_WildPkmnAppearedPause[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!{PAUSE 127}");
 static const u8 sText_TwoWildPkmnAppeared[] = _("Oh! A wild {B_OPPONENT_MON1_NAME} and {B_OPPONENT_MON2_NAME} appeared!\p");
@@ -463,6 +465,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ITEMALLOWSONLYYMOVE]                  = COMPOUND_STRING("{B_LAST_ITEM} only allows the use of {B_CURRENT_MOVE}!\p"),
     [STRINGID_PKMNHUNGONWITHX]                      = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} hung on using its {B_LAST_ITEM}!"),
     [STRINGID_EMPTYSTRING3]                         = gText_EmptyString3,
+    [STRINGID_KJH_PACKCALL]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} called for help!"), // KJH: ENG-6
+    [STRINGID_KJH_PACKNOONE]                        = COMPOUND_STRING("But no one answered!"),
+    [STRINGID_KJH_PACKWAITING]                      = COMPOUND_STRING("Another {B_BUFF1} answered!\nIt waits for a free spot."),
     [STRINGID_PKMNSXRESTOREDHPALITTLE2]             = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} had its HP restored."),
     [STRINGID_PKMNSXWHIPPEDUPSANDSTORM]             = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_SCR_ABILITY} whipped up a sandstorm!"), //not in gen 5+, ability popup
     [STRINGID_PKMNSXPREVENTSYLOSS]                  = COMPOUND_STRING("{B_SCR_NAME_WITH_PREFIX}'s {B_BUFF1} was not lowered!"),
@@ -2656,7 +2661,9 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         }
         break;
     case STRINGID_SWITCHINMON: // switch-in msg
-        if ((GetBattlerPosition(gBattleScripting.battler) & BIT_FLANK) == B_FLANK_LEFT) // battler 0 and 1
+        if (KJH_PackIsHelperSendOut(gBattleScripting.battler)) // KJH: a wild pack's helper (ENG-6)
+            stringPtr = (GetBattlerPosition(gBattleScripting.battler) & BIT_FLANK) == B_FLANK_LEFT ? sText_KjhPackJoinedLeft : sText_KjhPackJoinedRight;
+        else if ((GetBattlerPosition(gBattleScripting.battler) & BIT_FLANK) == B_FLANK_LEFT) // battler 0 and 1
         {
             if (BattlerIsPlayer(gBattleScripting.battler)) // Player
             {

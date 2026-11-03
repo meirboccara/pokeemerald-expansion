@@ -260,6 +260,9 @@ enum RandomTag
     RNG_RANDOM_BALL,
     RNG_KJH_PACK_LEADER, // KJH: a wild Pokemon leads a pack (src/kjh_pack.c, ENG-6); 0: it leads one
     RNG_KJH_BOND_SHAKE,  // KJH: Bond 10/19 shakes off confusion, infatuation or a status (src/kjh_bond.c, LV-6)
+    RNG_KJH_PACK_CALL,   // KJH: it calls for help this turn; 0: it calls
+    RNG_KJH_PACK_ANSWER, // KJH: someone answers; 0: a helper comes
+    RNG_KJH_PACK_HELPER_LEVEL, // KJH: a helper is 0 to 2 levels under the pack's level
 };
 
 #define RandomWeighted(tag, ...) \
