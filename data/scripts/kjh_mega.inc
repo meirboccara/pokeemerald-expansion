@@ -51,10 +51,14 @@ KJH_EventScript_MegaResearcherAgain::
 	goto KJH_EventScript_MegaResearcherExplain
 
 @ The starter of the region VAR_0x8004 (KJH_MEGA_STARTER_*) steps forward: its picture, then its Mega form's;
-@ otherwise what it still needs. Typhlosion has no Mega: its player picks a free stone (LV-23).
+@ otherwise what it still needs. Typhlosion has no Mega: its player picks a free stone (LV-23), as in Hoenn a player
+@ without Prof. Birch's starter.
 KJH_EventScript_MegaStarterScene::
 	callnative KJH_ScriptMegaStarterReady, requests_effects=1
-	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_NO_MEGA, KJH_EventScript_MegaTyphlosionPick
+	goto_if_ne VAR_RESULT, KJH_MEGA_STARTER_NO_MEGA, KJH_EventScript_MegaStarterSceneHasMega
+	goto_if_eq VAR_0x8004, KJH_MEGA_STARTER_HOENN, KJH_EventScript_MegaHoennPick
+	goto KJH_EventScript_MegaTyphlosionPick
+KJH_EventScript_MegaStarterSceneHasMega::
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_MISSING, KJH_EventScript_MegaStarterMissing
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_EVOLVE, KJH_EventScript_MegaStarterEvolve
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_BOND, KJH_EventScript_MegaStoneWaiting
@@ -71,11 +75,16 @@ KJH_EventScript_MegaStarterScene::
 	hidemonpic
 KJH_EventScript_MegaSceneDone::
 	goto_if_eq VAR_0x8004, KJH_MEGA_STARTER_JOHTO, KJH_EventScript_MegaJohtoSceneDone
+	goto_if_eq VAR_0x8004, KJH_MEGA_STARTER_HOENN, KJH_EventScript_MegaHoennSceneDone
 	setflag FLAG_KJH_MEGA_FIRST_SCENE
 	return
 
 KJH_EventScript_MegaJohtoSceneDone::
 	setflag FLAG_KJH_JOHTO_MEGA_SCENE
+	return
+
+KJH_EventScript_MegaHoennSceneDone::
+	setflag FLAG_KJH_HOENN_MEGA_SCENE
 	return
 
 @ Typhlosion's player picks one stone of Johto's list, for free
@@ -599,3 +608,282 @@ KJH_Text_MegaStoneDealerJohtoNotYet::
 	.string "BRACELET is silent in JOHTO.\p"
 	.string "The researchers at the RUINS OF\n"
 	.string "ALPH might know why.$"
+
+@ LV-23: Hoenn. The bracelet is silent here until the Meteor Falls quest: after 4 Hoenn badges the MEGA RESEARCHER
+@ visiting PROF. COZMO in Fallarbor Town sends the player to Meteor Falls, where a fragment of the meteorite TEAM
+@ MAGMA took still glows (Meteor Falls 1F, past Cozmo's spot; FLAG_KJH_HOENN_BRACELET hides it once taken). Then
+@ Hoenn's starter scene (Prof. Birch's: Sceptilite, Blazikenite or Swampertite), and Slateport's dealer opens.
+KJH_EventScript_HoennMegaResearcher::
+	lock
+	faceplayer
+	goto_if_set FLAG_KJH_HOENN_BRACELET, KJH_EventScript_HoennMegaResearcherAfter
+	goto_if_set FLAG_KJH_HOENN_MEGA_QUEST, KJH_EventScript_HoennMegaResearcherGo
+	checkitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_HoennMegaResearcherNoBracelet
+	callnative KJH_ScriptCountHoennBadges, requests_effects=1
+	goto_if_lt VAR_RESULT, 4, KJH_EventScript_HoennMegaResearcherNotYet
+	msgbox KJH_Text_HoennMegaResearcherQuest
+	setflag FLAG_KJH_HOENN_MEGA_QUEST
+	release
+	end
+
+KJH_EventScript_HoennMegaResearcherGo::
+	msgbox KJH_Text_HoennMegaResearcherGo
+	release
+	end
+
+KJH_EventScript_HoennMegaResearcherNoBracelet::
+	msgbox KJH_Text_HoennMegaResearcherNoBracelet
+	release
+	end
+
+KJH_EventScript_HoennMegaResearcherNotYet::
+	msgbox KJH_Text_HoennMegaResearcherNotYet
+	release
+	end
+
+@ The bracelet works in Hoenn: the starter's scene, if it is still owed
+KJH_EventScript_HoennMegaResearcherAfter::
+	goto_if_set FLAG_KJH_HOENN_MEGA_SCENE, KJH_EventScript_HoennMegaResearcherDone
+	setvar VAR_0x8004, KJH_MEGA_STARTER_HOENN
+	call KJH_EventScript_MegaStarterScene
+KJH_EventScript_HoennMegaResearcherDone::
+	msgbox KJH_Text_HoennMegaResearcherDone
+	release
+	end
+
+@ Meteor Falls 1F: the meteorite fragment
+KJH_EventScript_HoennMeteoriteFragment::
+	lock
+	goto_if_unset FLAG_KJH_HOENN_MEGA_QUEST, KJH_EventScript_HoennMeteoriteFragmentAsleep
+	checkitemspace ITEM_SCEPTILITE
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_HoennMeteoriteFragmentBagFull
+	msgbox KJH_Text_HoennMeteoriteFragment
+	setflag FLAG_KJH_HOENN_BRACELET
+	removeobject VAR_LAST_TALKED
+	playfanfare MUS_RG_OBTAIN_KEY_ITEM
+	waitfanfare
+	msgbox KJH_Text_HoennBraceletWorks
+	callnative KJH_ScriptHoennStarterStone, requests_effects=1
+	goto_if_eq VAR_RESULT, ITEM_NONE, KJH_EventScript_HoennMeteoriteFragmentScene
+	copyvar VAR_0x8009, VAR_RESULT
+	msgbox KJH_Text_HoennStarterStone
+	giveitem VAR_0x8009
+KJH_EventScript_HoennMeteoriteFragmentScene::
+	setvar VAR_0x8004, KJH_MEGA_STARTER_HOENN
+	call KJH_EventScript_MegaStarterScene
+	release
+	end
+
+KJH_EventScript_HoennMeteoriteFragmentAsleep::
+	msgbox KJH_Text_HoennMeteoriteFragmentAsleep
+	release
+	end
+
+KJH_EventScript_HoennMeteoriteFragmentBagFull::
+	msgbox KJH_Text_MegaResearcherBagFull
+	release
+	end
+
+@ A player without Prof. Birch's starter picks one stone of Hoenn's list, for free (as Typhlosion's in Johto); the
+@ options' ids are the stones
+KJH_EventScript_MegaHoennPick::
+	msgbox KJH_Text_MegaHoennPick
+	dynmultipush KJH_Text_Sceptilite, ITEM_SCEPTILITE
+	dynmultipush KJH_Text_Blazikenite, ITEM_BLAZIKENITE
+	dynmultipush KJH_Text_Swampertite, ITEM_SWAMPERTITE
+	dynmultipush KJH_Text_Gardevoirite, ITEM_GARDEVOIRITE
+	dynmultipush KJH_Text_Sablenite, ITEM_SABLENITE
+	dynmultipush KJH_Text_Mawilite, ITEM_MAWILITE
+	dynmultipush KJH_Text_Aggronite, ITEM_AGGRONITE
+	dynmultipush KJH_Text_Medichamite, ITEM_MEDICHAMITE
+	dynmultipush KJH_Text_Manectite, ITEM_MANECTITE
+	dynmultipush KJH_Text_Sharpedonite, ITEM_SHARPEDONITE
+	dynmultipush KJH_Text_Cameruptite, ITEM_CAMERUPTITE
+	dynmultipush KJH_Text_Altarianite, ITEM_ALTARIANITE
+	dynmultipush KJH_Text_Banettite, ITEM_BANETTITE
+	dynmultipush KJH_Text_Chimechite, ITEM_CHIMECHITE
+	dynmultipush KJH_Text_Absolite, ITEM_ABSOLITE
+	dynmultipush KJH_Text_AbsoliteZ, ITEM_ABSOLITE_Z
+	dynmultipush KJH_Text_Glalitite, ITEM_GLALITITE
+	dynmultistack 0, 0, TRUE, 6, FALSE, 0, NULL @ B does nothing: the player must pick
+	copyvar VAR_0x8005, VAR_RESULT @ giveitem sets VAR_RESULT
+	giveitem VAR_0x8005
+	goto KJH_EventScript_MegaSceneDone
+
+@ Slateport City's Pokemon Center
+KJH_EventScript_MegaStoneDealerHoenn::
+	lock
+	faceplayer
+	goto_if_set FLAG_KJH_HOENN_BRACELET, KJH_EventScript_MegaStoneDealerHoennOpen
+	goto_if_set FLAG_KJH_LEVELLESS, KJH_EventScript_MegaStoneDealerHoennNotYet
+	checkitem ITEM_MEGA_RING @ the classic game: the bracelet works everywhere
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MegaStoneDealerNotYet
+KJH_EventScript_MegaStoneDealerHoennOpen::
+	message KJH_Text_MegaStoneDealerHoenn
+	waitmessage
+	pokemart KJH_Mart_MegaStonesHoenn
+	msgbox KJH_Text_MegaStoneDealerBye
+	release
+	end
+
+KJH_EventScript_MegaStoneDealerHoennNotYet::
+	msgbox KJH_Text_MegaStoneDealerHoennNotYet
+	release
+	end
+
+@ Never sold (src/kjh_mega.c, sNeverSoldStones): Meteor Falls B1F's Bagon room, Mossdeep's Space Center 2F, Sky
+@ Pillar's entrance cave
+KJH_EventScript_ItemSalamencite::
+	finditem ITEM_SALAMENCITE
+	end
+
+KJH_EventScript_ItemMetagrossite::
+	finditem ITEM_METAGROSSITE
+	end
+
+KJH_EventScript_ItemLatiasite::
+	finditem ITEM_LATIASITE
+	end
+
+KJH_EventScript_ItemLatiosite::
+	finditem ITEM_LATIOSITE
+	end
+
+@ Hoenn's ordinary stones; never Salamencite, Metagrossite, Latiasite or Latiosite
+	.align 2
+KJH_Mart_MegaStonesHoenn::
+	.2byte ITEM_SCEPTILITE
+	.2byte ITEM_BLAZIKENITE
+	.2byte ITEM_SWAMPERTITE
+	.2byte ITEM_GARDEVOIRITE
+	.2byte ITEM_SABLENITE
+	.2byte ITEM_MAWILITE
+	.2byte ITEM_AGGRONITE
+	.2byte ITEM_MEDICHAMITE
+	.2byte ITEM_MANECTITE
+	.2byte ITEM_SHARPEDONITE
+	.2byte ITEM_CAMERUPTITE
+	.2byte ITEM_ALTARIANITE
+	.2byte ITEM_BANETTITE
+	.2byte ITEM_CHIMECHITE
+	.2byte ITEM_ABSOLITE
+	.2byte ITEM_ABSOLITE_Z
+	.2byte ITEM_GLALITITE
+	.2byte ITEM_NONE
+	release
+	end
+
+KJH_Text_MegaHoennPick::
+	.string "This stone glows, but no partner\n"
+	.string "from PROF. BIRCH is here for it…\p"
+	.string "Then let it become another MEGA\n"
+	.string "STONE. Which one would you like?$"
+
+KJH_Text_Sceptilite::
+	.string "SCEPTILITE$"
+
+KJH_Text_Blazikenite::
+	.string "BLAZIKENITE$"
+
+KJH_Text_Swampertite::
+	.string "SWAMPERTITE$"
+
+KJH_Text_Gardevoirite::
+	.string "GARDEVOIRITE$"
+
+KJH_Text_Sablenite::
+	.string "SABLENITE$"
+
+KJH_Text_Mawilite::
+	.string "MAWILITE$"
+
+KJH_Text_Aggronite::
+	.string "AGGRONITE$"
+
+KJH_Text_Medichamite::
+	.string "MEDICHAMITE$"
+
+KJH_Text_Manectite::
+	.string "MANECTITE$"
+
+KJH_Text_Sharpedonite::
+	.string "SHARPEDONITE$"
+
+KJH_Text_Cameruptite::
+	.string "CAMERUPTITE$"
+
+KJH_Text_Altarianite::
+	.string "ALTARIANITE$"
+
+KJH_Text_Banettite::
+	.string "BANETTITE$"
+
+KJH_Text_Chimechite::
+	.string "CHIMECHITE$"
+
+KJH_Text_Absolite::
+	.string "ABSOLITE$"
+
+KJH_Text_AbsoliteZ::
+	.string "ABSOLITE Z$"
+
+KJH_Text_Glalitite::
+	.string "GLALITITE$"
+
+KJH_Text_HoennStarterStone::
+	.string "Another stone glows next to the\n"
+	.string "partner PROF. BIRCH gave you!$"
+
+KJH_Text_HoennMegaResearcherNoBracelet::
+	.string "PROF. COZMO's meteorites hum with\n"
+	.string "the power of MEGA EVOLUTION.\p"
+	.string "Without a MEGA BRACELET, though,\n"
+	.string "it means nothing.$"
+
+KJH_Text_HoennMegaResearcherNotYet::
+	.string "Your BRACELET is silent in HOENN?\n"
+	.string "The stars here speak another way.\p"
+	.string "Come back with four HOENN BADGES,\n"
+	.string "and I'll tell you what I found.$"
+
+KJH_Text_HoennMegaResearcherQuest::
+	.string "Four BADGES! Listen.\p"
+	.string "TEAM MAGMA took the meteorite from\n"
+	.string "METEOR FALLS, but not all of it.\p"
+	.string "A fragment broke off near where\n"
+	.string "PROF. COZMO stood. It still glows.\p"
+	.string "A star that fell on HOENN might\n"
+	.string "wake your BRACELET. Go and see!$"
+
+KJH_Text_HoennMegaResearcherGo::
+	.string "The fragment lies in METEOR FALLS,\n"
+	.string "past the spot where PROF. COZMO\l"
+	.string "met TEAM MAGMA.$"
+
+KJH_Text_HoennMegaResearcherDone::
+	.string "Your BRACELET hums with HOENN's\n"
+	.string "fallen star now. Wonderful!$"
+
+KJH_Text_HoennMeteoriteFragmentAsleep::
+	.string "A small dark rock, warm to the\n"
+	.string "touch. Did it fall from the sky?$"
+
+KJH_Text_HoennMeteoriteFragment::
+	.string "The fragment glows with starlight!\p"
+	.string "It answers your BRACELET: a piece\n"
+	.string "of the METEORITE!$"
+
+KJH_Text_HoennBraceletWorks::
+	.string "The MEGA BRACELET works in HOENN\n"
+	.string "now!$"
+
+KJH_Text_MegaStoneDealerHoenn::
+	.string "MEGA STONES! I have the ones of\n"
+	.string "HOENN's POKéMON.$"
+
+KJH_Text_MegaStoneDealerHoennNotYet::
+	.string "I sell MEGA STONES, but your\n"
+	.string "BRACELET is silent in HOENN.\p"
+	.string "A researcher is visiting PROF.\n"
+	.string "COZMO in FALLARBOR TOWN…$"

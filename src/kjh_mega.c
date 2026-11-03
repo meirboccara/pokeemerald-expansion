@@ -11,6 +11,7 @@
 #include "kjh_power_cap.h"
 #include "kjh_team_level.h"
 #include "party_menu.h"
+#include "pokemon_storage_system.h"
 #include "tv.h"
 #include "pokemon.h"
 #include "script.h"
@@ -84,8 +85,8 @@ bool32 KJH_IsBraceletActiveHere(void)
 
     if (!CheckBagHasItem(ITEM_MEGA_RING, 1))
         return FALSE;
-    // In the levels-free game it works on Kanto's maps, and on Johto's once the Ruins of Alph quest is done (LV-23);
-    // Hoenn's is silent until its quest
+    // In the levels-free game it works on Kanto's maps, on Johto's once the Ruins of Alph quest is done and on Hoenn's
+    // once the Meteor Falls quest is (LV-23)
     if (!KJH_IsLevelsFree())
         return TRUE;
     switch (KJH_RegionOf(gMapHeader.regionMapSectionId, map))
@@ -94,6 +95,8 @@ bool32 KJH_IsBraceletActiveHere(void)
         return TRUE;
     case KJH_REGION_JOHTO:
         return FlagGet(FLAG_KJH_JOHTO_BRACELET);
+    case KJH_REGION_HOENN:
+        return FlagGet(FLAG_KJH_HOENN_BRACELET);
     default:
         return FALSE;
     }
@@ -345,9 +348,60 @@ static const struct { u16 flag; enum Species line[3]; } sJohtoStarterLines[] =
     {FLAG_J_GOT_TOTODILE_FROM_ELM, {SPECIES_TOTODILE, SPECIES_CROCONAW, SPECIES_FERALIGATR}},
 };
 
-// The starter line of the region VAR_0x8004 (Johto: Elm's the player got; NULL if none, a free pick like Typhlosion's)
+// LV-23: Prof. Birch's. Emerald keeps the pick in VAR_STARTER_MON, which is Kanto's here: the line is found from
+// the player's own Pokemon instead
+static const enum Species sHoennStarterLines[][3] =
+{
+    {SPECIES_TREECKO, SPECIES_GROVYLE, SPECIES_SCEPTILE},
+    {SPECIES_TORCHIC, SPECIES_COMBUSKEN, SPECIES_BLAZIKEN},
+    {SPECIES_MUDKIP, SPECIES_MARSHTOMP, SPECIES_SWAMPERT},
+};
+
+static const enum Species *HoennLineOf(struct BoxPokemon *boxMon)
+{
+    enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
+
+    if (species == SPECIES_NONE || GetBoxMonData(boxMon, MON_DATA_IS_EGG)
+     || GetBoxMonData(boxMon, MON_DATA_OT_ID) != GetPlayerIDAsU32())
+        return NULL;
+    for (u32 i = 0; i < ARRAY_COUNT(sHoennStarterLines); i++)
+    {
+        for (u32 s = 0; s < ARRAY_COUNT(sHoennStarterLines[0]); s++)
+        {
+            if (species == sHoennStarterLines[i][s])
+                return sHoennStarterLines[i];
+        }
+    }
+    return NULL;
+}
+
+// The line of the player's own Treecko, Torchic or Mudkip family: the party first, then the PC; NULL without one
+static const enum Species *HoennStarterLine(void)
+{
+    const enum Species *line;
+
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if ((line = HoennLineOf(&gPlayerParty[i].box)) != NULL)
+            return line;
+    }
+    for (u32 box = 0; box < TOTAL_BOXES_COUNT; box++)
+    {
+        for (u32 pos = 0; pos < IN_BOX_COUNT; pos++)
+        {
+            if ((line = HoennLineOf(GetBoxedMonPtr(box, pos))) != NULL)
+                return line;
+        }
+    }
+    return NULL;
+}
+
+// The starter line of the region VAR_0x8004 (Johto: Elm's the player got; Hoenn: Birch's; NULL if none, a free pick
+// like Typhlosion's)
 static const enum Species *StarterLine(void)
 {
+    if (gSpecialVar_0x8004 == KJH_MEGA_STARTER_HOENN)
+        return HoennStarterLine();
     if (gSpecialVar_0x8004 == KJH_MEGA_STARTER_JOHTO)
     {
         for (u32 i = 0; i < ARRAY_COUNT(sJohtoStarterLines); i++)
@@ -385,7 +439,7 @@ void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx)
     Script_RequestEffects(SCREFF_V1);
     if (line == NULL || !KJH_SpeciesHasMega(line[2]))
     {
-        gSpecialVar_Result = KJH_MEGA_STARTER_NO_MEGA; // Typhlosion, or no starter from Prof. Elm
+        gSpecialVar_Result = KJH_MEGA_STARTER_NO_MEGA; // Typhlosion, or no starter from Prof. Elm or Birch
         return;
     }
     for (u32 i = 0; i < PARTY_SIZE; i++)
@@ -428,18 +482,18 @@ void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx)
     gSpecialVar_Result = KJH_MEGA_STARTER_READY;
 }
 
-// The never-sold list (docs/MEGA.md in the KJH repo): each is found in a place tied to its Pokemon (Kanto: Mewtwonite X and Y in
-// Cerulean Cave); the others' places come with their regions
+// The never-sold list (docs/MEGA.md in the KJH repo): each is found in a place tied to its Pokemon, as an item ball
+// (data/scripts/kjh_mega.inc); never an Alpha's drop (LV-22)
 static const enum Item sNeverSoldStones[] =
 {
     ITEM_DRAGONINITE,     // Dragon's Den (Johto)
     ITEM_MEWTWONITE_X,    // Cerulean Cave
     ITEM_MEWTWONITE_Y,    // Cerulean Cave
     ITEM_TYRANITARITE,    // Mt. Silver (Johto)
-    ITEM_SALAMENCITE,     // Hoenn
-    ITEM_METAGROSSITE,    // Mossdeep's space center (Hoenn)
-    ITEM_LATIASITE,       // Hoenn
-    ITEM_LATIOSITE,       // Hoenn
+    ITEM_SALAMENCITE,     // Meteor Falls B1F, the Bagon room (Hoenn)
+    ITEM_METAGROSSITE,    // Mossdeep's Space Center 2F (Hoenn)
+    ITEM_LATIASITE,       // Sky Pillar's entrance cave (Hoenn)
+    ITEM_LATIOSITE,       // Sky Pillar's entrance cave (Hoenn)
 };
 
 bool32 KJH_IsNeverSoldStone(enum Item item)
@@ -573,4 +627,25 @@ void KJH_ScriptCountJohtoBadges(struct ScriptContext *ctx)
             count++;
     }
     gSpecialVar_Result = count;
+}
+
+void KJH_ScriptCountHoennBadges(struct ScriptContext *ctx)
+{
+    u32 count = 0;
+
+    Script_RequestEffects(SCREFF_V1);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        if (FlagGet(FLAG_HOENN_BADGE01_GET + i))
+            count++;
+    }
+    gSpecialVar_Result = count;
+}
+
+void KJH_ScriptHoennStarterStone(struct ScriptContext *ctx)
+{
+    const enum Species *line = HoennStarterLine();
+
+    Script_RequestEffects(SCREFF_V1);
+    gSpecialVar_Result = line == NULL ? ITEM_NONE : KJH_MegaStoneForSpecies(line[2]);
 }

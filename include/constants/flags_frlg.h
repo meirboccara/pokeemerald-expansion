@@ -2777,4 +2777,13 @@
 // KJH (ENG-9, Hoenn): the "emerald flags" above, 0 here, are Hoenn's flags in SaveBlock3 (HOENN_FLAG, after Johto's)
 #include "constants/hoenn_flags.h"
 
+// KJH (LV-23, Hoenn): Hoenn's Mega quest and never-sold stones, in Emerald's unused 0x900-0x90B (ENG-9's claims)
+#define FLAG_KJH_HOENN_BRACELET     FLAG_UNUSED_0x900 // the bracelet works in Hoenn: the meteorite fragment taken
+#define FLAG_KJH_HOENN_MEGA_QUEST   FLAG_UNUSED_0x901 // Fallarbor's researcher sent the player to Meteor Falls
+#define FLAG_KJH_HOENN_MEGA_SCENE   FLAG_UNUSED_0x902 // Hoenn's starter scene played
+#define FLAG_KJH_HIDE_SALAMENCITE   FLAG_UNUSED_0x903 // Meteor Falls B1F's Bagon room
+#define FLAG_KJH_HIDE_METAGROSSITE  FLAG_UNUSED_0x904 // Mossdeep's Space Center 2F
+#define FLAG_KJH_HIDE_LATIASITE     FLAG_UNUSED_0x905 // Sky Pillar's entrance cave
+#define FLAG_KJH_HIDE_LATIOSITE     FLAG_UNUSED_0x906 // Sky Pillar's entrance cave
+
 #endif // GUARD_CONSTANTS_FLAGS_H

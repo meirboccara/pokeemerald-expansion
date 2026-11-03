@@ -12,5 +12,6 @@
 // The region of the starter (VAR_0x8004 for KJH_ScriptMegaStarterReady)
 #define KJH_MEGA_STARTER_KANTO 0 // VAR_STARTER_MON
 #define KJH_MEGA_STARTER_JOHTO 1 // Prof. Elm's: FLAG_J_GOT_*_FROM_ELM
+#define KJH_MEGA_STARTER_HOENN 2 // Prof. Birch's: the player's own Treecko, Torchic or Mudkip line (LV-23)
 
 #endif // GUARD_CONSTANTS_KJH_MEGA_H

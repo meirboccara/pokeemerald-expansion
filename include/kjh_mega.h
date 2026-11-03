@@ -66,6 +66,12 @@ enum Ability KJH_HeldBackMegaAbility(enum BattlerId battler, enum Ability abilit
 // callnative: VAR_RESULT = Johto's badges (the Ruins of Alph researcher's 4)
 void KJH_ScriptCountJohtoBadges(struct ScriptContext *ctx);
 
+// callnative: VAR_RESULT = Hoenn's badges (Fallarbor's researcher's 4)
+void KJH_ScriptCountHoennBadges(struct ScriptContext *ctx);
+// callnative: VAR_RESULT = the Mega Stone of Prof. Birch's starter (the player's own Treecko, Torchic or Mudkip line,
+// in the party or the PC), ITEM_NONE without one (the scene's free pick)
+void KJH_ScriptHoennStarterStone(struct ScriptContext *ctx);
+
 // callnative: VAR_RESULT = Kanto's badges (the researcher's 6)
 void KJH_ScriptCountKantoBadges(struct ScriptContext *ctx);
 
