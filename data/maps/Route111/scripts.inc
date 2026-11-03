@@ -6,7 +6,7 @@ Route111_MapScripts::
 	.byte 0
 
 Route111_OnLoad:
-	call_if_unset FLAG_REGI_DOORS_OPENED, Route111_EventScript_CloseDesertRuins
+	call_if_unset FLAG_BADGE08_GET, Route111_EventScript_CloseDesertRuins @ KJH (ENG-10): the 8th Hoenn badge opens the tombs, no Sealed Chamber
 	call_if_eq VAR_MIRAGE_TOWER_STATE, 1, Route111_EventScript_ShowTemporaryMirageTower
 	end
 

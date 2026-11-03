@@ -77,7 +77,7 @@ BirthIsland_Exterior_Frlg_EventScript_Deoxys::
 	delay 40
 	waitmoncry
 	setvar VAR_LAST_TALKED, LOCALID_BIRTH_ISLAND_DEOXYS
-	seteventmon SPECIES_DEOXYS, 30
+	seteventmon SPECIES_DEOXYS, 90 @ KJH (ENG-10): docs/LEGENDARIES.md
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle

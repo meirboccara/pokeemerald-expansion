@@ -4,8 +4,7 @@ NavelRock_Summit_Frlg_MapScripts::
 	.byte 0
 
 NavelRock_Summit_OnTransition::
-	call_if_set FLAG_FOUGHT_HO_OH, NavelRock_Summit_EventScript_HideHoOh
-	call_if_unset FLAG_FOUGHT_HO_OH, NavelRock_Summit_EventScript_TryShowHoOh
+	call NavelRock_Summit_EventScript_HideHoOh @ KJH (ENG-10): Ho-Oh lives on Tin Tower's roof (docs/LEGENDARIES.md)
 	end
 
 NavelRock_Summit_EventScript_HideHoOh::

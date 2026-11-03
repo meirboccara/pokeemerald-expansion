@@ -1,3 +1,5 @@
+@ KJH (ENG-10): Mew waits here, Lv 90, in Lugia's place: Lugia lives in Johto's Whirl Islands
+@ (docs/LEGENDARIES.md). The flags keep their FireRed names (FLAG_FOUGHT_LUGIA, ...)
 NavelRock_Base_Frlg_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, NavelRock_Base_Frlg_OnTransition
 	map_script MAP_SCRIPT_ON_RESUME, NavelRock_Base_Frlg_OnResume
@@ -48,10 +50,10 @@ NavelRock_Base_Frlg_EventScript_Lugia::
 	delay 30
 	delay 50
 	waitse
-	playmoncry SPECIES_LUGIA, CRY_MODE_ENCOUNTER
+	playmoncry SPECIES_MEW, CRY_MODE_ENCOUNTER
 	waitmoncry
 	delay 20
-	seteventmon SPECIES_LUGIA, 70
+	seteventmon SPECIES_MEW, 90
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special BattleSetup_StartLegendaryBattle
@@ -66,11 +68,11 @@ NavelRock_Base_Frlg_EventScript_Lugia::
 
 NavelRock_Base_Frlg_EventScript_DefeatedLugia::
 	setflag FLAG_LUGIA_FLEW_AWAY
-	setvar VAR_0x8004, SPECIES_LUGIA
+	setvar VAR_0x8004, SPECIES_MEW
 	goto EventScript_MonFlewAway
 	end
 
 NavelRock_Base_Frlg_EventScript_RanFromLugia::
-	setvar VAR_0x8004, SPECIES_LUGIA
+	setvar VAR_0x8004, SPECIES_MEW
 	goto EventScript_MonFlewAway
 	end

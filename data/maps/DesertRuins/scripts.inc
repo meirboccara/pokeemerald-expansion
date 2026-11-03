@@ -15,7 +15,7 @@ DesertRuins_EventScript_TryRemoveRegirock::
 	return
 
 DesertRuins_OnLoad:
-	call_if_unset FLAG_SYS_REGIROCK_PUZZLE_COMPLETED, DesertRuins_EventScript_HideRegiEntrance
+	call_if_unset FLAG_BADGE08_GET, DesertRuins_EventScript_HideRegiEntrance @ KJH (ENG-10): open with the 8th Hoenn badge, no braille puzzle
 	end
 
 DesertRuins_EventScript_HideRegiEntrance::
@@ -38,7 +38,7 @@ DesertRuins_EventScript_ShowRegirock::
 
 DesertRuins_EventScript_CaveEntranceMiddle::
 	lockall
-	goto_if_set FLAG_SYS_REGIROCK_PUZZLE_COMPLETED, DesertRuins_EventScript_BigHoleInWall
+	goto_if_set FLAG_BADGE08_GET, DesertRuins_EventScript_BigHoleInWall @ KJH (ENG-10)
 	braillemsgbox DesertRuins_Braille_UseRockSmash
 	releaseall
 	end
@@ -61,8 +61,9 @@ DesertRuins_EventScript_Regirock::
 	playmoncry SPECIES_REGIROCK, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_REGIROCK, 40
+	setwildbattle SPECIES_REGIROCK, 92 @ KJH (ENG-10): docs/LEGENDARIES.md
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special StartRegiBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

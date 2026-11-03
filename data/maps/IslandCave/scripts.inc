@@ -15,7 +15,7 @@ IslandCave_EventScript_TryRemoveRegice::
 	return
 
 IslandCave_OnLoad:
-	call_if_unset FLAG_SYS_BRAILLE_REGICE_COMPLETED, IslandCave_EventScript_HideRegiEntrance
+	call_if_unset FLAG_BADGE08_GET, IslandCave_EventScript_HideRegiEntrance @ KJH (ENG-10): open with the 8th Hoenn badge, no braille puzzle
 	end
 
 IslandCave_EventScript_HideRegiEntrance::
@@ -52,7 +52,7 @@ IslandCave_EventScript_OpenRegiEntrance::
 IslandCave_EventScript_CaveEntranceMiddle::
 	lockall
 	call_if_set FLAG_TEMP_REGICE_PUZZLE_FAILED, IslandCave_EventScript_ClearSteps
-	goto_if_set FLAG_SYS_BRAILLE_REGICE_COMPLETED, IslandCave_EventScript_BigHoleInWall
+	goto_if_set FLAG_BADGE08_GET, IslandCave_EventScript_BigHoleInWall @ KJH (ENG-10)
 	braillemessage IslandCave_Braille_RunLapAroundWall
 	setflag FLAG_TEMP_REGICE_PUZZLE_STARTED
 	special ShouldDoBrailleRegicePuzzle
@@ -94,8 +94,9 @@ IslandCave_EventScript_Regice::
 	playmoncry SPECIES_REGICE, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_REGICE, 40
+	setwildbattle SPECIES_REGICE, 92 @ KJH (ENG-10): docs/LEGENDARIES.md
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special StartRegiBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

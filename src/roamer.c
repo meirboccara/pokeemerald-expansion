@@ -155,6 +155,11 @@ bool8 TryAddRoamer(enum Species species, u8 level)
 // gSpecialVar_0x8004 here corresponds to the options in the multichoice MULTI_TV_LATI (0 for 'Red', 1 for 'Blue')
 void InitRoamer(void)
 {
+#if IS_FRLG
+    // KJH: no roaming legendaries (LEGENDARIES.md rule 1 in the KJH repo): every legendary is a static encounter, so
+    // neither Emerald's TV news (Latias or Latios) nor FireRed's One Island call starts a roamer.
+    return;
+#endif
     if (gSpecialVar_0x8004 == 0) // Red
         TryAddRoamer(SPECIES_LATIAS, 40);
     else

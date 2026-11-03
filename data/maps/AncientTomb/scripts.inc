@@ -24,7 +24,7 @@ AncientTomb_EventScript_ShowRegisteel::
 	return
 
 AncientTomb_OnLoad:
-	call_if_unset FLAG_SYS_REGISTEEL_PUZZLE_COMPLETED, AncientTomb_EventScript_HideRegiEntrance
+	call_if_unset FLAG_BADGE08_GET, AncientTomb_EventScript_HideRegiEntrance @ KJH (ENG-10): open with the 8th Hoenn badge, no braille puzzle
 	end
 
 AncientTomb_EventScript_HideRegiEntrance::
@@ -38,7 +38,7 @@ AncientTomb_EventScript_HideRegiEntrance::
 
 AncientTomb_EventScript_CaveEntranceMiddle::
 	lockall
-	goto_if_set FLAG_SYS_REGISTEEL_PUZZLE_COMPLETED, AncientTomb_EventScript_BigHoleInWall
+	goto_if_set FLAG_BADGE08_GET, AncientTomb_EventScript_BigHoleInWall @ KJH (ENG-10)
 	braillemsgbox AncientTomb_Braille_ShineInTheMiddle
 	releaseall
 	end
@@ -61,8 +61,9 @@ AncientTomb_EventScript_Registeel::
 	playmoncry SPECIES_REGISTEEL, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_REGISTEEL, 40
+	setwildbattle SPECIES_REGISTEEL, 92 @ KJH (ENG-10): docs/LEGENDARIES.md
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss @ KJH (CF-13): the legendary boss rule
 	special StartRegiBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

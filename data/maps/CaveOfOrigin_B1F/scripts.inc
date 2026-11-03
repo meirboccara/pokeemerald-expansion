@@ -1,4 +1,5 @@
 CaveOfOrigin_B1F_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, KJH_EventScript_CaveOfOriginB1F_OnTransition @ KJH (ENG-10): Groudon, Kyogre
 	.byte 0
 
 CaveOfOrigin_B1F_EventScript_Wallace::

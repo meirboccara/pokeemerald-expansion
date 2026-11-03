@@ -1062,6 +1062,9 @@ gStdScripts_End::
 	.include "data/scripts/kjh_ferry.inc"
 	.include "data/scripts/kjh_indigo.inc"
 	.include "data/scripts/kjh_story.inc"
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (CF-13, ENG-10): Hoenn's legendaries
+	.include "data/scripts/kjh_hoenn_legends.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 
 .endif
 

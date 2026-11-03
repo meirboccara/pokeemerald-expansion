@@ -19,6 +19,7 @@ SkyPillar_Outside_EventScript_CheckSetAbnormalWeather::
 
 SkyPillar_Outside_OnLoad:
 	call_if_set FLAG_WALLACE_GOES_TO_SKY_PILLAR, SkyPillar_Outside_EventScript_OpenDoor
+	call_if_set FLAG_BADGE08_GET, SkyPillar_Outside_EventScript_OpenDoor @ KJH (ENG-10): the 8th Hoenn badge opens it
 	end
 
 SkyPillar_Outside_EventScript_OpenDoor::

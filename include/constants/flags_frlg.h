@@ -2786,4 +2786,10 @@
 #define FLAG_KJH_HIDE_LATIASITE     FLAG_UNUSED_0x905 // Sky Pillar's entrance cave
 #define FLAG_KJH_HIDE_LATIOSITE     FLAG_UNUSED_0x906 // Sky Pillar's entrance cave
 
+// KJH (CF-13, ENG-10, Hoenn): Groudon's, Kyogre's, Latias' and Latios' object flags and the Legend Keeper's are
+// pokefirered's, in Johto's flags (constants/johto_flags.h: FLAG_KJH_HIDE_GROUDON ..., FLAG_KJH_GOT_TICKETS)
+#ifndef FLAG_KJH_HOENN_SHOWDOWN_DONE // agent hoenn-story's (ENG-10): the Cave of Origin showdown won
+#define FLAG_KJH_HOENN_SHOWDOWN_DONE                       HOENN_FLAG(0x8e6)
+#endif
+
 #endif // GUARD_CONSTANTS_FLAGS_H
