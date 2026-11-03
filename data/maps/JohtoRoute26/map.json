@@ -167,6 +167,22 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "J_S_Route26Sign"
+    },
+    {
+      "type": "sign",
+      "x": 0,
+      "y": 95,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "EventScript_HeadbuttTree"
+    },
+    {
+      "type": "sign",
+      "x": 1,
+      "y": 95,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "EventScript_HeadbuttTree"
     }
   ]
 }

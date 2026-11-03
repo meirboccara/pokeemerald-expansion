@@ -2,6 +2,8 @@
 #include "global.h"
 #include "battle_setup.h"
 #include "event_data.h"
+#include "field_player_avatar.h"
+#include "fieldmap.h"
 #include "kjh_headbutt.h"
 #include "pokemon.h"
 #include "random.h"
@@ -55,27 +57,65 @@ static u32 ChooseHeadbuttSlot(void)
     return slot;
 }
 
-const struct WildPokemonInfo *KJH_GetHeadbuttTable(void)
-{
-    u32 headerId = GetCurrentMapWildMonHeaderId();
-
-    const struct WildPokemonInfo *tree;
-
-    if (headerId == HEADER_NONE)
-        return NULL;
-    tree = gWildMonHeaders[headerId].encounterTypes[GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND)].headbuttMonsInfo;
-    if (tree == NULL) // tables are written for the default time only (kjh_tools/headbutt_trees.py)
-        tree = gWildMonHeaders[headerId].encounterTypes[TIME_OF_DAY_DEFAULT].headbuttMonsInfo;
-    return tree;
+// The tables are written for the default time only (kjh_tools/headbutt_trees.py, kjh_tools/johto/to_expansion.py)
+#define HEADBUTT_TABLE(member)                                                                                         \
+{                                                                                                                      \
+    u32 headerId = GetCurrentMapWildMonHeaderId();                                                                     \
+    const struct WildPokemonInfo *tree;                                                                                \
+                                                                                                                       \
+    if (headerId == HEADER_NONE)                                                                                       \
+        return NULL;                                                                                                   \
+    tree = gWildMonHeaders[headerId].encounterTypes[GetTimeOfDayForEncounters(headerId, WILD_AREA_LAND)].member;       \
+    if (tree == NULL)                                                                                                  \
+        tree = gWildMonHeaders[headerId].encounterTypes[TIME_OF_DAY_DEFAULT].member;                                   \
+    return tree;                                                                                                       \
 }
 
-bool32 KJH_TryCreateHeadbuttMon(void)
-{
-    const struct WildPokemonInfo *tree = KJH_GetHeadbuttTable();
-    const struct WildPokemon *mon;
-    u32 level;
+const struct WildPokemonInfo *KJH_GetHeadbuttTable(void)
+HEADBUTT_TABLE(headbuttMonsInfo)
 
-    if (tree == NULL || Random() % 100 >= tree->encounterRate)
+const struct WildPokemonInfo *KJH_GetHeadbuttRareTable(void)
+HEADBUTT_TABLE(headbuttRareMonsInfo)
+
+// Crystal's GetTreeScore: its map coordinates have a 4-tile border, and its trainer ID is the visible 16-bit one
+u32 KJH_HeadbuttTreeScore(s32 x, s32 y, u32 trainerId)
+{
+    u32 tree = (((x + 4) * (y + 4) + (x + 4) + (y + 4)) / 5) % 10;
+    u32 player = (trainerId & 0xFFFF) % 10;
+    u32 diff = (tree + 10 - player) % 10;
+
+    if (diff == 0)
+        return KJH_TREE_RARE;
+    if (diff < 5)
+        return KJH_TREE_GOOD;
+    return KJH_TREE_POOR;
+}
+
+static u32 VisibleTrainerId(void)
+{
+    return gSaveBlock2Ptr->playerTrainerId[0] | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+}
+
+bool32 KJH_TryCreateHeadbuttMonAtTree(s32 x, s32 y)
+{
+    static const u8 sCrystalChance[] = {[KJH_TREE_POOR] = 10, [KJH_TREE_GOOD] = 50, [KJH_TREE_RARE] = 80};
+    const struct WildPokemonInfo *tree = KJH_GetHeadbuttTable();
+    const struct WildPokemonInfo *rare = KJH_GetHeadbuttRareTable();
+    const struct WildPokemon *mon;
+    u32 level, chance;
+
+    if (tree == NULL)
+        return FALSE;
+    chance = tree->encounterRate;
+    if (rare != NULL) // Johto (CF-10): Crystal's rule
+    {
+        u32 score = KJH_HeadbuttTreeScore(x, y, VisibleTrainerId());
+
+        chance = sCrystalChance[score];
+        if (score == KJH_TREE_RARE)
+            tree = rare;
+    }
+    if (Random() % 100 >= chance)
         return FALSE; // "Nothing..."
 
     mon = &tree->wildPokemon[ChooseHeadbuttSlot()];
@@ -84,6 +124,14 @@ bool32 KJH_TryCreateHeadbuttMon(void)
         level += Random() % (mon->maxLevel - mon->minLevel + 1);
     CreateWildMon(mon->species, level);
     return TRUE;
+}
+
+bool32 KJH_TryCreateHeadbuttMon(void)
+{
+    s16 x, y;
+
+    GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
+    return KJH_TryCreateHeadbuttMonAtTree(x - MAP_OFFSET, y - MAP_OFFSET);
 }
 
 void KJH_HeadbuttWildEncounter(void)

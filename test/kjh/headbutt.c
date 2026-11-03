@@ -113,3 +113,102 @@ TEST("KJH: every Kanto route with HeartGold's headbutt trees has a table of Gen 
     GoTo(MAP_ROUTE3);
     EXPECT(KJH_GetHeadbuttTable() == NULL);
 }
+
+// CF-10: Johto's trees follow Crystal (engine/events/treemons.asm). Each tree scores against the player's trainer ID:
+// rare (the rare table, 80%), good (the common table, 50%) or poor (the common table, 10%).
+static void SetTrainerId(u32 id)
+{
+    gSaveBlock2Ptr->playerTrainerId[0] = id & 0xFF;
+    gSaveBlock2Ptr->playerTrainerId[1] = (id >> 8) & 0xFF;
+}
+
+TEST("KJH: a Johto tree scores as in Crystal: rare, good or poor for the player's trainer ID")
+{
+    // tree (0, 0): coordinates + 4 (Crystal's map border), ((4 * 4 + 4 + 4) / 5) % 10 = 4
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 4), KJH_TREE_RARE);
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 14), KJH_TREE_RARE);  // the ID's last digit counts
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 3), KJH_TREE_GOOD);   // 4 - 3 = 1
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 0), KJH_TREE_GOOD);   // 4
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 9), KJH_TREE_POOR);   // 4 - 9 + 10 = 5
+    EXPECT_EQ(KJH_HeadbuttTreeScore(0, 0, 5), KJH_TREE_POOR);   // 9
+    // tree (11, 0): (15 * 4 + 15 + 4) / 5 = 15, % 10 = 5
+    EXPECT_EQ(KJH_HeadbuttTreeScore(11, 0, 5), KJH_TREE_RARE);
+    EXPECT_EQ(KJH_HeadbuttTreeScore(11, 0, 1), KJH_TREE_GOOD);
+}
+
+static bool32 InTable(const struct WildPokemonInfo *table, enum Species species)
+{
+    for (u32 slot = 0; slot < TREE_SLOTS; slot++)
+    {
+        if (table->wildPokemon[slot].species == species)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static u32 Headbutts(u32 trainerId, const struct WildPokemonInfo *table, u32 *otherSlots)
+{
+    u32 battles = 0;
+
+    SetTrainerId(trainerId);
+    SeedRng(11);
+    for (u32 i = 0; i < 200; i++)
+    {
+        if (!KJH_TryCreateHeadbuttMonAtTree(0, 0))
+            continue;
+        battles++;
+        EXPECT(InTable(table, GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES)));
+        if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES) != table->wildPokemon[0].species)
+            (*otherSlots)++;
+        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LEVEL), 10);
+    }
+    return battles;
+}
+
+TEST("KJH: on Route 29 a rare tree gives the rare table 80% of the time, a good one the common table 50%, a poor one 10%")
+{
+    const struct WildPokemonInfo *common, *rare;
+    u32 battles, otherSlots = 0;
+
+    GoTo(MAP_JOHTO_ROUTE_29);
+    common = KJH_GetHeadbuttTable();
+    rare = KJH_GetHeadbuttRareTable();
+    EXPECT(common != NULL && rare != NULL);
+    if (common == NULL || rare == NULL)
+        return;
+    EXPECT(InTable(rare, SPECIES_PINECO));     // Crystal's TreeMonSet_Route
+    EXPECT(!InTable(common, SPECIES_PINECO));
+
+    battles = Headbutts(4, rare, &otherSlots); // tree (0, 0) is rare for ID ...4
+    EXPECT_GT(battles, 130);
+    EXPECT_LT(battles, 190);
+    EXPECT_GT(otherSlots, battles / 4);        // half the battles are slot 0 (50%), the rest the other slots
+    EXPECT_LT(otherSlots, 3 * battles / 4);
+    battles = Headbutts(3, common, &otherSlots); // good
+    EXPECT_GT(battles, 70);
+    EXPECT_LT(battles, 130);
+    battles = Headbutts(9, common, &otherSlots); // poor
+    EXPECT_GT(battles, 5);
+    EXPECT_LT(battles, 40);
+}
+
+TEST("KJH: Johto's maps with Crystal's tree Pokemon have both tables; Kanto's routes keep one")
+{
+    static const u16 sJohto[] =
+    {
+        MAP_JOHTO_ROUTE_29, MAP_JOHTO_ROUTE_44, MAP_JOHTO_AZALEA_TOWN, MAP_JOHTO_ILEX_FOREST, MAP_JOHTO_LAKE_OF_RAGE,
+        MAP_JOHTO_ROUTE_26,
+    };
+
+    for (u32 i = 0; i < ARRAY_COUNT(sJohto); i++)
+    {
+        GoTo(sJohto[i]);
+        EXPECT(KJH_GetHeadbuttTable() != NULL);
+        EXPECT(KJH_GetHeadbuttRareTable() != NULL);
+    }
+    GoTo(MAP_JOHTO_NEW_BARK_TOWN);             // TREEMON_SET_NONE
+    EXPECT(KJH_GetHeadbuttTable() == NULL);
+    GoTo(MAP_ROUTE2);
+    EXPECT(KJH_GetHeadbuttTable() != NULL);
+    EXPECT(KJH_GetHeadbuttRareTable() == NULL);
+}
