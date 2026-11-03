@@ -1416,6 +1416,8 @@ void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
         u8 baseStat = GetSpeciesBaseStat(species, i);
         s32 n = (((2 * baseStat + iv[i] + ev[i] / 4) * level) / 100) + 5;
         n = ModifyStatByNature(nature, n, i);
+        if (IS_FRLG)
+            n += KJH_BondStatBonus(n, friendship); // KJH (LV-6): Bond 5 +2%, Bond 15 +5%
         if (B_FRIENDSHIP_BOOST == TRUE)
             n = n + ((n * 10 * friendship) / (MAX_FRIENDSHIP * 100));
         SetMonData(mon, MON_DATA_MAX_HP + i, &n);
@@ -1434,6 +1436,8 @@ void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
     {
         s32 n = 2 * GetSpeciesBaseHP(species) + iv[STAT_HP];
         newMaxHP = (((n + ev[STAT_HP] / 4) * level) / 100) + level + 10;
+        if (IS_FRLG)
+            newMaxHP += KJH_BondStatBonus(newMaxHP, friendship); // KJH (LV-6): HP too
     }
 
     gBattleScripting.levelUpHP = newMaxHP - oldMaxHP;

@@ -5299,7 +5299,10 @@ static void HandleEndTurn_FinishBattle(void)
         FadeOutMapMusic(5);
         TryRestoreHeldItems();
         if (IS_FRLG)
+        {
             KJH_BondAfterBattle(); // KJH (LV-5)
+            KJH_BondRecalculatePartyStats(); // KJH (LV-6): the stat bonus follows the Bond the battle left
+        }
 
         for (u32 i = 0; i < PARTY_SIZE; i++)
         {

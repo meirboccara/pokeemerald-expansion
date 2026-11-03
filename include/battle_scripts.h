@@ -411,6 +411,8 @@ extern const u8 BattleScript_BeakBlastSetUp[];
 extern const u8 BattleScript_BeakBlastSetUpEncored[];
 extern const u8 BattleScript_BeakBlastBurn[];
 extern const u8 BattleScript_AffectionBasedStatusHeal[];
+extern const u8 BattleScript_KjhBondSnapsOutOfConfusion[]; // KJH (LV-6)
+extern const u8 BattleScript_KjhBondGetsOverInfatuation[];
 extern const u8 BattleScript_AffectionBasedEndurance[];
 extern const u8 BattleScript_SymbiosisActivates[];
 extern const u8 BattleScript_MultiHitPrintStrings[];

@@ -10,6 +10,7 @@
 #include "decompress.h"
 #include "event_data.h"
 #include "event_object_movement.h"
+#include "kjh_bond.h"
 #include "event_scripts.h"
 #include "faraway_island.h"
 #include "field_camera.h"
@@ -2681,6 +2682,12 @@ void GetFollowerAction(struct ScriptContext *ctx) // Essentially a big switch fo
     emotion = RandomWeightedIndex(emotion_weight, FOLLOWER_EMOTION_LENGTH);
     if ((mon->status & STATUS1_PSN_ANY) && GetMonAbility(mon) != ABILITY_POISON_HEAL)
         emotion = FOLLOWER_EMOTION_POISONED;
+    bool32 kjhNoEmotions = IS_FRLG && !KJH_HasBondEmotions(mon); // KJH (LV-6): emotions from Bond 3
+    if (kjhNoEmotions)
+    {
+        emotion = FOLLOWER_EMOTION_NEUTRAL;
+        condCount = 0;
+    }
 
     // end special conditions
 
@@ -2693,7 +2700,7 @@ void GetFollowerAction(struct ScriptContext *ctx) // Essentially a big switch fo
             multi = condEmotes[i].index;
     }
     // (50% chance) Match *scripted* conditional messages, from follower_helper.c
-    for (i = (Random() & 1) ? COND_MSG_COUNT : 0, j = 1; i < COND_MSG_COUNT; i++)
+    for (i = ((Random() & 1) || kjhNoEmotions) ? COND_MSG_COUNT : 0, j = 1; i < COND_MSG_COUNT; i++)
     {
         const struct FollowerMsgInfoExtended *info = &gFollowerConditionalMessages[i];
         if (!CheckMsgInfo(info, mon, species, objEvent))

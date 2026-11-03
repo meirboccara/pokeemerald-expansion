@@ -259,6 +259,7 @@ enum RandomTag
     RNG_DEXNAV_RANDOM_EGG_MOVE,
     RNG_RANDOM_BALL,
     RNG_KJH_PACK_LEADER, // KJH: a wild Pokemon leads a pack (src/kjh_pack.c, ENG-6); 0: it leads one
+    RNG_KJH_BOND_SHAKE,  // KJH: Bond 10/19 shakes off confusion, infatuation or a status (src/kjh_bond.c, LV-6)
 };
 
 #define RandomWeighted(tag, ...) \

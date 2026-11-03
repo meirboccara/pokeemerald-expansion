@@ -41,10 +41,32 @@ void KJH_BoxMonLoseBondFloored(struct BoxPokemon *boxMon, u32 points);
 void KJH_BondOnFoeDown(u32 sentInBits);   // each party Pokemon in sentInBits fought a foe that fell or was caught
 void KJH_BondAfterBattle(void);           // battle won or caught: everyone sent out; whiteouts lose separately
 void KJH_BondOnWhiteOut(void);
+void KJH_BondRecalculatePartyStats(void);  // LV-6: once a battle is over, the stat bonus follows the new Bond
 void KJH_BondPcWeeks(u32 weeks);          // every boxed Pokemon, once per in-game week passed
 void KJH_BondOnDaycarePickup(struct Pokemon *mon);
 s32 KJH_BondFriendshipEvent(u32 event);   // AdjustFriendship's points for a vanilla event, or 0 (none)
 void KJH_SetStarterBond(void);            // special: the last party Pokemon starts at Bond KJH_STARTER_BOND
+
+// LV-6: the perks. Ongoing perks follow the current Bond, for the player's Pokemon and trainers' (not wild ones');
+// hard mode (expansion's DIFFICULTY_HARD) turns them all off.
+#define KJH_BOND_STATS_SMALL    5         // stats +2% (at least +1)
+#define KJH_BOND_STATS_BIG      15        // stats +5% instead (at least +1)
+#define KJH_BOND_EMOTIONS       3         // the follower shows emotions
+#define KJH_BOND_SHAKE_CONFUSION 10       // end of turn: sometimes snaps out of confusion or infatuation
+#define KJH_BOND_SHAKE_STATUS   19        // end of turn: sometimes shakes off a status
+#define KJH_BOND_SHAKE_CONFUSION_CHANCE 25 // %
+#define KJH_BOND_SHAKE_STATUS_CHANCE    20 // %, as expansion's affection status heal
+bool32 KJH_BondPerksOn(void);
+s32 KJH_BondStatBonus(s32 stat, u32 friendship);     // what CalculateMonStats adds to a stat
+bool32 KJH_HasBondEmotions(struct Pokemon *mon);
+enum KjhBondShake
+{
+    KJH_BOND_SHAKE_NONE,
+    KJH_BOND_SHAKE_OFF_STATUS,
+    KJH_BOND_SHAKE_OFF_CONFUSION,
+    KJH_BOND_SHAKE_OFF_INFATUATION,
+};
+enum KjhBondShake KJH_TryBondShake(u32 battler);     // the end-of-turn perk, rolled; the caller runs its script
 
 // The milestones (§3) and the Summary's BOND page. A one-time unlock is kept at the peak Bond; an ongoing perk
 // follows the current Bond.

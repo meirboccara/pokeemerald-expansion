@@ -2,6 +2,9 @@
 #include "global.h"
 #include "battle.h"
 #include "battle_setup.h"
+#include "battle_util.h"
+#include "difficulty.h"
+#include "random.h"
 #include "data.h"
 #include "event_data.h"
 #include "item.h"
@@ -58,6 +61,14 @@ static bool32 IsBondHolder(u32 species, bool32 isEgg)
     return species != SPECIES_NONE && species != SPECIES_EGG && !isEgg;
 }
 
+// LV-6: the stat bonus follows Bond. Not during a battle: the battle has its own copy of the stats, and the
+// party's are recalculated when it ends (KJH_BondAfterBattle).
+static void RecalculateStats(struct Pokemon *mon)
+{
+    if (!gMain.inBattle)
+        CalculateMonStats(mon);
+}
+
 void KJH_GainBond(struct Pokemon *mon, u32 points)
 {
     u32 friendship;
@@ -68,6 +79,7 @@ void KJH_GainBond(struct Pokemon *mon, u32 points)
         points = points * 3 / 2;
     friendship = min(GetMonData(mon, MON_DATA_FRIENDSHIP) + points, MAX_FRIENDSHIP);
     SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+    RecalculateStats(mon);
 }
 
 // Down by points, but never under floor (a Pokemon already under it stays where it is)
@@ -86,6 +98,7 @@ void KJH_LoseBond(struct Pokemon *mon, u32 points)
         return;
     friendship = LowerFriendship(GetMonData(mon, MON_DATA_FRIENDSHIP), points, KJH_BOND_MIN_FRIENDSHIP);
     SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+    RecalculateStats(mon);
 }
 
 void KJH_LoseBondFloored(struct Pokemon *mon, u32 points)
@@ -97,6 +110,7 @@ void KJH_LoseBondFloored(struct Pokemon *mon, u32 points)
     friendship = LowerFriendship(GetMonData(mon, MON_DATA_FRIENDSHIP), points,
                                  KJH_BondFloorFriendship(KJH_GetPeakBond(mon)));
     SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+    RecalculateStats(mon);
 }
 
 void KJH_BoxMonLoseBondFloored(struct BoxPokemon *boxMon, u32 points)
@@ -143,6 +157,15 @@ void KJH_BondAfterBattle(void)
     {
         if (gBattleStruct->partyState[B_TRAINER_PLAYER][i].sentOut)
             KJH_GainBond(&gParties[B_TRAINER_PLAYER][i], points);
+    }
+}
+
+void KJH_BondRecalculatePartyStats(void)
+{
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) != SPECIES_NONE)
+            CalculateMonStats(&gParties[B_TRAINER_PLAYER][i]);
     }
 }
 
@@ -288,4 +311,55 @@ void KJH_FormatBondPage(struct Pokemon *mon, u8 *dest)
         end = StringAppend(end, COMPOUND_STRING(" "));
         end = StringAppend(end, gKjhBondMilestones[i].name);
     }
+}
+
+// LV-6: the perks
+bool32 KJH_BondPerksOn(void)
+{
+    return GetCurrentDifficultyLevel() != DIFFICULTY_HARD;
+}
+
+s32 KJH_BondStatBonus(s32 stat, u32 friendship)
+{
+    u32 bond = KJH_FriendshipToBond(friendship);
+
+    if (!KJH_BondPerksOn() || stat <= 0)
+        return 0;
+    if (bond >= KJH_BOND_STATS_BIG)
+        return max(stat * 5 / 100, 1);
+    if (bond >= KJH_BOND_STATS_SMALL)
+        return max(stat * 2 / 100, 1);
+    return 0;
+}
+
+bool32 KJH_HasBondEmotions(struct Pokemon *mon)
+{
+    return KJH_GetBond(mon) >= KJH_BOND_EMOTIONS;
+}
+
+// Wild Pokemon have no Bond perks; the player's and trainers' do
+static bool32 HasBattlePerks(u32 battler)
+{
+    if (!KJH_BondPerksOn() || !IsBattlerAlive(battler))
+        return FALSE;
+    return IsOnPlayerSide(battler) || (gBattleTypeFlags & BATTLE_TYPE_TRAINER);
+}
+
+enum KjhBondShake KJH_TryBondShake(u32 battler)
+{
+    u32 bond;
+
+    if (!HasBattlePerks(battler))
+        return KJH_BOND_SHAKE_NONE;
+    bond = KJH_FriendshipToBond(gBattleMons[battler].friendship);
+    if (bond >= KJH_BOND_SHAKE_STATUS && (gBattleMons[battler].status1 & STATUS1_ANY)
+     && RandomPercentage(RNG_KJH_BOND_SHAKE, KJH_BOND_SHAKE_STATUS_CHANCE))
+        return KJH_BOND_SHAKE_OFF_STATUS;
+    if (bond >= KJH_BOND_SHAKE_CONFUSION && gBattleMons[battler].volatiles.confusionTimer
+     && RandomPercentage(RNG_KJH_BOND_SHAKE, KJH_BOND_SHAKE_CONFUSION_CHANCE))
+        return KJH_BOND_SHAKE_OFF_CONFUSION;
+    if (bond >= KJH_BOND_SHAKE_CONFUSION && gBattleMons[battler].volatiles.infatuation
+     && RandomPercentage(RNG_KJH_BOND_SHAKE, KJH_BOND_SHAKE_CONFUSION_CHANCE))
+        return KJH_BOND_SHAKE_OFF_INFATUATION;
+    return KJH_BOND_SHAKE_NONE;
 }

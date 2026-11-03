@@ -3,6 +3,7 @@
 #include "battle_hold_effects.h"
 #include "battle_setup.h"
 #include "battle_util.h"
+#include "kjh_bond.h"
 #include "battle_controllers.h"
 #include "battle_ai_record.h"
 #include "battle_stat_change.h"
@@ -217,6 +218,29 @@ static bool32 HandleEndTurnAffection(enum BattlerId battler)
     bool32 effect = FALSE;
 
     gBattleStruct->eventState.endTurnBattler++;
+
+    if (IS_FRLG) // KJH (LV-6): Bond 10 and 19, for the player's and trainers' Pokemon
+    {
+        switch (KJH_TryBondShake(battler))
+        {
+        case KJH_BOND_SHAKE_OFF_STATUS:
+            gBattlerAttacker = battler;
+            BattleScriptCall(BattleScript_AffectionBasedStatusHeal);
+            return TRUE;
+        case KJH_BOND_SHAKE_OFF_CONFUSION:
+            gBattleMons[battler].volatiles.confusionTimer = 0;
+            gBattlerAttacker = battler;
+            BattleScriptCall(BattleScript_KjhBondSnapsOutOfConfusion);
+            return TRUE;
+        case KJH_BOND_SHAKE_OFF_INFATUATION:
+            gBattleMons[battler].volatiles.infatuation = 0;
+            gBattleScripting.battler = battler;
+            BattleScriptCall(BattleScript_KjhBondGetsOverInfatuation);
+            return TRUE;
+        default:
+            return FALSE;
+        }
+    }
 
     if (!B_AFFECTION_MECHANICS
      || !IsOnPlayerSide(battler))

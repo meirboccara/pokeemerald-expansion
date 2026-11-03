@@ -6460,3 +6460,14 @@ BattleScript_BelchFails::
 	printstring STRINGID_BELCHCANTSELECT
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+
+@ KJH (LV-6): Bond 10, at the end of a turn (src/kjh_bond.c, battle_end_turn.c)
+BattleScript_KjhBondSnapsOutOfConfusion::
+	printstring STRINGID_PKMNHEALEDCONFUSION
+	waitmessage B_WAIT_TIME_LONG
+	return
+
+BattleScript_KjhBondGetsOverInfatuation::
+	printstring STRINGID_PKMNGOTOVERITSINFATUATION
+	waitmessage B_WAIT_TIME_LONG
+	return
