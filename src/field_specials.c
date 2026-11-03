@@ -17,6 +17,7 @@
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_specials.h"
+#include "kjh_hoenn_story.h"
 #include "kjh_team_level.h"
 #include "field_weather.h"
 #include "graphics.h"
@@ -1549,7 +1550,11 @@ void LoadWallyZigzagoon(void)
 bool8 IsStarterInParty(void)
 {
     u8 i;
+#if IS_FRLG
+    u16 starter = KJH_HoennStarterSpecies(VarGet(VAR_KJH_HOENN_STARTER)); // KJH (ENG-10): Petalburg's nurse, Birch's
+#else
     u16 starter = GetStarterPokemon(VarGet(VAR_STARTER_MON));
+#endif
     u8 partyCount = CalculatePlayerPartyCount();
     for (i = 0; i < partyCount; i++)
     {

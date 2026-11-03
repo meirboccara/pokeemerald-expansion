@@ -346,6 +346,9 @@
 #if IS_FRLG
 // KJH (ENG-9, Hoenn): the Emerald variables of Hoenn's scripts, maps and features are Hoenn's, in SaveBlock3
 #include "constants/hoenn_vars.h"
+// KJH (ENG-10, Hoenn): the story's variables, Hoenn's spare +0..+4 (docs/UNBOUND_TICKETS.md, ENG-9)
+#define VAR_KJH_HOENN_STARTER           (HOENN_KJH_SPARE_VARS_START + 0) // Birch's starter (0 Treecko, 1 Torchic, 2 Mudkip)
+#define VAR_KJH_HOENN_ARRIVAL_STATE     (HOENN_KJH_SPARE_VARS_START + 1) // 1: just landed in Slateport, the truck next
 // KJH (ENG-9): the script macros (asm/macros/event.inc) take Johto's and Hoenn's variables for variables too
 #define SCRIPT_VARS_END (HOENN_VARS_END - 1)
 #else

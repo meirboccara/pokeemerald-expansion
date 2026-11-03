@@ -27,6 +27,7 @@
 #include "gym_leader_rematch.h"
 #include "item.h"
 #include "kjh_battle_scenes.h"
+#include "kjh_hoenn_story.h"
 #include "kjh_masters.h"
 #include "kjh_progression.h"
 #include "load_save.h"
@@ -1012,8 +1013,13 @@ static void CB2_GiveStarter(void)
 {
     u16 starterMon;
 
+#if IS_FRLG
+    // KJH (ENG-10, Hoenn): Birch's bag is the only caller; his choice is Hoenn's own, Oak's stays (kjh_hoenn_story.c)
+    starterMon = KJH_ChooseHoennStarter(gSpecialVar_Result);
+#else
     *GetVarPointer(VAR_STARTER_MON) = gSpecialVar_Result;
     starterMon = GetStarterPokemon(gSpecialVar_Result);
+#endif
     ScriptGiveMon(starterMon, 5, ITEM_NONE);
     ResetTasks();
     PlayBattleBGM();

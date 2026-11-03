@@ -4,6 +4,7 @@
 #include "event_data.h"
 #include "hall_of_fame.h"
 #include "hall_of_fame_frlg.h"
+#include "kjh_hoenn_story.h"
 #include "load_save.h"
 #include "overworld.h"
 #include "script_pokemon_util.h"
@@ -21,6 +22,10 @@ int GameClear(void)
 
     HealPlayerParty();
 
+#if IS_FRLG
+    // KJH (ENG-10): Ever Grande's Hall of Fame, the Hoenn League: Hoenn Champion, the earlier Leagues' records kept
+    gHasHallOfFameRecords = KJH_HoennGameClear();
+#else
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;
@@ -30,16 +35,19 @@ int GameClear(void)
         gHasHallOfFameRecords = FALSE;
         FlagSet(FLAG_SYS_GAME_CLEAR);
     }
+#endif
 
     if (GetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME) == 0)
         SetGameStat(GAME_STAT_FIRST_HOF_PLAY_TIME, (gSaveBlock2Ptr->playTimeHours << 16) | (gSaveBlock2Ptr->playTimeMinutes << 8) | gSaveBlock2Ptr->playTimeSeconds);
 
+#if !IS_FRLG
     SetContinueGameWarpStatus();
 
     if (gSaveBlock2Ptr->playerGender == MALE)
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F);
     else
         SetContinueGameWarpToHealLocation(HEAL_LOCATION_LITTLEROOT_TOWN_MAYS_HOUSE_2F);
+#endif
 
     ribbonGet = FALSE;
 

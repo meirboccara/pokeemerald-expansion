@@ -665,3 +665,5 @@ gSpecials::
 	def_special KJH_FairFightCount
 	def_special KJH_ChooseFairFightParty
 	def_special KJH_ApplyFairFightParty
+	@ KJH (ENG-10, Hoenn): the S.S. AQUA lands, the moving truck to Littleroot, src/kjh_hoenn_story.c
+	def_special KJH_RideMovingTruck

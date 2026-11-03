@@ -683,6 +683,12 @@
 #define KJH_HOENN_MASTERS_COUNT                    14
 #define KJH_MASTERS_COUNT                          (KJH_KANTO_MASTERS_COUNT + KJH_JOHTO_MASTERS_COUNT + KJH_HOENN_MASTERS_COUNT)
 
+// KJH (ENG-10, Hoenn): Hoenn's story trainers (data/scripts/kjh_story.inc), in src/data/trainers_kjh_story.party
+#define TRAINER_KJH_ROCKET_GRUNT_SLATEPORT          651
+#define TRAINER_KJH_SHOWDOWN_MAXIE                  652
+#define TRAINER_KJH_SHOWDOWN_ARCHIE                 653
+#define TRAINER_KJH_SHOWDOWN_GIOVANNI               654
+
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space

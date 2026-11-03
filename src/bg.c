@@ -284,7 +284,9 @@ bool32 IsInvalidBg(u32 bg)
 int BgTileAllocOp(int bg, int offset, int count, int mode)
 {
     int result = BgTileAllocOpUnchecked(bg, offset, count, mode);
-    fatal_assertf(result > 0);
+    // KJH (ENG-10): only a failed search (-1) is an error. Marking and freeing tiles (modes 1 and 2) return 0: FireRed's
+    // credits mark their windows' tiles, and the old "> 0" stopped every Hall of Fame's credits on a crash screen
+    fatal_assertf(result >= 0);
     return result;
 }
 

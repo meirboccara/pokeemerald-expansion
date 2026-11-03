@@ -14,6 +14,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "starter_choose.h"
+#include "kjh_hoenn_story.h"
 #include "strings.h"
 #include "task.h"
 #include "text.h"
@@ -354,6 +355,16 @@ u16 GetStarterPokemon(u16 chosenStarterId)
     return sStarterMon[chosenStarterId];
 }
 
+// KJH (ENG-10, Hoenn): in the FireRed build this screen is Birch's bag (ChooseStarter, Route 101): Hoenn's starters
+static u16 BagStarter(u16 chosenStarterId)
+{
+#if IS_FRLG
+    return KJH_HoennStarterSpecies(chosenStarterId);
+#else
+    return GetStarterPokemon(chosenStarterId);
+#endif
+}
+
 static void VblankCB_StarterChoose(void)
 {
     LoadOam();
@@ -495,7 +506,7 @@ static void Task_HandleStarterChooseInput(u8 taskId)
         gTasks[taskId].tCircleSpriteId = spriteId;
 
         // Create Pokémon sprite
-        spriteId = CreatePokemonFrontSprite(GetStarterPokemon(gTasks[taskId].tStarterSelection), sPokeballCoords[selection][0], sPokeballCoords[selection][1]);
+        spriteId = CreatePokemonFrontSprite(BagStarter(gTasks[taskId].tStarterSelection), sPokeballCoords[selection][0], sPokeballCoords[selection][1]);
         gSprites[spriteId].affineAnims = &sAffineAnims_StarterPokemon;
         gSprites[spriteId].callback = SpriteCB_StarterPokemon;
 
@@ -526,7 +537,7 @@ static void Task_WaitForStarterSprite(u8 taskId)
 
 static void Task_AskConfirmStarter(u8 taskId)
 {
-    PlayCry_Normal(GetStarterPokemon(gTasks[taskId].tStarterSelection), 0);
+    PlayCry_Normal(BagStarter(gTasks[taskId].tStarterSelection), 0);
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     AddTextPrinterParameterized(0, FONT_NORMAL, gText_ConfirmStarterChoice, 0, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
@@ -574,7 +585,7 @@ static void CreateStarterPokemonLabel(u8 selection)
     s32 width;
     u8 labelLeft, labelRight, labelTop, labelBottom;
 
-    enum Species species = GetStarterPokemon(selection);
+    enum Species species = BagStarter(selection);
     CopyMonCategoryText(species, categoryText);
     speciesName = GetSpeciesName(species);
 

@@ -21,4 +21,5 @@
 #pragma pop_macro("FLAG_SHOWN_AURORA_TICKET")
 #pragma pop_macro("FLAG_SHOWN_MYSTIC_TICKET")
 #pragma pop_macro("FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL")
+#pragma pop_macro("VAR_STARTER_MON")
 #endif

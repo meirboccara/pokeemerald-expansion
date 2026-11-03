@@ -1111,6 +1111,7 @@ void MultiplyPaletteRGBComponents(u16 i, u8 r, u8 g, u8 b)
 #define tMonitorY        data[5]
 #define tBallSpriteId    data[6]
 #define tMonitorSpriteId data[7]
+#define tFrlgHallOfFame  data[8] // KJH (ENG-10): which Hall of Fame records, FireRed's or Ever Grande's
 #define tStartHofFlash   data[15]
 
 // Sprite data for SpriteCB_PokeballGlowEffect
@@ -1189,7 +1190,9 @@ bool8 FldEff_HallOfFameRecord(void)
     task = &gTasks[CreateTask(Task_HallOfFameRecord, 0xff)];
     task->tNumMons = nPokemon;
     task->tFirstBallX = 117;
-    task->tFirstBallY = IS_FRLG ? 60 : 52;
+    // KJH (ENG-10): the FireRed build has both Halls of Fame; the effect started says which one records
+    task->tFrlgHallOfFame = IS_FRLG && FieldEffectActiveListContains(FLDEFF_HALL_OF_FAME_RECORD_FRLG);
+    task->tFirstBallY = task->tFrlgHallOfFame ? 60 : 52;
     return FALSE;
 }
 
@@ -1205,7 +1208,7 @@ static void HallOfFameRecordEffect_Init(struct Task *task)
     u8 taskId;
     task->tState++;
     task->tBallSpriteId = CreateGlowingPokeballsEffect(task->tNumMons, task->tFirstBallX, task->tFirstBallY, FALSE);
-    if (!IS_FRLG)
+    if (!task->tFrlgHallOfFame)
     {
         taskId = FindTaskIdByFunc(Task_HallOfFameRecord);
         CreateHofMonitorSprite(taskId, 120, 24, FALSE);
@@ -1220,7 +1223,7 @@ static void HallOfFameRecordEffect_WaitForBallPlacement(struct Task *task)
 {
     if (gSprites[task->tBallSpriteId].sState > 1)
     {
-        if (IS_FRLG)
+        if (task->tFrlgHallOfFame)
             CreateHofMonitorSpriteFrlg(120, 25);
         task->tStartHofFlash++;
         task->tState++;
@@ -1240,7 +1243,7 @@ static void HallOfFameRecordEffect_WaitForSoundAndEnd(struct Task *task)
     if (gSprites[task->tBallSpriteId].sState > 6)
     {
         DestroySprite(&gSprites[task->tBallSpriteId]);
-        if (IS_FRLG)
+        if (task->tFrlgHallOfFame)
             FieldEffectActiveListRemove(FLDEFF_HALL_OF_FAME_RECORD_FRLG);
         else
             FieldEffectActiveListRemove(FLDEFF_HALL_OF_FAME_RECORD);

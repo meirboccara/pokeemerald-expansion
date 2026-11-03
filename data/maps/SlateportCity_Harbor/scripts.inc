@@ -1,6 +1,12 @@
 SlateportCity_Harbor_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, SlateportCity_Harbor_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, SlateportCity_Harbor_OnFrame
 	.byte 0
+
+@ KJH (ENG-10): the S.S. AQUA's first landing sends the player home to Littleroot (data/scripts/kjh_ferry.inc)
+SlateportCity_Harbor_OnFrame:
+	map_script_2 VAR_KJH_HOENN_ARRIVAL_STATE, 1, KJH_EventScript_HoennArrival
+	.2byte 0
 
 SlateportCity_Harbor_OnTransition:
 	setescapewarp MAP_SLATEPORT_CITY, 28, 13

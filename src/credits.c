@@ -15,6 +15,7 @@
 #include "constants/rgb.h"
 #include "trainer_pokemon_sprites.h"
 #include "starter_choose.h"
+#include "kjh_hoenn_story.h"
 #include "decompress.h"
 #include "intro_credits_graphics.h"
 #include "sound.h"
@@ -1542,7 +1543,12 @@ static void SpriteCB_CreditsMonBg(struct Sprite *sprite)
 
 static void DeterminePokemonToShow(void)
 {
+#if IS_FRLG
+    // KJH (ENG-10): Emerald's credits close the Hoenn League: Birch's starter
+    enum NationalDexOrder starter = SpeciesToNationalPokedexNum(KJH_HoennStarterSpecies(VarGet(VAR_KJH_HOENN_STARTER)));
+#else
     enum NationalDexOrder starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_STARTER_MON)));
+#endif
     u16 page;
     u16 dexNum;
     u16 j;

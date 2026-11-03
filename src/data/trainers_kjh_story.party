@@ -64,3 +64,89 @@ Level: 25
 
 SPECIES_NUMEL
 Level: 26
+
+/* Hoenn (ENG-10): Slateport's harbor, where the S.S. AQUA lands (the arrival sends the player home to Littleroot first;
+   Emerald's road comes back after its 2nd badge). Slateport's zone (LV-18 Hoenn, 26): the ace at its top, the rest as
+   far below it as in the pokefirered tree (20 and 21 there) */
+=== TRAINER_KJH_ROCKET_GRUNT_SLATEPORT ===
+Name: GRUNT
+Class: Team Rocket Frlg
+Pic: Rocket Grunt M Frlg
+Gender: Male
+Music: Dangerous
+Double Battle: No
+AI: Check Bad Move
+
+SPECIES_RATICATE
+Level: 25
+
+SPECIES_KOFFING
+Level: 25
+
+SPECIES_GOLBAT
+Level: 26
+
+/* The Cave of Origin showdown, after Hoenn's 8th badge (Sootopolis and the Cave of Origin's zone, 78): the aces at its
+   top, the rest as far below as in the pokefirered tree (47-49 and 48-51 there) */
+=== TRAINER_KJH_SHOWDOWN_MAXIE ===
+Name: MAXIE
+Class: Magma Leader
+Pic: Magma Leader Maxie
+Gender: Male
+Music: Magma
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MIGHTYENA
+Level: 76
+
+SPECIES_CROBAT
+Level: 76
+
+SPECIES_CAMERUPT
+Level: 78
+
+=== TRAINER_KJH_SHOWDOWN_ARCHIE ===
+Name: ARCHIE
+Class: Aqua Leader
+Pic: Aqua Leader Archie
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MIGHTYENA
+Level: 76
+
+SPECIES_CROBAT
+Level: 76
+
+SPECIES_SHARPEDO
+Level: 78
+
+=== TRAINER_KJH_SHOWDOWN_GIOVANNI ===
+Name: GIOVANNI
+Class: Boss Frlg
+Pic: Leader Giovanni Frlg
+Gender: Male
+Music: Dangerous
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_PERSIAN
+Level: 75
+
+SPECIES_DUGTRIO
+Level: 75
+
+SPECIES_KANGASKHAN
+Level: 76
+
+SPECIES_NIDOQUEEN
+Level: 76
+
+SPECIES_NIDOKING
+Level: 77
+
+SPECIES_RHYDON
+Level: 78
