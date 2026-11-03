@@ -7,6 +7,7 @@
 #include "field_weather.h"
 #include "lottery_corner.h"
 #include "main.h"
+#include "kjh_swarms.h"
 #include "mass_outbreak.h"
 #include "overworld.h"
 #include "pokerus.h"
@@ -49,6 +50,8 @@ void DoDailyEvents(u32 daysSince)
     ClearDailyFlags();
     UpdateDailySeed();
     UpdateMassOutbreakDaysLeft(daysSince);
+    if (IS_FRLG)
+        KJH_StartDailySwarm(); // KJH (CF-5): today's swarm
     UpdateDewfordTrendPerDay(daysSince);
     UpdateTVShowsPerDay(daysSince);
     UpdateWeatherPerDay(daysSince);

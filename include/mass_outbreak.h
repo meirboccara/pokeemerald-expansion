@@ -19,6 +19,7 @@ void UpdateMassOutbreakDaysLeft(u16 days);
 bool32 IsMassOutbreakActive(void);
 bool8 SetUpMassOutbreakEncounter(u8 flags);
 bool8 DoMassOutbreakEncounterTest(void);
+void StartMassOutbreak(struct MassOutbreak outbreak);
 void StartStaticMassOutbreak(enum MassOutbreakIndex outbreakIdx);
 enum Species GetStaticOutbreakSpecies(enum MassOutbreakIndex outbreakIdx);
 u8 *GetStaticOutbreakMapName(u8 *dest, enum MassOutbreakIndex outbreakIdx);

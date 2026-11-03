@@ -1,6 +1,7 @@
 #include "global.h"
 #include "event_data.h"
 #include "main.h"
+#include "kjh_swarms.h"
 #include "mass_outbreak.h"
 #include "overworld.h"
 #include "random.h"
@@ -125,12 +126,18 @@ bool32 IsMassOutbreakActive(void)
 
 bool8 SetUpMassOutbreakEncounter(u8 flags)
 {
-    if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(gSaveBlock1Ptr->outbreakPokemonLevel))
+    // KJH (CF-5): level 0 is the route's own wild level, and no moves keep the ones of that level
+    u32 level = gSaveBlock1Ptr->outbreakPokemonLevel != 0 ? gSaveBlock1Ptr->outbreakPokemonLevel : KJH_GetRouteWildLevel();
+
+    if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(level))
         return FALSE;
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
-    for (u32 i = 0; i < MAX_MON_MOVES; i++)
-        SetMonMoveSlot(&gParties[B_TRAINER_OPPONENT_A][0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, level);
+    if (gSaveBlock1Ptr->outbreakPokemonMoves[0] != MOVE_NONE)
+    {
+        for (u32 i = 0; i < MAX_MON_MOVES; i++)
+            SetMonMoveSlot(&gParties[B_TRAINER_OPPONENT_A][0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
+    }
 
     return TRUE;
 }

@@ -100,6 +100,20 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "SaffronCity_PokemonCenter_1F_EventScript_PokemonJournalSabrina",
       "flag": "FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "x": 13,
+      "y": 7,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_KjhSwarmReporter",
+      "flag": "0"
     }
   ],
   "warp_events": [

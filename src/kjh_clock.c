@@ -4,12 +4,14 @@
 #include "event_data.h"
 #include "fake_rtc.h"
 #include "kjh_clock.h"
+#include "kjh_swarms.h"
 
 // Day 0 at KJH_CLOCK_START_HOUR, then the daily events' day count (VAR_DAYS) and FLAG_SYS_CLOCK_SET
 void KJH_StartClock(void)
 {
     FakeRtc_ManuallySetTime(0, KJH_CLOCK_START_HOUR, 0, 0);
     InitTimeBasedEvents();
+    KJH_StartDailySwarm(); // day 0 has a swarm too (CF-5)
 }
 
 // A save made before the clock existed (FLAG_SYS_CLOCK_SET unset) gets one when it's loaded

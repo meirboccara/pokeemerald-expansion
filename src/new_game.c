@@ -53,6 +53,7 @@
 #include "script_pokemon_util.h"
 #include "difficulty.h"
 #include "kjh_clock.h"
+#include "kjh_swarms.h"
 #include "follower_npc.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
@@ -159,9 +160,11 @@ static void WarpToTruck(void)
 // 0x0203FF34 the VS Seeker's charge in steps (100: ready), 0x0203FF36 an item registered to SELECT
 // (0x0203FF30-33 are the KJH tree's pack and journey switches),
 // 0x0203FF38 a variable and its value (0: none), 0x0203FF3C a game stat and its value (0: none),
-// 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none)
+// 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none),
+// 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one)
 static void KJH_DebugHarnessStart(void)
 {
+    vu16 *swarm = (vu16 *)0x0203FF44;
     vu16 *stat = (vu16 *)0x0203FF3C;
     vu16 *caughtUpTo = (vu16 *)0x0203FF40;
     vu16 *flags = (vu16 *)0x0203FF04;
@@ -195,6 +198,8 @@ static void KJH_DebugHarnessStart(void)
         VarSet(var[0], var[1]);
     if (stat[0] != 0 && stat[0] < NUM_GAME_STATS)
         SetGameStat(stat[0], stat[1]);
+    if (swarm[0] != 0 && swarm[0] <= KJH_SwarmCount())
+        KJH_StartSwarm(swarm[0] - 1);
     if (caughtUpTo[0] != 0)
     {
         EnableNationalPokedex();

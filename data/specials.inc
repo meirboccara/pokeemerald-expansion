@@ -641,3 +641,5 @@ gSpecials::
 	@ KJH (CF-3): the charms, src/kjh_charms.c
 	def_special KJH_ShinyCharmSpeciesLeft
 	def_special KJH_HasHatchedAnEgg
+	@ KJH (CF-5): the swarm reporter, src/kjh_swarms.c
+	def_special KJH_BufferTodaysSwarm
