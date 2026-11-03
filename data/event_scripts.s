@@ -1059,6 +1059,7 @@ gStdScripts_End::
 	.include "data/scripts/kjh_mega.inc"
 	.include "data/scripts/kjh_team_level.inc"
 	.include "data/scripts/kjh_ferry.inc"
+	.include "data/scripts/kjh_indigo.inc"
 
 .endif
 

@@ -33,6 +33,13 @@ enum KjhJohtoZone
     KJH_JOHTO_ZONE_ICE_PATH,
     // 8 badges: the road to the League
     KJH_JOHTO_ZONE_VICTORY_ROAD,
+    // The Johto League season at Indigo Plateau (ENG-10): the plateau, then one step per room
+    KJH_JOHTO_ZONE_INDIGO_PLATEAU,
+    KJH_JOHTO_ZONE_LORELEI,
+    KJH_JOHTO_ZONE_BRUNO,
+    KJH_JOHTO_ZONE_AGATHA,
+    KJH_JOHTO_ZONE_LANCE,
+    KJH_JOHTO_ZONE_CHAMPION,
     // After the League
     KJH_JOHTO_ZONE_POSTGAME,
     KJH_JOHTO_ZONE_COUNT,
@@ -57,6 +64,12 @@ static const struct KjhZoneRange sJohtoZones[KJH_JOHTO_ZONE_COUNT] =
     [KJH_JOHTO_ZONE_RADIO_TOWER]     = { 70,  74 },
     [KJH_JOHTO_ZONE_ICE_PATH]        = { 74,  78 },
     [KJH_JOHTO_ZONE_VICTORY_ROAD]    = { 80,  83 },
+    [KJH_JOHTO_ZONE_INDIGO_PLATEAU]  = { 83,  84 },
+    [KJH_JOHTO_ZONE_LORELEI]         = { 84,  84 },
+    [KJH_JOHTO_ZONE_BRUNO]           = { 88,  88 },
+    [KJH_JOHTO_ZONE_AGATHA]          = { 92,  92 },
+    [KJH_JOHTO_ZONE_LANCE]           = { 96,  96 },
+    [KJH_JOHTO_ZONE_CHAMPION]        = {100, 100 },
     [KJH_JOHTO_ZONE_POSTGAME]        = { 90, 100 },
 };
 
@@ -81,6 +94,16 @@ static const struct KjhMapZone sJohtoMapZones[] =
     { MAP_JOHTO_DARK_CAVE_BLACKTHORN_ENTRANCE,               KJH_JOHTO_ZONE_ICE_PATH },
     { MAP_JOHTO_GOLDENROD_UNDERGROUND_SWITCH_ROOM_ENTRANCES, KJH_JOHTO_ZONE_RADIO_TOWER },
     { MAP_JOHTO_GOLDENROD_UNDERGROUND_WAREHOUSE,             KJH_JOHTO_ZONE_RADIO_TOWER },
+    // Indigo Plateau, Johto's during the Johto League season (KJH_RegionOf)
+    { MAP_POKEMON_LEAGUE_LORELEIS_ROOM,                      KJH_JOHTO_ZONE_LORELEI },
+    { MAP_POKEMON_LEAGUE_BRUNOS_ROOM,                        KJH_JOHTO_ZONE_BRUNO },
+    { MAP_POKEMON_LEAGUE_AGATHAS_ROOM,                       KJH_JOHTO_ZONE_AGATHA },
+    { MAP_POKEMON_LEAGUE_LANCES_ROOM,                        KJH_JOHTO_ZONE_LANCE },
+    { MAP_POKEMON_LEAGUE_CHAMPIONS_ROOM,                     KJH_JOHTO_ZONE_CHAMPION },
+    { MAP_POKEMON_LEAGUE_HALL_OF_FAME,                       KJH_JOHTO_ZONE_CHAMPION },
+    { MAP_INDIGO_PLATEAU_EXTERIOR,                           KJH_JOHTO_ZONE_INDIGO_PLATEAU },
+    { MAP_INDIGO_PLATEAU_POKEMON_CENTER_1F,                  KJH_JOHTO_ZONE_INDIGO_PLATEAU },
+    { MAP_INDIGO_PLATEAU_POKEMON_CENTER_2F,                  KJH_JOHTO_ZONE_INDIGO_PLATEAU },
 };
 
 // Every Johto section (towns take in their houses, Pokémon Centers and Gyms).

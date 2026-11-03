@@ -840,5 +840,7 @@
 
 #define FLAG_KJH_GOT_JOHTO_STARTER (JOHTO_FLAGS_START + 0x5F0) // KJH: a FireRed-range flag in pokefirered
 #define FLAG_KJH_HIDE_OLIVINE_ADMINS (JOHTO_FLAGS_START + 0x5F1) // KJH: a FireRed-range flag in pokefirered
+#define FLAG_KJH_JOHTO_LEAGUE_OPEN (JOHTO_FLAGS_START + 0x5F2) // KJH: a FireRed-range flag in pokefirered
+#define FLAG_KJH_JOHTO_CHAMPION (JOHTO_FLAGS_START + 0x5F3) // KJH: a FireRed-range flag in pokefirered
 
 #endif

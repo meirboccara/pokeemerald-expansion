@@ -13,11 +13,9 @@
 
 extern const u8 EventScript_KjhTeamFeelsStronger[];
 
-#define NO_LEAGUE_FLAG 0 // a region whose League isn't in the game yet
-
 // A region's zone tables, the variables that keep its furthest zone's top and the team level last applied there (for
 // "Your team feels stronger!": crossing back to a region whose level is higher isn't a rise), its first badge's flag
-// and the flag of its League beaten (NO_LEAGUE_FLAG: its League isn't in the game yet).
+// and the flag of its League beaten.
 struct KjhRegionZones
 {
     const struct KjhZoneRange *zones;
@@ -61,7 +59,7 @@ static const struct KjhRegionZones sRegions[KJH_REGION_COUNT] =
         .zoneTopVar = VAR_KJH_JOHTO_ZONE_TOP,
         .teamLevelVar = VAR_KJH_JOHTO_TEAM_LEVEL,
         .firstBadgeFlag = FLAG_JOHTO_BADGE01_GET,
-        .leagueFlag = NO_LEAGUE_FLAG, // Johto's League comes with ENG-10
+        .leagueFlag = FLAG_KJH_JOHTO_CHAMPION, // the Hall of Fame in the Johto League season (ENG-10)
     },
 };
 
@@ -92,30 +90,43 @@ static u32 ZoneIn(const struct KjhRegionZones *region, u32 mapsec, u32 map)
     return 0;
 }
 
-// Kanto's tables are looked at first: a map in two regions' tables (Indigo Plateau's rooms, when ENG-10 gives them a
-// Johto season) is Kanto's until then.
-enum KjhRegion KJH_RegionOf(u32 mapsec, u32 map)
+// The region whose tables have this place, and its zone there (0 and KJH_REGION_NONE for none). A place in two
+// regions' tables (Indigo Plateau) is Kanto's, and Johto's during the Johto League season (ENG-10).
+static enum KjhRegion FindZone(u32 mapsec, u32 map, u32 *zone)
 {
+    if (FlagGet(FLAG_KJH_JOHTO_LEAGUE_OPEN))
+    {
+        *zone = ZoneIn(&sRegions[KJH_REGION_JOHTO], mapsec, map);
+        if (*zone)
+            return KJH_REGION_JOHTO;
+    }
+
     for (enum KjhRegion region = KJH_REGION_KANTO; region < KJH_REGION_COUNT; region++)
     {
-        if (ZoneIn(&sRegions[region], mapsec, map))
+        *zone = ZoneIn(&sRegions[region], mapsec, map);
+        if (*zone)
             return region;
     }
 
     return KJH_REGION_NONE;
 }
 
+enum KjhRegion KJH_RegionOf(u32 mapsec, u32 map)
+{
+    u32 zone;
+
+    return FindZone(mapsec, map, &zone);
+}
+
 u32 KJH_ZoneTop(u32 mapsec, u32 map)
 {
-    for (enum KjhRegion region = KJH_REGION_KANTO; region < KJH_REGION_COUNT; region++)
-    {
-        u32 zone = ZoneIn(&sRegions[region], mapsec, map);
+    u32 zone;
+    enum KjhRegion region = FindZone(mapsec, map, &zone);
 
-        if (zone)
-            return sRegions[region].zones[zone].max;
-    }
+    if (region == KJH_REGION_NONE)
+        return 0;
 
-    return 0;
+    return sRegions[region].zones[zone].max;
 }
 
 u32 KJH_TeamLevelCap(u32 badges)
@@ -164,7 +175,7 @@ u32 KJH_TeamLevel(void)
     enum KjhRegion region = KJH_RegionHere();
 
     // KJH (LV-3): the region's League beaten, the region uses its Champion's level.
-    if (sRegions[region].leagueFlag != NO_LEAGUE_FLAG && FlagGet(sRegions[region].leagueFlag))
+    if (FlagGet(sRegions[region].leagueFlag))
         return KJH_TeamLevelCap(NUM_BADGES);
 
     return min(VarGet(sRegions[region].zoneTopVar), KJH_TeamLevelCap(CountRegionBadges(region)));

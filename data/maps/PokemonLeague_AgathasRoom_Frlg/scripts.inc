@@ -54,8 +54,9 @@ PokemonLeague_AgathasRoom_EventScript_Agatha::
 	call_if_set FLAG_SYS_GAME_CLEAR, PokemonLeague_AgathasRoom_EventScript_RematchIntro
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
-	call_if_unset FLAG_IS_CHAMPION, PokemonLeague_AgathasRoom_EventScript_Battle
-	call_if_set FLAG_IS_CHAMPION, PokemonLeague_AgathasRoom_EventScript_Rematch
+	@ KJH (ENG-10): the rematch teams are the Johto League season's (data/scripts/kjh_indigo.inc)
+	call_if_unset FLAG_KJH_JOHTO_LEAGUE_OPEN, PokemonLeague_AgathasRoom_EventScript_Battle
+	call_if_set FLAG_KJH_JOHTO_LEAGUE_OPEN, PokemonLeague_AgathasRoom_EventScript_Rematch
 	clearflag FLAG_TEMP_5
 	goto PokemonLeague_AgathasRoom_EventScript_DefeatedAgatha
 	end

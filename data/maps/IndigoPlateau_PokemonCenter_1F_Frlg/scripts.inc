@@ -3,34 +3,29 @@ IndigoPlateau_PokemonCenter_1F_Frlg_MapScripts::
 	map_script MAP_SCRIPT_ON_RESUME, CableClub_OnResume
 	.byte 0
 
+@ KJH (ENG-10): Indigo's seasons (data/scripts/kjh_indigo.inc) instead of FireRed's "Lorelei is away until the Sevii
+@ Islands are done": the guard stands in front of the door between the Kanto and the Johto League seasons.
 IndigoPlateau_PokemonCenter_1F_OnTransition::
 	setrespawn HEAL_LOCATION_INDIGO_PLATEAU
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	call_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor
+	call KJH_EventScript_IndigoLeagueSeason
+	call_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor
 	end
 
-IndigoPlateau_PokemonCenter_1F_EventScript_CheckBlockDoor::
-	goto_if_set FLAG_IS_CHAMPION, Common_EventScript_NopReturn
+IndigoPlateau_PokemonCenter_1F_EventScript_BlockDoor::
 	setobjectxyperm LOCALID_LEAGUE_DOOR_GUARD, 4, 2
 	return
 
 IndigoPlateau_PokemonCenter_1F_EventScript_DoorGuard::
 	lock
 	faceplayer
-	specialvar VAR_RESULT, IsNationalPokedexEnabled
-	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_CheckSeviiIslandComplete
+	call KJH_EventScript_IndigoLeagueSeason
+	goto_if_eq VAR_RESULT, TRUE, IndigoPlateau_PokemonCenter_1F_EventScript_BetweenSeasons
 	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
 	release
 	end
 
-IndigoPlateau_PokemonCenter_1F_EventScript_CheckSeviiIslandComplete::
-	goto_if_set FLAG_IS_CHAMPION, IndigoPlateau_PokemonCenter_1F_EventScript_SeviiIslandComplete
-	msgbox IndigoPlateau_PokemonCenter_1F_Text_LoreleiIsAbsentClosedForTimeBeing
-	release
-	end
-
-IndigoPlateau_PokemonCenter_1F_EventScript_SeviiIslandComplete::
-	msgbox IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck
+IndigoPlateau_PokemonCenter_1F_EventScript_BetweenSeasons::
+	msgbox KJH_Text_IndigoBetweenSeasons
 	release
 	end
 
@@ -83,14 +78,6 @@ IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck::
 	.string "ELITE FOUR one by one.\p"
 	.string "If you win, a door opens to the\n"
 	.string "next TRAINER. Good luck!$"
-
-IndigoPlateau_PokemonCenter_1F_Text_LoreleiIsAbsentClosedForTimeBeing::
-	.string "I am so sorry, but you've wasted\n"
-	.string "your time coming here.\p"
-	.string "LORELEI of the ELITE FOUR is\n"
-	.string "absent, you see.\p"
-	.string "As a result, the POKéMON LEAGUE is\n"
-	.string "closed for the time being.$"
 
 IndigoPlateau_PokemonCenter_1F_Text_AgathaWhuppedUs::
 	.string "AGATHA's GHOST-type POKéMON are\n"
