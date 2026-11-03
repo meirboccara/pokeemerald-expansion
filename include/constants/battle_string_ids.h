@@ -734,6 +734,8 @@ enum StringID
     STRINGID_KJH_FIELD_TRAINS_TWICE, // KJH: matching spots (LV-13)
     STRINGID_KJH_OHKO_LOCKED,
     STRINGID_KJH_MEGA_HELD_BACK, // KJH: Mega Evolution held back (LV-19)
+    STRINGID_KJH_ALPHA_STONE_DROP, // KJH: an Alpha's Mega Stone (LV-22)
+    STRINGID_KJH_WILD_MEGA_REACTING, // KJH: a wild Mega Alpha (LV-22)
     STRINGID_COUNT
 };
 

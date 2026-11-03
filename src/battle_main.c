@@ -36,6 +36,7 @@
 #include "international_string_util.h"
 #include "item.h"
 #include "kjh_field.h"
+#include "kjh_mega.h"
 #include "kjh_legendary.h"
 #include "kjh_pack.h"
 #include "kjh_move_stars.h"
@@ -5142,6 +5143,11 @@ static void HandleEndTurn_BattleWon(void)
         BattleScriptPush(gBattlescriptCurrInstr);
         gBattlescriptCurrInstr = BattleScript_KjhMovesGrewStronger;
     }
+    if (KJH_PackIsAlphaBattle()) // KJH (LV-22): a beaten Alpha's Mega Stone, before anything else
+    {
+        BattleScriptPush(gBattlescriptCurrInstr);
+        gBattlescriptCurrInstr = BattleScript_KjhAlphaStoneDropWon;
+    }
 
     gBattleMainFunc = HandleEndTurn_FinishBattle;
 }
@@ -5852,6 +5858,8 @@ void ScriptSetTotemBoost(struct ScriptContext *ctx)
 bool32 IsWildMonSmart(void)
 {
     if (KJH_IsLegendaryBossBattle()) // KJH: a legendary boss (CF-12, src/kjh_legendary.c)
+        return TRUE;
+    if (KJH_IsMegaAlphaBattle()) // KJH (LV-22): a Mega Alpha, so that it Mega Evolves (src/kjh_mega.c)
         return TRUE;
 #if WE_SMART_WILD_AI_FLAG != 0
     return (FlagGet(WE_SMART_WILD_AI_FLAG));

@@ -80,6 +80,25 @@ void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx);
 u32 KJH_ItemPrice(enum Item item, u32 price);
 bool32 KJH_IsNeverSoldStone(enum Item item);
 
+// LV-22: wild Mega Alphas and stone drops (docs/LEVELLESS_DESIGN.md, "Wild Megas"; docs/MEGA.md). Expansion lets a
+// wild Pokemon Mega Evolve only through the battle AI (OpponentHandleChooseMove picks a random move, without a
+// gimmick, for a plain wild one), so an Alpha holding its stone fights as a smart wild Pokemon (IsWildMonSmart).
+// The stone of this species or of a species it evolves into (an Alpha Mareep: Ampharosite), ITEM_NONE without one
+enum Item KJH_MegaStoneForFamily(enum Species species);
+// The stone is in the bag or held by a party Pokemon
+bool32 KJH_PlayerHasMegaStone(enum Item stone);
+// A new wild Alpha (KJH_PackFinishWildMon): a Mega-capable one holds its stone when the player's bracelet works here
+void KJH_GiveAlphaMegaStone(struct Pokemon *mon);
+// This battle's wild Alpha holds a Mega Stone: it fights with the AI so it Mega Evolves on its first turn
+bool32 KJH_IsMegaAlphaBattle(void);
+// callnative NATIVE_ARGS(const u8 *doneInstr, u8 caught): a beaten or caught Alpha of a Mega family gives its stone
+// when the player doesn't have it ("The ALPHA left its GYARADOSITE!"), once the player has the starter's stone (the
+// Mt. Moon meteorite, FLAG_KJH_MEGA_GUARDIAN_DONE) and never a never-sold stone; a caught one holding it brings it
+// along. A family's first branch counts (Ralts: Gardevoirite); the PC isn't searched for a stone the player has.
+void BS_KjhTryAlphaStoneDrop(void);
+// callnative NATIVE_ARGS(const u8 *jumpInstr): the Mega Evolving Pokemon is wild (its own "reacting" line)
+void BS_KjhJumpIfWildMega(void);
+
 // Trainers (src/kjh_progression.c): a boss's ace gets its stone when the player's bracelet works here
 void KJH_GiveBossAceMegaStone(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer);
 

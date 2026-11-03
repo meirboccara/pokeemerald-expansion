@@ -20,6 +20,7 @@
 #include "battle_setup.h"
 #include "kjh_hidden_ability.h"
 #include "kjh_levelless.h"
+#include "kjh_mega.h"
 #include "kjh_pack.h"
 #include "kjh_team_level.h"
 #include "ow_abilities.h"
@@ -164,6 +165,7 @@ void KJH_PackFinishWildMon(struct Pokemon *mon)
     if (sPackNextEncounter & PACK_FLAG_ALPHA)
     {
         MakeAlpha(mon);
+        KJH_GiveAlphaMegaStone(mon); // LV-22: a Mega-capable Alpha holds its stone, if the bracelet works here
     }
     else if (sPackNextEncounter & PACK_FLAG_LEADER)
     {
@@ -184,6 +186,11 @@ void KJH_PackSetNextEncounter(bool32 leader)
 void KJH_PackSetNextEncounterAlpha(void)
 {
     sPackNextEncounter = PACK_FLAG_ALPHA;
+}
+
+bool32 KJH_PackIsNextEncounterAlpha(void)
+{
+    return (sPackNextEncounter & PACK_FLAG_ALPHA) != 0;
 }
 
 void KJH_PackMakeScriptedAlpha(struct Pokemon *mon)

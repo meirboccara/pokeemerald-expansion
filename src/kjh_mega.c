@@ -264,6 +264,12 @@ void BS_KjhTryMegaHeldBackMessage(void)
     JumpIf(!KJH_TryPrepareMegaHeldBack());
 }
 
+// A wild Pokemon's Mega Evolution: expansion's line names its (dummy) trainer's ring
+void BS_KjhJumpIfWildMega(void)
+{
+    JumpIf(!IsOnPlayerSide(gBattlerAttacker) && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER));
+}
+
 void KJH_MegaStartBattle(void)
 {
     sMegaHeldBackShown = FALSE;
@@ -414,4 +420,95 @@ u32 KJH_ItemPrice(enum Item item, u32 price)
     if (GetItemHoldEffect(item) == HOLD_EFFECT_MEGA_STONE && !KJH_IsNeverSoldStone(item))
         return KJH_MEGA_STONE_PRICE;
     return price;
+}
+
+#define MAX_FAMILY_DEPTH 3 // Mareep -> Flaaffy -> Ampharos
+
+static enum Item StoneInFamily(enum Species species, u32 depth)
+{
+    const struct Evolution *evolutions;
+    enum Item stone = KJH_MegaStoneForSpecies(species);
+
+    if (stone != ITEM_NONE || depth == 0)
+        return stone;
+    evolutions = GetSpeciesEvolutions(species);
+    for (u32 i = 0; evolutions != NULL && evolutions[i].method != EVOLUTIONS_END; i++)
+    {
+        stone = StoneInFamily(evolutions[i].targetSpecies, depth - 1);
+        if (stone != ITEM_NONE)
+            return stone;
+    }
+    return ITEM_NONE;
+}
+
+enum Item KJH_MegaStoneForFamily(enum Species species)
+{
+    return StoneInFamily(species, MAX_FAMILY_DEPTH);
+}
+
+bool32 KJH_PlayerHasMegaStone(enum Item stone)
+{
+    if (CheckBagHasItem(stone, 1))
+        return TRUE;
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM) == stone)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+void KJH_GiveAlphaMegaStone(struct Pokemon *mon)
+{
+    enum Item stone = KJH_MegaStoneForSpecies(GetMonData(mon, MON_DATA_SPECIES));
+
+    if (stone != ITEM_NONE && KJH_IsBraceletActiveHere())
+        SetMonData(mon, MON_DATA_HELD_ITEM, &stone);
+}
+
+// Also before the battle starts (the AI's flags are set before KJH_PackBattleStart), from the coming encounter
+bool32 KJH_IsMegaAlphaBattle(void)
+{
+    return (KJH_PackIsAlphaBattle() || KJH_PackIsNextEncounterAlpha())
+        && GetItemHoldEffect(GetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM)) == HOLD_EFFECT_MEGA_STONE;
+}
+
+// battle_script_commands.c's NATIVE_ARGS(const u8 *doneInstr, u8 caught)
+struct __attribute__((packed)) KjhNativeDrop
+{
+    u8 opcode;
+    void (*func)(void);
+    const u8 *doneInstr;
+    u8 caught;
+    const u8 nextInstr[0];
+};
+
+void BS_KjhTryAlphaStoneDrop(void)
+{
+    const struct KjhNativeDrop *cmd = (const void *)gBattlescriptCurrInstr;
+    struct Pokemon *alpha = &gEnemyParty[0];
+    enum Item held = GetMonData(alpha, MON_DATA_HELD_ITEM);
+    enum Item stone;
+
+    gBattlescriptCurrInstr = cmd->doneInstr;
+    if (!KJH_PackIsAlphaBattle() || (gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return;
+    // Its own stone (a Mega form has no family of its own), or its family's
+    if (GetItemHoldEffect(held) == HOLD_EFFECT_MEGA_STONE)
+    {
+        if (cmd->caught)
+            return; // it comes along with the Pokemon
+        stone = held;
+    }
+    else
+    {
+        stone = KJH_MegaStoneForFamily(GetMonData(alpha, MON_DATA_SPECIES));
+    }
+    // Drops open with the starter's stone, which the Mt. Moon meteorite gave (LV-20; the guardian's own battle comes
+    // before it); a never-sold stone is only found where it belongs (LV-21)
+    if (stone == ITEM_NONE || !FlagGet(FLAG_KJH_MEGA_GUARDIAN_DONE) || KJH_IsNeverSoldStone(stone)
+     || KJH_PlayerHasMegaStone(stone) || !AddBagItem(stone, 1))
+        return;
+    PREPARE_ITEM_BUFFER(gBattleTextBuff1, stone);
+    gBattlescriptCurrInstr = cmd->nextInstr;
 }

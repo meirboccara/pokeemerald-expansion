@@ -209,6 +209,7 @@ BattleScript_TryNicknameCaughtMon::
 BattleScript_GiveCaughtMonEnd::
 	givecaughtmon BattleScript_SuccessBallThrowEnd
 BattleScript_SuccessBallThrowEnd::
+	call BattleScript_KjhAlphaStoneDropCaught @ KJH (LV-22): a caught Alpha's family stone
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
 	finishturn
 

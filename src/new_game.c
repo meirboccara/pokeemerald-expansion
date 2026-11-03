@@ -163,7 +163,8 @@ static void WarpToTruck(void)
 // (0x0203FF30-33 are the KJH tree's pack and journey switches),
 // 0x0203FF38 a variable and its value (0: none), 0x0203FF3C a game stat and its value (0: none),
 // 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none),
-// 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one),
+// 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one), 0x0203FF46 its
+// chance in % instead of its own (LV-22; 0: its own),
 // 0x0203FF48 species and level of a third Pokemon (0: none),
 // 0x0203FF4C the first Pokemon's Training bank (LV-7; 0: none),
 // (0x0203FF50 is src/kjh_pack.c's Alpha switch, LV-15),
@@ -221,7 +222,11 @@ static void KJH_DebugHarnessStart(void)
     if (stat[0] != 0 && stat[0] < NUM_GAME_STATS)
         SetGameStat(stat[0], stat[1]);
     if (swarm[0] != 0 && swarm[0] <= KJH_SwarmCount())
+    {
         KJH_StartSwarm(swarm[0] - 1);
+        if (swarm[1] != 0)
+            gSaveBlock1Ptr->outbreakPokemonProbability = swarm[1];
+    }
     if (caughtUpTo[0] != 0)
     {
         EnableNationalPokedex();

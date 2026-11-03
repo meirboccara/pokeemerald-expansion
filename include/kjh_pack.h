@@ -89,6 +89,8 @@ void KJH_PackFinishWildMon(struct Pokemon *mon);
 void KJH_PackSetNextEncounter(bool32 leader);
 // Tests: the next battle's wild Pokemon is an Alpha (LV-15)
 void KJH_PackSetNextEncounterAlpha(void);
+// The coming wild battle's Pokemon is an Alpha (before KJH_PackBattleStart, e.g. when the AI's flags are set; LV-22)
+bool32 KJH_PackIsNextEncounterAlpha(void);
 // A scripted wild battle's Pokemon (gEnemyParty[0], made by setwildbattle) is an Alpha, healthbox and all (LV-20: the
 // Mt. Moon guardian). A scripted battle with no battle type flags keeps it (KJH_PackBattleStart).
 void KJH_PackMakeScriptedAlpha(struct Pokemon *mon);

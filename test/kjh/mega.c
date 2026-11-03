@@ -228,3 +228,64 @@ TEST("KJH: Celadon's dealer sells Kanto's ordinary Mega Stones at 10,000, never 
     EXPECT_EQ(GetItemPrice(ITEM_MEWTWONITE_Y), 0); // so it can't be sold either
     EXPECT_EQ(GetItemPrice(ITEM_POTION), gItemsInfo[ITEM_POTION].price); // other items keep their price
 }
+
+// LV-22: wild Mega Alphas and stone drops
+TEST("KJH: an Alpha's stone follows its evolution family")
+{
+    EXPECT_EQ(KJH_MegaStoneForFamily(SPECIES_MAREEP), ITEM_AMPHAROSITE);
+    EXPECT_EQ(KJH_MegaStoneForFamily(SPECIES_MAGIKARP), ITEM_GYARADOSITE);
+    EXPECT_EQ(KJH_MegaStoneForFamily(SPECIES_GYARADOS), ITEM_GYARADOSITE);
+    EXPECT_EQ(KJH_MegaStoneForFamily(SPECIES_PIDGEY), ITEM_PIDGEOTITE);
+    EXPECT_EQ(KJH_MegaStoneForFamily(SPECIES_RATTATA), ITEM_NONE);
+}
+
+TEST("KJH: an Alpha that is a Mega form holds its stone only when the bracelet works here")
+{
+    struct Pokemon mon;
+
+    FlagSet(FLAG_KJH_LEVELLESS);
+    StandIn(MAPSEC_CELADON_CITY, MAP_CELADON_CITY);
+    RemoveBagItem(ITEM_MEGA_RING, 1);
+    CreateMon(&mon, SPECIES_GYARADOS, 40, 0, OTID_STRUCT_PRESET(0));
+    KJH_GiveAlphaMegaStone(&mon);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_HELD_ITEM), ITEM_NONE);
+    AddBagItem(ITEM_MEGA_RING, 1);
+    KJH_GiveAlphaMegaStone(&mon);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_HELD_ITEM), ITEM_GYARADOSITE);
+    CreateMon(&mon, SPECIES_MAGIKARP, 40, 0, OTID_STRUCT_PRESET(0)); // not a Mega form: no stone held
+    KJH_GiveAlphaMegaStone(&mon);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_HELD_ITEM), ITEM_NONE);
+    RemoveBagItem(ITEM_MEGA_RING, 1);
+    FlagClear(FLAG_KJH_LEVELLESS);
+}
+
+WILD_BATTLE_TEST("KJH: a beaten Alpha Magikarp leaves its family's Gyaradosite, if the player hasn't one")
+{
+    bool32 hasOne;
+
+    PARAMETRIZE { hasOne = FALSE; }
+    PARAMETRIZE { hasOne = TRUE; }
+    GIVEN {
+        FLAG_SET(FLAG_KJH_LEVELLESS);
+        PLAYER(SPECIES_WOBBUFFET) { Item(hasOne ? ITEM_GYARADOSITE : ITEM_NONE); } // held counts as having it
+        FlagSet(FLAG_KJH_MEGA_GUARDIAN_DONE); // drops open with the starter's stone (FLAG_SET: one per test)
+        OPPONENT(SPECIES_MAGIKARP) { HP(1); }
+        KJH_PackSetNextEncounterAlpha();
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH); }
+    } SCENE {
+        MESSAGE("The wild Magikarp fainted!");
+        if (hasOne)
+        {
+            NOT MESSAGE("The ALPHA left its Gyaradosite!");
+        }
+        else
+        {
+            MESSAGE("The ALPHA left its Gyaradosite!");
+        }
+    } THEN {
+        EXPECT(CheckBagHasItem(ITEM_GYARADOSITE, 1) == !hasOne);
+        RemoveBagItem(ITEM_GYARADOSITE, 1);
+        FlagClear(FLAG_KJH_MEGA_GUARDIAN_DONE);
+    }
+}

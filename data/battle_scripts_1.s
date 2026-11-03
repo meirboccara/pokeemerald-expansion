@@ -3947,6 +3947,8 @@ BattleScript_FocusPunchSetUpEncored::
 
 BattleScript_MegaEvolution::
 	flushtextbox
+	callnative BS_KjhJumpIfWildMega @ KJH (LV-22): a wild Mega Alpha has no trainer's ring
+	.4byte BattleScript_KjhWildMegaReacting
 	printstring STRINGID_MEGAEVOREACTING
 BattleScript_MegaEvolutionAfterString:
 	waitmessage B_WAIT_TIME_LONG
@@ -6439,6 +6441,29 @@ BattleScript_KjhFieldTrainsTwice::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_KjhMovesGrewStronger
 BattleScript_KjhMovesGrewStrongerDone::
+	return
+
+@ KJH (LV-22): a wild Mega Alpha's line
+BattleScript_KjhWildMegaReacting::
+	printstring STRINGID_KJH_WILD_MEGA_REACTING
+	goto BattleScript_MegaEvolutionAfterString
+
+@ KJH (LV-22): a beaten or caught Alpha of a Mega family leaves its stone (src/kjh_mega.c)
+BattleScript_KjhAlphaStoneDropWon::
+	callnative BS_KjhTryAlphaStoneDrop
+	.4byte BattleScript_KjhAlphaStoneDropDone
+	.byte FALSE
+	printstring STRINGID_KJH_ALPHA_STONE_DROP
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_KjhAlphaStoneDropDone::
+	return
+
+BattleScript_KjhAlphaStoneDropCaught::
+	callnative BS_KjhTryAlphaStoneDrop
+	.4byte BattleScript_KjhAlphaStoneDropDone
+	.byte TRUE
+	printstring STRINGID_KJH_ALPHA_STONE_DROP
+	waitmessage B_WAIT_TIME_LONG
 	return
 
 BattleScript_KjhSelectingOhkoLocked::
