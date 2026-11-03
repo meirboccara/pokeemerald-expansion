@@ -733,6 +733,7 @@ enum StringID
     STRINGID_KJH_MOVE_GREW_STRONGER, // KJH: move stars (LV-12)
     STRINGID_KJH_FIELD_TRAINS_TWICE, // KJH: matching spots (LV-13)
     STRINGID_KJH_OHKO_LOCKED,
+    STRINGID_KJH_MEGA_HELD_BACK, // KJH: Mega Evolution held back (LV-19)
     STRINGID_COUNT
 };
 

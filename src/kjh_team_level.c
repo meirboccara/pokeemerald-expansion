@@ -147,7 +147,7 @@ static u32 CurrentMapId(void)
 }
 
 // The region the player stands in; Kanto outside every region.
-static enum KjhRegion RegionHere(void)
+enum KjhRegion KJH_RegionHere(void)
 {
     enum KjhRegion region = KJH_RegionOf(gMapHeader.regionMapSectionId, CurrentMapId());
 
@@ -156,12 +156,12 @@ static enum KjhRegion RegionHere(void)
 
 u32 KJH_CountBadgesHere(void)
 {
-    return CountRegionBadges(RegionHere());
+    return CountRegionBadges(KJH_RegionHere());
 }
 
 u32 KJH_TeamLevel(void)
 {
-    enum KjhRegion region = RegionHere();
+    enum KjhRegion region = KJH_RegionHere();
 
     // KJH (LV-3): the region's League beaten, the region uses its Champion's level.
     if (sRegions[region].leagueFlag != NO_LEAGUE_FLAG && FlagGet(sRegions[region].leagueFlag))
@@ -179,7 +179,7 @@ static u32 CurrentZoneTop(void)
 // The ace of the Gym the player stands in (its region's Gyms), 0 outside a Gym.
 static u32 CurrentGymAce(void)
 {
-    const struct KjhRegionZones *region = &sRegions[RegionHere()];
+    const struct KjhRegionZones *region = &sRegions[KJH_RegionHere()];
     u32 map = CurrentMapId();
 
     for (u32 i = 0; i < region->gymCount; i++)
@@ -209,7 +209,7 @@ s32 KJH_GymLevelShift(void)
 void KJH_RecordZone(void)
 {
     u32 top = CurrentZoneTop();
-    u16 zoneTopVar = sRegions[RegionHere()].zoneTopVar;
+    u16 zoneTopVar = sRegions[KJH_RegionHere()].zoneTopVar;
 
     if (top > VarGet(zoneTopVar))
         VarSet(zoneTopVar, top);
@@ -276,7 +276,7 @@ bool32 KJH_TryTeamLevelStep(void)
     KJH_RecordZone();
     level = KJH_TeamLevel();
     KJH_ApplyTeamLevelToParty();
-    teamLevelVar = sRegions[RegionHere()].teamLevelVar;
+    teamLevelVar = sRegions[KJH_RegionHere()].teamLevelVar;
     before = VarGet(teamLevelVar);
     if (level == before)
         return FALSE;

@@ -33,6 +33,8 @@ enum KjhRegion KJH_RegionOf(u32 mapsec, u32 map);
 u32 KJH_TeamLevelCap(u32 badges);
 // Kanto's badges.
 u32 KJH_CountKantoBadges(void);
+// The region the player stands in; Kanto outside every region (LV-19's bracelet).
+enum KjhRegion KJH_RegionHere(void);
 // The badges of the region the player stands in; Kanto's outside every region.
 u32 KJH_CountBadgesHere(void);
 // The team's level now in the region the player stands in (Kanto's outside every region), 0 before any of its

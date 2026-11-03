@@ -17,6 +17,7 @@
 #include "kjh_bond.h"
 #include "kjh_boss_rules.h"
 #include "kjh_hidden_ability.h"
+#include "kjh_mega.h"
 #include "kjh_progression.h"
 #include "kjh_team_level.h"
 #include "constants/battle_ai.h"
@@ -383,6 +384,7 @@ void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, cons
         item = ITEM_SITRUS_BERRY;
         SetMonData(mon, MON_DATA_HELD_ITEM, &item);
     }
+    KJH_GiveBossAceMegaStone(mon, in, trainer); // LV-19: once the player's bracelet works here
     // Bosses that weren't moved keep FireRed's handmade movesets (GenerateMonFromTrainerMon set them)
     if (moved || !hasCustomMoves)
         BuildBossMoveset(mon, hasCustomMoves ? in->moves : NULL);

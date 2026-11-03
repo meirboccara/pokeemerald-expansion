@@ -4,6 +4,7 @@
 #include "battle_message.h"
 #include "config_changes.h"
 #include "event_data.h"
+#include "kjh_mega.h"
 #include "kjh_power_cap.h"
 #include "kjh_team_level.h"
 #include "main.h"
@@ -66,6 +67,7 @@ u32 KJH_PowerCapPercentNow(void)
 void KJH_PowerCapStartBattle(void)
 {
     sHeldBackShown = FALSE;
+    KJH_MegaStartBattle(); // LV-19's "held back" too
 }
 
 u32 KJH_CapBattleMovePower(u32 power)

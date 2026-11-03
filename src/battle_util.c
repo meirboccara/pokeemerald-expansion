@@ -6,6 +6,7 @@
 #include "battle_environment.h"
 #include "battle_pyramid.h"
 #include "battle_util.h"
+#include "kjh_mega.h"
 #include "kjh_bond.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
@@ -8578,9 +8579,9 @@ bool32 CanMegaEvolve(enum BattlerId battler)
     enum BattlerPosition position = GetBattlerPosition(battler);
 
     // Check if Player has a Mega Ring.
-    if (!TESTING
-        && (position == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
-        && !CheckBagHasItem(ITEM_MEGA_RING, 1))
+    // KJH (LV-19): that works in this region, and the Pokemon's Bond (src/kjh_mega.c)
+    if ((position == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
+        && !KJH_CanBattlerMegaEvolve(battler))
         return FALSE;
 
     // Check if Trainer has already Mega Evolved.
@@ -8649,7 +8650,7 @@ bool32 CanUltraBurst(enum BattlerId battler)
 void ActivateMegaEvolution(enum BattlerId battler)
 {
     enum Ability ability = GetBattlerAbility(battler);
-    gLastUsedItem = gBattleMons[battler].item;
+    gLastUsedItem = KJH_MegaStoneInPlay(battler, FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM, gBattleMons[battler].item);
     SetActiveGimmick(battler, GIMMICK_MEGA);
     SetGimmickAsActivated(battler, GIMMICK_MEGA);
 
@@ -8718,7 +8719,7 @@ enum Species GetBattleFormChangeTargetSpecies(enum BattlerId battler, enum FormC
     {
         .method = method,
         .currentSpecies = gBattleMons[battler].species,
-        .heldItem = gBattleMons[battler].item,
+        .heldItem = KJH_MegaStoneInPlay(battler, method, gBattleMons[battler].item), // KJH (LV-19): or in the bag
         .ability = ability,
         .status = gBattleMons[battler].status1,
         .gmaxFactor = GetMonData(GetBattlerMon(battler), MON_DATA_GIGANTAMAX_FACTOR),
@@ -8817,12 +8818,20 @@ bool32 TryBattleFormChange(enum BattlerId battler, enum FormChanges method, enum
         if (GetBattlerPartyState(battler)->changedSpecies == SPECIES_NONE)
             GetBattlerPartyState(battler)->changedSpecies = gBattleMons[battler].species;
 
+        // KJH (LV-19): a Mega's stats and ability before, to hold it back
+        u16 kjhStatsBefore[NUM_STATS];
+        enum Ability kjhAbilityBefore = gBattleMons[battler].ability;
+
+        for (enum Stat stat = 0; stat < NUM_STATS; stat++)
+            kjhStatsBefore[stat] = GetMonData(mon, MON_DATA_MAX_HP + stat);
         TryToSetBattleFormChangeMoves(mon, method);
         SetMonData(mon, MON_DATA_SPECIES, &targetSpecies);
         gBattleMons[battler].species = targetSpecies;
         if (GetConfig(B_AUTOTOMIZE_FORM_CHANGE) >= GEN_6)
             gBattleMons[battler].volatiles.autotomizeCount = 0;
         RecalcBattlerStats(battler, mon, method == FORM_CHANGE_BATTLE_GIGANTAMAX);
+        if (method == FORM_CHANGE_BATTLE_MEGA_EVOLUTION_ITEM || method == FORM_CHANGE_BATTLE_MEGA_EVOLUTION_MOVE)
+            KJH_HoldBackMegaEvolution(battler, mon, kjhStatsBefore, kjhAbilityBefore);
         return TRUE;
     }
 

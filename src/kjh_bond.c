@@ -9,6 +9,7 @@
 #include "event_data.h"
 #include "item.h"
 #include "kjh_bond.h"
+#include "kjh_mega.h"
 #include "kjh_levelless.h"
 #include "kjh_progression.h"
 #include "pokemon.h"
@@ -311,6 +312,7 @@ void KJH_FormatBondPage(struct Pokemon *mon, u8 *dest)
         end = StringAppend(end, COMPOUND_STRING(" "));
         end = StringAppend(end, gKjhBondMilestones[i].name);
     }
+    KJH_AppendMegaLine(end, mon); // LV-19
 }
 
 // LV-6: the perks

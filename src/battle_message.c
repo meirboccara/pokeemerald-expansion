@@ -918,6 +918,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_KJH_FIELD_TRAINS_TWICE]               = COMPOUND_STRING("{B_BUFF1}, {B_BUFF2} moves\ntrain twice as fast!\p"),
     [STRINGID_KJH_MOVE_GREW_STRONGER]               = COMPOUND_STRING("{B_BUFF1}'s {B_BUFF2}\ngrew stronger! {B_BUFF3}\p"),
     [STRINGID_KJH_OHKO_LOCKED]                      = COMPOUND_STRING("{B_BUFF1} is locked until this region's\n6th badge!\p"),
+    [STRINGID_KJH_MEGA_HELD_BACK]                   = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s Mega\nEvolution is held back ({B_BUFF1}%)!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

@@ -1055,6 +1055,7 @@ gStdScripts_End::
 	.include "data/scripts/kjh_fair_fight.inc"
 	.include "data/scripts/kjh_hidden_ability.inc"
 	.include "data/scripts/kjh_stat_trainer.inc"
+	.include "data/scripts/kjh_mega.inc"
 	.include "data/scripts/kjh_team_level.inc"
 
 .endif

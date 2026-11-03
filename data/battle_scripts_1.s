@@ -3956,6 +3956,16 @@ BattleScript_MegaEvolutionAfterString:
 	handleformchange BS_SCRIPTING, 1
 	printstring STRINGID_MEGAEVOEVOLVED
 	waitmessage B_WAIT_TIME_LONG
+	callnative BS_KjhJumpIfMegaNotHeldBack @ KJH (LV-19): a held-back Mega keeps its old ability, already on
+	.4byte BattleScript_MegaEvolutionNotHeldBack
+	callnative BS_KjhTryMegaHeldBackMessage @ "... is held back (80%)!", once per battle
+	.4byte BattleScript_MegaEvolutionHeldBackDone
+	printstring STRINGID_KJH_MEGA_HELD_BACK
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MegaEvolutionHeldBackDone:
+	effectsafterformchange
+	end3
+BattleScript_MegaEvolutionNotHeldBack:
 	switchinabilities BS_SCRIPTING
 	effectsafterformchange
 	end3
