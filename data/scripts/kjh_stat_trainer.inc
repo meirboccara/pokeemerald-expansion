@@ -14,20 +14,20 @@ KJH_EventScript_StatTrainerChooseMon::
 KJH_EventScript_StatTrainerChooseWhat::
 	message KJH_Text_StatTrainerWhat
 	waitmessage
-	dynmultipush KJH_Text_StatTrainerIvs, 0       @ KJH_STAT_TRAINER_IVS
-	dynmultipush KJH_Text_StatTrainerEvs, 1       @ KJH_STAT_TRAINER_EVS
-	dynmultipush KJH_Text_StatTrainerNature, 2    @ KJH_STAT_TRAINER_NATURE
-	dynmultipush KJH_Text_StatTrainerAbility, 3
-	dynmultipush KJH_Text_StatTrainerCancel, 4
+	dynmultipush KJH_Text_StatTrainerIvs, KJH_STAT_TRAINER_IVS
+	dynmultipush KJH_Text_StatTrainerEvs, KJH_STAT_TRAINER_EVS
+	dynmultipush KJH_Text_StatTrainerNature, KJH_STAT_TRAINER_NATURE
+	dynmultipush KJH_Text_StatTrainerAbility, KJH_STAT_TRAINER_ABILITY
+	dynmultipush KJH_Text_StatTrainerCancel, KJH_STAT_TRAINER_CANCEL
 	dynmultistack 0, 0, FALSE, 5, FALSE, 0, NULL
-	goto_if_ge VAR_RESULT, 4, KJH_EventScript_StatTrainerBye
-	goto_if_eq VAR_RESULT, 3, KJH_EventScript_StatTrainerAbility
+	goto_if_ge VAR_RESULT, KJH_STAT_TRAINER_CANCEL, KJH_EventScript_StatTrainerBye
+	goto_if_eq VAR_RESULT, KJH_STAT_TRAINER_ABILITY, KJH_EventScript_StatTrainerAbility
 	copyvar VAR_0x8005, VAR_RESULT
-	call_if_ne VAR_0x8005, 2, KJH_EventScript_StatTrainerHelpStats
-	call_if_eq VAR_0x8005, 2, KJH_EventScript_StatTrainerHelpNature
+	call_if_ne VAR_0x8005, KJH_STAT_TRAINER_NATURE, KJH_EventScript_StatTrainerHelpStats
+	call_if_eq VAR_0x8005, KJH_STAT_TRAINER_NATURE, KJH_EventScript_StatTrainerHelpNature
 	callnative KJH_ScriptStatTrainerEdit, requests_effects=1, waitstate=1
 	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_StatTrainerChooseWhat
-	goto_if_eq VAR_0x8005, 2, KJH_EventScript_StatTrainerNatureDone
+	goto_if_eq VAR_0x8005, KJH_STAT_TRAINER_NATURE, KJH_EventScript_StatTrainerNatureDone
 	msgbox KJH_Text_StatTrainerDone
 	goto KJH_EventScript_StatTrainerChooseWhat
 
@@ -51,7 +51,7 @@ KJH_EventScript_StatTrainerHelpNature::
 	return
 
 KJH_EventScript_StatTrainerEgg::
-	msgbox KJH_Text_StatTrainerEgg
+	msgbox KJH_Text_AbilityEgg
 	goto KJH_EventScript_StatTrainerChooseMon
 
 KJH_EventScript_StatTrainerBye::
@@ -101,9 +101,6 @@ KJH_Text_StatTrainerDone::
 
 KJH_Text_StatTrainerNatureDone::
 	.string "Done! {STR_VAR_1} has a new nature.$"
-
-KJH_Text_StatTrainerEgg::
-	.string "An EGG? Let it hatch first!$"
 
 KJH_Text_StatTrainerBye::
 	.string "Come back any time!$"

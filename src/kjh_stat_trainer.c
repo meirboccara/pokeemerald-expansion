@@ -25,7 +25,7 @@
 #define tWindowId data[1]
 #define tMode     data[2]
 #define tNature   data[3]
-#define tValues   4 // data[4..9]: the six values, in the row order below
+#define tValues   data[4] // data[4..9]: the six values, in the row order below
 
 // Rows: HP, ATTACK, DEFENSE, SP. ATK, SP. DEF, SPEED, as the summary lists them
 static const enum Stat sRowStats[NUM_ROWS] = {STAT_HP, STAT_ATK, STAT_DEF, STAT_SPATK, STAT_SPDEF, STAT_SPEED};
@@ -62,7 +62,7 @@ static struct Pokemon *CurrentMon(void)
     return &gPlayerParty[gSpecialVar_0x8004];
 }
 
-static u32 StatData(s16 mode, enum Stat stat)
+static u32 StatData(u32 mode, enum Stat stat)
 {
     return (mode == KJH_STAT_TRAINER_IVS ? MON_DATA_HP_IV : MON_DATA_HP_EV) + stat;
 }
@@ -72,7 +72,7 @@ u32 KJH_ClampIv(s32 iv)
     return min(max(iv, 0), MAX_PER_STAT_IVS);
 }
 
-u32 KJH_SetEv(const u8 *evs, u32 row, s32 ev)
+u32 KJH_ClampEv(const u8 *evs, u32 row, s32 ev)
 {
     s32 others = 0;
 
@@ -83,6 +83,7 @@ u32 KJH_SetEv(const u8 *evs, u32 row, s32 ev)
             others += evs[i];
         }
     }
+
     return min(max(ev, 0), min(MAX_PER_STAT_EVS, MAX_TOTAL_EVS - others));
 }
 
@@ -139,9 +140,10 @@ static void DrawStats(struct Task *task)
             PrintText(windowId, gText_SelectorArrow2, 0, y);
         }
         PrintText(windowId, sRowNames[row], 8, y);
-        PrintNumber(windowId, task->data[tValues + row], 92, y);
-        total += task->data[tValues + row];
+        PrintNumber(windowId, (&task->tValues)[row], 92, y);
+        total += (&task->tValues)[row];
     }
+
     if (task->tMode == KJH_STAT_TRAINER_EVS)
     {
         PrintText(windowId, sText_Total, 8, 2 + NUM_ROWS * ROW_HEIGHT);
@@ -165,11 +167,14 @@ static void Redraw(struct Task *task)
 
 void KJH_ScriptStatTrainerEdit(struct ScriptContext *ctx)
 {
-    u8 taskId = CreateTask(Task_StatTrainer, 80);
-    struct Task *task = &gTasks[taskId];
+    u8 taskId;
+    struct Task *task;
     struct Pokemon *mon = CurrentMon();
 
+    // Before any effect: the script's effects check stops here
     Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE | SCREFF_HARDWARE);
+    taskId = CreateTask(Task_StatTrainer, 80);
+    task = &gTasks[taskId];
     task->tMode = gSpecialVar_0x8005;
     task->tCursor = 0;
     task->tNature = GetMonData(mon, MON_DATA_HIDDEN_NATURE);
@@ -177,9 +182,10 @@ void KJH_ScriptStatTrainerEdit(struct ScriptContext *ctx)
     {
         for (u32 row = 0; row < NUM_ROWS; row++)
         {
-            task->data[tValues + row] = GetMonData(mon, StatData(task->tMode, sRowStats[row]));
+            (&task->tValues)[row] = GetMonData(mon, StatData(task->tMode, sRowStats[row]));
         }
     }
+
     LockPlayerFieldControls();
     task->tWindowId = AddWindow(&sStatWindowTemplate);
     SetStandardWindowBorderStyle(task->tWindowId, FALSE);
@@ -190,8 +196,8 @@ void KJH_ScriptStatTrainerEdit(struct ScriptContext *ctx)
 
 static void ChangeValue(struct Task *task, s32 delta)
 {
-    s16 *value = &task->data[tValues + task->tCursor];
-    s16 before = *value;
+    s16 *value = &(&task->tValues)[task->tCursor];
+    s32 before = *value;
 
     if (task->tMode == KJH_STAT_TRAINER_IVS)
     {
@@ -203,10 +209,12 @@ static void ChangeValue(struct Task *task, s32 delta)
 
         for (u32 row = 0; row < NUM_ROWS; row++)
         {
-            evs[row] = task->data[tValues + row];
+            evs[row] = (&task->tValues)[row];
         }
-        *value = KJH_SetEv(evs, task->tCursor, *value + delta);
+
+        *value = KJH_ClampEv(evs, task->tCursor, *value + delta);
     }
+
     if (*value != before)
     {
         PlaySE(SE_SELECT);
@@ -228,11 +236,12 @@ static void Save(struct Task *task)
     {
         for (u32 row = 0; row < NUM_ROWS; row++)
         {
-            u32 value = task->data[tValues + row];
+            u32 value = (&task->tValues)[row];
 
             SetMonData(mon, StatData(task->tMode, sRowStats[row]), &value);
         }
     }
+
     CalculateMonStats(mon);
     gSpecialVar_Result = TRUE;
 }

@@ -14,7 +14,10 @@ enum Ability KJH_HiddenAbility(enum Species species)
 {
     enum Ability hidden = GetSpeciesAbility(species, KJH_ABILITY_NUM_HIDDEN);
 
-    if (hidden == GetSpeciesAbility(species, 0) || hidden == GetSpeciesAbility(species, 1)) return ABILITY_NONE;
+    for (u32 slot = 0; slot < NUM_NORMAL_ABILITY_SLOTS; slot++)
+    {
+        if (hidden == GetSpeciesAbility(species, slot)) return ABILITY_NONE;
+    }
     return hidden;
 }
 
@@ -29,10 +32,12 @@ u32 KJH_AbilityChoices(enum Species species, u8 *nums)
     {
         nums[count++] = 1;
     }
+
     if (KJH_HiddenAbility(species) != ABILITY_NONE)
     {
         nums[count++] = KJH_ABILITY_NUM_HIDDEN;
     }
+
     return count;
 }
 
@@ -62,7 +67,7 @@ u32 KJH_BossAbilityNum(enum Species species, u32 abilityNum)
     }
 }
 
-// Only Kanto's badges are in the expansion build so far
+// Only Kanto's badges are in the expansion build so far. LV-3 will add a shared KJH_CountBadges.
 static u32 CountKantoBadges(void)
 {
     u32 badges = 0;
@@ -74,6 +79,7 @@ static u32 CountKantoBadges(void)
             badges++;
         }
     }
+
     return badges;
 }
 
@@ -100,6 +106,7 @@ void KJH_ScriptBufferAbilityChoices(struct ScriptContext *ctx)
             StringCopy(end, sText_HiddenMark);
         }
     }
+
     gSpecialVar_Result = count;
 }
 

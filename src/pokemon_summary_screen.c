@@ -1908,7 +1908,7 @@ static void ShowMonSkillsInfo(u8 taskId, s16 mode)
 
 void ExtractMonSkillStatsData(struct Pokemon *mon, struct PokeSummary *sum)
 {
-    sum->nature = GetNature(mon);
+    sum->nature = GetMonData(mon, MON_DATA_HIDDEN_NATURE); // KJH: the stat nature, as the stats use it (ENG-7)
     sum->mintNature = GetMonData(mon, MON_DATA_HIDDEN_NATURE);
     sum->currentHP = GetMonData(mon, MON_DATA_HP);
     sum->maxHP = GetMonData(mon, MON_DATA_MAX_HP);

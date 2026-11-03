@@ -9,7 +9,8 @@ struct Trainer;
 // Every boss (KJH_IsBossTrainer: gym leaders, the Elite Four, champions, rivals, team bosses) opens its battle with
 // the mugshot transition and its own picture. A trainer with its own Mugshot color in its party file (the Elite Four,
 // the champion) keeps it; the other bosses get a banner by their kind, as in KJH's pokefirered tree: gym leaders
-// green (Bruno's), team bosses pink (Agatha's), rivals and champions yellow (Blue's). Others have none.
+// green (Bruno's), the Elite Four purple (Lorelei's), team bosses pink (Agatha's), rivals and champions yellow
+// (Blue's). Others have none.
 enum MugshotColor KJH_BossMugshotColor(const struct Trainer *trainer, u16 trainerNum);
 // The same, by trainer number (GetTrainerBattleTransition and the mugshot's banner)
 enum MugshotColor KJH_TrainerMugshotColor(u16 trainerNum);

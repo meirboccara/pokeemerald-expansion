@@ -17,8 +17,11 @@ enum MugshotColor KJH_BossMugshotColor(const struct Trainer *trainer, u16 traine
         return MUGSHOT_COLOR_PURPLE;
     case KJH_BOSS_TEAM:
         return MUGSHOT_COLOR_PINK;
-    default:
+    case KJH_BOSS_CHAMPION:
+    case KJH_BOSS_RIVAL:
         return MUGSHOT_COLOR_YELLOW;
+    default:
+        return MUGSHOT_COLOR_NONE; // not a boss: KJH_IsBossTrainer said otherwise
     }
 }
 

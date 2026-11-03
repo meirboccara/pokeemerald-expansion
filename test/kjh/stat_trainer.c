@@ -14,8 +14,8 @@ TEST("KJH: the stat trainer keeps an EV within 252, and all of them within 510")
 {
     u8 evs[NUM_STATS] = {252, 252, 0, 0, 0, 0};
 
-    EXPECT_EQ(KJH_SetEv(evs, 2, 10), 6);   // 504 in the other stats: 6 left
-    EXPECT_EQ(KJH_SetEv(evs, 0, 300), MAX_PER_STAT_EVS);
-    EXPECT_EQ(KJH_SetEv(evs, 0, -5), 0);
-    EXPECT_EQ(KJH_SetEv(evs, 0, 100), 100);
+    EXPECT_EQ(KJH_ClampEv(evs, 2, 10), 6);   // 504 in the other stats: 6 left
+    EXPECT_EQ(KJH_ClampEv(evs, 0, 300), MAX_PER_STAT_EVS);
+    EXPECT_EQ(KJH_ClampEv(evs, 0, -5), 0);
+    EXPECT_EQ(KJH_ClampEv(evs, 0, 100), 100);
 }

@@ -60,9 +60,9 @@ KJH_EventScript_AbilityChosen::
 	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, KJH_EventScript_AbilityReturn
 	copyvar VAR_0x8005, VAR_RESULT
 	callnative KJH_ScriptSetChosenAbility, requests_effects=1
-	goto_if_eq VAR_RESULT, 0, KJH_EventScript_SameAbility       @ KJH_ABILITY_SAME
+	goto_if_eq VAR_RESULT, KJH_ABILITY_SAME, KJH_EventScript_SameAbility
 	bufferpartymonnick STR_VAR_1, VAR_0x8004
-	goto_if_eq VAR_RESULT, 2, KJH_EventScript_HiddenAbilityDone @ KJH_ABILITY_HIDDEN
+	goto_if_eq VAR_RESULT, KJH_ABILITY_HIDDEN, KJH_EventScript_HiddenAbilityDone
 	msgbox KJH_Text_AbilityDone
 	return
 

@@ -22,6 +22,7 @@
 #include "script.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "kjh_hidden_ability.h"
 #include "kjh_pack.h"
 #include "battle_debug.h"
 #include "battle_pike.h"
@@ -64,7 +65,6 @@ EWRAM_DATA bool8 gIsSurfingEncounter = 0;
 EWRAM_DATA u8 gChainFishingDexNavStreak = 0;
 
 #include "data/wild_encounters.h"
-#include "kjh_hidden_ability.h"
 
 const struct WildPokemon gWildFeebas = {20, 25, SPECIES_FEEBAS};
 

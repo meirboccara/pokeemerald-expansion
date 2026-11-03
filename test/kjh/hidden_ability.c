@@ -1,8 +1,11 @@
 // KJH: Hidden Abilities (ENG-7, src/kjh_hidden_ability.c), after docs/HIDDEN_ABILITIES.md in the KJH repo.
 #include "global.h"
+#include "event_data.h"
 #include "kjh_hidden_ability.h"
 #include "pokemon.h"
 #include "random.h"
+#include "script.h"
+#include "test/overworld_script.h"
 #include "test/test.h"
 
 TEST("KJH: a species' Hidden Ability is expansion's third ability, when it's not one of the first two")
@@ -49,4 +52,21 @@ TEST("KJH: a boss's Pokemon uses its Hidden Ability, unless it does nothing for 
     ASSUME(KJH_HiddenAbility(SPECIES_CATERPIE) == ABILITY_RUN_AWAY);
     EXPECT_EQ(KJH_BossAbilityNum(SPECIES_CATERPIE, 0), 0);
     EXPECT_EQ(KJH_BossAbilityNum(SPECIES_UNOWN, 0), 0);
+}
+
+TEST("KJH: Prof. Oak switches abilities from the player's 4th badge")
+{
+    for (u32 i = 0; i < KJH_ABILITY_SWITCH_BADGES - 1; i++)
+    {
+        FlagSet(FLAG_BADGE01_GET + i);
+    }
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptIsAbilitySwitchUnlocked, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, FALSE);
+    FlagSet(FLAG_BADGE01_GET + KJH_ABILITY_SWITCH_BADGES - 1);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptIsAbilitySwitchUnlocked, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, TRUE);
+    for (u32 i = 0; i < KJH_ABILITY_SWITCH_BADGES; i++)
+    {
+        FlagClear(FLAG_BADGE01_GET + i);
+    }
 }
