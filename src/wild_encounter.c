@@ -64,6 +64,7 @@ EWRAM_DATA bool8 gIsSurfingEncounter = 0;
 EWRAM_DATA u8 gChainFishingDexNavStreak = 0;
 
 #include "data/wild_encounters.h"
+#include "kjh_hidden_ability.h"
 
 const struct WildPokemon gWildFeebas = {20, 25, SPECIES_FEEBAS};
 
@@ -519,6 +520,7 @@ void CreateWildMon(enum Species species, u8 level)
     CreateMonWithIVs(&gParties[B_TRAINER_OPPONENT_A][0], species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(&gParties[B_TRAINER_OPPONENT_A][0]);
     KJH_PackFinishWildMon(&gParties[B_TRAINER_OPPONENT_A][0]); // KJH: a pack leader has perfect IVs
+    KJH_RollWildHiddenAbility(&gParties[B_TRAINER_OPPONENT_A][0]); // KJH: 1 in 20 has its Hidden Ability (ENG-7)
 }
 
 #ifdef BUGFIX

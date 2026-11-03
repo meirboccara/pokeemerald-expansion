@@ -1048,6 +1048,7 @@ gStdScripts_End::
 	.include "data/scripts/pkmn_center_nurse_frlg.inc"
 	.include "data/scripts/kjh_swarm.inc"
 	.include "data/scripts/kjh_headbutt.inc"
+	.include "data/scripts/kjh_hidden_ability.inc"
 
 .endif
 

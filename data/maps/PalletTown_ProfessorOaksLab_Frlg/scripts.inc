@@ -582,6 +582,7 @@ PalletTown_ProfessorOaksLab_EventScript_ProfOak::
 
 PalletTown_ProfessorOaksLab_EventScript_OakJustShownCompleteDex::
 	msgbox PokedexRating_Text_ThankYouMadeDreamReality
+	call KJH_EventScript_ProfessorAbility
 	release
 	end
 
@@ -784,6 +785,7 @@ PalletTown_ProfessorOaksLab_EventScript_RatePokedexOrTryGiveBalls::
 PalletTown_ProfessorOaksLab_EventScript_RatePokedex::
 	call PokedexRating_EventScript_RateInPerson
 	goto_if_set FLAG_OAK_SAW_DEX_COMPLETION, PalletTown_ProfessorOaksLab_EventScript_DexCompleted
+	call KJH_EventScript_ProfessorAbility
 	release
 	end
 
@@ -912,6 +914,7 @@ PalletTown_ProfessorOaksLab_EventScript_TryStartNationalDexScene::
 	end
 
 PalletTown_ProfessorOaksLab_EventScript_DontStartNationalDexScene::
+	call KJH_EventScript_ProfessorAbility
 	release
 	end
 
@@ -937,6 +940,7 @@ PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls::
 
 PalletTown_ProfessorOaksLab_EventScript_MonsAroundWorldWait::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakMonsAroundWorldWait
+	call KJH_EventScript_ProfessorAbility
 	release
 	end
 

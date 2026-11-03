@@ -20,6 +20,7 @@
 #include "move.h"
 #include "pokemon.h"
 #include "kjh_boss_rules.h"
+#include "kjh_hidden_ability.h"
 #include "kjh_level_bands.h"
 #include "kjh_progression.h"
 #include "constants/battle_ai.h"
@@ -370,6 +371,13 @@ void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, cons
     if (scaled || raised || !hasCustomMoves)
         BuildBossMoveset(mon, hasCustomMoves ? in->moves : NULL);
     SetBossEvsAndNature(mon);
+    // Bosses use their Pokemon's Hidden Abilities (ENG-7), unless their party data sets an ability
+    if (in->ability == ABILITY_NONE)
+    {
+        u32 abilityNum = KJH_BossAbilityNum(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_ABILITY_NUM));
+
+        SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);
+    }
     CalculateMonStats(mon);
 }
 

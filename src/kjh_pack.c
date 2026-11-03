@@ -16,6 +16,7 @@
 #include "battle_interface.h"
 #include "battle_scripts.h"
 #include "battle_setup.h"
+#include "kjh_hidden_ability.h"
 #include "kjh_pack.h"
 #include "ow_abilities.h"
 #include "palette.h"
@@ -249,6 +250,7 @@ static void AddHelper(void)
 
     CreateMonWithIVs(helper, species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(helper);
+    KJH_RollWildHiddenAbility(helper); // like any wild Pokemon
     CalculateEnemyPartyCount();
     PREPARE_SPECIES_BUFFER(gBattleTextBuff1, species);
 }
