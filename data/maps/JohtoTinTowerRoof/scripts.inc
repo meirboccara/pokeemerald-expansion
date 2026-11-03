@@ -43,6 +43,7 @@ J_TinTowerHoOh::
 	closemessage
 	setflag FLAG_J_FOUGHT_HO_OH
 	setwildbattle SPECIES_HO_OH, 80
+	kjh_legendaryboss @ KJH (CF-13)
 	dowildbattle
 	removeobject 1
 	setflag FLAG_J_SET_WHEN_FOUGHT_HO_OH

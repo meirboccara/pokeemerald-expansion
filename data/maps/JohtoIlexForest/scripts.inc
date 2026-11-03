@@ -519,6 +519,7 @@ J_IlexForestShrineScript_CelebiEvent:
 	clearflag FLAG_J_ENGINE_FOREST_IS_RESTLESS
 	setvar VAR_RESULT, 0
 	setwildbattle SPECIES_CELEBI, 90
+	kjh_legendaryboss @ KJH (CF-13)
 	dowildbattle
 	delay 20
 	setvar VAR_RESULT, 0

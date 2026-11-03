@@ -43,6 +43,7 @@ J_Lugia::
 	closemessage
 	setflag FLAG_J_FOUGHT_LUGIA
 	setwildbattle SPECIES_LUGIA, 95
+	kjh_legendaryboss @ KJH (CF-13)
 	dowildbattle
 	removeobject 1
 	return

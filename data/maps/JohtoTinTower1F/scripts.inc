@@ -185,6 +185,7 @@ J_TinTower1FSuicuneBattleScript_Next2:
 	waitmoncry
 	delay 20
 	setwildbattle SPECIES_SUICUNE, 75
+	kjh_legendaryboss @ KJH (CF-13)
 	dowildbattle
 	removeobject 1
 	setflag FLAG_J_FOUGHT_SUICUNE

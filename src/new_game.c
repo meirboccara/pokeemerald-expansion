@@ -224,7 +224,8 @@ static void KJH_DebugHarnessStart(void)
     AddBagItem(ITEM_POTION, 10);
     gSaveBlock1Ptr->trainerRematchStepCounter = vsSeeker[0];
     gSaveBlock1Ptr->registeredItem = vsSeeker[1];
-    if (var[0] >= VARS_START && var[0] <= VARS_END)
+    // FireRed's, or Johto's in SaveBlock3 (CF-13's emu test)
+    if ((var[0] >= VARS_START && var[0] <= VARS_END) || (var[0] >= KJH_SAVE3_VARS_START && var[0] < KJH_SAVE3_VARS_END))
         VarSet(var[0], var[1]);
     if (stat[0] != 0 && stat[0] < NUM_GAME_STATS)
         SetGameStat(stat[0], stat[1]);
