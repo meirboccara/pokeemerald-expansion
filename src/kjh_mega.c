@@ -16,6 +16,7 @@
 #include "script.h"
 #include "string_util.h"
 #include "constants/abilities.h"
+#include "constants/johto_flags.h"
 #include "constants/vars.h"
 
 // The held-back message is shown once per battle
@@ -83,9 +84,19 @@ bool32 KJH_IsBraceletActiveHere(void)
 
     if (!CheckBagHasItem(ITEM_MEGA_RING, 1))
         return FALSE;
-    // In the levels-free game it works on Kanto's maps only: Johto's and Hoenn's bracelet is silent until their
-    // quest (LV-23)
-    return !KJH_IsLevelsFree() || KJH_RegionOf(gMapHeader.regionMapSectionId, map) == KJH_REGION_KANTO;
+    // In the levels-free game it works on Kanto's maps, and on Johto's once the Ruins of Alph quest is done (LV-23);
+    // Hoenn's is silent until its quest
+    if (!KJH_IsLevelsFree())
+        return TRUE;
+    switch (KJH_RegionOf(gMapHeader.regionMapSectionId, map))
+    {
+    case KJH_REGION_KANTO:
+        return TRUE;
+    case KJH_REGION_JOHTO:
+        return FlagGet(FLAG_KJH_JOHTO_BRACELET);
+    default:
+        return FALSE;
+    }
 }
 
 // The power cap's share for the region's badges (4: 80%, 5: 90%, 6+: 100%), with its switches (off in the test
@@ -326,6 +337,29 @@ static const enum Species sStarterLines[][3] =
     {SPECIES_CHARMANDER, SPECIES_CHARMELEON, SPECIES_CHARIZARD},
 };
 
+// LV-23: Prof. Elm's, by the flag of the one the player took
+static const struct { u16 flag; enum Species line[3]; } sJohtoStarterLines[] =
+{
+    {FLAG_J_GOT_CHIKORITA_FROM_ELM, {SPECIES_CHIKORITA, SPECIES_BAYLEEF, SPECIES_MEGANIUM}},
+    {FLAG_J_GOT_CYNDAQUIL_FROM_ELM, {SPECIES_CYNDAQUIL, SPECIES_QUILAVA, SPECIES_TYPHLOSION}},
+    {FLAG_J_GOT_TOTODILE_FROM_ELM, {SPECIES_TOTODILE, SPECIES_CROCONAW, SPECIES_FERALIGATR}},
+};
+
+// The starter line of the region VAR_0x8004 (Johto: Elm's the player got; NULL if none, a free pick like Typhlosion's)
+static const enum Species *StarterLine(void)
+{
+    if (gSpecialVar_0x8004 == KJH_MEGA_STARTER_JOHTO)
+    {
+        for (u32 i = 0; i < ARRAY_COUNT(sJohtoStarterLines); i++)
+        {
+            if (FlagGet(sJohtoStarterLines[i].flag))
+                return sJohtoStarterLines[i].line;
+        }
+        return NULL;
+    }
+    return sStarterLines[min(VarGet(VAR_STARTER_MON), ARRAY_COUNT(sStarterLines) - 1)];
+}
+
 // Its Mega form, by the stone held or in the bag (Charizard: the one the player picked)
 static enum Species MegaFormOf(struct Pokemon *mon)
 {
@@ -344,11 +378,16 @@ static enum Species MegaFormOf(struct Pokemon *mon)
 
 void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx)
 {
-    const enum Species *line = sStarterLines[min(VarGet(VAR_STARTER_MON), ARRAY_COUNT(sStarterLines) - 1)];
+    const enum Species *line = StarterLine();
     struct Pokemon *starter = NULL;
     u32 stage = 0;
 
     Script_RequestEffects(SCREFF_V1);
+    if (line == NULL || !KJH_SpeciesHasMega(line[2]))
+    {
+        gSpecialVar_Result = KJH_MEGA_STARTER_NO_MEGA; // Typhlosion, or no starter from Prof. Elm
+        return;
+    }
     for (u32 i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gPlayerParty[i];
@@ -511,4 +550,27 @@ void BS_KjhTryAlphaStoneDrop(void)
         return;
     PREPARE_ITEM_BUFFER(gBattleTextBuff1, stone);
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+enum Ability KJH_HeldBackMegaAbility(enum BattlerId battler, enum Ability ability)
+{
+    enum Species base = GetBattlerPartyState(battler)->changedSpecies;
+
+    if (!gSpeciesInfo[gBattleMons[battler].species].isMegaEvolution || base == SPECIES_NONE
+     || KJH_MegaPercentHere() >= 100)
+        return ability;
+    return GetAbilityBySpecies(base, gBattleMons[battler].abilityNum);
+}
+
+void KJH_ScriptCountJohtoBadges(struct ScriptContext *ctx)
+{
+    u32 count = 0;
+
+    Script_RequestEffects(SCREFF_V1);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        if (FlagGet(FLAG_JOHTO_BADGE01_GET + i))
+            count++;
+    }
+    gSpecialVar_Result = count;
 }

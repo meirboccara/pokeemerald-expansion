@@ -57,6 +57,20 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "J_W_RuinsOfAlphInnerChamberGrampsScript",
       "flag": "FLAG_J_RUINS_OF_ALPH_INNER_CHAMBER_TOURISTS"
+    },
+    {
+      "type": "object",
+      "graphics_id": "OBJ_EVENT_GFX_FOSSIL_FRLG",
+      "x": 9,
+      "y": 12,
+      "elevation": 3,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 1,
+      "movement_range_y": 1,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "KJH_EventScript_JohtoAncientKeystone",
+      "flag": "FLAG_KJH_JOHTO_BRACELET"
     }
   ],
   "warp_events": [

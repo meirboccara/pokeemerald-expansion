@@ -175,6 +175,7 @@ TEST("KJH: the starter's stone answers at once only for its final form at Bond 1
 
     ZeroPlayerPartyMons();
     FlagSet(FLAG_KJH_LEVELLESS);
+    gSpecialVar_0x8004 = KJH_MEGA_STARTER_KANTO; // the region (another test may leave Johto there)
     VarSet(VAR_STARTER_MON, 2); // Charmander
     CreateBondMon(&gPlayerParty[0], SPECIES_CHARMELEON, 20);
     SetMonData(&gPlayerParty[0], MON_DATA_OT_ID, &trainerId);
@@ -288,4 +289,52 @@ WILD_BATTLE_TEST("KJH: a beaten Alpha Magikarp leaves its family's Gyaradosite, 
         RemoveBagItem(ITEM_GYARADOSITE, 1);
         FlagClear(FLAG_KJH_MEGA_GUARDIAN_DONE);
     }
+}
+
+// LV-23: Johto
+TEST("KJH: Johto's bracelet works once the Ruins of Alph quest is done")
+{
+    FlagSet(FLAG_KJH_LEVELLESS);
+    AddBagItem(ITEM_MEGA_RING, 1);
+    StandIn(MAPSEC_J_GOLDENROD_CITY, MAP_JOHTO_GOLDENROD_CITY);
+    EXPECT(!KJH_IsBraceletActiveHere());
+    FlagSet(FLAG_KJH_JOHTO_BRACELET);
+    EXPECT(KJH_IsBraceletActiveHere());
+    FlagClear(FLAG_KJH_JOHTO_BRACELET);
+    StandIn(MAPSEC_CELADON_CITY, MAP_CELADON_CITY);
+    RemoveBagItem(ITEM_MEGA_RING, 1);
+    FlagClear(FLAG_KJH_LEVELLESS);
+}
+
+TEST("KJH: Johto's starter is Prof. Elm's; Typhlosion's player gets a free pick instead")
+{
+    u32 trainerId = GetPlayerIDAsU32();
+
+    ZeroPlayerPartyMons();
+    FlagSet(FLAG_KJH_LEVELLESS);
+    gSpecialVar_0x8004 = KJH_MEGA_STARTER_JOHTO;
+    FlagSet(FLAG_J_GOT_TOTODILE_FROM_ELM);
+    CreateBondMon(&gPlayerParty[0], SPECIES_FERALIGATR, 18);
+    SetMonData(&gPlayerParty[0], MON_DATA_OT_ID, &trainerId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_READY);
+    FlagClear(FLAG_J_GOT_TOTODILE_FROM_ELM);
+    FlagSet(FLAG_J_GOT_CYNDAQUIL_FROM_ELM);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_NO_MEGA);
+    FlagClear(FLAG_J_GOT_CYNDAQUIL_FROM_ELM);
+    FlagClear(FLAG_KJH_LEVELLESS);
+}
+
+TEST("KJH: Johto's dealer sells Johto's ordinary stones, never Dragoninite or Tyranitarite")
+{
+    extern const u16 KJH_Mart_MegaStonesJohto[];
+
+    for (u32 i = 0; KJH_Mart_MegaStonesJohto[i] != ITEM_NONE; i++)
+    {
+        EXPECT_EQ(GetItemHoldEffect(KJH_Mart_MegaStonesJohto[i]), HOLD_EFFECT_MEGA_STONE);
+        EXPECT(!KJH_IsNeverSoldStone(KJH_Mart_MegaStonesJohto[i]));
+    }
+    EXPECT(KJH_IsNeverSoldStone(ITEM_DRAGONINITE));
+    EXPECT(KJH_IsNeverSoldStone(ITEM_TYRANITARITE));
 }

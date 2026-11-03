@@ -225,6 +225,11 @@
 #define FLAG_KJH_MEGA_FIRST_SCENE                          FLAG_0x0EB // KJH: the starter's first Mega Evolution scene played (LV-20)
 #define FLAG_KJH_HIDE_MEWTWONITE_X                         FLAG_0x0EA // KJH: Cerulean Cave's Mewtwonite X was found (LV-21)
 #define FLAG_KJH_HIDE_MEWTWONITE_Y                         FLAG_0x0E9 // KJH: Cerulean Cave's Mewtwonite Y was found (LV-21)
+#define FLAG_KJH_JOHTO_BRACELET                            FLAG_0x0E8 // KJH: the bracelet works in Johto (LV-23)
+#define FLAG_KJH_JOHTO_MEGA_QUEST                          FLAG_0x0E7 // KJH: the Ruins of Alph quest started (LV-23)
+#define FLAG_KJH_JOHTO_MEGA_SCENE                          FLAG_0x0E6 // KJH: Johto's starter scene played (LV-23)
+#define FLAG_KJH_HIDE_DRAGONINITE                          FLAG_0x0E5 // KJH: Dragoninite was found (LV-23)
+#define FLAG_KJH_HIDE_TYRANITARITE                         FLAG_0x0E4 // KJH: Tyranitarite was found (LV-23)
 #define FLAG_0x0F0               0x0F0
 #define FLAG_KJH_AUTO_RUN                                  FLAG_0x0F0 // KJH: L turned auto-run on (CF-11)
 #define FLAG_0x0F1               0x0F1

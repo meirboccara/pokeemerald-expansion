@@ -14,6 +14,7 @@
 #include "battle_stat_change.h"
 #include "battle_move_resolution.h"
 #include "item.h"
+#include "kjh_mega.h"
 #include "kjh_pack.h"
 #include "item_menu.h"
 #include "kjh_team_level.h"
@@ -3261,6 +3262,7 @@ static void Cmd_switchindataupdate(void)
     gBattleMons[battler].types[1] = GetSpeciesType(gBattleMons[battler].species, 1);
     gBattleMons[battler].types[2] = TYPE_MYSTERY;
     gBattleMons[battler].ability = GetAbilityBySpecies(gBattleMons[battler].species, gBattleMons[battler].abilityNum);
+    gBattleMons[battler].ability = KJH_HeldBackMegaAbility(battler, gBattleMons[battler].ability); // KJH (LV-23)
     #if TESTING
     if (gTestRunnerEnabled)
     {

@@ -34,6 +34,7 @@ KJH_EventScript_MegaResearcherKeyStone::
 	call_if_eq VAR_STARTER_MON, 0, KJH_EventScript_MegaGiveVenusaurite
 	call_if_eq VAR_STARTER_MON, 1, KJH_EventScript_MegaGiveBlastoisinite
 	call_if_eq VAR_STARTER_MON, 2, KJH_EventScript_MegaGiveCharizardite
+	setvar VAR_0x8004, KJH_MEGA_STARTER_KANTO
 	call KJH_EventScript_MegaStarterScene
 	goto KJH_EventScript_MegaResearcherExplain
 
@@ -45,12 +46,15 @@ KJH_EventScript_MegaResearcherBagFull::
 @ With the bracelet: the starter's first Mega Evolution, if it is still owed and the starter is ready now
 KJH_EventScript_MegaResearcherAgain::
 	goto_if_set FLAG_KJH_MEGA_FIRST_SCENE, KJH_EventScript_MegaResearcherExplain
+	setvar VAR_0x8004, KJH_MEGA_STARTER_KANTO
 	call KJH_EventScript_MegaStarterScene
 	goto KJH_EventScript_MegaResearcherExplain
 
-@ The starter steps forward: its picture, then its Mega form's; otherwise what it still needs
+@ The starter of the region VAR_0x8004 (KJH_MEGA_STARTER_*) steps forward: its picture, then its Mega form's;
+@ otherwise what it still needs. Typhlosion has no Mega: its player picks a free stone (LV-23).
 KJH_EventScript_MegaStarterScene::
 	callnative KJH_ScriptMegaStarterReady, requests_effects=1
+	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_NO_MEGA, KJH_EventScript_MegaTyphlosionPick
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_MISSING, KJH_EventScript_MegaStarterMissing
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_EVOLVE, KJH_EventScript_MegaStarterEvolve
 	goto_if_eq VAR_RESULT, KJH_MEGA_STARTER_BOND, KJH_EventScript_MegaStoneWaiting
@@ -65,7 +69,68 @@ KJH_EventScript_MegaStarterScene::
 	waitfanfare
 	msgbox KJH_Text_MegaBondComplete
 	hidemonpic
+KJH_EventScript_MegaSceneDone::
+	goto_if_eq VAR_0x8004, KJH_MEGA_STARTER_JOHTO, KJH_EventScript_MegaJohtoSceneDone
 	setflag FLAG_KJH_MEGA_FIRST_SCENE
+	return
+
+KJH_EventScript_MegaJohtoSceneDone::
+	setflag FLAG_KJH_JOHTO_MEGA_SCENE
+	return
+
+@ Typhlosion's player picks one stone of Johto's list, for free
+KJH_EventScript_MegaTyphlosionPick::
+	msgbox KJH_Text_MegaTyphlosionPick
+	dynmultipush KJH_Text_Ampharosite, 0
+	dynmultipush KJH_Text_Houndoominite, 1
+	dynmultipush KJH_Text_Heracronite, 2
+	dynmultipush KJH_Text_Scizorite, 3
+	dynmultipush KJH_Text_Steelixite, 4
+	dynmultipush KJH_Text_Skarmorite, 5
+	dynmultipush KJH_Text_Meganiumite, 6
+	dynmultipush KJH_Text_Feraligite, 7
+	dynmultistack 0, 0, TRUE, 6, FALSE, 0, NULL @ B does nothing: the player must pick
+	copyvar VAR_0x8005, VAR_RESULT @ giveitem sets VAR_RESULT
+	call_if_eq VAR_0x8005, 0, KJH_EventScript_MegaGiveAmpharosite
+	call_if_eq VAR_0x8005, 1, KJH_EventScript_MegaGiveHoundoominite
+	call_if_eq VAR_0x8005, 2, KJH_EventScript_MegaGiveHeracronite
+	call_if_eq VAR_0x8005, 3, KJH_EventScript_MegaGiveScizorite
+	call_if_eq VAR_0x8005, 4, KJH_EventScript_MegaGiveSteelixite
+	call_if_eq VAR_0x8005, 5, KJH_EventScript_MegaGiveSkarmorite
+	call_if_eq VAR_0x8005, 6, KJH_EventScript_MegaGiveMeganiumiteFree
+	call_if_eq VAR_0x8005, 7, KJH_EventScript_MegaGiveFeraligiteFree
+	goto KJH_EventScript_MegaSceneDone
+
+KJH_EventScript_MegaGiveMeganiumiteFree::
+	giveitem ITEM_MEGANIUMITE
+	return
+
+KJH_EventScript_MegaGiveFeraligiteFree::
+	giveitem ITEM_FERALIGITE
+	return
+
+KJH_EventScript_MegaGiveAmpharosite::
+	giveitem ITEM_AMPHAROSITE
+	return
+
+KJH_EventScript_MegaGiveHoundoominite::
+	giveitem ITEM_HOUNDOOMINITE
+	return
+
+KJH_EventScript_MegaGiveHeracronite::
+	giveitem ITEM_HERACRONITE
+	return
+
+KJH_EventScript_MegaGiveScizorite::
+	giveitem ITEM_SCIZORITE
+	return
+
+KJH_EventScript_MegaGiveSteelixite::
+	giveitem ITEM_STEELIXITE
+	return
+
+KJH_EventScript_MegaGiveSkarmorite::
+	giveitem ITEM_SKARMORITE
 	return
 
 KJH_EventScript_MegaStarterMissing::
@@ -323,3 +388,214 @@ KJH_Text_MegaStoneDealerNotYet::
 	.string "no use without a MEGA BRACELET.\p"
 	.string "The researcher in SAFFRON's\n"
 	.string "POKéMON CENTER knows more.$"
+
+@ LV-23: Johto. The bracelet is silent here until the Ruins of Alph quest: after 4 Johto badges a researcher in the
+@ Ruins of Alph Research Center sends the player to the Inner Chamber, where the Unown walls show an ancient Mega
+@ symbol and an ANCIENT KEYSTONE lies (FLAG_KJH_JOHTO_BRACELET hides it once taken). Then the Johto starter's scene,
+@ and Goldenrod's dealer opens.
+KJH_EventScript_JohtoMegaResearcher::
+	lock
+	faceplayer
+	goto_if_set FLAG_KJH_JOHTO_BRACELET, KJH_EventScript_JohtoMegaResearcherAfter
+	goto_if_set FLAG_KJH_JOHTO_MEGA_QUEST, KJH_EventScript_JohtoMegaResearcherGo
+	checkitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_JohtoMegaResearcherNoBracelet
+	callnative KJH_ScriptCountJohtoBadges, requests_effects=1
+	goto_if_lt VAR_RESULT, 4, KJH_EventScript_JohtoMegaResearcherNotYet
+	msgbox KJH_Text_JohtoMegaResearcherQuest
+	setflag FLAG_KJH_JOHTO_MEGA_QUEST
+	release
+	end
+
+KJH_EventScript_JohtoMegaResearcherGo::
+	msgbox KJH_Text_JohtoMegaResearcherGo
+	release
+	end
+
+KJH_EventScript_JohtoMegaResearcherNoBracelet::
+	msgbox KJH_Text_JohtoMegaResearcherNoBracelet
+	release
+	end
+
+KJH_EventScript_JohtoMegaResearcherNotYet::
+	msgbox KJH_Text_JohtoMegaResearcherNotYet
+	release
+	end
+
+@ The bracelet works in Johto: the starter's scene, if it is still owed
+KJH_EventScript_JohtoMegaResearcherAfter::
+	goto_if_set FLAG_KJH_JOHTO_MEGA_SCENE, KJH_EventScript_JohtoMegaResearcherDone
+	setvar VAR_0x8004, KJH_MEGA_STARTER_JOHTO
+	call KJH_EventScript_MegaStarterScene
+KJH_EventScript_JohtoMegaResearcherDone::
+	msgbox KJH_Text_JohtoMegaResearcherDone
+	release
+	end
+
+KJH_EventScript_JohtoAncientKeystone::
+	lock
+	goto_if_unset FLAG_KJH_JOHTO_MEGA_QUEST, KJH_EventScript_JohtoAncientKeystoneAsleep
+	checkitemspace ITEM_AMPHAROSITE
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_JohtoAncientKeystoneBagFull
+	msgbox KJH_Text_JohtoAncientKeystone
+	setflag FLAG_KJH_JOHTO_BRACELET
+	removeobject VAR_LAST_TALKED
+	playfanfare MUS_RG_OBTAIN_KEY_ITEM
+	waitfanfare
+	msgbox KJH_Text_JohtoBraceletWorks
+	call_if_set FLAG_J_GOT_CHIKORITA_FROM_ELM, KJH_EventScript_MegaGiveMeganiumite
+	call_if_set FLAG_J_GOT_TOTODILE_FROM_ELM, KJH_EventScript_MegaGiveFeraligite
+	setvar VAR_0x8004, KJH_MEGA_STARTER_JOHTO
+	call KJH_EventScript_MegaStarterScene
+	release
+	end
+
+@ The starter's stone is the region's first (Typhlosion's player picks one in the scene)
+KJH_EventScript_MegaGiveMeganiumite::
+	msgbox KJH_Text_JohtoStarterStone
+	giveitem ITEM_MEGANIUMITE
+	return
+
+KJH_EventScript_MegaGiveFeraligite::
+	msgbox KJH_Text_JohtoStarterStone
+	giveitem ITEM_FERALIGITE
+	return
+
+KJH_EventScript_JohtoAncientKeystoneAsleep::
+	msgbox KJH_Text_JohtoAncientKeystoneAsleep
+	release
+	end
+
+KJH_EventScript_JohtoAncientKeystoneBagFull::
+	msgbox KJH_Text_MegaResearcherBagFull
+	release
+	end
+
+@ Goldenrod City's Pokemon Center (the converted map's dealer, next to the stat trainer)
+KJH_EventScript_MegaStoneDealerJohto::
+	lock
+	faceplayer
+	goto_if_set FLAG_KJH_JOHTO_BRACELET, KJH_EventScript_MegaStoneDealerJohtoOpen
+	goto_if_set FLAG_KJH_LEVELLESS, KJH_EventScript_MegaStoneDealerJohtoNotYet
+	checkitem ITEM_MEGA_RING @ the classic game: the bracelet works everywhere
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MegaStoneDealerNotYet
+KJH_EventScript_MegaStoneDealerJohtoOpen::
+	message KJH_Text_MegaStoneDealerJohto
+	waitmessage
+	pokemart KJH_Mart_MegaStonesJohto
+	msgbox KJH_Text_MegaStoneDealerBye
+	release
+	end
+
+KJH_EventScript_MegaStoneDealerJohtoNotYet::
+	msgbox KJH_Text_MegaStoneDealerJohtoNotYet
+	release
+	end
+
+@ Never sold (src/kjh_mega.c, sNeverSoldStones): Dragon's Den B1F, Mt. Silver beside Red's room
+KJH_EventScript_ItemDragoninite::
+	finditem ITEM_DRAGONINITE
+	end
+
+KJH_EventScript_ItemTyranitarite::
+	finditem ITEM_TYRANITARITE
+	end
+
+@ Johto's ordinary stones; never Dragoninite or Tyranitarite
+	.align 2
+KJH_Mart_MegaStonesJohto::
+	.2byte ITEM_MEGANIUMITE
+	.2byte ITEM_FERALIGITE
+	.2byte ITEM_AMPHAROSITE
+	.2byte ITEM_STEELIXITE
+	.2byte ITEM_SCIZORITE
+	.2byte ITEM_HERACRONITE
+	.2byte ITEM_SKARMORITE
+	.2byte ITEM_HOUNDOOMINITE
+	.2byte ITEM_NONE
+	release
+	end
+
+KJH_Text_MegaTyphlosionPick::
+	.string "This stone glows, but TYPHLOSION's\n"
+	.string "power can't take a MEGA form…\p"
+	.string "Then let it become another MEGA\n"
+	.string "STONE. Which one would you like?$"
+
+KJH_Text_Ampharosite::
+	.string "AMPHAROSITE$"
+
+KJH_Text_Houndoominite::
+	.string "HOUNDOOMINITE$"
+
+KJH_Text_Heracronite::
+	.string "HERACRONITE$"
+
+KJH_Text_Scizorite::
+	.string "SCIZORITE$"
+
+KJH_Text_Steelixite::
+	.string "STEELIXITE$"
+
+KJH_Text_Skarmorite::
+	.string "SKARMORITE$"
+
+KJH_Text_Meganiumite::
+	.string "MEGANIUMITE$"
+
+KJH_Text_Feraligite::
+	.string "FERALIGITE$"
+
+KJH_Text_JohtoStarterStone::
+	.string "Another stone glows next to the\n"
+	.string "partner PROF. ELM gave you!$"
+
+KJH_Text_JohtoMegaResearcherNoBracelet::
+	.string "The UNOWN walls show a strange\n"
+	.string "symbol… MEGA EVOLUTION, perhaps?\p"
+	.string "Without a MEGA BRACELET, though,\n"
+	.string "it means nothing.$"
+
+KJH_Text_JohtoMegaResearcherNotYet::
+	.string "Your BRACELET is silent in JOHTO?\n"
+	.string "The old power here is different.\p"
+	.string "Come back with four JOHTO BADGES,\n"
+	.string "and I'll tell you what I found.$"
+
+KJH_Text_JohtoMegaResearcherQuest::
+	.string "Four BADGES! Listen.\p"
+	.string "In the INNER CHAMBER the UNOWN\n"
+	.string "walls show an ancient MEGA symbol.\p"
+	.string "Below it lies a KEYSTONE, older\n"
+	.string "than any in KANTO. Go and see!$"
+
+KJH_Text_JohtoMegaResearcherGo::
+	.string "The ancient KEYSTONE lies in the\n"
+	.string "INNER CHAMBER, under the symbol.$"
+
+KJH_Text_JohtoMegaResearcherDone::
+	.string "Your BRACELET speaks JOHTO's old\n"
+	.string "language now. Remarkable!$"
+
+KJH_Text_JohtoAncientKeystoneAsleep::
+	.string "An old stone sits under a strange\n"
+	.string "symbol on the wall.$"
+
+KJH_Text_JohtoAncientKeystone::
+	.string "The UNOWN symbol glows!\p"
+	.string "The old stone answers your\n"
+	.string "BRACELET: an ANCIENT KEYSTONE!$"
+
+KJH_Text_JohtoBraceletWorks::
+	.string "The MEGA BRACELET works in JOHTO\n"
+	.string "now!$"
+
+KJH_Text_MegaStoneDealerJohto::
+	.string "MEGA STONES! I have the ones of\n"
+	.string "JOHTO's POKéMON.$"
+
+KJH_Text_MegaStoneDealerJohtoNotYet::
+	.string "I sell MEGA STONES, but your\n"
+	.string "BRACELET is silent in JOHTO.\p"
+	.string "The researchers at the RUINS OF\n"
+	.string "ALPH might know why.$"

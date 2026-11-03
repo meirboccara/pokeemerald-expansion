@@ -8,6 +8,7 @@
 #include "constants/species.h"
 
 struct Pokemon;
+struct ScriptContext;
 struct Trainer;
 struct TrainerMon;
 
@@ -59,8 +60,13 @@ void KJH_MegaStartBattle(void);                                       // from KJ
 void BS_KjhJumpIfMegaNotHeldBack(void);                               // callnative: jump unless held back
 void BS_KjhTryMegaHeldBackMessage(void);                              // callnative: jump past the message if shown
 
+// LV-23: a held-back Mega keeps its old ability when it switches back in (the switch-in recomputes it from the Mega
+// species, battle_script_commands.c)
+enum Ability KJH_HeldBackMegaAbility(enum BattlerId battler, enum Ability ability);
+// callnative: VAR_RESULT = Johto's badges (the Ruins of Alph researcher's 4)
+void KJH_ScriptCountJohtoBadges(struct ScriptContext *ctx);
+
 // callnative: VAR_RESULT = Kanto's badges (the researcher's 6)
-struct ScriptContext;
 void KJH_ScriptCountKantoBadges(struct ScriptContext *ctx);
 
 // LV-20, the Mt. Moon quest (data/scripts/kjh_mega.inc)
@@ -69,8 +75,9 @@ void KJH_ScriptCountKantoBadges(struct ScriptContext *ctx);
 u32 KJH_MegaGuardianLevel(u32 teamLevel);
 // callnative after setwildbattle: the guardian is an Alpha at KJH_MegaGuardianLevel
 void KJH_ScriptSetupMegaGuardian(struct ScriptContext *ctx);
-// callnative: VAR_RESULT = KJH_MEGA_STARTER_* (include/constants/kjh_mega.h) for the player's starter: a Pokemon of
-// the line chosen in Pallet Town (VAR_STARTER_MON), the player's own (OT ID), in the party; the most advanced one
+// callnative: VAR_RESULT = KJH_MEGA_STARTER_* (include/constants/kjh_mega.h) for the player's starter of the region
+// VAR_0x8004 (KJH_MEGA_STARTER_KANTO: the line chosen in Pallet Town, VAR_STARTER_MON; KJH_MEGA_STARTER_JOHTO: Prof.
+// Elm's), the player's own (OT ID), in the party; the most advanced one
 void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx);
 
 // LV-21: the stone dealers sell the ordinary stones (data/scripts/kjh_mega.inc, KJH_Mart_MegaStones*) at this price
