@@ -247,6 +247,6 @@ TEST("KJH: field, Hoenn's special places are set by hand, wherever the battle is
     EXPECT_EQ(KJH_FieldForMap(MAP_PETALBURG_WOODS, BATTLE_ENVIRONMENT_GRASS).type, TYPE_BUG);
     EXPECT_EQ(KJH_FieldForMap(MAP_SKY_PILLAR_3F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_DRAGON);
     EXPECT_EQ(KJH_FieldForMap(MAP_ABANDONED_SHIP_ROOMS_B1F, BATTLE_ENVIRONMENT_POND).type, TYPE_GHOST);
-    // a cave without a hand-set field
-    EXPECT_EQ(KJH_FieldForMap(MAP_GRANITE_CAVE_1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
+    // a cave without a hand-set field (Granite Cave's 1F has the Steel master's, test/kjh/masters.c)
+    EXPECT_EQ(KJH_FieldForMap(MAP_GRANITE_CAVE_B1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
 }

@@ -662,7 +662,26 @@
 #define TRAINER_KJH_JOHTO_MASTER_STEEL              649
 #define TRAINER_KJH_JOHTO_MASTER_NORMAL             650
 #define KJH_JOHTO_MASTERS_COUNT                    12
-#define KJH_MASTERS_COUNT                          (KJH_KANTO_MASTERS_COUNT + KJH_JOHTO_MASTERS_COUNT)
+
+// KJH (LV-18): Hoenn's training masters (src/kjh_masters.c), in src/data/trainers_kjh_masters.party. FireRed's free ids
+// from the top down, below Johto's 0x400 (Hoenn's story trainers take the ids after 650 upward). Their trainer flags
+// (TRAINER_FLAGS_START + id) are FireRed's unused system flags 0x8F2-0x8FF: keep those free.
+#define TRAINER_KJH_HOENN_MASTER_WATER          1010 // 0x3F2
+#define TRAINER_KJH_HOENN_MASTER_FIRE           1011
+#define TRAINER_KJH_HOENN_MASTER_ELECTRIC       1012
+#define TRAINER_KJH_HOENN_MASTER_GHOST          1013
+#define TRAINER_KJH_HOENN_MASTER_ICE            1014
+#define TRAINER_KJH_HOENN_MASTER_BUG            1015
+#define TRAINER_KJH_HOENN_MASTER_DRAGON         1016
+#define TRAINER_KJH_HOENN_MASTER_GRASS          1017
+#define TRAINER_KJH_HOENN_MASTER_GROUND         1018
+#define TRAINER_KJH_HOENN_MASTER_STEEL          1019
+#define TRAINER_KJH_HOENN_MASTER_PSYCHIC        1020
+#define TRAINER_KJH_HOENN_MASTER_FLYING         1021
+#define TRAINER_KJH_HOENN_MASTER_DARK           1022
+#define TRAINER_KJH_HOENN_MASTER_POISON         1023 // 0x3FF
+#define KJH_HOENN_MASTERS_COUNT                    14
+#define KJH_MASTERS_COUNT                          (KJH_KANTO_MASTERS_COUNT + KJH_JOHTO_MASTERS_COUNT + KJH_HOENN_MASTERS_COUNT)
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.

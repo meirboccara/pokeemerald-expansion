@@ -1,4 +1,4 @@
-// KJH (LV-13, LV-18): matching spots, Kanto's and Johto's training masters (src/kjh_masters.c, src/kjh_move_stars.c).
+// KJH (LV-13, LV-18): matching spots, Kanto's, Johto's and Hoenn's training masters (src/kjh_masters.c, src/kjh_move_stars.c).
 #include "global.h"
 #include "event_data.h"
 #include "kjh_field.h"
@@ -7,6 +7,8 @@
 #include "kjh_team_level.h"
 #include "test/battle.h"
 #include "constants/johto_flags.h"
+#include "constants/hoenn_flags.h"
+#include "constants/hoenn_vars.h"
 #include "constants/map_groups.h"
 #include "constants/region_map_sections.h"
 #include "constants/opponents.h"
@@ -38,7 +40,6 @@ TEST("KJH: Johto has 12 training masters, one per type, with daily flags of thei
     u32 n = 0;
 
     EXPECT_EQ(KJH_JOHTO_MASTERS_COUNT, 12);
-    EXPECT_EQ(KJH_MASTERS_COUNT, 23);
     for (u32 i = 0; i < KJH_KANTO_MASTERS_COUNT; i++)
     {
         const struct KjhMaster *master = KJH_GetMaster(TRAINER_KJH_MASTER_WATER + i);
@@ -68,6 +69,49 @@ TEST("KJH: Johto has 12 training masters, one per type, with daily flags of thei
         for (u32 j = i + 1; j < n; j++)
             EXPECT_NE(flags[i], flags[j]);
     }
+}
+
+TEST("KJH: Hoenn has 14 training masters, one per type, with daily flags of their own (LV-18)")
+{
+    static const enum Type sTypes[] = {TYPE_WATER, TYPE_FIRE, TYPE_ELECTRIC, TYPE_GHOST, TYPE_ICE, TYPE_BUG, TYPE_DRAGON,
+                                       TYPE_GRASS, TYPE_GROUND, TYPE_STEEL, TYPE_PSYCHIC, TYPE_FLYING, TYPE_DARK,
+                                       TYPE_POISON};
+    u16 flags[2 * KJH_MASTERS_COUNT];
+    u32 n = 0;
+
+    EXPECT_EQ(KJH_HOENN_MASTERS_COUNT, 14);
+    EXPECT_EQ(KJH_MASTERS_COUNT, 37);
+    for (u32 i = 0; i < KJH_KANTO_MASTERS_COUNT + KJH_JOHTO_MASTERS_COUNT; i++)
+    {
+        const struct KjhMaster *master = KJH_GetMaster(i < KJH_KANTO_MASTERS_COUNT ? TRAINER_KJH_MASTER_WATER + i
+                                                       : TRAINER_KJH_JOHTO_MASTER_WATER + i - KJH_KANTO_MASTERS_COUNT);
+        if (master == NULL)
+            continue;
+        flags[n++] = master->flagOnce;
+        flags[n++] = master->flagTwice;
+    }
+    for (u32 i = 0; i < KJH_HOENN_MASTERS_COUNT; i++)
+    {
+        const struct KjhMaster *master = KJH_GetMaster(TRAINER_KJH_HOENN_MASTER_WATER + i);
+
+        EXPECT(master != NULL);
+        if (master == NULL)
+            continue;
+        EXPECT_EQ(master->type, sTypes[i]);
+        EXPECT_GT(master->trainerId, TRAINER_KJH_JOHTO_MASTER_NORMAL); // FireRed's free ids, from the top down
+        EXPECT_LT(master->trainerId, JOHTO_TRAINERS_START);
+        flags[n++] = master->flagOnce;
+        flags[n++] = master->flagTwice;
+    }
+    for (u32 i = 0; i < n; i++)     // no two masters share a flag, and the daily events clear each of them
+    {
+        for (u32 j = i + 1; j < n; j++)
+            EXPECT_NE(flags[i], flags[j]);
+        FlagSet(flags[i]);
+    }
+    ClearDailyFlags();
+    for (u32 i = 0; i < n; i++)
+        EXPECT(!FlagGet(flags[i]));
 }
 
 TEST("KJH: a Johto master's day is reset by the daily events too")
@@ -132,6 +176,51 @@ TEST("KJH: a master's team is at the team level of the region the player stands 
         FlagClear(FLAG_BADGE01_GET + i);
     VarSet(VAR_KJH_JOHTO_ZONE_TOP, 0);
     VarSet(VAR_KJH_JOHTO_TEAM_LEVEL, 0);
+}
+
+TEST("KJH: Hoenn's masters' spots that their place doesn't give have their field (LV-18)")
+{
+    EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE109, BATTLE_ENVIRONMENT_SAND).type, TYPE_WATER);     // the beach is sand
+    EXPECT_EQ(KJH_FieldForMap(MAP_GRANITE_CAVE_1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_STEEL);
+    EXPECT_EQ(KJH_FieldForMap(MAP_MOSSDEEP_CITY_SPACE_CENTER_1F, BATTLE_ENVIRONMENT_BUILDING).type, TYPE_PSYCHIC);
+    EXPECT_EQ(KJH_FieldForMap(MAP_FORTREE_CITY, BATTLE_ENVIRONMENT_PLAIN).type, TYPE_FLYING);
+    EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE120, BATTLE_ENVIRONMENT_GRASS).type, TYPE_DARK);
+    EXPECT_EQ(KJH_FieldForMap(MAP_JAGGED_PASS, BATTLE_ENVIRONMENT_MOUNTAIN).type, TYPE_POISON);
+    // the rest come from their place: Route 111's desert is sand (Ground), Route 119's tall grass is Grass
+    EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE111, BATTLE_ENVIRONMENT_SAND).type, TYPE_GROUND);
+    EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE119, BATTLE_ENVIRONMENT_LONG_GRASS).type, TYPE_GRASS);
+}
+
+TEST("KJH: in Hoenn, a master's team is at Hoenn's team level (LV-18)")
+{
+    struct WarpData location = gSaveBlock1Ptr->location;
+    u16 mapsec = gMapHeader.regionMapSectionId;
+
+    // A Kanto veteran (Kanto's team at 100) with Hoenn's 8 badges and Hoenn's furthest zone at 20
+    FlagSet(FLAG_KJH_LEVELLESS);
+    FlagSet(FLAG_SYS_GAME_CLEAR);
+    FlagClear(FLAG_HOENN_GAME_CLEAR);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        FlagSet(FLAG_BADGE01_GET + i);
+        FlagSet(FLAG_HOENN_BADGE01_GET + i);
+    }
+    VarSet(VAR_KJH_KANTO_ZONE_TOP, 100);
+    VarSet(VAR_KJH_HOENN_ZONE_TOP, 20);
+    gMapHeader.regionMapSectionId = MAPSEC_SKY_PILLAR;
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_SKY_PILLAR_1F);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_SKY_PILLAR_1F);
+    EXPECT_EQ(KJH_MasterLevel(), 20);
+
+    gSaveBlock1Ptr->location = location;
+    gMapHeader.regionMapSectionId = mapsec;
+    FlagClear(FLAG_SYS_GAME_CLEAR);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        FlagClear(FLAG_BADGE01_GET + i);
+        FlagClear(FLAG_HOENN_BADGE01_GET + i);
+    }
+    VarSet(VAR_KJH_HOENN_ZONE_TOP, 0);
 }
 
 TEST("KJH: a master can be fought twice per in-game day")

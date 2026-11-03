@@ -485,3 +485,300 @@ IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
 SPECIES_URSARING
 Level: 50
 IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+/* KJH (LV-18): Hoenn's training masters (src/kjh_masters.c), Hoenn's Pokemon of each type, Gen 1-3. Placeholder level,
+   as above. */
+
+=== TRAINER_KJH_HOENN_MASTER_WATER ===
+Name: MARLIN
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_FISHERMAN
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_SHARPEDO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_WHISCASH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_LUDICOLO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_FIRE ===
+Name: CINDER
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_KINDLER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_TORKOAL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CAMERUPT
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_NINETALES
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_ELECTRIC ===
+Name: VOLTA
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_GUITARIST
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_ELECTRODE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MAGNETON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MANECTRIC
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_GHOST ===
+Name: SHADE
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_HEX_MANIAC
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_SABLEYE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_BANETTE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_DUSCLOPS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_ICE ===
+Name: FROST
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_EXPERT_F
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_CLOYSTER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_GLALIE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_WALREIN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_BUG ===
+Name: SILK
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BUG_MANIAC
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_BEAUTIFLY
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_NINJASK
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ARMALDO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_DRAGON ===
+Name: DRAKO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_DRAGON_TAMER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_ALTARIA
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_FLYGON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SALAMENCE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_GRASS ===
+Name: FERN
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_AROMA_LADY
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_TROPIUS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CACTURNE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SHIFTRY
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_GROUND ===
+Name: DUNE
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_HIKER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_SANDSLASH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_DONPHAN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CLAYDOL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_STEEL ===
+Name: IRVING
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_GENTLEMAN
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MAWILE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SKARMORY
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_AGGRON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_PSYCHIC ===
+Name: ZEN
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_PSYCHIC_M
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_GRUMPIG
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_XATU
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_GARDEVOIR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_FLYING ===
+Name: GALE
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BIRD_KEEPER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_DODRIO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_PELIPPER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SWELLOW
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_DARK ===
+Name: NOCT
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_NINJA_BOY
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MIGHTYENA
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CRAWDAUNT
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ABSOL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_HOENN_MASTER_POISON ===
+Name: VENA
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_COOLTRAINER_F
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_CROBAT
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SEVIPER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SWALOT
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe

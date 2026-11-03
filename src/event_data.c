@@ -72,6 +72,8 @@ void ClearDailyFlags(void)
 #if IS_FRLG
     // KJH (ENG-9): Hoenn's daily flags (Emerald's, byte-aligned in Hoenn's range)
     memset(&gSaveBlock3Ptr->hoennFlags[(HOENN_DAILY_FLAGS_START - HOENN_FLAGS_START) / 8], 0, HOENN_DAILY_FLAGS_SIZE);
+    // KJH (LV-18): a byte of hoenn-extras' Hoenn flags is daily too (a Hoenn master's, flags_frlg.h)
+    memset(&gSaveBlock3Ptr->hoennFlags[(KJH_HOENN_DAILY_FLAGS_START - HOENN_FLAGS_START) / 8], 0, 1);
 #endif
 }
 

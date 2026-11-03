@@ -1,4 +1,4 @@
-// KJH (LV-13, LV-18): training masters, Kanto's and Johto's (include/kjh_masters.h).
+// KJH (LV-13, LV-18): training masters, Kanto's, Johto's and Hoenn's (include/kjh_masters.h).
 #include "global.h"
 #include "battle.h"
 #include "battle_setup.h"
@@ -10,6 +10,8 @@
 
 #define MASTER(t) {TRAINER_KJH_MASTER_##t, TYPE_##t, FLAG_KJH_MASTER_##t##_ONCE, FLAG_KJH_MASTER_##t##_TWICE}
 #define JOHTO_MASTER(t) {TRAINER_KJH_JOHTO_MASTER_##t, TYPE_##t, FLAG_KJH_JOHTO_MASTER_##t##_ONCE,                          FLAG_KJH_JOHTO_MASTER_##t##_TWICE}
+#define HOENN_MASTER(t) {TRAINER_KJH_HOENN_MASTER_##t, TYPE_##t, FLAG_KJH_HOENN_MASTER_##t##_ONCE, \
+                         FLAG_KJH_HOENN_MASTER_##t##_TWICE}
 #define MASTER_FIGHTS_PER_DAY 2
 
 static const struct KjhMaster sMasters[KJH_MASTERS_COUNT] =
@@ -20,6 +22,10 @@ static const struct KjhMaster sMasters[KJH_MASTERS_COUNT] =
     JOHTO_MASTER(WATER), JOHTO_MASTER(FIRE), JOHTO_MASTER(ICE), JOHTO_MASTER(DRAGON), JOHTO_MASTER(BUG),
     JOHTO_MASTER(ROCK), JOHTO_MASTER(FIGHTING), JOHTO_MASTER(DARK), JOHTO_MASTER(PSYCHIC), JOHTO_MASTER(FLYING),
     JOHTO_MASTER(STEEL), JOHTO_MASTER(NORMAL),
+    // Hoenn's (LV-18)
+    HOENN_MASTER(WATER), HOENN_MASTER(FIRE), HOENN_MASTER(ELECTRIC), HOENN_MASTER(GHOST), HOENN_MASTER(ICE),
+    HOENN_MASTER(BUG), HOENN_MASTER(DRAGON), HOENN_MASTER(GRASS), HOENN_MASTER(GROUND), HOENN_MASTER(STEEL),
+    HOENN_MASTER(PSYCHIC), HOENN_MASTER(FLYING), HOENN_MASTER(DARK), HOENN_MASTER(POISON),
 };
 
 const struct KjhMaster *KJH_GetMaster(u32 trainerId)

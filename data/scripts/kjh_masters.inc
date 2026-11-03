@@ -1,5 +1,5 @@
-@ KJH (LV-13): Kanto's training masters, and Johto's (LV-18) (src/kjh_masters.c). Each can be fought twice per in-game
-@ day; a win gives +20 move points to every move of its type used in the battle.
+@ KJH (LV-13): Kanto's training masters, and Johto's and Hoenn's (LV-18) (src/kjh_masters.c). Each can be fought
+@ twice per in-game day; a win gives +20 move points to every move of its type used in the battle.
 
 KJH_EventScript_MasterWater::
 	setvar VAR_0x8004, TRAINER_KJH_MASTER_WATER
@@ -208,6 +208,135 @@ KJH_EventScript_JohtoMasterNormal::
 	cleartrainerflag TRAINER_KJH_JOHTO_MASTER_NORMAL
 	trainerbattle_no_intro TRAINER_KJH_JOHTO_MASTER_NORMAL, KJH_Text_MasterDefeat
 	setvar VAR_0x8004, TRAINER_KJH_JOHTO_MASTER_NORMAL
+	goto KJH_EventScript_MasterAfter
+
+@ KJH (LV-18): Hoenn's training masters, the same way. Their map objects are in Hoenn's native maps (data/maps/*/map.json);
+@ these scripts use FireRed's names only, so they need no Hoenn scope.
+
+KJH_EventScript_HoennMasterWater::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_WATER
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_WATER
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_WATER, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_WATER
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterFire::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_FIRE
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_FIRE
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_FIRE, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_FIRE
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterElectric::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_ELECTRIC
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_ELECTRIC
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_ELECTRIC, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_ELECTRIC
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterGhost::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GHOST
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_GHOST
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_GHOST, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GHOST
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterIce::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_ICE
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_ICE
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_ICE, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_ICE
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterBug::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_BUG
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_BUG
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_BUG, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_BUG
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterDragon::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_DRAGON
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_DRAGON
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_DRAGON, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_DRAGON
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterGrass::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GRASS
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_GRASS
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_GRASS, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GRASS
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterGround::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GROUND
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_GROUND
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_GROUND, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_GROUND
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterSteel::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_STEEL
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_STEEL
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_STEEL, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_STEEL
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterPsychic::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_PSYCHIC
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_PSYCHIC
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_PSYCHIC, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_PSYCHIC
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterFlying::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_FLYING
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_FLYING
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_FLYING, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_FLYING
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterDark::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_DARK
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_DARK
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_DARK, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_DARK
+	goto KJH_EventScript_MasterAfter
+
+KJH_EventScript_HoennMasterPoison::
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_POISON
+	call KJH_EventScript_MasterAsk
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MasterEnd
+	cleartrainerflag TRAINER_KJH_HOENN_MASTER_POISON
+	trainerbattle_no_intro TRAINER_KJH_HOENN_MASTER_POISON, KJH_Text_MasterDefeat
+	setvar VAR_0x8004, TRAINER_KJH_HOENN_MASTER_POISON
 	goto KJH_EventScript_MasterAfter
 
 KJH_EventScript_MasterAsk::

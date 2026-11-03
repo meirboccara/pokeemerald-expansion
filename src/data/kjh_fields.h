@@ -168,6 +168,15 @@ static const struct KjhFieldMap sKjhFieldMaps[] =
     FIELD(MAP_JOHTO_TIN_TOWER_2F, TYPE_FLYING),
     FIELD(MAP_JOHTO_OLIVINE_LIGHTHOUSE_1F, TYPE_STEEL),
     FIELD(MAP_JOHTO_NATIONAL_PARK, TYPE_NORMAL),            // grass and paths: no field of its own
+
+    // Hoenn's training masters' spots that their place doesn't give (LV-18; Hoenn's Gyms and special places are its
+    // own block)
+    FIELD(MAP_ROUTE109, TYPE_WATER),                        // the beach is sand
+    FIELD(MAP_GRANITE_CAVE_1F, TYPE_STEEL),
+    FIELD(MAP_MOSSDEEP_CITY_SPACE_CENTER_1F, TYPE_PSYCHIC),
+    FIELD(MAP_FORTREE_CITY, TYPE_FLYING),                   // the treetops
+    FIELD(MAP_ROUTE120, TYPE_DARK),                         // Absol's home
+    FIELD(MAP_JAGGED_PASS, TYPE_POISON),
 };
 
 #undef FIELD

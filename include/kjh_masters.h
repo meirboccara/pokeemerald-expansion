@@ -1,10 +1,11 @@
 #ifndef GUARD_KJH_MASTERS_H
 #define GUARD_KJH_MASTERS_H
 
-// KJH (LV-13): Kanto's training masters (docs/LEVELLESS_DESIGN.md §12 in the KJH repo), and Johto's (LV-18). One per
-// type and region, each on a spot of its type (data/scripts/kjh_masters.inc). A master can be fought twice per in-game day (two of FireRed's daily
-// flags each, cleared by CF-4's daily events); its team is at the team's current level, whatever the zone; its
-// battle's field is its type; a win gives +20 move points to every move of its type used in it (src/kjh_move_stars.c).
+// KJH (LV-13): Kanto's training masters (docs/LEVELLESS_DESIGN.md §12 in the KJH repo), and Johto's and Hoenn's
+// (LV-18). One per type and region, each on a spot of its type (data/scripts/kjh_masters.inc). A master can be fought
+// twice per in-game day (two daily flags each, cleared by CF-4's daily events); its team is at the team's current
+// level, whatever the zone; its battle's field is its type; a win gives +20 move points to every move of its type used
+// in it (src/kjh_move_stars.c).
 
 #define KJH_MASTER_POINTS 20
 
