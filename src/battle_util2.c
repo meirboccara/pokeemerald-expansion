@@ -13,6 +13,7 @@
 #include "battle_scripts.h"
 #include "window.h"
 #include "constants/battle_string_ids.h"
+#include "kjh_legendary.h"
 
 void AllocateBattleGfxResources(void)
 {
@@ -76,6 +77,7 @@ void FreeBattleResources(void)
         FreeTrainerHillBattleStruct();
 
     gFieldTimers.terrain = 0;
+    KJH_EndLegendaryBossBattle(); // KJH: a legendary's boss AI is for one battle (CF-12)
     if (gBattleResources != NULL)
     {
         FREE_AND_SET_NULL(gBattleStruct);

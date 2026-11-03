@@ -164,6 +164,7 @@ SeafoamIslands_B4F_EventScript_Articuno::
 	playbgm MUS_RG_ENCOUNTER_GYM_LEADER, 0
 	waitbuttonpress
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
+	kjh_legendaryboss
 	special BattleSetup_StartLegendaryBattle
 	clearflag FLAG_SYS_CTRL_OBJ_DELETE
 	specialvar VAR_RESULT, GetBattleOutcome

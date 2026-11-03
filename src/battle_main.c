@@ -32,6 +32,7 @@
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_legendary.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "load_save.h"
@@ -5813,6 +5814,8 @@ void ScriptSetTotemBoost(struct ScriptContext *ctx)
 
 bool32 IsWildMonSmart(void)
 {
+    if (KJH_IsLegendaryBossBattle()) // KJH: a legendary boss (CF-12, src/kjh_legendary.c)
+        return TRUE;
 #if WE_SMART_WILD_AI_FLAG != 0
     return (FlagGet(WE_SMART_WILD_AI_FLAG));
 #else

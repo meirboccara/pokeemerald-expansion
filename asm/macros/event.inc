@@ -2214,6 +2214,13 @@
 	.2byte \evas
 	.endm
 
+	@ KJH: the wild Pokemon of setwildbattle fights as a legendary boss: a totem aura with +1 to its two highest
+	@ stats (HP not counted), and the boss AI, for that one battle (CF-12, include/kjh_legendary.h). Use it after
+	@ setwildbattle, right before the battle starts.
+	.macro kjh_legendaryboss
+	callnative KJH_ScriptSetupLegendaryBoss, requests_effects=1
+	.endm
+
 	@ useful totem boost macros
 	.macro totemboost_atk1 battler:req
 	settotemboost \battler, 1

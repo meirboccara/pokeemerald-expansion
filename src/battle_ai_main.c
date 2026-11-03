@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "event_data.h"
 #include "item.h"
+#include "kjh_legendary.h"
 #include "kjh_progression.h"
 #include "math_util.h"
 #include "pokemon.h"
@@ -246,7 +247,7 @@ static u64 GetWildAiFlags(void)
     if (B_VAR_WILD_AI_FLAGS != 0 && VarGet(B_VAR_WILD_AI_FLAGS) != 0)
         flags |= VarGet(B_VAR_WILD_AI_FLAGS);
 
-    return flags;
+    return KJH_LegendaryWildAiFlags(flags); // KJH: a legendary boss fights like a boss trainer (CF-12)
 }
 
 static bool32 IsSmartBattle(void)
