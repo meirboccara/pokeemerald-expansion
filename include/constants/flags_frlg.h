@@ -2774,5 +2774,7 @@
 #define FLAG_TEMP_HIDE_FOLLOWER                 FLAG_TEMP_E
 #define FLAG_TEMP_HIDE_MIRAGE_ISLAND_BERRY_TREE FLAG_TEMP_11
 
+// KJH (ENG-9, Hoenn): the "emerald flags" above, 0 here, are Hoenn's flags in SaveBlock3 (HOENN_FLAG, after Johto's)
+#include "constants/hoenn_flags.h"
 
 #endif // GUARD_CONSTANTS_FLAGS_H

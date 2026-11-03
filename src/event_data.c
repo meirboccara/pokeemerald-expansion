@@ -69,6 +69,10 @@ void ClearTempFieldEventData(void)
 void ClearDailyFlags(void)
 {
     memset(&gSaveBlock1Ptr->flags[DAILY_FLAGS_START / 8], 0, DAILY_FLAGS_SIZE);
+#if IS_FRLG
+    // KJH (ENG-9): Hoenn's daily flags (Emerald's, byte-aligned in Hoenn's range)
+    memset(&gSaveBlock3Ptr->hoennFlags[(HOENN_DAILY_FLAGS_START - HOENN_FLAGS_START) / 8], 0, HOENN_DAILY_FLAGS_SIZE);
+#endif
 }
 
 void DisableNationalPokedex(void)
@@ -167,6 +171,8 @@ u16 *GetVarPointer(u16 id)
 #if IS_FRLG
     else if (id >= KJH_SAVE3_VARS_START && id < KJH_SAVE3_VARS_END) // KJH (ENG-9): Johto's
         return &gSaveBlock3Ptr->kjhVars[id - KJH_SAVE3_VARS_START];
+    else if (id >= HOENN_VARS_START && id < HOENN_VARS_END) // KJH (ENG-9): Hoenn's
+        return &gSaveBlock3Ptr->hoennVars[id - HOENN_VARS_START];
 #endif
     else if (id < SPECIAL_VARS_START)
         return &gSaveBlock1Ptr->vars[id - VARS_START];
@@ -215,6 +221,8 @@ u8 *GetFlagPointer(u16 id)
 #if IS_FRLG
     else if (id >= KJH_SAVE3_FLAGS_START && id < KJH_SAVE3_FLAGS_END) // KJH (ENG-9): Johto's
         return &gSaveBlock3Ptr->kjhFlags[(id - KJH_SAVE3_FLAGS_START) / 8];
+    else if (id >= HOENN_FLAGS_START && id < HOENN_FLAGS_END) // KJH (ENG-9): Hoenn's
+        return &gSaveBlock3Ptr->hoennFlags[(id - HOENN_FLAGS_START) / 8];
 #endif
     else if (id < SPECIAL_FLAGS_START)
         return &gSaveBlock1Ptr->flags[id / 8];

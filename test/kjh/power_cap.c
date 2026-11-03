@@ -5,9 +5,13 @@
 #include "event_data.h"
 #include "kjh_power_cap.h"
 #include "test/battle.h"
+#include "constants/map_groups.h"
 
 static void SetBadges(u32 count)
 {
+    // The test save stands on map 0, Hoenn's Petalburg City (ENG-9): stand on a Kanto map
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PALLET_TOWN);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PALLET_TOWN);
     for (u32 i = 0; i < NUM_BADGES; i++)
     {
         if (i < count)

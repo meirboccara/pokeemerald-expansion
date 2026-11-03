@@ -235,6 +235,13 @@ const struct Trainer gTrainers[DIFFICULTY_COUNT][TRAINERS_COUNT] =
 #include "data/trainers_johto.h" // KJH (ENG-9)
 #include "data/trainers_kjh_masters.h" // KJH (LV-13)
 #include "data/trainers_kjh_story.h" // KJH (ENG-10)
+// KJH (ENG-9): Emerald's trainers are Hoenn's, from HOENN_TRAINERS_START (constants/hoenn_trainers.h). Their file's
+// TRAINER_NONE row goes in Hoenn's unused first slot, not over FireRed's.
+#pragma push_macro("TRAINER_NONE")
+#undef TRAINER_NONE
+#define TRAINER_NONE HOENN_TRAINERS_START
+#include "data/trainers.h"
+#pragma pop_macro("TRAINER_NONE")
 #else
 #include "data/trainers.h"
 #endif

@@ -4019,7 +4019,7 @@ bool8 InPokemonCenter(void)
       2: Player has met their initial fans
 */
 
-#define FANCLUB_BITFIELD (gSaveBlock1Ptr->vars[VAR_FANCLUB_FAN_COUNTER - VARS_START])
+#define FANCLUB_BITFIELD (*GetVarPointer(VAR_FANCLUB_FAN_COUNTER)) // KJH (ENG-9): Hoenn's variables (SaveBlock3)
 #define FANCLUB_COUNTER    0x007F
 
 #define GET_TRAINER_FAN_CLUB_FLAG(flag)  (FANCLUB_BITFIELD >> (flag) & 1)
@@ -4033,8 +4033,8 @@ bool8 InPokemonCenter(void)
 
 void ResetFanClub(void)
 {
-    gSaveBlock1Ptr->vars[VAR_FANCLUB_FAN_COUNTER - VARS_START] = 0;
-    gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] = 0;
+    (*GetVarPointer(VAR_FANCLUB_FAN_COUNTER)) = 0;
+    (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) = 0;
 }
 
 void TryLoseFansFromPlayTimeAfterLinkBattle(void)
@@ -4042,7 +4042,7 @@ void TryLoseFansFromPlayTimeAfterLinkBattle(void)
     if (DidPlayerGetFirstFans())
     {
         TryLoseFansFromPlayTime();
-        gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] = gSaveBlock2Ptr->playTimeHours;
+        (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) = gSaveBlock2Ptr->playTimeHours;
     }
 }
 
@@ -4052,7 +4052,7 @@ void UpdateTrainerFanClubGameClear(void)
     {
         SetPlayerGotFirstFans();
         SetInitialFansOfPlayer();
-        gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] = gSaveBlock2Ptr->playTimeHours;
+        (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) = gSaveBlock2Ptr->playTimeHours;
         FlagClear(FLAG_HIDE_FANCLUB_OLD_LADY);
         FlagClear(FLAG_HIDE_FANCLUB_BOY);
         FlagClear(FLAG_HIDE_FANCLUB_LITTLE_BOY);
@@ -4202,19 +4202,19 @@ void TryLoseFansFromPlayTime(void)
         {
             if (GetNumFansOfPlayerInTrainerFanClub() < 5)
             {
-                gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] = gSaveBlock2Ptr->playTimeHours;
+                (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) = gSaveBlock2Ptr->playTimeHours;
                 break;
             }
             else if (i == NUM_TRAINER_FAN_CLUB_MEMBERS)
             {
                 break;
             }
-            else if (gSaveBlock2Ptr->playTimeHours - gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] < 12)
+            else if (gSaveBlock2Ptr->playTimeHours - (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) < 12)
             {
                 return;
             }
             PlayerLoseRandomTrainerFan();
-            gSaveBlock1Ptr->vars[VAR_FANCLUB_LOSE_FAN_TIMER - VARS_START] += 12;
+            (*GetVarPointer(VAR_FANCLUB_LOSE_FAN_TIMER)) += 12;
             i++;
         }
     }

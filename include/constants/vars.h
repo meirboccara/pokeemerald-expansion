@@ -343,4 +343,13 @@
 #define TESTING_VAR_UNUSED_7                (TESTING_VARS_START + 0x7)
 #endif // TESTING
 
+#if IS_FRLG
+// KJH (ENG-9, Hoenn): the Emerald variables of Hoenn's scripts, maps and features are Hoenn's, in SaveBlock3
+#include "constants/hoenn_vars.h"
+// KJH (ENG-9): the script macros (asm/macros/event.inc) take Johto's and Hoenn's variables for variables too
+#define SCRIPT_VARS_END (HOENN_VARS_END - 1)
+#else
+#define SCRIPT_VARS_END VARS_END
+#endif
+
 #endif // GUARD_CONSTANTS_VARS_H

@@ -19,6 +19,13 @@
 #include "constants/map_groups.h"
 #include "constants/region_map_sections.h"
 
+// The test save stands on map 0, Hoenn's Petalburg City: these tests stand on a Kanto map, the section deciding the zone.
+static void StandInKanto(void)
+{
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PALLET_TOWN);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PALLET_TOWN);
+}
+
 static void SetBadges(u32 count)
 {
     u32 i;
@@ -36,6 +43,7 @@ static void SetBadges(u32 count)
 static void StartLevelsFree(u32 mapsec, u32 zoneTop)
 {
     FlagSet(FLAG_KJH_LEVELLESS);
+    StandInKanto();
     gMapHeader.regionMapSectionId = mapsec;
     VarSet(VAR_KJH_KANTO_ZONE_TOP, zoneTop);
     VarSet(VAR_KJH_TEAM_LEVEL, 0);
@@ -69,6 +77,7 @@ TEST("KJH: the team's ceiling is the next Gym ace, then the Champion")
 
 TEST("KJH: the team stops at 14 until Brock is beaten, and Gyms count in any order")
 {
+    StandInKanto();
     VarSet(VAR_KJH_KANTO_ZONE_TOP, 12);
     SetBadges(0);
     EXPECT_EQ(KJH_TeamLevel(), 12);

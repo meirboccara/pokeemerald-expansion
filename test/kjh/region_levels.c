@@ -48,6 +48,7 @@ static void StartVeteran(void)
     FlagSet(FLAG_SYS_GAME_CLEAR);
     SetRegionBadges(FLAG_BADGE01_GET, NUM_BADGES);
     SetRegionBadges(FLAG_JOHTO_BADGE01_GET, 0);
+    SetRegionBadges(FLAG_HOENN_BADGE01_GET, 0);
     VarSet(VAR_KJH_KANTO_ZONE_TOP, 100);
     VarSet(VAR_KJH_JOHTO_ZONE_TOP, 0);
     VarSet(VAR_KJH_TEAM_LEVEL, 100);
@@ -86,10 +87,11 @@ TEST("KJH: each map belongs to its region, by its zone table")
     EXPECT_EQ(KJH_RegionOf(MAPSEC_PALLET_TOWN, MAP_PALLET_TOWN), KJH_REGION_KANTO);
     EXPECT_EQ(KJH_RegionOf(MAPSEC_POKEMON_LEAGUE, MAP_POKEMON_LEAGUE_LANCES_ROOM), KJH_REGION_KANTO);
     EXPECT_EQ(KJH_RegionOf(MAPSEC_J_GOLDENROD_CITY, MAP_JOHTO_GOLDENROD_CITY), KJH_REGION_JOHTO);
-    EXPECT_EQ(KJH_RegionOf(MAPSEC_LITTLEROOT_TOWN, MAP_LITTLEROOT_TOWN), KJH_REGION_NONE);
+    EXPECT_EQ(KJH_RegionOf(MAPSEC_LITTLEROOT_TOWN, MAP_LITTLEROOT_TOWN), KJH_REGION_HOENN); // its map groups (ENG-9)
+    EXPECT_EQ(KJH_RegionOf(MAPSEC_LITTLEROOT_TOWN, MAP_PALLET_TOWN), KJH_REGION_NONE);
 }
 
-TEST("KJH: the badges that count are the region's: Johto's in Johto, Kanto's elsewhere")
+TEST("KJH: the badges that count are the region's: Johto's in Johto, Hoenn's in Hoenn, Kanto's elsewhere")
 {
     StartVeteran();
     SetRegionBadges(FLAG_JOHTO_BADGE01_GET, 2);
@@ -99,6 +101,8 @@ TEST("KJH: the badges that count are the region's: Johto's in Johto, Kanto's els
     StandOn(MAPSEC_CELADON_CITY, MAP_CELADON_CITY);
     EXPECT_EQ(KJH_CountBadgesHere(), NUM_BADGES);
     StandOn(MAPSEC_LITTLEROOT_TOWN, MAP_LITTLEROOT_TOWN);
+    EXPECT_EQ(KJH_CountBadgesHere(), 0); // Hoenn's (ENG-9)
+    StandOn(MAPSEC_LITTLEROOT_TOWN, MAP_PALLET_TOWN);
     EXPECT_EQ(KJH_CountBadgesHere(), NUM_BADGES);
     Cleanup();
 }

@@ -287,6 +287,8 @@ struct SaveBlock3
     u16 kjhVars[KJH_SAVE3_VARS_COUNT]; // KJH (ENG-9): Johto's variables (GetVarPointer)
     u8 kjhFlags[KJH_SAVE3_FLAGS_COUNT / 8]; // KJH (ENG-9): Johto's trainer and event flags (GetFlagPointer)
     struct KjhRegionSwarm kjhSwarms[KJH_SWARM_REGIONS]; // KJH (CF-6): today's Johto and Hoenn swarms
+    u16 hoennVars[HOENN_VARS_COUNT]; // KJH (ENG-9): Hoenn's variables (constants/hoenn_vars.h, GetVarPointer)
+    u8 hoennFlags[HOENN_FLAGS_COUNT / 8]; // KJH (ENG-9): Hoenn's flags, Emerald's numbering (HOENN_FLAG)
 #endif
 }; /* max size 1624 bytes */
 

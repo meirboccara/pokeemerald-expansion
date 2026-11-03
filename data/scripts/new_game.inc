@@ -112,6 +112,7 @@ EventScript_ResetAllBerries::
 	setberrytree BERRY_TREE_ROUTE_130_LIECHI, BERRY_ID_LIECHI, BERRY_STAGE_BERRIES
 	return
 
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): the Hoenn FLAG_HIDE_DEOXYS
 EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_CONTEST_POKE_BALL
 	setflag FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE
@@ -274,6 +275,7 @@ EventScript_ResetAllMapFlags::
 	setflag FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA_STILL
 	call EventScript_ResetAllBerries
 	end
+#include "constants/kjh_hoenn_scope_end.h"
 
 EventScript_ResetAllMapFlagsFrlg::
 	setflag FLAG_HIDE_OAK_IN_HIS_LAB

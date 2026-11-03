@@ -13,6 +13,7 @@ enum KjhRegion
     KJH_REGION_NONE,
     KJH_REGION_KANTO,
     KJH_REGION_JOHTO,
+    KJH_REGION_HOENN, // ENG-9: expansion's native Hoenn maps (no zone tables yet: LV-18's Hoenn part)
     KJH_REGION_COUNT,
 };
 
@@ -27,7 +28,8 @@ bool32 KJH_IsLevelsFree(void);
 // The top of the zone a place belongs to, or 0 for a place outside the tables. A map of its own (a League room)
 // comes before its section.
 u32 KJH_ZoneTop(u32 mapsec, u32 map);
-// The region whose zone tables have this place, KJH_REGION_NONE for none.
+// The region whose zone tables have this place, KJH_REGION_NONE for none. Hoenn's maps (its map groups) are Hoenn's
+// even outside its tables.
 enum KjhRegion KJH_RegionOf(u32 mapsec, u32 map);
 // The team's ceiling with this many badges: the next Gym ace, then the Champion's 100.
 u32 KJH_TeamLevelCap(u32 badges);

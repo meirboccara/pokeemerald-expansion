@@ -131,7 +131,7 @@ gStdScripts::
 	.4byte Std_ReceivedItem            @ STD_RECEIVED_ITEM
 gStdScripts_End::
 
-
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): Hoenn badges, League and Birth Island flags
 	.include "data/maps/PetalburgCity/scripts.inc"
 	.include "data/maps/SlateportCity/scripts.inc"
 	.include "data/maps/MauvilleCity/scripts.inc"
@@ -601,6 +601,7 @@ gStdScripts_End::
 	.include "data/maps/Route119_WeatherInstitute_2F/scripts.inc"
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 
 .if IS_FRLG
 
@@ -1067,7 +1068,9 @@ gStdScripts_End::
 	.include "data/scripts/std_msgbox.inc"
 	.include "data/scripts/trainer_battle.inc"
 	.include "data/scripts/new_game.inc"
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): Hoenn badges, League and Birth Island flags
 	.include "data/scripts/hall_of_fame.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 	.include "data/scripts/hall_of_fame_frlg.inc"
 
 	.include "data/scripts/config.inc"
@@ -1282,7 +1285,9 @@ Common_EventScript_StopBrineysBoatMusic::
 	fadedefaultbgm
 	return
 
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): Hoenn badges, League and Birth Island flags
 	.include "data/scripts/prof_birch.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 
 @ Below could be split as ferry.inc aside from the Rusturf tunnel script
 Common_EventScript_FerryDepart::
@@ -1703,7 +1708,9 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/abnormal_weather.inc"
 	.include "data/scripts/trainer_script.inc"
 	.include "data/scripts/berry_tree.inc"
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): Hoenn badges, League and Birth Island flags
 	.include "data/scripts/secret_base.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 	.include "data/scripts/cable_club.inc"
 	.include "data/text/cable_club.inc"
 	.include "data/scripts/contest_hall.inc"
@@ -1718,7 +1725,9 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/profile_man.inc"
 	.include "data/scripts/day_care.inc"
 	.include "data/scripts/flash.inc"
+#include "constants/kjh_hoenn_scope_begin.h" // KJH (ENG-9): Hoenn badges, League and Birth Island flags
 	.include "data/scripts/players_house.inc"
+#include "constants/kjh_hoenn_scope_end.h"
 	.include "data/scripts/berry_blender.inc"
 	.include "data/text/mauville_man.inc"
 	.include "data/text/trainers.inc"

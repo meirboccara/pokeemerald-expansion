@@ -61,7 +61,25 @@ static const struct KjhRegionZones sRegions[KJH_REGION_COUNT] =
         .firstBadgeFlag = FLAG_JOHTO_BADGE01_GET,
         .leagueFlag = FLAG_KJH_JOHTO_CHAMPION, // the Hall of Fame in the Johto League season (ENG-10)
     },
+    // ENG-9: Emerald's own badges and Hall of Fame, in Hoenn's flag range. Its zone tables, Gyms and League levels
+    // are LV-18's Hoenn part: until then no Hoenn place has a zone, so the team level doesn't apply there.
+    [KJH_REGION_HOENN] =
+    {
+        .zoneTopVar = VAR_KJH_HOENN_ZONE_TOP,
+        .teamLevelVar = VAR_KJH_HOENN_TEAM_LEVEL,
+        .firstBadgeFlag = FLAG_HOENN_BADGE01_GET,
+        .leagueFlag = FLAG_HOENN_GAME_CLEAR,
+    },
 };
+
+// Hoenn's maps are expansion's native ones, in the map groups before FireRed's (data/maps/map_groups.json).
+STATIC_ASSERT(MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE) + 1 == MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG)
+              || MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE) < MAP_GROUP(MAP_PALLET_TOWN), KjhHoennMapGroupsFirst);
+
+static bool32 IsHoennMap(u32 map)
+{
+    return MAP_GROUP(map) <= MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE);
+}
 
 // Johto's generated variables (constants/johto_vars.h) end well before these two
 STATIC_ASSERT(VAR_KJH_JOHTO_TEAM_LEVEL >= VAR_J_SCENE_ROUTE_34_ILEX_FOREST_GATE + 1
@@ -108,6 +126,9 @@ static enum KjhRegion FindZone(u32 mapsec, u32 map, u32 *zone)
             return region;
     }
 
+    *zone = 0;
+    if (IsHoennMap(map))
+        return KJH_REGION_HOENN;
     return KJH_REGION_NONE;
 }
 
@@ -123,7 +144,7 @@ u32 KJH_ZoneTop(u32 mapsec, u32 map)
     u32 zone;
     enum KjhRegion region = FindZone(mapsec, map, &zone);
 
-    if (region == KJH_REGION_NONE)
+    if (region == KJH_REGION_NONE || zone == 0) // a Hoenn map has no zone yet (LV-18)
         return 0;
 
     return sRegions[region].zones[zone].max;

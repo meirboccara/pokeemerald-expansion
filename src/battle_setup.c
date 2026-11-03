@@ -1062,12 +1062,12 @@ static void TryUpdateGymLeaderRematchFromTrainer(void)
 
 static u16 GetTrainerAFlag(void)
 {
-    return TRAINER_FLAGS_START + TRAINER_BATTLE_PARAM.opponentA;
+    return GetTrainerFlagFromId(TRAINER_BATTLE_PARAM.opponentA);
 }
 
 static u16 GetTrainerBFlag(void)
 {
-    return TRAINER_FLAGS_START + TRAINER_BATTLE_PARAM.opponentB;
+    return GetTrainerFlagFromId(TRAINER_BATTLE_PARAM.opponentB);
 }
 
 static bool32 IsPlayerDefeated(u32 battleOutcome)
@@ -1377,7 +1377,7 @@ void ConfigureApproachingFacilityTrainerBattle(struct ApproachingTrainer *approa
 bool32 GetTrainerFlagFromScriptPointer(const u8 *data)
 {
     TrainerBattleParameter *temp = (TrainerBattleParameter*)(data + TRAINERBATTLE_OPCODE_OFFSET);
-    return FlagGet(TRAINER_FLAGS_START + temp->params.opponentA);
+    return FlagGet(GetTrainerFlagFromId(temp->params.opponentA));
 }
 
 bool32 GetRematchFromScriptPointer(const u8 *data)
@@ -1430,19 +1430,30 @@ static void UNUSED SetBattledTrainerFlag(void)
     FlagSet(GetTrainerAFlag());
 }
 
+// KJH (ENG-9): a trainer's "beaten" flag. Hoenn's (Emerald's) trainers keep Emerald's own trainer flags, in Hoenn's
+// flag range (SaveBlock3): past Johto's trainers, TRAINER_FLAGS_START + id would be one of Johto's event flags.
+u16 GetTrainerFlagFromId(u16 trainerId)
+{
+#if IS_FRLG
+    if (trainerId >= HOENN_TRAINERS_START && trainerId < HOENN_TRAINERS_START + HOENN_TRAINERS_COUNT)
+        return HOENN_TRAINER_FLAGS_START + (trainerId - HOENN_TRAINERS_START);
+#endif
+    return TRAINER_FLAGS_START + trainerId;
+}
+
 bool8 HasTrainerBeenFought(u16 trainerId)
 {
-    return FlagGet(TRAINER_FLAGS_START + trainerId);
+    return FlagGet(GetTrainerFlagFromId(trainerId));
 }
 
 void SetTrainerFlag(u16 trainerId)
 {
-    FlagSet(TRAINER_FLAGS_START + trainerId);
+    FlagSet(GetTrainerFlagFromId(trainerId));
 }
 
 void ClearTrainerFlag(u16 trainerId)
 {
-    FlagClear(TRAINER_FLAGS_START + trainerId);
+    FlagClear(GetTrainerFlagFromId(trainerId));
 }
 
 void BattleSetup_StartTrainerBattle(void)
