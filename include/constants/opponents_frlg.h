@@ -628,6 +628,20 @@
 #define TRAINER_CHAMPION_REMATCH_CHARMANDER        622
 #define TRAINER_CUE_BALL_PAXTON                    623
 
+// KJH (LV-13): Kanto's training masters (src/kjh_masters.c), in src/data/trainers_kjh_masters.party
+#define TRAINER_KJH_MASTER_WATER                    624
+#define TRAINER_KJH_MASTER_FIRE                     625
+#define TRAINER_KJH_MASTER_ELECTRIC                 626
+#define TRAINER_KJH_MASTER_GHOST                    627
+#define TRAINER_KJH_MASTER_ICE                      628
+#define TRAINER_KJH_MASTER_BUG                      629
+#define TRAINER_KJH_MASTER_ROCK                     630
+#define TRAINER_KJH_MASTER_FIGHTING                 631
+#define TRAINER_KJH_MASTER_POISON                   632
+#define TRAINER_KJH_MASTER_GROUND                   633
+#define TRAINER_KJH_MASTER_NORMAL                   634
+#define KJH_MASTERS_COUNT                          11
+
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space

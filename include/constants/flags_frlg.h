@@ -219,6 +219,7 @@
 #define FLAG_0x0EE               0x0EE
 #define FLAG_0x0EF               0x0EF
 #define FLAG_KJH_MOVES_LOCKED                              FLAG_0x0EF // KJH: moves can't be changed, League run (LV-10)
+#define FLAG_KJH_SAW_FIELD_TRAINING                        FLAG_0x0EE // KJH: "... train twice as fast!" was said (LV-13)
 #define FLAG_0x0F0               0x0F0
 #define FLAG_KJH_AUTO_RUN                                  FLAG_0x0F0 // KJH: L turned auto-run on (CF-11)
 #define FLAG_0x0F1               0x0F1
@@ -972,6 +973,29 @@
 #define FLAG_0x3CF               0x3CF
 
 #define DAILY_FLAGS_END          (FLAG_0x3CF + (7 - FLAG_0x3CF % 8))
+// KJH (LV-13): a training master fought once / twice today, in the daily flags (src/kjh_masters.c)
+#define FLAG_KJH_MASTER_WATER_ONCE     FLAG_0x390 // KJH (LV-13)
+#define FLAG_KJH_MASTER_WATER_TWICE     FLAG_0x391
+#define FLAG_KJH_MASTER_FIRE_ONCE      FLAG_0x392 // KJH (LV-13)
+#define FLAG_KJH_MASTER_FIRE_TWICE      FLAG_0x393
+#define FLAG_KJH_MASTER_ELECTRIC_ONCE  FLAG_0x394 // KJH (LV-13)
+#define FLAG_KJH_MASTER_ELECTRIC_TWICE  FLAG_0x395
+#define FLAG_KJH_MASTER_GHOST_ONCE     FLAG_0x396 // KJH (LV-13)
+#define FLAG_KJH_MASTER_GHOST_TWICE     FLAG_0x397
+#define FLAG_KJH_MASTER_ICE_ONCE       FLAG_0x398 // KJH (LV-13)
+#define FLAG_KJH_MASTER_ICE_TWICE       FLAG_0x399
+#define FLAG_KJH_MASTER_BUG_ONCE       FLAG_0x39A // KJH (LV-13)
+#define FLAG_KJH_MASTER_BUG_TWICE       FLAG_0x39B
+#define FLAG_KJH_MASTER_ROCK_ONCE      FLAG_0x39C // KJH (LV-13)
+#define FLAG_KJH_MASTER_ROCK_TWICE      FLAG_0x39D
+#define FLAG_KJH_MASTER_FIGHTING_ONCE  FLAG_0x39E // KJH (LV-13)
+#define FLAG_KJH_MASTER_FIGHTING_TWICE  FLAG_0x39F
+#define FLAG_KJH_MASTER_POISON_ONCE    FLAG_0x3A0 // KJH (LV-13)
+#define FLAG_KJH_MASTER_POISON_TWICE    FLAG_0x3A1
+#define FLAG_KJH_MASTER_GROUND_ONCE    FLAG_0x3A2 // KJH (LV-13)
+#define FLAG_KJH_MASTER_GROUND_TWICE    FLAG_0x3A3
+#define FLAG_KJH_MASTER_NORMAL_ONCE    FLAG_0x3A4 // KJH (LV-13)
+#define FLAG_KJH_MASTER_NORMAL_TWICE    FLAG_0x3A5
 #define NUM_DAILY_FLAGS                             (DAILY_FLAGS_END - DAILY_FLAGS_START + 1)
 
 #define FLAG_0x3D0               0x3D0

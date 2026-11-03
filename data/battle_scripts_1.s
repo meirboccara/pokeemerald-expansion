@@ -6419,7 +6419,13 @@ BattleScript_KjhPowerHeldBack::
 BattleScript_KjhMovesGrewStronger::
 	callnative BS_KjhTryMoveGrewStronger
 	.4byte BattleScript_KjhMovesGrewStrongerDone
+	.4byte BattleScript_KjhFieldTrainsTwice
 	printstring STRINGID_KJH_MOVE_GREW_STRONGER
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_KjhMovesGrewStronger
+@ LV-13: the first time a field doubles a move's points
+BattleScript_KjhFieldTrainsTwice::
+	printstring STRINGID_KJH_FIELD_TRAINS_TWICE
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_KjhMovesGrewStronger
 BattleScript_KjhMovesGrewStrongerDone::

@@ -542,6 +542,7 @@ enum TrainerClassID
     TRAINER_CLASS_RUIN_MANIAC_FRLG,
     TRAINER_CLASS_LADY_FRLG,
     TRAINER_CLASS_PAINTER_FRLG,
+    TRAINER_CLASS_KJH_MASTER, // KJH (LV-13)
     // KJH (ENG-9): Johto's trainer classes (kjh_tools/johto/to_expansion.py)
     TRAINER_CLASS_J_SAGE,
     TRAINER_CLASS_J_KIMONO_GIRL,

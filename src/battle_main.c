@@ -421,6 +421,7 @@ const struct TrainerClass gTrainerClasses[TRAINER_CLASS_COUNT] =
     [TRAINER_CLASS_RUIN_MANIAC_FRLG] =     { _("RUIN MANIAC"), 12 },
     [TRAINER_CLASS_LADY_FRLG] =            { _("LADY"), 50 },
     [TRAINER_CLASS_PAINTER_FRLG] =         { _("PAINTER"), 4 },
+    [TRAINER_CLASS_KJH_MASTER] =           { _("MASTER"), 30 }, // KJH (LV-13)
 #include "data/johto_trainer_classes.h" // KJH (ENG-9)
 };
 

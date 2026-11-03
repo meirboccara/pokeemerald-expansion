@@ -7,6 +7,7 @@
 #include "decompress.h"
 #include "graphics.h"
 #include "kjh_field.h"
+#include "kjh_masters.h"
 #include "malloc.h"
 #include "palette.h"
 #include "pokemon.h"
@@ -118,6 +119,11 @@ void KJH_FieldStartBattle(void)
     if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         return;
     sBattleField = KJH_FieldForMap(GetCurrentMapId(), gBattleEnvironment);
+    if (KJH_MasterBattleType() != TYPE_NONE) // LV-13: a master's spot has its type, only for its battle
+    {
+        sBattleField.type = KJH_MasterBattleType();
+        sBattleField.boostOnly = FALSE;
+    }
 }
 
 struct KjhField KJH_GetBattleField(void)

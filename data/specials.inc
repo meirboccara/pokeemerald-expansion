@@ -648,6 +648,9 @@ gSpecials::
 	def_special KJH_HeadbuttWildEncounter
 	@ KJH (LV-5): Bond, src/kjh_bond.c
 	def_special KJH_SetStarterBond
+	@ KJH (LV-13): training masters, src/kjh_masters.c
+	def_special KJH_SpecialMasterFightsLeft
+	def_special KJH_SpecialMasterFought
 	@ KJH (ENG-9): Johto (Crystal port), src/kjh_johto_specials.c
 	def_special KJH_CrystalReadVar
 	def_special KJH_CheckPartySpecies

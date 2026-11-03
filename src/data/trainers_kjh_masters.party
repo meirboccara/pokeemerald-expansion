@@ -1,0 +1,233 @@
+/* KJH (LV-13): Kanto's training masters (src/kjh_masters.c). Their level here is a placeholder: a master's team is
+   moved to the team's current level when the battle starts, and gets its level-up moves there. */
+
+=== TRAINER_KJH_MASTER_WATER ===
+Name: KAI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_SWIMMER_M_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_SEADRA
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_POLIWRATH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_STARMIE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_FIRE ===
+Name: BLAZE
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_J_FIREBREATHER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_RAPIDASH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MAGMAR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ARCANINE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_ELECTRIC ===
+Name: VOLT
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_ENGINEER_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MAGNETON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ELECTRODE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ELECTABUZZ
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_GHOST ===
+Name: MORA
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_CHANNELER_FRLG
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_HAUNTER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MISDREAVUS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_BANETTE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_ICE ===
+Name: YUKI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_J_SKIER
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_DEWGONG
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CLOYSTER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_JYNX
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_BUG ===
+Name: HIRO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BUG_CATCHER_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_BUTTERFREE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_BEEDRILL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_PINSIR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_ROCK ===
+Name: ROCCO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_HIKER_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_GRAVELER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ONIX
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_RHYHORN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_FIGHTING ===
+Name: KENJI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BLACK_BELT_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_HITMONLEE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_HITMONCHAN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MACHOKE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_POISON ===
+Name: VEX
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BURGLAR_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_WEEZING
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MUK
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ARBOK
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_GROUND ===
+Name: DIGBY
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_RUIN_MANIAC_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_DUGTRIO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SANDSLASH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MAROWAK
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_MASTER_NORMAL ===
+Name: NORMA
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_LADY_FRLG
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_PERSIAN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_KANGASKHAN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_TAUROS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe

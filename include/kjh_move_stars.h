@@ -29,6 +29,9 @@ u32 KJH_StarsPercent(u32 stars);
 u32 KJH_StarsAndCapPercent(u32 stars, u32 capPercent);
 u32 KJH_StarredPower(u32 power, u32 stars);
 u32 KJH_MovePointsForWin(enum KjhWinKind kind, u32 tierMark);
+// LV-13: a move of the field's type gets twice the battle's points; in a master's battle (masterType), a move of its
+// type gets KJH_MASTER_POINTS instead, never doubled
+u32 KJH_MovePointsForMove(u32 points, enum Type moveType, enum Type fieldType, enum Type masterType);
 
 // A Pokemon's moves
 u32 KJH_StartingMovePoints(struct BoxPokemon *boxMon, enum Move move);
@@ -44,7 +47,8 @@ u32 KJH_BattleMovePercent(u32 battler, enum Move move);
 void KJH_MoveStarsStartBattle(void);
 void KJH_NoteMoveUsed(u32 battler, enum Move move);
 bool32 KJH_MoveStarsBattleWon(void);   // TRUE when there are messages (BattleScript_KjhMovesGrewStronger)
-void BS_KjhTryMoveGrewStronger(void);   // callnative: the next message in gBattleTextBuff1-3, or jump when none
+void BS_KjhTryMoveGrewStronger(void);   // callnative: the next message in gBattleTextBuff1-3; jumps to the field's
+                                        // first-time message (LV-13) or, when there's none left, to the end
 
 // The Summary: the POWER line's power with the cap and the stars (0 when the move isn't held back), and
 // "{STAR}{STAR}{STAR} 12/30" (the stars, the points and the next star's), or the five stars
