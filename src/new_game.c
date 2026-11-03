@@ -53,6 +53,7 @@
 #include "script_pokemon_util.h"
 #include "difficulty.h"
 #include "kjh_clock.h"
+#include "kjh_move_stars.h"
 #include "kjh_swarms.h"
 #include "constants/heal_locations.h"
 #include "follower_npc.h"
@@ -318,6 +319,7 @@ void NewGameInitData(void)
     FlagSet(FLAG_KJH_LEVELLESS); // KJH (LV-2): the team's level follows the zones.
 #if IS_FRLG
     FlagSet(FLAG_J_ALWAYS_SET); // KJH (ENG-9): Johto's objects that Crystal shows at night or in the morning stay hidden.
+    KJH_ClearNotebook(); // KJH (LV-12): no trained moves yet
 #endif
     if (OW_USE_FAKE_RTC)
         KJH_StartClock(); // KJH (CF-4): the in-game clock starts in the morning, with no question.

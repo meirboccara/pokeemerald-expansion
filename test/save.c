@@ -7,7 +7,7 @@
 #define T_SAVEBLOCK1_SIZE 15568
 #define T_SAVEBLOCK2_SIZE 3884
 #define T_SAVEBLOCK3_SIZE 508 // KJH: the clock (CF-4), first-time item flags (CF-1), Johto flags and vars (ENG-9)
-#define T_POKEMONSTORAGE_SIZE 34144
+#define T_POKEMONSTORAGE_SIZE 34944 // KJH: the training notebook (LV-12)
 
 TEST("SaveBlock1 is backwards compatible")
 {
