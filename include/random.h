@@ -264,6 +264,9 @@ enum RandomTag
     RNG_KJH_PACK_ANSWER, // KJH: someone answers; 0: a helper comes
     RNG_KJH_PACK_HELPER_LEVEL, // KJH: a helper is 0 to 2 levels under the pack's level
     RNG_KJH_HIDDEN_ABILITY, // KJH: a wild Pokemon has its Hidden Ability (src/kjh_hidden_ability.c, ENG-7); 0: it has it
+    RNG_KJH_ALPHA,          // KJH: a wild Pokemon is an Alpha (src/kjh_pack.c, LV-15); 0: it is one
+    RNG_KJH_LEADER_IVS,     // KJH: which two of a Leader's stats get perfect IVs (LV-15)
+    RNG_KJH_PACK_HELPER_LEADER, // KJH: a helper that answers a Leader is a Leader too (LV-15); 0: it is one
     RNG_KJH_SWARM,          // KJH: a Johto or Hoenn encounter is today's swarm species (src/kjh_swarms.c, CF-6); 0: it is
 };
 

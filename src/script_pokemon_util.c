@@ -9,6 +9,7 @@
 #include "event_data.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_pack.h"
 #include "link.h"
 #include "link_rfu.h"
 #include "main.h"
@@ -124,6 +125,7 @@ void CreateScriptedWildMon(enum Species species, u8 level, enum Item item)
 {
     u8 heldItem[2];
 
+    KJH_PackClearNextEncounter(); // KJH (LV-15): a random encounter's Leader or Alpha roll never carries over
     ZeroEnemyPartyMons();
     u32 personality = GetMonPersonality(species,
         GetSynchronizedGender(STATIC_WILDMON_ORIGIN, species),

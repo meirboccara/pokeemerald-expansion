@@ -23,6 +23,7 @@
 #include "data.h"
 #include "palette.h"
 #include "contest.h"
+#include "kjh_pack.h"
 #include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "constants/songs.h"
@@ -684,6 +685,8 @@ void BattleLoadMonSpriteGfx(struct Pokemon *mon, enum BattlerId battler)
             BlendPalette(paletteOffset, 16, 4, RGB(31, 0, 12));
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
     }
+
+    KJH_PackTintAlpha(battler); // KJH (LV-15): a wild Alpha's red tint
 
     // Terastallization's tint
     if (GetActiveGimmick(battler) == GIMMICK_TERA)

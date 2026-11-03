@@ -91,6 +91,7 @@ static const u8 sText_PlayerDefeatedLinkTrainerTrainer1[] = _("You defeated {B_T
 static const u8 sText_OpponentMon1Appeared[] = _("{B_OPPONENT_MON1_NAME} appeared!\p");
 static const u8 sText_WildPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_KjhWildLeaderAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\nIt leads a pack!\p"); // KJH: ENG-6
+static const u8 sText_KjhWildAlphaAppeared[] = _("You encountered an ALPHA {B_OPPONENT_MON1_NAME}!\nIt looks enormous!\p"); // KJH: LV-15
 static const u8 sText_KjhPackJoinedLeft[] = _("Another wild {B_OPPONENT_MON1_NAME}\njoined the fight!"); // KJH: ENG-6
 static const u8 sText_KjhPackJoinedRight[] = _("Another wild {B_OPPONENT_MON2_NAME}\njoined the fight!");
 static const u8 sText_LegendaryPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
@@ -2528,6 +2529,8 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                 stringPtr = sText_WildPkmnAppearedPause;
             else if (KJH_PackIsLeaderBattle()) // KJH: wild packs (ENG-6)
                 stringPtr = sText_KjhWildLeaderAppeared;
+            else if (KJH_PackIsAlphaBattle()) // KJH: an Alpha (LV-15)
+                stringPtr = sText_KjhWildAlphaAppeared;
             else
                 stringPtr = sText_WildPkmnAppeared;
         }

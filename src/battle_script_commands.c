@@ -8092,7 +8092,7 @@ static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
     if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
         catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
     else
-        catchRate = KJH_PackCatchRate(GetBattleMonCatchRate(battleMon), KJH_PackIsLeader(wildMonBattler)); // KJH: a pack leader is harder to catch (ENG-6)
+        catchRate = KJH_PackBattlerCatchRate(GetBattleMonCatchRate(battleMon), wildMonBattler); // KJH: Leaders and Alphas are harder to catch (ENG-6, LV-15)
 
     catchRate += ball.flatBonus;
     if (catchRate <= 0)

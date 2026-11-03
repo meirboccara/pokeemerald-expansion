@@ -27,6 +27,7 @@
 #include "graphics.h"
 #include "item.h"
 #include "kjh_levelless.h"
+#include "kjh_pack.h"
 #include "kjh_team_level.h"
 #include "kjh_training.h"
 #include "link.h"
@@ -2996,6 +2997,7 @@ u8 GiveCapturedMonToPlayer(struct Pokemon *mon)
     SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
     SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
     KJH_JoinTeam(mon, TRUE); // KJH (LV-2): a catch joins at the team's level.
+    KJH_MakeAlwaysAlpha(mon, KJH_JOIN_CAUGHT); // KJH (LV-15): a caught legendary becomes an Alpha.
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
@@ -6789,6 +6791,7 @@ u32 GiveScriptedMonToPlayer(struct Pokemon *mon, u8 slot)
     u32 i = 0;
 
     KJH_JoinTeam(mon, FALSE); // KJH (LV-2): a gift joins at the team's level.
+    KJH_MakeAlwaysAlpha(mon, KJH_JOIN_GIVEN); // KJH (LV-15): a starter or a legendary given is an Alpha.
     if (slot < PARTY_SIZE)
     {
         CopyMon(&gParties[B_TRAINER_PLAYER][slot], mon, sizeof(struct Pokemon));

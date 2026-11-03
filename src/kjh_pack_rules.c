@@ -8,12 +8,55 @@ bool32 KJH_PackSpeciesAllowed(enum Species species)
     const struct SpeciesInfo *info = &gSpeciesInfo[species];
 
     if (species == SPECIES_NONE || species == SPECIES_UNOWN) return FALSE;
-    return !(info->isRestrictedLegendary || info->isSubLegendary || info->isMythical || info->isUltraBeast);
+    return !KJH_IsLegendarySpecies(species) && !info->isUltraBeast;
 }
 
 u32 KJH_PackLeaderLevel(u32 level)
 {
     return min(level + KJH_PACK_LEADER_LEVEL_BONUS, MAX_LEVEL);
+}
+
+u32 KJH_AlphaLevel(u32 level)
+{
+    return min(level + KJH_ALPHA_LEVEL_BONUS, MAX_LEVEL);
+}
+
+void KJH_LeaderIvs(u8 *ivs, enum Stat perfect1, enum Stat perfect2)
+{
+    for (enum Stat stat = STAT_HP; stat < NUM_STATS; stat++)
+    {
+        if (ivs[stat] < KJH_LEADER_MIN_IV)
+        {
+            ivs[stat] = KJH_LEADER_MIN_IV;
+        }
+    }
+
+    ivs[perfect1] = MAX_PER_STAT_IVS;
+    ivs[perfect2] = MAX_PER_STAT_IVS;
+}
+
+bool32 KJH_IsStarterSpecies(enum Species species)
+{
+    static const u16 sStarters[] =
+    {
+        SPECIES_BULBASAUR, SPECIES_CHARMANDER, SPECIES_SQUIRTLE,
+        SPECIES_CHIKORITA, SPECIES_CYNDAQUIL, SPECIES_TOTODILE,
+        SPECIES_TREECKO, SPECIES_TORCHIC, SPECIES_MUDKIP,
+    };
+
+    for (u32 i = 0; i < ARRAY_COUNT(sStarters); i++)
+    {
+        if (sStarters[i] == species) return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool32 KJH_IsLegendarySpecies(enum Species species)
+{
+    const struct SpeciesInfo *info = &gSpeciesInfo[species];
+
+    return species != SPECIES_NONE && (info->isRestrictedLegendary || info->isSubLegendary || info->isMythical);
 }
 
 u32 KJH_PackCatchRate(u32 catchRate, bool32 leader)

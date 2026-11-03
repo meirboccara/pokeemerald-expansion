@@ -36,6 +36,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "kjh_bond.h"
+#include "kjh_levelless.h"
 #include "kjh_move_library.h"
 #include "kjh_training.h"
 #include "pokerus.h"
@@ -349,7 +350,7 @@ static struct BoxPokemon *GetCurrentBoxmon(void);
 // KJH (LV-5): in a FireRed build the contest moves page is the BOND page (KJH has no contests)
 #define KJH_BOND_PAGE IS_FRLG
 static void PrintKjhBondPage(void);
-static const u8 *KjhMemoWithoutLevel(const u8 *text);
+static const u8 *KjhMemoWithoutLevel(const u8 *text, enum KjhTierMark tierMark);
 // KJH (LV-7): Training points on the SKILLS page
 #define KJH_TRAINING_MENU_LEFT       1     // tiles: over the portrait, which is hidden meanwhile
 #define KJH_TRAINING_MENU_TOP        4
@@ -3658,17 +3659,31 @@ static void BufferMonTrainerMemo(void)
             text = gText_XNatureObtainedInTrade;
         }
 
-        if (KJH_HideLevels()) // KJH (LV-4): the memo without the level
-            text = KjhMemoWithoutLevel(text);
+        if (KJH_HideLevels()) // KJH (LV-4): the memo without the level; LV-15: with its tier mark
+            text = KjhMemoWithoutLevel(text, GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_TIER_MARK));
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
         Free(metLevelString);
         Free(metLocationString);
     }
 }
 
-// KJH (LV-4): the trainer memo without "at Lv. X"
-static const u8 *KjhMemoWithoutLevel(const u8 *text)
+// KJH (LV-4): the trainer memo without "at Lv. X". LV-15: a Leader or an Alpha says so ("an ALPHA met in").
+static const u8 *KjhMemoWithoutLevel(const u8 *text, enum KjhTierMark tierMark)
 {
+    if (tierMark == KJH_TIER_ALPHA && text == gText_XNatureObtainedInTrade)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nan ALPHA obtained\nin a trade.");
+    if (tierMark == KJH_TIER_ALPHA && text == gText_XNatureFatefulEncounter)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nan ALPHA met in a\nfateful encounter.");
+    if (tierMark == KJH_TIER_ALPHA && text == gText_XNatureProbablyMetAt)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nan ALPHA met in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (tierMark == KJH_TIER_LEADER && text == gText_XNatureObtainedInTrade)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\na LEADER obtained\nin a trade.");
+    if (tierMark == KJH_TIER_LEADER && text == gText_XNatureProbablyMetAt)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\na LEADER met in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (text == gText_XNatureMetAtYZ && tierMark == KJH_TIER_ALPHA)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nan ALPHA met in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
+    if (text == gText_XNatureMetAtYZ && tierMark == KJH_TIER_LEADER)
+        return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\na LEADER met in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
     if (text == gText_XNatureMetAtYZ)
         return COMPOUND_STRING("{DYNAMIC 0}{DYNAMIC 2}{DYNAMIC 1}{DYNAMIC 5} nature,\nmet in\n{DYNAMIC 0}{DYNAMIC 4}{DYNAMIC 1}.");
     if (text == gText_XNatureHatchedAtYZ)

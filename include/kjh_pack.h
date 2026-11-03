@@ -58,6 +58,25 @@ u32 KJH_PackEmptySlot(const bool8 *usable, u32 fighting);
 // second, as a double battle lists both fighters first; the slot it pushes out takes the partner's old place.
 void KJH_PackPutPartnerSecond(u8 *order, u32 partnerSlot);
 
+// KJH (LV-15): wild tiers in the levels-free game (docs/LEVELLESS_DESIGN.md §9). 1 wild Pokemon in KJH_ALPHA_ODDS is
+// an Alpha: KJH_ALPHA_LEVEL_BONUS levels higher, all IVs 31, it never calls for help, a red healthbox with an α.
+// Else 1 in KJH_LEVELLESS_LEADER_ODDS leads a pack: KJH_PACK_LEADER_LEVEL_BONUS levels higher, every IV at least
+// KJH_LEADER_MIN_IV and two of them 31. Each helper that answers a Leader is a Leader too, KJH_PACK_HELPER_LEADER_CHANCE percent of the time, up
+// to KJH_PACK_MAX_HELPER_LEADERS. Both keep their tier mark (MON_DATA_TIER_MARK) once caught.
+#define KJH_ALPHA_ODDS                 100
+#define KJH_ALPHA_LEVEL_BONUS          5
+#define KJH_LEVELLESS_LEADER_ODDS      40
+#define KJH_LEADER_MIN_IV              20
+#define KJH_PACK_HELPER_LEADER_CHANCE  25
+#define KJH_PACK_MAX_HELPER_LEADERS    2
+u32 KJH_AlphaLevel(u32 level);
+// A Leader's IVs (ivs[NUM_STATS], in and out): each at least KJH_LEADER_MIN_IV, perfect1 and perfect2 at 31.
+void KJH_LeaderIvs(u8 *ivs, enum Stat perfect1, enum Stat perfect2);
+// Always Alphas (DECIDED): the 3 starters of each region when given, every legendary and mythical once caught or
+// given. All IVs 31 and the Alpha's tier mark (so LV-7's 630 Training total), no Alpha battle extras.
+bool32 KJH_IsStarterSpecies(enum Species species);
+bool32 KJH_IsLegendarySpecies(enum Species species);
+
 // Battle side (src/kjh_pack.c)
 struct Pokemon;
 
@@ -68,17 +87,32 @@ u32 KJH_PackWildEncounterLevel(enum Species species, u32 level);
 void KJH_PackFinishWildMon(struct Pokemon *mon);
 // Tests: the next battle's wild Pokemon leads a pack (or not), as if KJH_PackWildEncounterLevel had rolled it
 void KJH_PackSetNextEncounter(bool32 leader);
+// Tests: the next battle's wild Pokemon is an Alpha (LV-15)
+void KJH_PackSetNextEncounterAlpha(void);
 // A battle starts (BeginBattleIntro): a plain random wild battle keeps the pack roll, any other battle drops it
 void KJH_PackBattleStart(void);
 bool32 KJH_PackIsLeaderBattle(void);
-// The battler's place in a pack (the Exp. it gives); the pack's leader is harder to catch
+bool32 KJH_PackIsAlphaBattle(void);
+// The battler is this battle's Alpha (LV-15)
+bool32 KJH_PackIsAlpha(enum BattlerId battler);
+// The battler's place in a pack (the Exp. it gives); a Leader is the pack's, or one that answered it in the
+// levels-free game
 enum KjhPackRole KJH_PackRole(enum BattlerId battler);
 bool32 KJH_PackIsLeader(enum BattlerId battler);
+// The catch rate of the wild battler: higher tiers are harder to catch, a Leader half its species' rate, an Alpha a
+// third (KJH_ALPHA_CATCH_DIVISOR; at least 1)
+#define KJH_ALPHA_CATCH_DIVISOR 3
+u32 KJH_PackBattlerCatchRate(u32 catchRate, enum BattlerId battler);
+// A scripted wild Pokemon is made (CreateScriptedWildMon): a random encounter's roll left over never applies to it
+void KJH_PackClearNextEncounter(void);
 // A wild Pokemon sent out once the battle is a pack's double battle: a helper, that comes without a ball, with its cry
 // (StartSendOutAnim), and the message "Another wild ... joined the fight!"
 bool32 KJH_PackIsHelperSendOut(enum BattlerId battler);
-// A healthbox shows its Pokemon's name (UpdateNickInHealthbox): the leader's is gold, with a crown on the box
+// A healthbox shows its Pokemon's name (UpdateNickInHealthbox): a Leader's is gold, with a crown on the box; an
+// Alpha's is red, with an α
 void KJH_PackDecorateHealthbox(u32 healthboxSpriteId, enum BattlerId battler);
+// An Alpha's sprite is tinted red (its palette, each time it is loaded: BattleLoadMonSpriteGfx)
+void KJH_PackTintAlpha(enum BattlerId battler);
 // Before the turn's moves, after the Megas (RunTurnActionsFunctions): a wild Pokemon may call for help. TRUE while
 // a call script runs.
 bool32 KJH_TryPackCallsBeforeTurn(void);
@@ -86,5 +120,14 @@ bool32 KJH_TryPackCallsBeforeTurn(void);
 void BS_KjhPack(void);
 // Helpers that answered so far (they are in the wild party's slots 1 to KJH_PACK_MAX_HELPERS)
 u32 KJH_PackHelpers(void);
+
+// LV-15: a Pokemon joins the player in the levels-free game. A legendary caught (KJH_JOIN_CAUGHT,
+// GiveCapturedMonToPlayer) or given, or a starter given (KJH_JOIN_GIVEN, GiveScriptedMonToPlayer), becomes an Alpha.
+enum KjhJoinWay
+{
+    KJH_JOIN_CAUGHT,
+    KJH_JOIN_GIVEN,
+};
+void KJH_MakeAlwaysAlpha(struct Pokemon *mon, enum KjhJoinWay way);
 
 #endif // GUARD_KJH_PACK_H

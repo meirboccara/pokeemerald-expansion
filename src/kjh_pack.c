@@ -1,7 +1,9 @@
 // KJH: wild packs in battle (docs/PACKS.md in the KJH repo, rules in src/kjh_pack_rules.c).
 //
 // 1 random wild Pokemon in 20 leads a pack: a few levels higher, perfect IVs, harder to catch, more Exp., and a
-// gold healthbox with a crown. The wild Pokemon met first is the leader (party slot 0).
+// gold healthbox with a crown. The wild Pokemon met first is the leader (party slot 0). In the levels-free game
+// (LV-15) the odds are 1 in 40 with a Leader's own IVs, a helper can be a Leader too, and 1 wild Pokemon in 100 is
+// an Alpha instead: it fights alone, with a red healthbox and an α.
 //
 // Before the turn's moves, the wild Pokemon met first may spend its turn calling for help: a leader often, any other
 // wild Pokemon rarely. A helper of the same species joins the wild party (slots 1..4, so 5 at most). The first one
@@ -17,7 +19,9 @@
 #include "battle_scripts.h"
 #include "battle_setup.h"
 #include "kjh_hidden_ability.h"
+#include "kjh_levelless.h"
 #include "kjh_pack.h"
+#include "kjh_team_level.h"
 #include "ow_abilities.h"
 #include "palette.h"
 #include "party_menu.h"
@@ -26,6 +30,7 @@
 #include "reshow_battle_screen.h"
 #include "safari_zone.h"
 #include "sprite.h"
+#include "util.h"
 #include "window.h"
 #include "constants/characters.h"
 #include "constants/kjh_pack.h"
@@ -33,15 +38,23 @@
 
 #ifdef KJH_DEBUG_WARP
 // Harness (kjh_tools/test/emu_expansion_eng6.py in the KJH repo): 1 at 0x0203FF30 makes every wild Pokemon that
-// can lead a pack a leader that calls for help every turn (from the first), and someone always answers.
+// can lead a pack a leader that calls for help every turn (from the first), and someone always answers; 2 does the
+// same, and in the levels-free game every helper is a Leader too (emu_expansion_lv15.py).
 #define DEBUG_PACK (*(vu8 *)0x0203FF30)
+// Harness (emu_expansion_lv15.py, LV-15): 1 at 0x0203FF50 makes every wild Pokemon that can be one an Alpha.
+#define DEBUG_ALPHA (*(vu8 *)0x0203FF50)
 #else
 #define DEBUG_PACK 0
+#define DEBUG_ALPHA 0
 #endif
+#define DEBUG_PACK_HELPER_LEADERS 2 // DEBUG_PACK's value that makes every helper a Leader too
 
 #define PACK_FLAG_ACTIVE 1 // this wild battle can grow into a pack
 #define PACK_FLAG_LEADER 2 // the wild Pokemon leads a pack
 #define PACK_FLAG_DOUBLE 4 // a helper came: it is a double battle now
+#define PACK_FLAG_ALPHA  8 // the wild Pokemon is an Alpha (LV-15): never a pack
+
+#define ALPHA_TINT_COEFF 3 // how red an Alpha's sprite is (BlendPalette, 0-16)
 
 // The battlers, once it is a double battle (fixed outside link battles)
 #define PLAYER_LEFT  B_BATTLER_0
@@ -59,6 +72,7 @@ struct PackBattle
     u8 partner;     // the player's party slot that steps in, or KJH_PACK_NO_PARTNER
     u16 callsTurn;  // the turn (gBattleTurnCounter) turnIdx and callsDone are for
     bool8 callsDone; // this turn's calls are done (RunTurnActionsFunctions comes back to the hook)
+    u8 helperLeaders; // helpers that are Leaders too (LV-15)
 };
 
 // The wild Pokemon just made by CreateWildMon, until the battle starts
@@ -77,30 +91,111 @@ u32 KJH_PackWildEncounterLevel(enum Species species, u32 level)
         return level;
     }
 
+    // LV-15: in the levels-free game, an Alpha fights alone. Outcome 0 is an Alpha, so a test that doesn't set the tag
+    // never meets one.
+    if (KJH_IsLevelsFree() && !DEBUG_PACK
+     && (DEBUG_ALPHA || RandomWeighted(RNG_KJH_ALPHA, 1, KJH_ALPHA_ODDS - 1) == 0))
+    {
+        sPackNextEncounter = PACK_FLAG_ALPHA;
+        return KJH_AlphaLevel(level);
+    }
+
     sPackNextEncounter = PACK_FLAG_ACTIVE;
     // Outcome 0 leads, so a test that doesn't set RNG_KJH_PACK_LEADER (its default is the last outcome) never meets one
-    if (!DEBUG_PACK && RandomWeighted(RNG_KJH_PACK_LEADER, 1, KJH_PACK_LEADER_ODDS - 1) != 0) return level;
+    u32 odds = KJH_IsLevelsFree() ? KJH_LEVELLESS_LEADER_ODDS : KJH_PACK_LEADER_ODDS;
+    if (!DEBUG_PACK && RandomWeighted(RNG_KJH_PACK_LEADER, 1, odds - 1) != 0) return level;
 
     sPackNextEncounter |= PACK_FLAG_LEADER;
     return KJH_PackLeaderLevel(level);
 }
 
-void KJH_PackFinishWildMon(struct Pokemon *mon)
+static void SetAllIvs(struct Pokemon *mon, u32 iv)
 {
-    u32 iv = KJH_PACK_LEADER_IV;
-
-    if (!(sPackNextEncounter & PACK_FLAG_LEADER)) return;
-
     for (enum Stat stat = STAT_HP; stat < NUM_STATS; stat++)
     {
         SetMonData(mon, MON_DATA_HP_IV + stat, &iv);
     }
+}
+
+// ENG-6's leader has perfect IVs; LV-15's (levels-free game) its own, with the tier mark
+static void MakeLeader(struct Pokemon *mon)
+{
+    u8 ivs[NUM_STATS];
+    enum Stat perfect1, perfect2;
+    enum KjhTierMark tierMark = KJH_TIER_LEADER;
+
+    if (!KJH_IsLevelsFree())
+    {
+        SetAllIvs(mon, KJH_PACK_LEADER_IV);
+        CalculateMonStats(mon);
+        return;
+    }
+
+    for (enum Stat stat = STAT_HP; stat < NUM_STATS; stat++)
+    {
+        ivs[stat] = GetMonData(mon, MON_DATA_HP_IV + stat);
+    }
+
+    perfect1 = RandomUniform(RNG_KJH_LEADER_IVS, 0, NUM_STATS - 1);
+    perfect2 = (perfect1 + 1 + RandomUniform(RNG_KJH_LEADER_IVS, 0, NUM_STATS - 2)) % NUM_STATS;
+    KJH_LeaderIvs(ivs, perfect1, perfect2);
+    for (enum Stat stat = STAT_HP; stat < NUM_STATS; stat++)
+    {
+        u32 iv = ivs[stat];
+
+        SetMonData(mon, MON_DATA_HP_IV + stat, &iv);
+    }
+
+    SetMonData(mon, MON_DATA_TIER_MARK, &tierMark);
     CalculateMonStats(mon);
+}
+
+static void MakeAlpha(struct Pokemon *mon)
+{
+    enum KjhTierMark tierMark = KJH_TIER_ALPHA;
+
+    SetAllIvs(mon, MAX_PER_STAT_IVS);
+    SetMonData(mon, MON_DATA_TIER_MARK, &tierMark);
+    CalculateMonStats(mon);
+}
+
+void KJH_PackFinishWildMon(struct Pokemon *mon)
+{
+    if (sPackNextEncounter & PACK_FLAG_ALPHA)
+    {
+        MakeAlpha(mon);
+    }
+    else if (sPackNextEncounter & PACK_FLAG_LEADER)
+    {
+        MakeLeader(mon);
+    }
+}
+
+void KJH_PackClearNextEncounter(void)
+{
+    sPackNextEncounter = 0;
 }
 
 void KJH_PackSetNextEncounter(bool32 leader)
 {
     sPackNextEncounter = PACK_FLAG_ACTIVE | (leader ? PACK_FLAG_LEADER : 0);
+}
+
+void KJH_PackSetNextEncounterAlpha(void)
+{
+    sPackNextEncounter = PACK_FLAG_ALPHA;
+}
+
+void KJH_MakeAlwaysAlpha(struct Pokemon *mon, enum KjhJoinWay way)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+
+    if (!KJH_IsLevelsFree() || GetMonData(mon, MON_DATA_IS_EGG)) return;
+
+    if (KJH_IsLegendarySpecies(species) || (way == KJH_JOIN_GIVEN && KJH_IsStarterSpecies(species)))
+    {
+        MakeAlpha(mon);
+    }
 }
 
 void KJH_PackBattleStart(void)
@@ -112,16 +207,38 @@ void KJH_PackBattleStart(void)
     sPackNextEncounter = 0;
     sPack = (struct PackBattle) {.partner = KJH_PACK_NO_PARTNER};
 
-    // The healthboxes were drawn before the battle knew it had a leader
-    if (KJH_PackIsLeaderBattle())
+    // The healthboxes and the wild sprite were drawn before the battle knew it had a leader or an Alpha
+    if (KJH_PackIsLeaderBattle() || KJH_PackIsAlphaBattle())
     {
         KJH_PackDecorateHealthbox(gHealthboxSpriteIds[WILD_LEFT], WILD_LEFT);
+        KJH_PackTintAlpha(WILD_LEFT);
     }
 }
 
 bool32 KJH_PackIsLeaderBattle(void)
 {
     return (sPackBattleFlags & PACK_FLAG_LEADER) != 0;
+}
+
+bool32 KJH_PackIsAlphaBattle(void)
+{
+    return (sPackBattleFlags & PACK_FLAG_ALPHA) != 0;
+}
+
+bool32 KJH_PackIsAlpha(enum BattlerId battler)
+{
+    return KJH_PackIsAlphaBattle() && GetBattlerSide(battler) == B_SIDE_OPPONENT && gBattlerPartyIndexes[battler] == 0;
+}
+
+// As expansion tints a Dynamax Pokemon: blend the battler's sprite palette, and keep it as the unfaded one
+void KJH_PackTintAlpha(enum BattlerId battler)
+{
+    u32 paletteOffset = OBJ_PLTT_ID(battler);
+
+    if (!KJH_PackIsAlpha(battler)) return;
+
+    BlendPalette(paletteOffset, 16, ALPHA_TINT_COEFF, RGB(31, 2, 2));
+    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, PLTT_SIZEOF(16));
 }
 
 enum KjhPackRole KJH_PackRole(enum BattlerId battler)
@@ -133,7 +250,20 @@ enum KjhPackRole KJH_PackRole(enum BattlerId battler)
 
 bool32 KJH_PackIsLeader(enum BattlerId battler)
 {
-    return KJH_PackRole(battler) == KJH_PACK_ROLE_LEADER;
+    struct Pokemon *mon = GetBattlerMon(battler);
+
+    if (KJH_PackRole(battler) == KJH_PACK_ROLE_LEADER) return TRUE;
+
+    // LV-15: a helper that is a Leader too
+    return KJH_PackIsLeaderBattle() && KJH_IsLevelsFree() && GetBattlerSide(battler) == B_SIDE_OPPONENT
+        && GetMonData(mon, MON_DATA_TIER_MARK) == KJH_TIER_LEADER;
+}
+
+u32 KJH_PackBattlerCatchRate(u32 catchRate, enum BattlerId battler)
+{
+    if (KJH_PackIsAlpha(battler)) return max(catchRate / KJH_ALPHA_CATCH_DIVISOR, 1);
+
+    return KJH_PackCatchRate(catchRate, KJH_PackIsLeader(battler));
 }
 
 bool32 KJH_PackIsHelperSendOut(enum BattlerId battler)
@@ -237,20 +367,38 @@ bool32 KJH_TryPackCallsBeforeTurn(void)
     return FALSE;
 }
 
+// LV-15: a helper that answers a Leader is a Leader too, now and then (outcome 0, so tests never see one by default)
+static bool32 HelperIsLeader(void)
+{
+    return KJH_IsLevelsFree() && KJH_PackIsLeaderBattle() && sPack.helperLeaders < KJH_PACK_MAX_HELPER_LEADERS
+        && (DEBUG_PACK == DEBUG_PACK_HELPER_LEADERS
+            || RandomWeighted(RNG_KJH_PACK_HELPER_LEADER, KJH_PACK_HELPER_LEADER_CHANCE,
+                              100 - KJH_PACK_HELPER_LEADER_CHANCE) == 0);
+}
+
 // A helper of the caller's species joins the wild party
 static void AddHelper(void)
 {
     struct Pokemon *party = gParties[B_TRAINER_OPPONENT_A];
     struct Pokemon *helper = &party[++sPack.helpers];
     enum Species species = GetMonData(&party[0], MON_DATA_SPECIES);
-    u32 level = KJH_PackHelperLevel(GetMonData(&party[0], MON_DATA_LEVEL), KJH_PackIsLeaderBattle(),
-                                    RandomUniform(RNG_KJH_PACK_HELPER_LEVEL, 0, KJH_PACK_HELPER_MAX_LEVEL_DROP));
+    bool32 leader = HelperIsLeader();
+    u32 packLevel = GetMonData(&party[0], MON_DATA_LEVEL);
+    u32 drop = RandomUniform(RNG_KJH_PACK_HELPER_LEVEL, 0, KJH_PACK_HELPER_MAX_LEVEL_DROP);
+    // A Leader that answers is at the pack Leader's level
+    u32 level = leader ? packLevel : KJH_PackHelperLevel(packLevel, KJH_PackIsLeaderBattle(), drop);
     u32 personality = GetMonPersonality(species, GetSynchronizedGender(WILDMON_ORIGIN, species),
                                         GetSynchronizedNature(WILDMON_ORIGIN, species), RANDOM_UNOWN_LETTER);
 
     CreateMonWithIVs(helper, species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(helper);
     KJH_RollWildHiddenAbility(helper); // like any wild Pokemon
+    if (leader)
+    {
+        sPack.helperLeaders++;
+        MakeLeader(helper);
+    }
+
     CalculateEnemyPartyCount();
     PREPARE_SPECIES_BUFFER(gBattleTextBuff1, species);
 }
@@ -420,61 +568,85 @@ void BS_KjhPack(void)
     gBattlescriptCurrInstr = jump ? cmd->jumpInstr : cmd->nextInstr;
 }
 
-// ---------------------------------------------------------------- the leader's healthbox
-// The leader stands out from its helpers: its healthbox uses a copy of the healthbox palette where the text colors
-// are gold (its name and level), and a small gold crown sits on the box. Both go when another Pokemon takes its
-// place.
+// ---------------------------------------------------------------- the leader's and the Alpha's healthboxes
+// A Leader stands out from its helpers: its healthbox uses a copy of the healthbox palette where the text colors
+// are gold (its name and level), and a small gold crown sits on the box. An Alpha's (LV-15) is red, with an α. Both
+// go when another Pokemon takes its place.
 
 #define TAG_PACK_LEADER 0x4B08 // the crown's tiles and the gold healthbox palette
-#define CROWN_X (-22)          // from the healthbox's main (left) sprite: on its top edge, over the name
-#define CROWN_Y (-14)
+#define TAG_ALPHA       0x4B09 // the α's tiles and the red healthbox palette
+#define MARK_X (-22)           // from the healthbox's main (left) sprite: on its top edge, over the name
+#define MARK_Y (-14)
 
 // Healthbox palette entries the text is drawn with (sHealthBoxTextColor, src/battle_interface.c)
 #define HEALTHBOX_TEXT   1
 #define HEALTHBOX_SHADOW 3
 
-// Drawn with the healthbox palette: its outline is the gold text color (1), then the healthbox's yellow (9) and
-// pink (10)
+// Drawn with the healthbox palette: the crown's outline is the text color (1), then the healthbox's yellow (9) and
+// pink (10); the α is the text color only
 static const u32 sCrown_Gfx[] = INCGFX_U32("graphics/battle_interface/kjh_pack_crown.png", ".4bpp");
+static const u32 sAlphaMark_Gfx[] = INCGFX_U32("graphics/battle_interface/kjh_alpha_mark.png", ".4bpp");
 
 static const struct SpriteSheet sSpriteSheet_Crown = {sCrown_Gfx, sizeof(sCrown_Gfx), TAG_PACK_LEADER};
+static const struct SpriteSheet sSpriteSheet_AlphaMark = {sAlphaMark_Gfx, sizeof(sAlphaMark_Gfx), TAG_ALPHA};
 
-static const struct OamData sOamData_Crown =
+static const struct OamData sOamData_Mark =
 {
     .shape = SPRITE_SHAPE(8x8),
     .size = SPRITE_SIZE(8x8),
     .priority = 1,
 };
 
-static void SpriteCB_Crown(struct Sprite *sprite);
+static void SpriteCB_Mark(struct Sprite *sprite);
 
 static const struct SpriteTemplate sSpriteTemplate_Crown =
 {
     .tileTag = TAG_PACK_LEADER,
     .paletteTag = TAG_PACK_LEADER,
-    .oam = &sOamData_Crown,
+    .oam = &sOamData_Mark,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_Crown,
+    .callback = SpriteCB_Mark,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_AlphaMark =
+{
+    .tileTag = TAG_ALPHA,
+    .paletteTag = TAG_ALPHA,
+    .oam = &sOamData_Mark,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Mark,
 };
 
 #define tHealthbox data[0]
 #define tBattler   data[1]
+#define tPartyIdx  data[2]
 
-// The gold healthbox palette, loaded the first time. 0xFF: no free palette (the box stays as it is).
-static u32 LeaderPaletteNum(void)
+// A healthbox palette with gold (or red) text, loaded the first time. 0xFF: no free palette (the box stays as it is).
+static u32 MarkPaletteNum(u32 tag)
 {
-    u32 paletteNum = IndexOfSpritePaletteTag(TAG_PACK_LEADER);
+    u32 paletteNum = IndexOfSpritePaletteTag(tag);
     u32 healthboxPal = IndexOfSpritePaletteTag(TAG_HEALTHBOX_PAL);
     u16 colors[16];
-    struct SpritePalette palette = {colors, TAG_PACK_LEADER};
+    struct SpritePalette palette = {colors, tag};
 
     if (paletteNum != 0xFF || healthboxPal == 0xFF) return paletteNum;
 
     CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(healthboxPal)], colors, sizeof(colors));
-    colors[HEALTHBOX_TEXT] = RGB(23, 15, 0);    // dark gold
-    colors[HEALTHBOX_SHADOW] = RGB(31, 26, 12); // light gold
+    if (tag == TAG_ALPHA)
+    {
+        colors[HEALTHBOX_TEXT] = RGB(23, 2, 2);     // dark red
+        colors[HEALTHBOX_SHADOW] = RGB(31, 18, 16); // light red
+    }
+    else
+    {
+        colors[HEALTHBOX_TEXT] = RGB(23, 15, 0);    // dark gold
+        colors[HEALTHBOX_SHADOW] = RGB(31, 26, 12); // light gold
+    }
+
     return LoadSpritePalette(&palette);
 }
 
@@ -484,83 +656,120 @@ static void SetHealthboxPalette(u32 healthboxSpriteId, u32 paletteNum)
     gSprites[gSprites[healthboxSpriteId].oam.affineParam].oam.paletteNum = paletteNum; // the right half
 }
 
-static bool32 IsCrown(struct Sprite *sprite)
+static bool32 IsMark(struct Sprite *sprite, u32 tag)
 {
-    return sprite->inUse && sprite->template == &sSpriteTemplate_Crown;
+    return sprite->inUse && sprite->callback == SpriteCB_Mark && sprite->template->tileTag == tag;
 }
 
-// The healthbox goes back to the usual palette, and the gold one is freed (a battle has one leader)
-static void RemoveGold(u32 healthboxSpriteId)
+static bool32 IsMarkInUse(u32 tag)
 {
-    u32 goldPal = IndexOfSpritePaletteTag(TAG_PACK_LEADER);
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+    {
+        if (IsMark(&gSprites[i], tag)) return TRUE;
+    }
 
-    if (gSprites[healthboxSpriteId].inUse && gSprites[healthboxSpriteId].oam.paletteNum == goldPal)
+    return FALSE;
+}
+
+// The healthbox goes back to the usual palette; the gold (or red) one is freed once no other box uses it
+static void RemoveMarkPalette(u32 healthboxSpriteId, u32 tag)
+{
+    u32 markPal = IndexOfSpritePaletteTag(tag);
+
+    if (markPal == 0xFF) return;
+
+    if (gSprites[healthboxSpriteId].inUse && gSprites[healthboxSpriteId].oam.paletteNum == markPal)
     {
         SetHealthboxPalette(healthboxSpriteId, IndexOfSpritePaletteTag(TAG_HEALTHBOX_PAL));
     }
-    FreeSpritePaletteByTag(TAG_PACK_LEADER);
+
+    for (u32 i = 0; i < MAX_SPRITES; i++)
+    {
+        // Another healthbox still uses it
+        if (gSprites[i].inUse && gSprites[i].oam.paletteNum == markPal && gSprites[i].callback != SpriteCB_Mark) return;
+    }
+
+    if (!IsMarkInUse(tag))
+    {
+        FreeSpritePaletteByTag(tag);
+    }
 }
 
-static void DestroyCrown(struct Sprite *sprite)
+static void DestroyMark(struct Sprite *sprite)
 {
-    RemoveGold(sprite->tHealthbox);
+    u32 tag = sprite->template->tileTag, healthboxSpriteId = sprite->tHealthbox;
+
     DestroySprite(sprite);
-    FreeSpriteTilesByTag(TAG_PACK_LEADER);
+    RemoveMarkPalette(healthboxSpriteId, tag);
+    if (!IsMarkInUse(tag))
+    {
+        FreeSpriteTilesByTag(tag);
+    }
 }
 
-// Sits on the leader's healthbox, and goes once another Pokemon is in its slot. Only battle globals that outlive
-// the battle are read here: the last frames of a battle run after its resources are freed.
-static void SpriteCB_Crown(struct Sprite *sprite)
+// Sits on its Pokemon's healthbox, and goes once another Pokemon is in its slot. Only battle globals that outlive the
+// battle are read here: the last frames of a battle run after its resources are freed.
+static void SpriteCB_Mark(struct Sprite *sprite)
 {
     struct Sprite *healthbox = &gSprites[sprite->tHealthbox];
 
     if (!healthbox->inUse || gHealthboxSpriteIds[sprite->tBattler] != sprite->tHealthbox
-     || gBattlerPartyIndexes[sprite->tBattler] != 0)
+     || gBattlerPartyIndexes[sprite->tBattler] != sprite->tPartyIdx)
     {
-        DestroyCrown(sprite);
+        DestroyMark(sprite);
         return;
     }
 
-    sprite->x = healthbox->x + healthbox->x2 + CROWN_X;
-    sprite->y = healthbox->y + healthbox->y2 + CROWN_Y;
+    sprite->x = healthbox->x + healthbox->x2 + MARK_X;
+    sprite->y = healthbox->y + healthbox->y2 + MARK_Y;
     sprite->invisible = healthbox->invisible;
 }
 
-static void ShowCrown(u32 healthboxSpriteId, enum BattlerId battler)
+static void ShowMark(const struct SpriteTemplate *template, const struct SpriteSheet *sheet, u32 healthboxSpriteId,
+                     enum BattlerId battler)
 {
     u32 spriteId;
 
     for (u32 i = 0; i < MAX_SPRITES; i++)
     {
-        if (IsCrown(&gSprites[i]) && gSprites[i].tHealthbox == healthboxSpriteId) return;
+        if (IsMark(&gSprites[i], template->tileTag) && gSprites[i].tHealthbox == healthboxSpriteId) return;
     }
 
-    if (GetSpriteTileStartByTag(TAG_PACK_LEADER) == 0xFFFF)
+    if (GetSpriteTileStartByTag(template->tileTag) == 0xFFFF)
     {
-        LoadSpriteSheet(&sSpriteSheet_Crown);
+        LoadSpriteSheet(sheet);
     }
-    spriteId = CreateSprite(&sSpriteTemplate_Crown, 0, 0, 0);
+    spriteId = CreateSprite(template, 0, 0, 0);
     if (spriteId == MAX_SPRITES) return;
 
     gSprites[spriteId].tHealthbox = healthboxSpriteId;
     gSprites[spriteId].tBattler = battler;
+    gSprites[spriteId].tPartyIdx = gBattlerPartyIndexes[battler];
     gSprites[spriteId].callback(&gSprites[spriteId]); // in place from the first frame
 }
 
 #undef tHealthbox
 #undef tBattler
+#undef tPartyIdx
 
 void KJH_PackDecorateHealthbox(u32 healthboxSpriteId, enum BattlerId battler)
 {
     u32 paletteNum;
 
-    if (KJH_PackIsLeader(battler) && (paletteNum = LeaderPaletteNum()) != 0xFF)
+    if (KJH_PackIsAlpha(battler) && (paletteNum = MarkPaletteNum(TAG_ALPHA)) != 0xFF)
     {
         SetHealthboxPalette(healthboxSpriteId, paletteNum);
-        ShowCrown(healthboxSpriteId, battler);
+        ShowMark(&sSpriteTemplate_AlphaMark, &sSpriteSheet_AlphaMark, healthboxSpriteId, battler);
     }
-    else if (gSprites[healthboxSpriteId].oam.paletteNum == IndexOfSpritePaletteTag(TAG_PACK_LEADER))
+    else if (KJH_PackIsLeader(battler) && (paletteNum = MarkPaletteNum(TAG_PACK_LEADER)) != 0xFF)
     {
-        RemoveGold(healthboxSpriteId); // a helper took the leader's slot before its crown noticed
+        SetHealthboxPalette(healthboxSpriteId, paletteNum);
+        ShowMark(&sSpriteTemplate_Crown, &sSpriteSheet_Crown, healthboxSpriteId, battler);
+    }
+    else
+    {
+        // A helper took a Leader's (or the Alpha's) slot before its mark noticed
+        RemoveMarkPalette(healthboxSpriteId, TAG_PACK_LEADER);
+        RemoveMarkPalette(healthboxSpriteId, TAG_ALPHA);
     }
 }
