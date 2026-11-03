@@ -169,11 +169,13 @@ static void WarpToTruck(void)
 // 0x0203FF4C the first Pokemon's Training bank (LV-7; 0: none),
 // (0x0203FF50 is src/kjh_pack.c's Alpha switch, LV-15),
 // 0x0203FF54 the player's money (LV-21; 0: a new game's),
-// 0x0203FF58 the first Pokemon's friendship (LV-23; 0: its own)
+// 0x0203FF58 the first Pokemon's friendship (LV-23; 0: its own),
+// 0x0203FF5C 1: battle animations off and fast text, for long scripted battles (emu_story.py; 0: the defaults)
 static void KJH_DebugHarnessStart(void)
 {
     vu32 *money = (vu32 *)0x0203FF54;
     vu16 *friendship = (vu16 *)0x0203FF58;
+    vu16 *quickBattles = (vu16 *)0x0203FF5C;
     vu16 *trainingBank = (vu16 *)0x0203FF4C;
     vu16 *thirdMon = (vu16 *)0x0203FF48;
     vu16 *swarm = (vu16 *)0x0203FF44;
@@ -216,6 +218,11 @@ static void KJH_DebugHarnessStart(void)
     {
         u32 value = *friendship;
         SetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_FRIENDSHIP, &value);
+    }
+    if (*quickBattles != 0)
+    {
+        gSaveBlock2Ptr->optionsBattleSceneOff = TRUE;
+        gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     }
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_POKEDEX_GET);

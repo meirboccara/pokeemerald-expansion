@@ -2588,6 +2588,13 @@ void CopyFrontierBrainTrainerName(u8 *dst)
     dst[i] = EOS;
 }
 
+// KJH: TRAINER_FRONTIER_BRAIN is a number of the Battle Frontier's own (310), which FireRed's trainers also use
+// (TRAINER_ELITE_FOUR_LORELEI): it means the Frontier Brain only in a Battle Frontier battle.
+bool32 IsFrontierBrainOpponent(u16 trainerId)
+{
+    return trainerId == TRAINER_FRONTIER_BRAIN && (gBattleTypeFlags & BATTLE_TYPE_FRONTIER);
+}
+
 bool8 IsFrontierBrainFemale(void)
 {
     s32 facility = VarGet(VAR_FRONTIER_FACILITY);
