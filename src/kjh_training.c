@@ -102,24 +102,67 @@ static bool32 IsPseudoLegendaryLastForm(enum Species species)
     }
 }
 
-// docs/LEVELLESS_DESIGN.md, evolution: the points a species needs for its next evolution by level (or trade, as KJH
-// made those level evolutions), 0 for none. Friendship and stone evolutions need none.
+static bool32 IsFriendshipEvolution(const struct Evolution *evolution)
+{
+    for (const struct EvolutionParam *param = evolution->params; param != NULL && param->condition != CONDITIONS_END; param++)
+    {
+        if (param->condition == IF_MIN_FRIENDSHIP)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// docs/LEVELLESS_DESIGN.md, evolution (LV-9): Training points open the evolutions by level (not by friendship: the
+// Bond is their key), by trade, and by the item standing in for a trade (Linking Cord, Metal Coat...: the species also
+// evolves into the same form by trade). Stones need none.
+static bool32 NeedsTrainingPoints(const struct Evolution *evolutions, u32 index)
+{
+    switch (evolutions[index].method)
+    {
+    case EVO_LEVEL:
+    case EVO_LEVEL_BATTLE_ONLY:
+        return !IsFriendshipEvolution(&evolutions[index]);
+    case EVO_TRADE:
+        return TRUE;
+    case EVO_ITEM:
+        for (u32 i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
+        {
+            if (evolutions[i].method == EVO_TRADE && evolutions[i].targetSpecies == evolutions[index].targetSpecies)
+                return TRUE;
+        }
+        return FALSE;
+    default:
+        return FALSE;
+    }
+}
+
+u32 KJH_TrainingGoalOfEvolution(enum Species species, u32 index)
+{
+    const struct Evolution *evolutions = GetSpeciesEvolutions(species);
+
+    if (!NeedsTrainingPoints(evolutions, index))
+        return 0;
+    if (IsPseudoLegendaryLastForm(evolutions[index].targetSpecies))
+        return KJH_TRAINING_GOAL_PSEUDO_LAST;
+    if (GetSpeciesPreEvolution(species) == SPECIES_NONE)
+        return KJH_TRAINING_GOAL_SECOND_FORM;
+    return KJH_TRAINING_GOAL_THIRD_FORM;
+}
+
+// The goal the Summary shows: the first of its evolutions that needs points, 0 for none
 u32 KJH_TrainingEvolutionGoal(enum Species species)
 {
     const struct Evolution *evolutions = GetSpeciesEvolutions(species);
 
-    if (evolutions == NULL)
-        return 0;
-    for (u32 i = 0; evolutions[i].method != EVOLUTIONS_END; i++)
+    for (u32 i = 0; evolutions != NULL && evolutions[i].method != EVOLUTIONS_END; i++)
     {
-        if ((evolutions[i].method == EVO_LEVEL && evolutions[i].param > 0) || evolutions[i].method == EVO_TRADE)
-        {
-            if (IsPseudoLegendaryLastForm(evolutions[i].targetSpecies))
-                return KJH_TRAINING_GOAL_PSEUDO_LAST;
-            if (GetSpeciesPreEvolution(species) == SPECIES_NONE)
-                return KJH_TRAINING_GOAL_SECOND_FORM;
-            return KJH_TRAINING_GOAL_THIRD_FORM;
-        }
+        u32 goal;
+
+        if (SanitizeSpeciesId(evolutions[i].targetSpecies) == SPECIES_NONE)
+            continue;
+        goal = KJH_TrainingGoalOfEvolution(species, i);
+        if (goal != 0)
+            return goal;
     }
     return 0;
 }

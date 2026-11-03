@@ -10,6 +10,7 @@
 #include "battle_interface.h"
 #include "battle_main.h"
 #include "kjh_bond.h"
+#include "kjh_evolution.h"
 #include "kjh_fair_fight.h"
 #include "battle_message.h"
 #include "battle_pyramid.h"
@@ -2837,6 +2838,7 @@ static void BattleStartClearSetData(void)
     gPauseCounterBattle = 0;
     gIntroSlideFlags = 0;
     gLeveledUpInBattle = 0;
+    KJH_EvolutionBattleStart(); // KJH (LV-9): which Pokemon can't evolve yet
     gAbsentBattlerFlags = 0;
     gBattleStruct->runTries = 0;
     gBattleStruct->safariGoNearCounter = 0;
@@ -5318,6 +5320,7 @@ static void HandleEndTurn_FinishBattle(void)
             KJH_BondAfterBattle(); // KJH (LV-5)
             KJH_BondRecalculatePartyStats(); // KJH (LV-6): the stat bonus follows the Bond the battle left
             KJH_RestoreFairFightParty(); // KJH (LV-17): the Pokemon that waited come back
+            KJH_EvolutionBattleEnd(); // KJH (LV-9): those that became ready to evolve are offered it
         }
 
         for (u32 i = 0; i < PARTY_SIZE; i++)

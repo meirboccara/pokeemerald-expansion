@@ -26,6 +26,7 @@
 #include "frontier_util.h"
 #include "graphics.h"
 #include "item.h"
+#include "kjh_evolution.h"
 #include "kjh_levelless.h"
 #include "kjh_pack.h"
 #include "kjh_team_level.h"
@@ -4194,7 +4195,7 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
                 currentCondition = TRUE;
             break;
         case IF_MIN_FRIENDSHIP:
-            if (friendship >= params[i].arg1)
+            if (KJH_FriendshipEvolutionKeyMet(mon, friendship, params[i].arg1)) // KJH (LV-9): Bond 18, levels-free
                 currentCondition = TRUE;
             break;
         case IF_ATK_GT_DEF:
@@ -4474,7 +4475,7 @@ enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode m
     enum Species targetSpecies = SPECIES_NONE;
     enum Species species = GetMonData(mon, MON_DATA_SPECIES, 0);
     enum Item heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, 0);
-    u32 level = GetMonData(mon, MON_DATA_LEVEL, 0);
+    u32 level = KJH_LevelForEvolution(mon); // KJH (LV-9): the peak level, levels-free
     enum HoldEffect holdEffect;
     const struct Evolution *evolutions = GetSpeciesEvolutions(species);
 
@@ -4512,7 +4513,9 @@ enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode m
                 break;
             }
 
-            if (conditionsMet && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, canStopEvo, evoState))
+            // KJH (LV-9): and the Training points
+            if (conditionsMet && KJH_EvolutionTrainingKeyMet(mon, i)
+             && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, canStopEvo, evoState))
             {
                 // All checks passed, so stop checking the rest of the evolutions.
                 // This is different from vanilla where the loop continues.
@@ -4536,7 +4539,9 @@ enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode m
                 break;
             }
 
-            if (conditionsMet && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, tradePartner, PARTY_SIZE, canStopEvo, evoState))
+            // KJH (LV-9): and the Training points
+            if (conditionsMet && KJH_EvolutionTrainingKeyMet(mon, i)
+             && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, tradePartner, PARTY_SIZE, canStopEvo, evoState))
             {
                 // All checks passed, so stop checking the rest of the evolutions.
                 // This is different from vanilla where the loop continues.
@@ -4562,7 +4567,9 @@ enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode m
                 break;
             }
 
-            if (conditionsMet && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, canStopEvo, evoState))
+            // KJH (LV-9): a trade's item (Linking Cord, Metal Coat...) needs the Training points too, a stone doesn't
+            if (conditionsMet && KJH_EvolutionTrainingKeyMet(mon, i)
+             && DoesMonMeetAdditionalConditions(mon, evolutions[i].params, NULL, PARTY_SIZE, canStopEvo, evoState))
             {
                 // All checks passed, so stop checking the rest of the evolutions.
                 // This is different from vanilla where the loop continues.

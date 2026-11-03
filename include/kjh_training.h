@@ -22,7 +22,7 @@
 #define KJH_TRAINING_MULT_BOSS         3  // every Pokémon of a Gym Leader, an Elite Four member or a Champion
 #define KJH_TRAINING_MULT_ALPHA        6
 
-// The points an evolution by level asks for (LV-9 checks them; the Summary shows how far along it is)
+// The points an evolution by level or trade asks for (LV-9 checks them; the Summary shows how far along it is)
 #define KJH_TRAINING_GOAL_SECOND_FORM  100
 #define KJH_TRAINING_GOAL_THIRD_FORM   200
 #define KJH_TRAINING_GOAL_PSEUDO_LAST  300  // Dragonite, Tyranitar, Salamence, Metagross
@@ -34,7 +34,10 @@ u32 KJH_TrainingHalvesFor(u32 points, bool32 fought);        // all of them in h
 void KJH_TrainingAddHalves(u32 *bank, u32 *half, u32 halves); // the bank stops at KJH_TRAINING_BANK_MAX
 u32 KJH_TrainingTotalLimit(enum KjhTierMark tier);
 u32 KJH_TrainingRoom(const u8 *evs, enum KjhTierMark tier, enum Stat stat); // how many more points this stat takes
-u32 KJH_TrainingEvolutionGoal(enum Species species);        // 0: no evolution by level
+u32 KJH_TrainingEvolutionGoal(enum Species species);        // its first evolution that needs points; 0: none
+// KJH (LV-9): the points one of the species' evolutions (index in GetSpeciesEvolutions) needs: 0 for a stone or a
+// friendship evolution
+u32 KJH_TrainingGoalOfEvolution(enum Species species, u32 index);
 
 // The game
 void KJH_GiveTrainingPoints(enum BattlerId fainted, u32 foughtBits); // a foe was knocked out: the whole party

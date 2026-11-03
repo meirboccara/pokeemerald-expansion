@@ -795,6 +795,7 @@ struct
 {
     [MENU_SUMMARY]         = {COMPOUND_STRING("SUMMARY"),         CursorCb_Summary},
     [MENU_KJH_CHANGE_MOVES] = {COMPOUND_STRING("MOVES"),          CursorCb_KjhChangeMoves},
+    [MENU_KJH_EVOLVE]      = {COMPOUND_STRING("EVOLVE"),          CursorCb_KjhEvolve},
     [MENU_SWITCH]          = {COMPOUND_STRING("SWITCH"),          CursorCb_Switch},
     [MENU_CANCEL1]         = {gText_Cancel2,                      CursorCb_Cancel1},
     [MENU_ITEM]            = {COMPOUND_STRING("ITEM"),            CursorCb_Item},

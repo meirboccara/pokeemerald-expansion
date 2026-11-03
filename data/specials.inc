@@ -658,6 +658,9 @@ gSpecials::
 	def_special KJH_BeastsCheck
 	@ KJH (LV-10): the move library, src/kjh_move_library.c
 	def_special KJH_BufferNextNewLibraryMoves
+	@ KJH (LV-9): evolution by Training points, src/kjh_evolution.c
+	def_special KJH_BufferNextRiseEvolution
+	def_special KJH_EvolveFromScript
 	@ KJH (LV-17): fair fights, src/kjh_fair_fight.c
 	def_special KJH_FairFightCount
 	def_special KJH_ChooseFairFightParty

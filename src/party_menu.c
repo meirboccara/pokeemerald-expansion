@@ -46,6 +46,7 @@
 #include "metatile_behavior.h"
 #include "move_relearner.h"
 #include "kjh_bond.h"
+#include "kjh_evolution.h"
 #include "kjh_fair_fight.h"
 #include "kjh_move_library.h"
 #include "overworld.h"
@@ -115,6 +116,7 @@ enum {
     MENU_CHANGE_FORM,
     MENU_CHANGE_ABILITY,
     MENU_KJH_CHANGE_MOVES, // KJH (LV-10): the move library
+    MENU_KJH_EVOLVE, // KJH (LV-9): evolution by Training points
     MENU_FIELD_MOVES
 };
 
@@ -190,7 +192,7 @@ struct PartyMenuInternal
     u32 spriteIdCancelPokeball:7;
     u32 messageId:14;
     u8 windowId[3];
-    u8 actions[8];
+    u8 actions[9]; // KJH (LV-10, LV-9): 8 in vanilla; 9 fill the screen (DisplaySelectionWindow)
     u8 numActions;
     // In vanilla Emerald, only the first 0xB0 hwords (0x160 bytes) are actually used.
     // However, a full 0x100 hwords (0x200 bytes) are allocated.
@@ -488,6 +490,7 @@ static void CursorCb_CatalogMower(u8);
 static void CursorCb_ChangeForm(u8);
 static void CursorCb_ChangeAbility(u8);
 static void CursorCb_KjhChangeMoves(u8);
+static void CursorCb_KjhEvolve(u8);
 void TryItemHoldFormChange(struct Pokemon *mon, s8 slotId, enum BattleTrainer trainer);
 static void ShowMoveSelectWindow(u8 slot);
 static void Task_HandleWhichMoveInput(u8 taskId);
@@ -2993,6 +2996,12 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         else
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
     }
+    // KJH (LV-9): "EVOLVE" once it is ready (levels-free game), if the list has room left (not with MOVES and
+    // 4 field moves; the battle's and the team level's offers still come)
+    if (IS_FRLG && KJH_IsLevelsFree()
+     && sPartyMenuInternal->numActions + 2 <= ARRAY_COUNT(sPartyMenuInternal->actions)
+     && KJH_ReadyEvolution(&mons[slotId]) != SPECIES_NONE)
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_KJH_EVOLVE);
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
@@ -3147,6 +3156,26 @@ static void CursorCb_KjhChangeMoves(u8 taskId)
     gMoveRelearnerState = MOVE_RELEARNER_LEVEL_UP_MOVES;
     gInitialSummaryScreenCallback = CB2_ReturnToPartyMenuFromSummaryScreen;
     sPartyMenuInternal->exitCallback = CB2_InitLearnMove;
+    Task_ClosePartyMenu(taskId);
+}
+
+// KJH (LV-9): the evolution scene, then back to the party menu
+static void CB2_KjhReturnToPartyMenuAfterEvolution(void)
+{
+    InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_CHOOSE_MON,
+                  Task_HandleChooseMonInput, gPartyMenu.exitCallback);
+}
+
+static void CB2_KjhEvolveFromPartyMenu(void)
+{
+    if (!KJH_BeginReadyEvolution(gPartyMenu.slotId, CB2_KjhReturnToPartyMenuAfterEvolution))
+        SetMainCallback2(CB2_KjhReturnToPartyMenuAfterEvolution);
+}
+
+static void CursorCb_KjhEvolve(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+    sPartyMenuInternal->exitCallback = CB2_KjhEvolveFromPartyMenu;
     Task_ClosePartyMenu(taskId);
 }
 
