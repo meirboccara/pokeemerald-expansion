@@ -1541,3 +1541,6 @@ const struct Tileset gTileset_HallOfFame =
 };
 
 #endif // IS_FRLG
+
+// KJH: Johto (ENG-9)
+#include "kjh_johto_headers.h"
