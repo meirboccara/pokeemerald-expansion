@@ -13,10 +13,15 @@ bool32 KJH_IsLevelsFree(void);
 u32 KJH_ZoneTop(u32 mapsec, u32 map);
 // The team's ceiling with this many badges: the next Gym ace, then the Champion's 100.
 u32 KJH_TeamLevelCap(u32 badges);
-// The team's level now (0 before any zone is reached).
+// Kanto's badges.
+u32 KJH_CountKantoBadges(void);
+// The team's level now (0 before any zone is reached): the Champion's level once the League is beaten (LV-3).
 u32 KJH_TeamLevel(void);
 // Records the zone the player stands in, if it is further than the furthest one so far.
 void KJH_RecordZone(void);
+// In the levels-free game, how many levels the trainers of the Gym the player stands in move (LV-3): the Gym's ace
+// becomes the team's ceiling for the player's badges, so Gyms can be done in any order. 0 outside a Gym.
+s32 KJH_GymLevelShift(void);
 
 // Sets a Pokémon's level (and its peak level). Eggs and empty slots are left alone.
 void KJH_SetMonLevel(struct Pokemon *mon, u32 level);

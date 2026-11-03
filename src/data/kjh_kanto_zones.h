@@ -75,6 +75,20 @@ static const struct { u8 min, max; } sKantoZones[KJH_KANTO_ZONE_COUNT] =
     [KJH_KANTO_ZONE_POSTGAME]        = { 90, 100 },
 };
 
+// FireRed's Gyms and their ace in FireRed's Gym order (the ceiling of the badges before them). LV-3 put each Gym's
+// trainers just under it (kjh_tools/zone_levels.py); in the game the whole Gym moves to the player's badges.
+static const struct { u16 map; u8 ace; } sKantoGyms[] =
+{
+    { MAP_PEWTER_CITY_GYM,     14 },
+    { MAP_CERULEAN_CITY_GYM,   22 },
+    { MAP_VERMILION_CITY_GYM,  30 },
+    { MAP_CELADON_CITY_GYM,    40 },
+    { MAP_FUCHSIA_CITY_GYM,    50 },
+    { MAP_SAFFRON_CITY_GYM,    60 },
+    { MAP_CINNABAR_ISLAND_GYM, 70 },
+    { MAP_VIRIDIAN_CITY_GYM,   80 },
+};
+
 // Maps that have a zone of their own, before their section's.
 static const struct { u16 map; u8 zone; } sKantoMapZones[] =
 {

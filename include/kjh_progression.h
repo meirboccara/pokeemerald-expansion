@@ -4,8 +4,9 @@
 #include "data.h"
 #include "constants/battle_ai.h"
 
-// KJH: trainer levels and boss strategy (src/kjh_progression.c), ported from the KJH repo's pokefirered tree.
-// The rules are the same: docs/TRAINER_LEVELS.md in the KJH repo.
+// KJH: trainer levels and boss strategy (src/kjh_progression.c). Trainers' levels come from the zones of the
+// levels-free design (LV-3, kjh_tools/zone_levels.py rewrites src/data/trainers_frlg.party); a Gym Leader's team
+// follows the player's badges.
 
 // Boss trainers by kind (mugshots, trainer slides); KJH_BOSS_NONE for every other trainer
 enum
@@ -24,15 +25,16 @@ u8 KJH_BossKind(u8 trainerClass);
 bool32 KJH_IsBossTrainer(const struct Trainer *trainer, u16 trainerNum);
 
 // Building an opponent's party (CreateOpponentTrainerParty, src/battle_setup.c). trainerNum TRAINER_NONE (battle
-// partners, the debug menu's own test parties) keeps the trainer data as it is: no boost, nothing changed.
-// 1. how many levels the whole team goes up to catch up with the player's party, once per party, from the
-//    Pokemon it sends (monIndices: their entries in trainer->party, monsCount of them);
-u8 KJH_TeamLevelBoost(const struct Trainer *trainer, u16 trainerNum, const u32 *monIndices, u8 monsCount);
-// 2. before each Pokemon is created: its level (band + boost) and, for a team that was raised or moved to
-//    another region, no fixed moves, so it gets its level-up moves for its new level;
-void KJH_PrepareTrainerMon(struct TrainerMon *out, const struct TrainerMon *in, u16 trainerNum, u8 boost);
+// partners, the debug menu's own test parties) keeps the trainer data as it is: no shift, nothing changed.
+// 1. how many levels the whole team moves, once per party: in the levels-free game, a Gym's trainers move with
+//    the player's badges (KJH_GymLevelShift); 0 for everyone else;
+s32 KJH_TeamLevelShift(u16 trainerNum);
+// 2. before each Pokemon is created: its level (+ shift) and, for a moved team, no fixed moves, so it gets its
+//    level-up moves for its new level;
+void KJH_PrepareTrainerMon(struct TrainerMon *out, const struct TrainerMon *in, u16 trainerNum, s32 shift);
 // 3. after: a boss's IVs, held item, moveset, EVs and nature.
-void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer, u16 trainerNum, u8 boost);
+void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer,
+                          u16 trainerNum, s32 shift);
 
 // A boss's AI: expansion's smart trainer AI, without Terastallization (KJH's trainers don't Terastallize)
 #define KJH_BOSS_AI_FLAGS (AI_FLAG_SMART_TRAINER & ~AI_FLAG_SMART_TERA)

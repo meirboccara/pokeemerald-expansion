@@ -1,4 +1,5 @@
-// KJH: the team's level follows Kanto's zones (LV-2, src/kjh_team_level.c). The zone table's tops, the badge
+// KJH: the team's level follows Kanto's zones (LV-2, src/kjh_team_level.c), and wild Pokemon sit in their zone's
+// range (LV-3, kjh_tools/zone_levels.py). The zone table's tops, the badge
 // ceiling, a catch, a gift and a Day Care pickup joining at the team's level, the party levelled on a step, nothing
 // outside Kanto, and no Exp. or Rare Candy level-ups in the levels-free game.
 #include "global.h"
@@ -7,6 +8,7 @@
 #include "kjh_team_level.h"
 #include "pokemon.h"
 #include "script_pokemon_util.h"
+#include "wild_encounter.h"
 #include "test/battle.h"
 #include "test/test.h"
 #include "constants/items.h"
@@ -16,6 +18,7 @@
 static void SetBadges(u32 count)
 {
     u32 i;
+    FlagClear(FLAG_SYS_GAME_CLEAR);
     for (i = 0; i < NUM_BADGES; i++)
     {
         if (i < count)
@@ -73,6 +76,16 @@ TEST("KJH: the team stops at 14 until Brock is beaten, and Gyms count in any ord
     FlagSet(FLAG_BADGE05_GET); // Koga first: one badge, so Misty's ceiling.
     VarSet(VAR_KJH_KANTO_ZONE_TOP, 48);
     EXPECT_EQ(KJH_TeamLevel(), 22);
+}
+
+TEST("KJH: once the League is beaten, the team is at the Champion's level")
+{
+    VarSet(VAR_KJH_KANTO_ZONE_TOP, 8);
+    SetBadges(NUM_BADGES);
+    FlagSet(FLAG_SYS_GAME_CLEAR);
+    EXPECT_EQ(KJH_TeamLevel(), 100);
+    FlagClear(FLAG_SYS_GAME_CLEAR);
+    EXPECT_EQ(KJH_TeamLevel(), 8);
 }
 
 TEST("KJH: a Pokémon set to a level gets that level's stats and a new peak level")
@@ -193,4 +206,40 @@ WILD_BATTLE_TEST("KJH: in the levels-free game, a knockout gives no Exp. but sti
         EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_LEVEL), 20);
         EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_HP_EV), 1);
     }
+}
+
+TEST("KJH: Route 1's grass is still Lv 5-8 with 6 badges")
+{
+    const struct WildPokemonInfo *grass;
+    u32 lo = MAX_LEVEL, hi = 0, headerId;
+    SetBadges(6);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_ROUTE1);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ROUTE1);
+    headerId = GetCurrentMapWildMonHeaderId();
+    ASSUME(headerId != HEADER_NONE);
+    grass = gWildMonHeaders[headerId].encounterTypes[TIME_OF_DAY_DEFAULT].landMonsInfo;
+    for (u32 i = 0; i < NUM_LAND_MONS_ENCOUNTER_SLOTS; i++)
+    {
+        lo = min(lo, grass->wildPokemon[i].minLevel);
+        hi = max(hi, grass->wildPokemon[i].maxLevel);
+    }
+
+    EXPECT_EQ(lo, 5);
+    EXPECT_EQ(hi, 8);
+}
+
+TEST("KJH: a Gym's trainers move with the badges, only in their Gym and in the levels-free game")
+{
+    StartLevelsFree(MAPSEC_PEWTER_CITY, 14);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PEWTER_CITY_GYM);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PEWTER_CITY_GYM);
+    EXPECT_EQ(KJH_GymLevelShift(), 0);
+    SetBadges(2);
+    EXPECT_EQ(KJH_GymLevelShift(), 16);
+    FlagClear(FLAG_KJH_LEVELLESS);
+    EXPECT_EQ(KJH_GymLevelShift(), 0);
+    FlagSet(FLAG_KJH_LEVELLESS);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_ROUTE3);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ROUTE3);
+    EXPECT_EQ(KJH_GymLevelShift(), 0);
 }

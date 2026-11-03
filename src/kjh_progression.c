@@ -1,18 +1,13 @@
-// KJH: level progression across regions and "strategy" for boss trainers, on pokeemerald-expansion. Ported from
-// the KJH repo's source/pokefirered/src/kjh_progression.c; the rules are the same (docs/TRAINER_LEVELS.md there).
+// KJH: trainer levels and "strategy" for boss trainers, on pokeemerald-expansion. Ported from the KJH repo's
+// source/pokefirered/src/kjh_progression.c, then moved to the levels-free design (LV-3).
 //
-// Play order is KANTO -> KANTO LEAGUE -> JOHTO -> JOHTO LEAGUE -> HOENN -> HOENN LEAGUE. Kanto keeps
-// FireRed's levels; each region opens just below the League before it and climbs past it (kjh_level_bands.c).
-// Trainers follow the band of the map they are met on. On top of that, trainers catch up with a strong party
-// (after Pokemon Unbound): against the average of your best Pokemon, as many as the trainer has, a normal
-// trainer's team rises to 2-3 levels under it, a boss's ace from 1 under it early to 1 above it late, by
-// badges; they never go down (kjh_level_bands.c, KJH_TrainerLevelBoost).
+// Trainers' levels are the data's: kjh_tools/zone_levels.py rewrote src/data/trainers_frlg.party from the zones
+// (route trainers at their zone's top, Gym trainers just under their Gym's ace, the League one step per room).
+// In the levels-free game, a whole Gym moves so that its Leader's ace is the team's ceiling for the badges the
+// player has (KJH_GymLevelShift: 14, 22 ... 80), so Kanto's middle Gyms can be done in any order.
 // Boss trainers (gym leaders, Elite Four, champions, rivals, team bosses) also get good IVs, EVs and a nature
 // that grow with the badges (kjh_boss_rules.c), a held Sitrus Berry once the adventure is under way, the smart
-// trainer AI and, outside Kanto or once raised, a moveset rebuilt for their new level (BuildBossMoveset).
-//
-// Not ported yet: the boss's Hidden Ability (ENG-5/ENG-7) and the Johto and Hoenn map bands (only Kanto is in
-// the expansion build so far, ENG-3/ENG-9).
+// trainer AI and, once moved, a moveset rebuilt for their new level (BuildBossMoveset).
 #include "global.h"
 #include "battle.h"
 #include "battle_util.h"
@@ -21,45 +16,21 @@
 #include "pokemon.h"
 #include "kjh_boss_rules.h"
 #include "kjh_hidden_ability.h"
-#include "kjh_level_bands.h"
 #include "kjh_progression.h"
+#include "kjh_team_level.h"
 #include "constants/battle_ai.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/opponents.h"
 #include "constants/trainers.h"
 
-// Below this level (before catching up), a Kanto boss is an early one: IVs 20, no Sitrus Berry
-#define KJH_LATE_BOSS_LEVEL 25
+// Below this level, a boss is an early one: IVs 20, no Sitrus Berry. On LV-3's curve, Brock, Misty and Lt. Surge
+// (30) are early, Erika (40) is late, as Brock, Misty and Lt. Surge were in FireRed.
+#define KJH_LATE_BOSS_LEVEL 31
 #define KJH_EARLY_BOSS_IV   20
 
-// The band of the map the player is on. Only Kanto is in the expansion build so far.
-static u8 CurrentMapBand(void)
-{
-    return KJH_BAND_KANTO;
-}
-
-// The Johto League is Indigo Plateau's second season: FireRed's Elite Four and Champion rematch teams
-static u8 TrainerBand(u16 trainerNum)
-{
-#if IS_FRLG
-    switch (trainerNum)
-    {
-    case TRAINER_ELITE_FOUR_LORELEI_2:
-    case TRAINER_ELITE_FOUR_BRUNO_2:
-    case TRAINER_ELITE_FOUR_AGATHA_2:
-    case TRAINER_ELITE_FOUR_LANCE_2:
-    case TRAINER_CHAMPION_REMATCH_SQUIRTLE:
-    case TRAINER_CHAMPION_REMATCH_BULBASAUR:
-    case TRAINER_CHAMPION_REMATCH_CHARMANDER:
-        return KJH_BAND_JOHTO_LEAGUE;
-    }
-#endif
-    return CurrentMapBand();
-}
-
-// The first rival battle, in Oak's lab, is a gentle one: the rival's Pokemon is at the level of yours, with
-// FireRed's IVs, moves and AI
+// The first rival battle, in Oak's lab, is a gentle one: the rival's Pokemon is at Pallet Town's level (the data's),
+// with FireRed's IVs, moves and AI
 static bool32 IsFirstRivalBattle(u16 trainerNum)
 {
 #if IS_FRLG
@@ -68,35 +39,6 @@ static bool32 IsFirstRivalBattle(u16 trainerNum)
 #else
     return FALSE;
 #endif
-}
-
-// The player's party levels (eggs left out); returns how many
-static u8 PlayerPartyLevels(u8 *levels)
-{
-    u8 count = 0;
-
-    for (u32 i = 0; i < PARTY_SIZE; i++)
-    {
-        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
-        u32 species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-
-        if (species != SPECIES_NONE && species != SPECIES_EGG)
-            levels[count++] = GetMonData(mon, MON_DATA_LEVEL);
-    }
-    return count;
-}
-
-// Badges of all regions together (only Kanto's so far)
-static u8 CountAllBadges(void)
-{
-    u8 badges = 0;
-
-    for (u32 i = 0; i < NUM_BADGES; i++)
-    {
-        if (FlagGet(FLAG_BADGE01_GET + i))
-            badges++;
-    }
-    return badges;
 }
 
 u8 KJH_BossKind(u8 trainerClass)
@@ -136,30 +78,12 @@ bool32 KJH_IsBossTrainer(const struct Trainer *trainer, u16 trainerNum)
     return IsBoss(trainer->trainerClass, trainerNum);
 }
 
-u8 KJH_TeamLevelBoost(const struct Trainer *trainer, u16 trainerNum, const u32 *monIndices, u8 monsCount)
+s32 KJH_TeamLevelShift(u16 trainerNum)
 {
-    u8 levels[PARTY_SIZE];
-    u8 count = PlayerPartyLevels(levels);
-    u8 teamTop = 0, partyBest = 0;
-
-    if (count == 0 || trainerNum == TRAINER_NONE)
+    if (trainerNum == TRAINER_NONE)
         return 0;
-    for (u32 i = 0; i < monsCount; i++)
-    {
-        u8 level = KJH_BandLevel(TrainerBand(trainerNum), trainer->party[monIndices[i]].lvl);
 
-        if (level > teamTop)
-            teamTop = level;
-    }
-    for (u32 i = 0; i < count; i++)
-    {
-        if (levels[i] > partyBest)
-            partyBest = levels[i];
-    }
-    if (IsFirstRivalBattle(trainerNum))
-        return partyBest > teamTop ? partyBest - teamTop : 0;
-    return KJH_TrainerLevelBoost(teamTop, KJH_PartyLevel(levels, count, monsCount), CountAllBadges(),
-                                 KJH_IsBossTrainer(trainer, trainerNum));
+    return KJH_GymLevelShift();
 }
 
 static bool32 HasCustomMoves(const struct TrainerMon *mon)
@@ -172,17 +96,18 @@ static bool32 HasCustomMoves(const struct TrainerMon *mon)
     return FALSE;
 }
 
-void KJH_PrepareTrainerMon(struct TrainerMon *out, const struct TrainerMon *in, u16 trainerNum, u8 boost)
+void KJH_PrepareTrainerMon(struct TrainerMon *out, const struct TrainerMon *in, u16 trainerNum, s32 shift)
 {
-    u16 level = KJH_BandLevel(TrainerBand(trainerNum), in->lvl) + boost;
+    s32 level = in->lvl + shift;
 
     *out = *in;
     if (trainerNum == TRAINER_NONE)
         return;
-    out->lvl = level > MAX_LEVEL ? MAX_LEVEL : level;
-    // Kanto keeps FireRed's handmade movesets; scaled regions and raised teams use level-up moves at the new
-    // level (a boss then rebuilds its moveset from them, KJH_FinishTrainerMon)
-    if (TrainerBand(trainerNum) != KJH_BAND_KANTO || boost != 0)
+
+    out->lvl = min(max(level, 1), MAX_LEVEL);
+    // A moved team gets level-up moves at its new level (a boss then rebuilds its moveset from them,
+    // KJH_FinishTrainerMon); the others keep FireRed's handmade movesets.
+    if (shift != 0)
     {
         for (u32 i = 0; i < MAX_MON_MOVES; i++)
             out->moves[i] = MOVE_NONE;
@@ -336,7 +261,7 @@ static void SetBossEvsAndNature(struct Pokemon *mon)
         else if (GetMoveCategory(move) == DAMAGE_CATEGORY_SPECIAL)
             specialPower += EffectivePower(move);
     }
-    KJH_BossEvs(baseStats, physicalPower, specialPower, CountAllBadges(), evs);
+    KJH_BossEvs(baseStats, physicalPower, specialPower, KJH_CountKantoBadges(), evs);
     for (u32 i = 0; i < NUM_STATS; i++)
         SetMonData(mon, MON_DATA_HP_EV + i, &evs[i]);
     // the nature that counts for stats (as a mint sets it); the Pokemon's personality stays as generated
@@ -344,10 +269,10 @@ static void SetBossEvsAndNature(struct Pokemon *mon)
     SetMonData(mon, MON_DATA_HIDDEN_NATURE, &nature);
 }
 
-void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer, u16 trainerNum, u8 boost)
+void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer,
+                          u16 trainerNum, s32 shift)
 {
-    bool32 scaled = TrainerBand(trainerNum) != KJH_BAND_KANTO;
-    bool32 raised = boost != 0;
+    bool32 moved = shift != 0;
     bool32 hasCustomMoves = HasCustomMoves(in);
     bool32 late;
     u32 iv, item;
@@ -355,9 +280,9 @@ void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, cons
     if (!KJH_IsBossTrainer(trainer, trainerNum))
         return; // KJH_PrepareTrainerMon already chose its moves
 
-    // Bosses get tougher as the adventure goes on: early Kanto bosses (below Lv 25, before they catch up with
-    // the party) get good IVs, later ones perfect IVs and a Sitrus Berry.
-    late = scaled || GetMonData(mon, MON_DATA_LEVEL) - boost >= KJH_LATE_BOSS_LEVEL;
+    // Bosses get tougher as the adventure goes on: early bosses get good IVs, later ones perfect IVs and a Sitrus
+    // Berry. A Gym met late (moved by the badges) is a late one.
+    late = GetMonData(mon, MON_DATA_LEVEL) >= KJH_LATE_BOSS_LEVEL;
     iv = late ? MAX_PER_STAT_IVS : KJH_EARLY_BOSS_IV;
     for (u32 i = 0; i < NUM_STATS; i++)
         SetMonData(mon, MON_DATA_HP_IV + i, &iv);
@@ -367,8 +292,8 @@ void KJH_FinishTrainerMon(struct Pokemon *mon, const struct TrainerMon *in, cons
         item = ITEM_SITRUS_BERRY;
         SetMonData(mon, MON_DATA_HELD_ITEM, &item);
     }
-    // Kanto bosses that weren't raised keep FireRed's handmade movesets (GenerateMonFromTrainerMon set them)
-    if (scaled || raised || !hasCustomMoves)
+    // Bosses that weren't moved keep FireRed's handmade movesets (GenerateMonFromTrainerMon set them)
+    if (moved || !hasCustomMoves)
         BuildBossMoveset(mon, hasCustomMoves ? in->moves : NULL);
     SetBossEvsAndNature(mon);
     // Bosses use their Pokemon's Hidden Abilities (ENG-7), unless their party data sets an ability
@@ -385,7 +310,5 @@ u64 KJH_AiFlags(u64 baseFlags, u8 trainerClass, u16 trainerNum)
 {
     if (IsBoss(trainerClass, trainerNum))
         return baseFlags | KJH_BOSS_AI_FLAGS;
-    if (TrainerBand(trainerNum) != KJH_BAND_KANTO)
-        return baseFlags | AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT;
     return baseFlags | AI_FLAG_CHECK_BAD_MOVE; // every trainer avoids moves that would do nothing
 }

@@ -1,18 +1,21 @@
-// KJH: trainer levels and boss rules (src/kjh_progression.c) on Brock and the first rival, with the numbers of
-// docs/TRAINER_LEVELS.md in the KJH repo. The test build has its own trainer table, so Brock and the rival are
-// copied here from src/data/trainers_frlg.party.
+// KJH: trainer levels and boss rules (src/kjh_progression.c) on Brock, Misty and the first rival. Their levels are
+// the data's, which kjh_tools/zone_levels.py set from the zones (LV-3); a Gym Leader's team follows the badges in
+// the levels-free game. The test build has its own trainer table, so they are copied here from
+// src/data/trainers_frlg.party.
 #include "global.h"
 #include "battle.h"
 #include "battle_setup.h"
 #include "data.h"
 #include "event_data.h"
 #include "kjh_progression.h"
+#include "kjh_team_level.h"
 #include "malloc.h"
 #include "move.h"
 #include "pokemon.h"
 #include "test/test.h"
 #include "constants/battle_ai.h"
 #include "constants/items.h"
+#include "constants/map_groups.h"
 #include "constants/opponents.h"
 #include "constants/trainers.h"
 
@@ -51,13 +54,44 @@ static const struct Trainer sBrock =
     .partySize = ARRAY_COUNT(sBrockParty),
 };
 
+static const struct TrainerMon sMistyParty[] =
+{
+    {
+        .species = SPECIES_STARYU,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+        .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
+        .lvl = 19,
+        .ball = POKEBALL_COUNT,
+        .nature = NATURE_HARDY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+    },
+    {
+        .species = SPECIES_STARMIE,
+        .gender = TRAINER_MON_RANDOM_GENDER,
+        .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
+        .lvl = 22,
+        .ball = POKEBALL_COUNT,
+        .nature = NATURE_HARDY,
+        .dynamaxLevel = MAX_DYNAMAX_LEVEL,
+    },
+};
+
+static const struct Trainer sMisty =
+{
+    .trainerName = _("MISTY"),
+    .trainerClass = TRAINER_CLASS_LEADER_FRLG,
+    .aiFlags = BROCK_AI,
+    .party = sMistyParty,
+    .partySize = ARRAY_COUNT(sMistyParty),
+};
+
 static const struct TrainerMon sRivalParty[] =
 {
     {
         .species = SPECIES_SQUIRTLE,
         .gender = TRAINER_MON_RANDOM_GENDER,
         .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-        .lvl = 5,
+        .lvl = 8,
         .ball = POKEBALL_COUNT,
         .nature = NATURE_HARDY,
         .dynamaxLevel = MAX_DYNAMAX_LEVEL,
@@ -93,6 +127,12 @@ static void SetBadges(u32 count)
     }
 }
 
+static void SetMap(u32 map)
+{
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(map);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(map);
+}
+
 static struct Pokemon *CreateParty(const struct Trainer *trainer, u16 trainerNum)
 {
     struct Pokemon *party = AllocZeroed(PARTY_SIZE * sizeof(struct Pokemon));
@@ -100,41 +140,64 @@ static struct Pokemon *CreateParty(const struct Trainer *trainer, u16 trainerNum
     return party;
 }
 
-TEST("KJH: Brock keeps FireRed's levels against a weaker party")
+TEST("KJH: Brock keeps his levels whatever the party's")
 {
-    static const u8 levels[] = {8, 6};
+    u32 partyLevel = 0;
+    PARAMETRIZE { partyLevel = 8; }
+    PARAMETRIZE { partyLevel = 50; }
+    u8 levels[] = {partyLevel, partyLevel};
+    FlagSet(FLAG_KJH_LEVELLESS);
     GivePlayerParty(levels, ARRAY_COUNT(levels));
     SetBadges(0);
+    SetMap(MAP_PEWTER_CITY_GYM);
     struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
     EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), 12);
     EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), 14);
     Free(party);
 }
 
-TEST("KJH: Brock catches up with a strong party, his ace 1 under it before 3 badges")
+TEST("KJH: Misty's ace is 22 with 1 badge, and follows the badges when she comes later")
 {
-    u32 partyLevel = 0, geodude = 0, onix = 0;
-    PARAMETRIZE { partyLevel = 22; geodude = 19; onix = 21; }
-    PARAMETRIZE { partyLevel = 50; geodude = 47; onix = 49; }
-    u8 levels[] = {partyLevel, partyLevel, 5};
+    u32 badges = 0, staryu = 0, starmie = 0;
+    PARAMETRIZE { badges = 1; staryu = 19; starmie = 22; }
+    PARAMETRIZE { badges = 3; staryu = 37; starmie = 40; }
+    static const u8 levels[] = {20, 20};
+    FlagSet(FLAG_KJH_LEVELLESS);
     GivePlayerParty(levels, ARRAY_COUNT(levels));
-    SetBadges(0);
-    struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
-    EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), geodude);
-    EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), onix);
+    SetBadges(badges);
+    SetMap(MAP_CERULEAN_CITY_GYM);
+    struct Pokemon *party = CreateParty(&sMisty, TRAINER_LEADER_MISTY);
+    EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), staryu);
+    EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), starmie);
     Free(party);
 }
 
-TEST("KJH: Brock's ace matches the party from 3 badges and goes 1 above it from 6")
+TEST("KJH: a Gym Leader's ace is the team's ceiling for the badges: 14, 30, 80, and the Gym moves with it")
 {
     u32 badges = 0, onix = 0;
-    PARAMETRIZE { badges = 3; onix = 30; }
-    PARAMETRIZE { badges = 6; onix = 31; }
-    static const u8 levels[] = {30, 30};
+    PARAMETRIZE { badges = 0; onix = 14; }
+    PARAMETRIZE { badges = 2; onix = 30; }
+    PARAMETRIZE { badges = 7; onix = 80; }
+    static const u8 levels[] = {14, 14};
+    FlagSet(FLAG_KJH_LEVELLESS);
     GivePlayerParty(levels, ARRAY_COUNT(levels));
     SetBadges(badges);
+    SetMap(MAP_PEWTER_CITY_GYM);
     struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
     EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), onix);
+    EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), onix - 2);
+    Free(party);
+}
+
+TEST("KJH: without the levels-free game, a Gym Leader keeps the data's levels")
+{
+    static const u8 levels[] = {14, 14};
+    FlagClear(FLAG_KJH_LEVELLESS);
+    GivePlayerParty(levels, ARRAY_COUNT(levels));
+    SetBadges(5);
+    SetMap(MAP_PEWTER_CITY_GYM);
+    struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
+    EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), 14);
     Free(party);
 }
 
@@ -144,11 +207,13 @@ TEST("KJH: Brock gets boss IVs, EVs growing with badges and a nature for his mov
     PARAMETRIZE { badges = 0; evs = 28; }
     PARAMETRIZE { badges = 8; evs = 252; }
     static const u8 levels[] = {8, 6};
+    FlagClear(FLAG_KJH_LEVELLESS); // His own levels at any badge count, so FireRed's moves.
     GivePlayerParty(levels, ARRAY_COUNT(levels));
     SetBadges(badges);
+    SetMap(MAP_PEWTER_CITY_GYM);
     struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
     struct Pokemon *onix = &party[1];
-    // early Kanto boss (below Lv 25): IVs 20, no Sitrus Berry, FireRed's moves
+    // Early boss: IVs 20, no Sitrus Berry, FireRed's moves.
     for (u32 i = 0; i < NUM_STATS; i++)
         EXPECT_EQ(GetMonData(onix, MON_DATA_HP_IV + i), 20);
     EXPECT_EQ(GetMonData(onix, MON_DATA_HELD_ITEM), ITEM_NONE);
@@ -166,31 +231,46 @@ TEST("KJH: Brock gets boss IVs, EVs growing with badges and a nature for his mov
     Free(party);
 }
 
-TEST("KJH: a Brock raised to the party gets a boss moveset for his new level, still with early IVs")
+TEST("KJH: a Brock moved up by the badges gets a boss moveset for his new level, and a late boss's IVs")
 {
-    static const u8 levels[] = {50, 50};
+    static const u8 levels[] = {40, 40};
+    FlagSet(FLAG_KJH_LEVELLESS);
     GivePlayerParty(levels, ARRAY_COUNT(levels));
-    SetBadges(0);
+    SetBadges(3);
+    SetMap(MAP_PEWTER_CITY_GYM);
     struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
     struct Pokemon *onix = &party[1];
     enum Type type = GetMoveType(GetMonData(onix, MON_DATA_MOVE1));
-    EXPECT_EQ(GetMonData(onix, MON_DATA_LEVEL), 49);
-    // slot 1: the best STAB attack
+    EXPECT_EQ(GetMonData(onix, MON_DATA_LEVEL), 40);
+    // Slot 1: the best STAB attack.
     EXPECT(type == TYPE_ROCK || type == TYPE_GROUND);
     EXPECT_NE(GetMonData(onix, MON_DATA_MOVE1), MOVE_TACKLE);
-    // Brock's own levels still make him an early boss
-    EXPECT_EQ(GetMonData(onix, MON_DATA_HP_IV), 20);
-    EXPECT_EQ(GetMonData(onix, MON_DATA_HELD_ITEM), ITEM_NONE);
+    // Met that late, he is a late boss.
+    EXPECT_EQ(GetMonData(onix, MON_DATA_HP_IV), MAX_PER_STAT_IVS);
+    EXPECT_EQ(GetMonData(onix, MON_DATA_HELD_ITEM), ITEM_SITRUS_BERRY);
     Free(party);
 }
 
-TEST("KJH: the first rival matches your best Pokemon and isn't a boss")
+TEST("KJH: outside a Gym, a Gym Leader keeps the data's levels")
 {
-    static const u8 levels[] = {7};
+    static const u8 levels[] = {14, 14};
+    FlagSet(FLAG_KJH_LEVELLESS);
+    GivePlayerParty(levels, ARRAY_COUNT(levels));
+    SetBadges(3);
+    SetMap(MAP_ROUTE3);
+    struct Pokemon *party = CreateParty(&sBrock, TRAINER_LEADER_BROCK);
+    EXPECT_EQ(GetMonData(&party[1], MON_DATA_LEVEL), 14);
+    Free(party);
+}
+
+TEST("KJH: the first rival keeps the data's level and isn't a boss")
+{
+    static const u8 levels[] = {8};
+    FlagSet(FLAG_KJH_LEVELLESS);
     GivePlayerParty(levels, ARRAY_COUNT(levels));
     SetBadges(0);
     struct Pokemon *party = CreateParty(&sOaksLabRival, TRAINER_RIVAL_OAKS_LAB_SQUIRTLE);
-    EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), 7);
+    EXPECT_EQ(GetMonData(&party[0], MON_DATA_LEVEL), 8);
     EXPECT_EQ(GetMonData(&party[0], MON_DATA_HP_IV), 0);
     EXPECT_EQ(GetMonData(&party[0], MON_DATA_ATK_EV), 0);
     Free(party);

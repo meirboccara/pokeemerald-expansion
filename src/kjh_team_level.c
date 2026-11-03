@@ -40,7 +40,7 @@ u32 KJH_TeamLevelCap(u32 badges)
     return sKantoTeamLevelCaps[min(badges, NUM_BADGES)];
 }
 
-static u32 CountKantoBadges(void)
+u32 KJH_CountKantoBadges(void)
 {
     u32 i, count = 0;
 
@@ -55,15 +55,38 @@ static u32 CountKantoBadges(void)
 
 u32 KJH_TeamLevel(void)
 {
-    return min(VarGet(VAR_KJH_KANTO_ZONE_TOP), KJH_TeamLevelCap(CountKantoBadges()));
+    // KJH (LV-3): the League beaten, the region uses its Champion's level.
+    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+        return KJH_TeamLevelCap(NUM_BADGES);
+
+    return min(VarGet(VAR_KJH_KANTO_ZONE_TOP), KJH_TeamLevelCap(KJH_CountKantoBadges()));
+}
+
+static u32 CurrentMapId(void)
+{
+    return (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
 }
 
 // The top of the zone the player stands in, 0 outside Kanto's table.
 static u32 CurrentZoneTop(void)
 {
-    u32 map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    return KJH_ZoneTop(gMapHeader.regionMapSectionId, CurrentMapId());
+}
 
-    return KJH_ZoneTop(gMapHeader.regionMapSectionId, map);
+s32 KJH_GymLevelShift(void)
+{
+    u32 i, map = CurrentMapId();
+
+    if (!KJH_IsLevelsFree())
+        return 0;
+
+    for (i = 0; i < ARRAY_COUNT(sKantoGyms); i++)
+    {
+        if (sKantoGyms[i].map == map)
+            return (s32)KJH_TeamLevelCap(KJH_CountKantoBadges()) - sKantoGyms[i].ace;
+    }
+
+    return 0;
 }
 
 void KJH_RecordZone(void)
