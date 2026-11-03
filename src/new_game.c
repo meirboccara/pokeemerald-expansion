@@ -165,9 +165,12 @@ static void WarpToTruck(void)
 // 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none),
 // 0x0203FF44 a swarm of src/kjh_swarms.c to start, its index + 1 (0: the day's random one),
 // 0x0203FF48 species and level of a third Pokemon (0: none),
-// 0x0203FF4C the first Pokemon's Training bank (LV-7; 0: none)
+// 0x0203FF4C the first Pokemon's Training bank (LV-7; 0: none),
+// (0x0203FF50 is src/kjh_pack.c's Alpha switch, LV-15),
+// 0x0203FF54 the player's money (LV-21; 0: a new game's)
 static void KJH_DebugHarnessStart(void)
 {
+    vu32 *money = (vu32 *)0x0203FF54;
     vu16 *trainingBank = (vu16 *)0x0203FF4C;
     vu16 *thirdMon = (vu16 *)0x0203FF48;
     vu16 *swarm = (vu16 *)0x0203FF44;
@@ -204,6 +207,8 @@ static void KJH_DebugHarnessStart(void)
     }
     if (dbgMon[3] != ITEM_NONE)
         AddBagItem(dbgMon[3], 1);
+    if (*money != 0)
+        SetMoney(&gSaveBlock1Ptr->money, *money);
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_SYS_B_DASH);

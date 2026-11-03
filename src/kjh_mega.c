@@ -382,3 +382,36 @@ void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx)
     gSpecialVar_0x8006 = MegaFormOf(starter);
     gSpecialVar_Result = KJH_MEGA_STARTER_READY;
 }
+
+// The never-sold list (docs/MEGA.md in the KJH repo): each is found in a place tied to its Pokemon (Kanto: Mewtwonite X and Y in
+// Cerulean Cave); the others' places come with their regions
+static const enum Item sNeverSoldStones[] =
+{
+    ITEM_DRAGONINITE,     // Dragon's Den (Johto)
+    ITEM_MEWTWONITE_X,    // Cerulean Cave
+    ITEM_MEWTWONITE_Y,    // Cerulean Cave
+    ITEM_TYRANITARITE,    // Mt. Silver (Johto)
+    ITEM_SALAMENCITE,     // Hoenn
+    ITEM_METAGROSSITE,    // Mossdeep's space center (Hoenn)
+    ITEM_LATIASITE,       // Hoenn
+    ITEM_LATIOSITE,       // Hoenn
+};
+
+bool32 KJH_IsNeverSoldStone(enum Item item)
+{
+    for (u32 i = 0; i < ARRAY_COUNT(sNeverSoldStones); i++)
+    {
+        if (sNeverSoldStones[i] == item)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+// Expansion's stones cost 0, which the bag also reads as "can't be sold": a never-sold stone keeps it, so it can't be
+// sold and lost for good
+u32 KJH_ItemPrice(enum Item item, u32 price)
+{
+    if (GetItemHoldEffect(item) == HOLD_EFFECT_MEGA_STONE && !KJH_IsNeverSoldStone(item))
+        return KJH_MEGA_STONE_PRICE;
+    return price;
+}

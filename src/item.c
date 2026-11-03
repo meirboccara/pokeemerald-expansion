@@ -1,5 +1,6 @@
 #include "global.h"
 #include "item.h"
+#include "kjh_mega.h"
 #include "berry.h"
 #include "pokeball.h"
 #include "string_util.h"
@@ -819,7 +820,7 @@ const u8 *GetItemName(enum Item itemId)
 
 u32 GetItemPrice(enum Item itemId)
 {
-    return gItemsInfo[SanitizeItemId(itemId)].price;
+    return KJH_ItemPrice(itemId, gItemsInfo[SanitizeItemId(itemId)].price); // KJH (LV-21): Mega Stones' price
 }
 
 static bool32 DoesItemHavePluralName(enum Item itemId)

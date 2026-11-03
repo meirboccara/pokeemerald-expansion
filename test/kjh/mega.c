@@ -198,3 +198,33 @@ TEST("KJH: the starter's stone answers at once only for its final form at Bond 1
     EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_MISSING);
     FlagClear(FLAG_KJH_LEVELLESS);
 }
+
+// LV-21: Kanto's stone dealer
+extern const u16 KJH_Mart_MegaStonesKanto[];
+
+static bool32 OnSale(enum Item item)
+{
+    for (u32 i = 0; KJH_Mart_MegaStonesKanto[i] != ITEM_NONE; i++)
+    {
+        if (KJH_Mart_MegaStonesKanto[i] == item)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+TEST("KJH: Celadon's dealer sells Kanto's ordinary Mega Stones at 10,000, never a special one")
+{
+    for (u32 i = 0; KJH_Mart_MegaStonesKanto[i] != ITEM_NONE; i++)
+    {
+        EXPECT_EQ(GetItemHoldEffect(KJH_Mart_MegaStonesKanto[i]), HOLD_EFFECT_MEGA_STONE);
+        EXPECT(!KJH_IsNeverSoldStone(KJH_Mart_MegaStonesKanto[i]));
+        EXPECT_EQ(GetItemPrice(KJH_Mart_MegaStonesKanto[i]), KJH_MEGA_STONE_PRICE);
+    }
+    EXPECT(OnSale(ITEM_GYARADOSITE));
+    EXPECT(OnSale(ITEM_CHARIZARDITE_Y)); // the other Charizardite
+    EXPECT(!OnSale(ITEM_MEWTWONITE_X));
+    EXPECT(!OnSale(ITEM_DRAGONINITE));
+    EXPECT(KJH_IsNeverSoldStone(ITEM_MEWTWONITE_Y));
+    EXPECT_EQ(GetItemPrice(ITEM_MEWTWONITE_Y), 0); // so it can't be sold either
+    EXPECT_EQ(GetItemPrice(ITEM_POTION), gItemsInfo[ITEM_POTION].price); // other items keep their price
+}

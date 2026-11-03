@@ -73,6 +73,13 @@ void KJH_ScriptSetupMegaGuardian(struct ScriptContext *ctx);
 // the line chosen in Pallet Town (VAR_STARTER_MON), the player's own (OT ID), in the party; the most advanced one
 void KJH_ScriptMegaStarterReady(struct ScriptContext *ctx);
 
+// LV-21: the stone dealers sell the ordinary stones (data/scripts/kjh_mega.inc, KJH_Mart_MegaStones*) at this price
+// (GetItemPrice); pseudo-legendaries' and legendaries' stones are never sold, only found where they belong, and can't
+// be sold either (price 0)
+#define KJH_MEGA_STONE_PRICE 10000
+u32 KJH_ItemPrice(enum Item item, u32 price);
+bool32 KJH_IsNeverSoldStone(enum Item item);
+
 // Trainers (src/kjh_progression.c): a boss's ace gets its stone when the player's bracelet works here
 void KJH_GiveBossAceMegaStone(struct Pokemon *mon, const struct TrainerMon *in, const struct Trainer *trainer);
 

@@ -256,3 +256,70 @@ KJH_Text_MegaResearcherExplainBond::
 	.string "Be careful: GYM LEADERS, the\n"
 	.string "LEAGUE, your rival and some bosses\l"
 	.string "will MEGA EVOLVE too from now on!$"
+
+@ LV-21: the Mega Stone dealer in Celadon City's Pokemon Center (Goldenrod's and Slateport's come with their
+@ regions). He sells once the player has the MEGA BRACELET, which comes with the starter's stone (LV-20).
+KJH_EventScript_MegaStoneDealerKanto::
+	lock
+	faceplayer
+	checkitem ITEM_MEGA_RING
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_MegaStoneDealerNotYet
+	message KJH_Text_MegaStoneDealer
+	waitmessage
+	pokemart KJH_Mart_MegaStonesKanto
+	msgbox KJH_Text_MegaStoneDealerBye
+	release
+	end
+
+KJH_EventScript_MegaStoneDealerNotYet::
+	msgbox KJH_Text_MegaStoneDealerNotYet
+	release
+	end
+
+@ Cerulean Cave B1F, in the alcoves on each side of Mewtwo
+KJH_EventScript_ItemMewtwoniteX::
+	finditem ITEM_MEWTWONITE_X
+	end
+
+KJH_EventScript_ItemMewtwoniteY::
+	finditem ITEM_MEWTWONITE_Y
+	end
+
+@ Kanto's ordinary stones, at KJH_MEGA_STONE_PRICE (include/kjh_mega.h); never the ones of sNeverSoldStones
+@ (Dragoninite, Mewtwonite X and Y). The starters' stones are here too: the player's other Charizardite.
+	.align 2
+KJH_Mart_MegaStonesKanto::
+	.2byte ITEM_VENUSAURITE
+	.2byte ITEM_CHARIZARDITE_X
+	.2byte ITEM_CHARIZARDITE_Y
+	.2byte ITEM_BLASTOISINITE
+	.2byte ITEM_BEEDRILLITE
+	.2byte ITEM_PIDGEOTITE
+	.2byte ITEM_RAICHUNITE_X
+	.2byte ITEM_RAICHUNITE_Y
+	.2byte ITEM_CLEFABLITE
+	.2byte ITEM_ALAKAZITE
+	.2byte ITEM_VICTREEBELITE
+	.2byte ITEM_SLOWBRONITE
+	.2byte ITEM_GENGARITE
+	.2byte ITEM_KANGASKHANITE
+	.2byte ITEM_STARMINITE
+	.2byte ITEM_PINSIRITE
+	.2byte ITEM_GYARADOSITE
+	.2byte ITEM_AERODACTYLITE
+	.2byte ITEM_NONE
+	release
+	end
+
+KJH_Text_MegaStoneDealer::
+	.string "MEGA STONES! I have the ones of\n"
+	.string "KANTO's POKéMON.$"
+
+KJH_Text_MegaStoneDealerBye::
+	.string "Come back any time!$"
+
+KJH_Text_MegaStoneDealerNotYet::
+	.string "I sell MEGA STONES, but they're of\n"
+	.string "no use without a MEGA BRACELET.\p"
+	.string "The researcher in SAFFRON's\n"
+	.string "POKéMON CENTER knows more.$"
