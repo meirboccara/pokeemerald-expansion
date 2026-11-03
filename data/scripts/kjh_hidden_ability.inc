@@ -62,12 +62,18 @@ KJH_EventScript_AbilityChosen::
 	callnative KJH_ScriptSetChosenAbility, requests_effects=1
 	goto_if_eq VAR_RESULT, KJH_ABILITY_SAME, KJH_EventScript_SameAbility
 	bufferpartymonnick STR_VAR_1, VAR_0x8004
+	goto_if_eq VAR_RESULT, KJH_ABILITY_NEEDS_BOND, KJH_EventScript_HiddenAbilityNeedsBond
 	goto_if_eq VAR_RESULT, KJH_ABILITY_HIDDEN, KJH_EventScript_HiddenAbilityDone
 	msgbox KJH_Text_AbilityDone
 	return
 
 KJH_EventScript_HiddenAbilityDone::
 	msgbox KJH_Text_HiddenAbilityDone
+	return
+
+@ LV-8: the levels-free game, below Bond 12
+KJH_EventScript_HiddenAbilityNeedsBond::
+	msgbox KJH_Text_HiddenAbilityNeedsBond
 	return
 
 KJH_EventScript_SameAbility::
@@ -120,3 +126,7 @@ KJH_Text_SameAbility::
 KJH_Text_OnlyOneAbility::
 	.string "This POKéMON has only one\n"
 	.string "ability. I can't change it.$"
+
+KJH_Text_HiddenAbilityNeedsBond::
+	.string "{STR_VAR_1}'s HIDDEN ABILITY needs\n"
+	.string "a BOND of 12 first.$"

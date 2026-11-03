@@ -1,6 +1,7 @@
 // KJH: Hidden Abilities (ENG-7, include/kjh_hidden_ability.h).
 #include "global.h"
 #include "event_data.h"
+#include "kjh_bond.h"
 #include "kjh_hidden_ability.h"
 #include "kjh_team_level.h"
 #include "pokemon.h"
@@ -9,6 +10,7 @@
 #include "string_util.h"
 
 static const u8 sText_HiddenMark[] = _(" (HIDDEN)");
+static const u8 sText_HiddenLockedMark[] = _(" (BOND 12)"); // LV-8: KJH_HIDDEN_ABILITY_BOND
 
 enum Ability KJH_HiddenAbility(enum Species species)
 {
@@ -67,6 +69,11 @@ u32 KJH_BossAbilityNum(enum Species species, u32 abilityNum)
     }
 }
 
+bool32 KJH_CanHaveHiddenAbility(struct Pokemon *mon)
+{
+    return !KJH_IsLevelsFree() || KJH_GetPeakBond(mon) >= KJH_HIDDEN_ABILITY_BOND;
+}
+
 void KJH_ScriptIsAbilitySwitchUnlocked(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1);
@@ -76,7 +83,8 @@ void KJH_ScriptIsAbilitySwitchUnlocked(struct ScriptContext *ctx)
 void KJH_ScriptBufferAbilityChoices(struct ScriptContext *ctx)
 {
     u8 *const names[KJH_MAX_ABILITY_CHOICES] = {gStringVar1, gStringVar2, gStringVar3};
-    enum Species species = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES);
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
     u8 nums[KJH_MAX_ABILITY_CHOICES];
     u32 count = KJH_AbilityChoices(species, nums);
 
@@ -87,7 +95,7 @@ void KJH_ScriptBufferAbilityChoices(struct ScriptContext *ctx)
 
         if (nums[i] == KJH_ABILITY_NUM_HIDDEN)
         {
-            StringCopy(end, sText_HiddenMark);
+            StringCopy(end, KJH_CanHaveHiddenAbility(mon) ? sText_HiddenMark : sText_HiddenLockedMark);
         }
     }
 
@@ -112,6 +120,11 @@ void KJH_ScriptSetChosenAbility(struct ScriptContext *ctx)
     if (abilityNum == GetMonData(mon, MON_DATA_ABILITY_NUM))
     {
         gSpecialVar_Result = KJH_ABILITY_SAME;
+        return;
+    }
+    if (abilityNum == KJH_ABILITY_NUM_HIDDEN && !KJH_CanHaveHiddenAbility(mon))
+    {
+        gSpecialVar_Result = KJH_ABILITY_NEEDS_BOND;
         return;
     }
     SetMonData(mon, MON_DATA_ABILITY_NUM, &abilityNum);

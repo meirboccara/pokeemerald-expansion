@@ -18,6 +18,9 @@ struct ScriptContext;
 #define KJH_HIDDEN_ABILITY_WILD_ODDS 20
 // Prof. Oak switches abilities once the player has this many badges in one region (only Kanto's so far)
 #define KJH_ABILITY_SWITCH_BADGES 4
+// LV-8: in the levels-free game, an ability switch gives the Hidden Ability only from this peak Bond (the BOND page's
+// "Hidden Ab." milestone, gKjhBondMilestones); the other abilities stay free
+#define KJH_HIDDEN_ABILITY_BOND 12
 
 // ABILITY_NONE when the species has none, or its third ability is one of its first two
 enum Ability KJH_HiddenAbility(enum Species species);
@@ -30,15 +33,18 @@ void KJH_RollWildHiddenAbility(struct Pokemon *mon);
 // A boss trainer's Pokemon (KJH_FinishTrainerMon): its MON_DATA_ABILITY_NUM. It uses its Hidden Ability, unless that
 // does nothing for a trainer's Pokemon (Run Away, Pickup, Honey Gather, Ball Fetch).
 u32 KJH_BossAbilityNum(enum Species species, u32 abilityNum);
+// An ability switch may give this Pokemon its Hidden Ability: always in the classic game, from peak Bond
+// KJH_HIDDEN_ABILITY_BOND in the levels-free one (LV-8)
+bool32 KJH_CanHaveHiddenAbility(struct Pokemon *mon);
 
 // Scripts (data/scripts/kjh_hidden_ability.inc), callnative
 // VAR_RESULT: TRUE once the player has KJH_ABILITY_SWITCH_BADGES badges in one region
 void KJH_ScriptIsAbilitySwitchUnlocked(struct ScriptContext *ctx);
 // For the party Pokemon VAR_0x8004: VAR_RESULT = how many abilities it can have; their names in STR_VAR_1..3, the
-// Hidden one marked
+// Hidden one marked "(HIDDEN)", or "(BOND 12)" while KJH_CanHaveHiddenAbility says no
 void KJH_ScriptBufferAbilityChoices(struct ScriptContext *ctx);
 // Gives the party Pokemon VAR_0x8004 its choice VAR_0x8005 (an index into those names). VAR_RESULT: KJH_ABILITY_*
-// (include/constants/kjh_stat_trainer.h).
+// (include/constants/kjh_stat_trainer.h); KJH_ABILITY_NEEDS_BOND leaves it as it was.
 void KJH_ScriptSetChosenAbility(struct ScriptContext *ctx);
 
 #endif // GUARD_KJH_HIDDEN_ABILITY_H

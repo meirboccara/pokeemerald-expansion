@@ -4,7 +4,7 @@
 // KJH: the stat trainer's menu (VAR_0x8005, data/scripts/kjh_stat_trainer.inc, src/kjh_stat_trainer.c), as #defines
 // so the scripts can use them
 #define KJH_STAT_TRAINER_IVS     0
-#define KJH_STAT_TRAINER_EVS     1
+#define KJH_STAT_TRAINER_EVS     1 // in the levels-free game: POINTS, the Training points reset (LV-8)
 #define KJH_STAT_TRAINER_NATURE  2
 #define KJH_STAT_TRAINER_ABILITY 3
 #define KJH_STAT_TRAINER_CANCEL  4
@@ -13,5 +13,6 @@
 #define KJH_ABILITY_SAME    0 // it already had that ability
 #define KJH_ABILITY_CHANGED 1
 #define KJH_ABILITY_HIDDEN  2 // it has its Hidden Ability now
+#define KJH_ABILITY_NEEDS_BOND 3 // LV-8: the Hidden Ability, refused below KJH_HIDDEN_ABILITY_BOND (levels-free)
 
 #endif // GUARD_CONSTANTS_KJH_STAT_TRAINER_H

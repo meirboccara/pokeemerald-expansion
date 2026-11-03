@@ -5,9 +5,13 @@
 // changes), so its personality (gender, shininess, ability, Unown letter, Spinda's spots) stays as it is.
 #include "global.h"
 #include "event_data.h"
+#include "kjh_bond.h"
 #include "kjh_stat_trainer.h"
+#include "kjh_team_level.h"
+#include "kjh_training.h"
 #include "main.h"
 #include "menu.h"
+#include "party_menu.h"
 #include "pokemon.h"
 #include "script.h"
 #include "sound.h"
@@ -85,6 +89,45 @@ u32 KJH_ClampEv(const u8 *evs, u32 row, s32 ev)
     }
 
     return min(max(ev, 0), min(MAX_PER_STAT_EVS, MAX_TOTAL_EVS - others));
+}
+
+bool32 KJH_CanTrainIvs(struct Pokemon *mon)
+{
+    return !KJH_IsLevelsFree() || KJH_GetPeakBond(mon) >= KJH_STAT_TRAINER_IV_BOND;
+}
+
+void KJH_ResetTrainingPoints(struct Pokemon *mon)
+{
+    u32 placed = KJH_TrainingPlaced(mon), zero = 0;
+
+    for (enum Stat stat = 0; stat < NUM_STATS; stat++)
+    {
+        SetMonData(mon, MON_DATA_HP_EV + stat, &zero);
+    }
+    KJH_TrainingRefund(mon, placed);
+    CalculateMonStats(mon);
+}
+
+void KJH_ScriptCanTrainIvs(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1);
+    gSpecialVar_Result = KJH_CanTrainIvs(CurrentMon());
+}
+
+void KJH_ScriptBufferPlacedPoints(struct ScriptContext *ctx)
+{
+    struct Pokemon *mon = CurrentMon();
+
+    Script_RequestEffects(SCREFF_V1);
+    gSpecialVar_Result = KJH_TrainingPlaced(mon);
+    GetMonNickname(mon, gStringVar1);
+    ConvertIntToDecimalStringN(gStringVar2, gSpecialVar_Result, STR_CONV_MODE_LEFT_ALIGN, 3);
+}
+
+void KJH_ScriptResetTrainingPoints(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1 | SCREFF_SAVE);
+    KJH_ResetTrainingPoints(CurrentMon());
 }
 
 static void PrintText(u32 windowId, const u8 *text, u32 x, u32 y)
