@@ -251,6 +251,17 @@ struct NPCFollower
     u8 battlePartner; // If you have more than 255 total battle partners defined, change this to a u16
 };
 
+// KJH (CF-6): today's swarm in a region after Kanto (Kanto's is expansion's mass outbreak record). species 0: none.
+struct KjhRegionSwarm
+{
+    u16 species;
+    u16 map;    // MAP_*
+    u8 method;  // KJH_SWARM_LAND / KJH_SWARM_FISHING (include/kjh_swarms.h)
+    u8 chance;  // % of that method's encounters on that map
+    u16 unused;
+};
+#define KJH_SWARM_REGIONS 2 // Johto, Hoenn
+
 #include "constants/items.h"
 #define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
 
@@ -275,6 +286,7 @@ struct SaveBlock3
 #if IS_FRLG
     u16 kjhVars[KJH_SAVE3_VARS_COUNT]; // KJH (ENG-9): Johto's variables (GetVarPointer)
     u8 kjhFlags[KJH_SAVE3_FLAGS_COUNT / 8]; // KJH (ENG-9): Johto's trainer and event flags (GetFlagPointer)
+    struct KjhRegionSwarm kjhSwarms[KJH_SWARM_REGIONS]; // KJH (CF-6): today's Johto and Hoenn swarms
 #endif
 }; /* max size 1624 bytes */
 

@@ -65,6 +65,7 @@ EWRAM_DATA bool8 gIsSurfingEncounter = 0;
 EWRAM_DATA u8 gChainFishingDexNavStreak = 0;
 
 #include "data/wild_encounters.h"
+#include "kjh_swarms.h"
 
 const struct WildPokemon gWildFeebas = {20, 25, SPECIES_FEEBAS};
 
@@ -583,14 +584,14 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(KJH_RegionSwarmSpecies(wildMonInfo->wildPokemon[wildMonIndex].species, area), level); // KJH: CF-6
     return TRUE;
 }
 
 static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
 {
     u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
-    enum Species wildMonSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
+    enum Species wildMonSpecies = KJH_RegionSwarmSpecies(wildMonInfo->wildPokemon[wildMonIndex].species, WILD_AREA_FISHING); // KJH: CF-6
     u8 level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, WILD_AREA_FISHING);
 
     UpdateChainFishingStreak();

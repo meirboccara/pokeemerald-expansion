@@ -264,6 +264,7 @@ enum RandomTag
     RNG_KJH_PACK_ANSWER, // KJH: someone answers; 0: a helper comes
     RNG_KJH_PACK_HELPER_LEVEL, // KJH: a helper is 0 to 2 levels under the pack's level
     RNG_KJH_HIDDEN_ABILITY, // KJH: a wild Pokemon has its Hidden Ability (src/kjh_hidden_ability.c, ENG-7); 0: it has it
+    RNG_KJH_SWARM,          // KJH: a Johto or Hoenn encounter is today's swarm species (src/kjh_swarms.c, CF-6); 0: it is
 };
 
 #define RandomWeighted(tag, ...) \
