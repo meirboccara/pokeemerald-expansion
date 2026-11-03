@@ -123,7 +123,9 @@ static u32 GetPartyMonCount(u32 lastId, struct Pokemon *party, bool32 onlyAlive)
 static const u8* const *GetTrainerSlideArray(enum DifficultyLevel difficulty, u32 trainerId, u32 slideId)
 {
 #if TESTING
-    return (FlagGet(TESTING_FLAG_TRAINER_SLIDES) ? sTestTrainerSlides[difficulty][trainerId] : NULL);
+    if (!FlagGet(TESTING_FLAG_TRAINER_SLIDES) || trainerId >= ARRAY_COUNT(sTestTrainerSlides[0])) // KJH: as below
+        return NULL;
+    return sTestTrainerSlides[difficulty][trainerId];
 #else
     if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
         return sFrontierTrainerSlides[difficulty][trainerId];
@@ -136,38 +138,30 @@ static const u8* const *GetTrainerSlideArray(enum DifficultyLevel difficulty, u3
 
 static bool32 DoesTrainerHaveSlideMessage(enum DifficultyLevel difficulty, u32 trainerId, u32 slideId)
 {
-    const u8* const *trainerSlides = GetTrainerSlideArray(difficulty, trainerId, slideId);
-    const u8* const *trainerSlidesNormal = GetTrainerSlideArray(DIFFICULTY_NORMAL, trainerId, slideId);
-
 #if TESTING
-    if (VarGet(TESTING_VAR_TRAINER_SLIDES) == slideId)
-    {
-        if (trainerSlides[slideId] == NULL)
-            return (trainerSlidesNormal[slideId] != NULL);
-        else
-            return TRUE;
-    }
-    else
-    {
+    if (VarGet(TESTING_VAR_TRAINER_SLIDES) != slideId)
         return FALSE;
-    }
-#else
-    if (trainerSlides[slideId] == NULL)
-        return (trainerSlidesNormal[slideId] != NULL);
-    else
-        return TRUE;
 #endif // TESTING
+    return GetTrainerSlideMessage(difficulty, trainerId, slideId) != NULL;
 }
 
-void SetTrainerSlideMessage(enum DifficultyLevel difficulty, u32 trainerId, u32 slideId)
+// The trainer's slide text at this difficulty, else at Normal's; NULL for none. KJH: a trainer without a slide
+// table (Johto's and Hoenn's, GetTrainerSlideArray's NULL) has none: NULL[slideId] read the GBA BIOS's open bus.
+const u8 *GetTrainerSlideMessage(enum DifficultyLevel difficulty, u32 trainerId, u32 slideId)
 {
     const u8* const *trainerSlides = GetTrainerSlideArray(difficulty, trainerId, slideId);
     const u8* const *trainerSlidesNormal = GetTrainerSlideArray(DIFFICULTY_NORMAL, trainerId, slideId);
 
-    if (trainerSlides[slideId] != NULL)
-        gBattleStruct->trainerSlideMsg = trainerSlides[slideId];
-    else
-        gBattleStruct->trainerSlideMsg = trainerSlidesNormal[slideId];
+    if (trainerSlides != NULL && trainerSlides[slideId] != NULL)
+        return trainerSlides[slideId];
+    if (trainerSlidesNormal != NULL)
+        return trainerSlidesNormal[slideId];
+    return NULL;
+}
+
+void SetTrainerSlideMessage(enum DifficultyLevel difficulty, u32 trainerId, u32 slideId)
+{
+    gBattleStruct->trainerSlideMsg = GetTrainerSlideMessage(difficulty, trainerId, slideId);
 }
 
 static bool32 ShouldRunTrainerSlideLandsFirstCriticalHit(enum BattlerId battler, enum TrainerSlideType slideId)

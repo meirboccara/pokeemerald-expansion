@@ -1,6 +1,7 @@
 // KJH: the daily swarms (CF-5, CF-6, include/kjh_swarms.h).
 #include "global.h"
 #include "event_data.h"
+#include "kjh_map_regions.h"
 #include "kjh_swarms.h"
 #include "mass_outbreak.h"
 #include "overworld.h"
@@ -65,9 +66,6 @@ static const struct { const struct KjhSwarm *swarms; u8 count; } sRegionSwarms[K
     [KJH_SWARM_HOENN] = {sHoennSwarms, ARRAY_COUNT(sHoennSwarms)},
 };
 
-// Hoenn's map groups come first, then Kanto's, then Johto's (data/maps/map_groups.json)
-#define FIRST_KANTO_MAP_GROUP MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG)
-#define FIRST_JOHTO_MAP_GROUP MAP_GROUP(MAP_JOHTO_OLIVINE_POKECENTER_1F)
 #define NO_SWARM_REGION       KJH_SWARM_REGIONS // Kanto's swarm is expansion's outbreak record
 
 u32 KJH_SwarmCount(void)
@@ -129,9 +127,9 @@ void KJH_StartDailySwarm(void)
 // The swarm record of the region the player stands in: Johto's or Hoenn's, NO_SWARM_REGION in Kanto
 static u32 SwarmRegionHere(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup >= FIRST_JOHTO_MAP_GROUP)
+    if (KJH_IsJohtoMapGroup(gSaveBlock1Ptr->location.mapGroup))
         return KJH_SWARM_JOHTO;
-    if (gSaveBlock1Ptr->location.mapGroup < FIRST_KANTO_MAP_GROUP)
+    if (KJH_IsHoennMapGroup(gSaveBlock1Ptr->location.mapGroup))
         return KJH_SWARM_HOENN;
     return NO_SWARM_REGION;
 }

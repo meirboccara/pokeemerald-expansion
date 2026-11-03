@@ -1110,6 +1110,7 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
         if (KJH_IsLevelsFree()) // KJH (LV-4): the team's level less the Pike's delta, no Open Level floor
         {
             s32 delta = wildMons[headerId][pikeMonId].levelDelta;
+            monLevel = GetFrontierTeamLevel();
             monLevel = (monLevel > delta + 1) ? monLevel - delta : 1;
         }
         else if (monLevel < FRONTIER_MIN_LEVEL_OPEN)

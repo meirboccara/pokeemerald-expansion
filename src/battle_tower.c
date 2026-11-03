@@ -1934,8 +1934,10 @@ u8 SetTentPtrsGetLevel(void)
         gFacilityTrainerMons = gBattleFrontierMons;
     }
 
+    if (KJH_IsLevelsFree()) // KJH (LV-4): the team's level, no floor
+        return GetFrontierTeamLevel();
     level = GetHighestLevelInPlayerParty();
-    if (level < TENT_MIN_LEVEL && !KJH_IsLevelsFree()) // KJH (LV-4): the team's level, no floor
+    if (level < TENT_MIN_LEVEL)
         level = TENT_MIN_LEVEL;
 
     return level;

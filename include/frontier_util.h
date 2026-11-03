@@ -43,6 +43,7 @@ u8 SetFacilityPtrsGetLevel(void);
 u8 GetFrontierEnemyMonLevel(enum FrontierLevelMode lvlMode);
 s32 GetHighestLevelInPlayerParty(void);
 u8 GetFrontierRentalLevel(void);
+u8 GetFrontierTeamLevel(void);
 u16 FacilityClassToGraphicsId(u8 facilityClass);
 void ShowBattleFrontierCaughtBannedSpecies(void);
 

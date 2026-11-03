@@ -1,6 +1,7 @@
 // KJH: the team's level follows Kanto's zones (LV-2), and Johto's and Hoenn's (LV-18) (include/kjh_team_level.h).
 #include "global.h"
 #include "event_data.h"
+#include "kjh_map_regions.h"
 #include "kjh_team_level.h"
 #include "overworld.h"
 #include "pokemon.h"
@@ -79,13 +80,10 @@ static const struct KjhRegionZones sRegions[KJH_REGION_COUNT] =
     },
 };
 
-// Hoenn's maps are expansion's native ones, in the map groups before FireRed's (data/maps/map_groups.json).
-STATIC_ASSERT(MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE) + 1 == MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG)
-              || MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE) < MAP_GROUP(MAP_PALLET_TOWN), KjhHoennMapGroupsFirst);
-
+// Hoenn's maps are expansion's native ones, in the map groups before FireRed's (include/kjh_map_regions.h).
 static bool32 IsHoennMap(u32 map)
 {
-    return MAP_GROUP(map) <= MAP_GROUP(MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE);
+    return KJH_IsHoennMapGroup(MAP_GROUP(map));
 }
 
 // Johto's generated variables (constants/johto_vars.h) end well before these two

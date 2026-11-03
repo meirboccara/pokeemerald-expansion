@@ -3356,8 +3356,10 @@ u8 GetFrontierEnemyMonLevel(enum FrontierLevelMode lvlMode)
         level = FRONTIER_MAX_LEVEL_50;
         break;
     case FRONTIER_LVL_OPEN:
+        if (KJH_IsLevelsFree()) // KJH (LV-4): opponents at the team's level, no floor
+            return GetFrontierTeamLevel();
         level = GetHighestLevelInPlayerParty();
-        if (level < FRONTIER_MIN_LEVEL_OPEN && !KJH_IsLevelsFree()) // KJH (LV-4): opponents at the team's level, no floor
+        if (level < FRONTIER_MIN_LEVEL_OPEN)
             level = FRONTIER_MIN_LEVEL_OPEN;
         break;
     }
@@ -3365,17 +3367,22 @@ u8 GetFrontierEnemyMonLevel(enum FrontierLevelMode lvlMode)
     return level;
 }
 
+// KJH (LV-4): in the levels-free game, the level every facility scales to: the team's hidden level (the party's
+// highest before any zone is reached)
+u8 GetFrontierTeamLevel(void)
+{
+    u32 level = KJH_TeamLevel();
+    if (level == 0)
+        level = GetHighestLevelInPlayerParty();
+    return min(max(level, 1), MAX_LEVEL);
+}
+
 // KJH (LV-4, second pass): the level of the Battle Factory's and Slateport Tent's rentals (and the Tent's foes).
 // In the levels-free game, the team's hidden level; else Level 50, 100 (Open Level) or 30 (the Tent).
 u8 GetFrontierRentalLevel(void)
 {
     if (KJH_IsLevelsFree())
-    {
-        u32 level = KJH_TeamLevel();
-        if (level == 0)
-            level = GetHighestLevelInPlayerParty();
-        return min(max(level, 1), MAX_LEVEL);
-    }
+        return GetFrontierTeamLevel();
     if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_TENT)
         return TENT_MIN_LEVEL;
     if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50)

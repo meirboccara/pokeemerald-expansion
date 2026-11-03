@@ -360,7 +360,9 @@ TEST("KJH: Hoenn's bracelet is silent until the Meteor Falls quest, apart from J
     FlagClear(FLAG_KJH_LEVELLESS);
 }
 
-TEST("KJH: Hoenn's starter is the player's own Treecko, Torchic or Mudkip line, in the party or the PC")
+// Prof. Birch's starter is the one the player took from his bag (VAR_KJH_HOENN_STARTER, set with Hoenn's
+// FLAG_RESCUED_BIRCH on Route 101), not the first Treecko, Torchic or Mudkip line the player owns
+TEST("KJH: Hoenn's starter is the one Prof. Birch gave, whatever else the player owns")
 {
     u32 trainerId = GetPlayerIDAsU32();
     u32 otherId = trainerId + 1;
@@ -370,21 +372,30 @@ TEST("KJH: Hoenn's starter is the player's own Treecko, Torchic or Mudkip line, 
     ZeroBoxMonData(boxed);
     FlagSet(FLAG_KJH_LEVELLESS);
     gSpecialVar_0x8004 = KJH_MEGA_STARTER_HOENN;
-    // none: the stone is a free pick
+    // before Birch's bag: no starter, the stone is a free pick, even with the player's own (hatched) Torchic
+    FlagClear(FLAG_RESCUED_BIRCH);
+    VarSet(VAR_KJH_HOENN_STARTER, 0);
+    CreateBondMon(&gPlayerParty[0], SPECIES_TORCHIC, 18);
+    SetMonData(&gPlayerParty[0], MON_DATA_OT_ID, &trainerId);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptHoennStarterStone, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, ITEM_NONE);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_NO_MEGA);
-    // a traded Blaziken isn't Prof. Birch's
-    CreateBondMon(&gPlayerParty[0], SPECIES_BLAZIKEN, 18);
-    SetMonData(&gPlayerParty[0], MON_DATA_OT_ID, &otherId);
-    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptHoennStarterStone, requests_effects=1;);
-    EXPECT_EQ(gSpecialVar_Result, ITEM_NONE);
-    // the player's own Marshtomp: Swampertite, and it must evolve first
-    CreateBondMon(&gPlayerParty[1], SPECIES_MARSHTOMP, 18);
-    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &trainerId);
+    // Mudkip from the bag: Swampertite, though the Torchic comes first in the party
+    FlagSet(FLAG_RESCUED_BIRCH);
+    VarSet(VAR_KJH_HOENN_STARTER, 2);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptHoennStarterStone, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, ITEM_SWAMPERTITE);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_MISSING);
+    // a traded Swampert isn't Prof. Birch's
+    CreateBondMon(&gPlayerParty[1], SPECIES_SWAMPERT, 18);
+    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &otherId);
+    RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
+    EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_MISSING);
+    // the player's own Marshtomp must evolve first; then Swampert is ready
+    CreateBondMon(&gPlayerParty[1], SPECIES_MARSHTOMP, 18);
+    SetMonData(&gPlayerParty[1], MON_DATA_OT_ID, &trainerId);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_EVOLVE);
     CreateBondMon(&gPlayerParty[1], SPECIES_SWAMPERT, 18);
@@ -392,14 +403,16 @@ TEST("KJH: Hoenn's starter is the player's own Treecko, Torchic or Mudkip line, 
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_READY);
     EXPECT_EQ(gSpecialVar_0x8005, SPECIES_SWAMPERT);
-    // the player's own Treecko in the PC: Sceptilite, and the scene asks for it
+    // Treecko from the bag, left in the PC: Sceptilite, and the scene asks for it
     ZeroPlayerPartyMons();
+    VarSet(VAR_KJH_HOENN_STARTER, 0);
     CreateBoxMon(boxed, SPECIES_TREECKO, 5, 0, OTID_STRUCT_PLAYER_ID);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptHoennStarterStone, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, ITEM_SCEPTILITE);
     RUN_OVERWORLD_SCRIPT(callnative KJH_ScriptMegaStarterReady, requests_effects=1;);
     EXPECT_EQ(gSpecialVar_Result, KJH_MEGA_STARTER_MISSING);
     ZeroBoxMonData(boxed);
+    FlagClear(FLAG_RESCUED_BIRCH);
     FlagClear(FLAG_KJH_LEVELLESS);
 }
 

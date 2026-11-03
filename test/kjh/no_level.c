@@ -123,3 +123,48 @@ TEST("KJH: Frontier opponents take the team's level, with no Open Level floor, i
     FlagClear(FLAG_KJH_LEVELLESS);
     EXPECT_EQ(GetFrontierEnemyMonLevel(FRONTIER_LVL_OPEN), 60); // expansion: Open Level opponents are at least 60
 }
+
+// Review fix: every facility's levels-free opponents go by the team's level (KJH_TeamLevel, GetFrontierTeamLevel),
+// not by the party's highest level, as the Factory's and Slateport Tent's rentals already did. Standing in Kanto with
+// zone 12 reached and no badge, the team is at 12; a Pokemon of the party is at 34.
+#include "battle_pike.h"
+#include "battle_tower.h"
+#include "kjh_team_level.h"
+#include "constants/map_groups.h"
+
+TEST("KJH: the Frontier's opponents and the Pike's wild Pokemon take the team's level in the levels-free game")
+{
+    enum FrontierLevelMode lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
+    u16 pikeStreak = gSaveBlock2Ptr->frontier.pikeWinStreaks[FRONTIER_LVL_OPEN];
+
+    FlagSet(FLAG_KJH_LEVELLESS);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PALLET_TOWN);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PALLET_TOWN);
+    for (u32 i = 0; i < NUM_BADGES; i++)
+        FlagClear(FLAG_BADGE01_GET + i);
+    VarSet(VAR_KJH_KANTO_ZONE_TOP, 12);
+    EXPECT_EQ(KJH_TeamLevel(), 12);
+    ZeroPlayerPartyMons();
+    CreateMon(&gParties[B_TRAINER_PLAYER][0], SPECIES_PIDGEY, 34, 0, OTID_STRUCT_PRESET(0));
+
+    EXPECT_EQ(GetFrontierTeamLevel(), 12);
+    EXPECT_EQ(GetFrontierRentalLevel(), 12);
+    EXPECT_EQ(GetFrontierEnemyMonLevel(FRONTIER_LVL_OPEN), 12);
+    EXPECT_EQ(SetTentPtrsGetLevel(), 12);
+    // The Pike: Seviper of the Open Level's first table, 4 levels below the team
+    gSaveBlock2Ptr->frontier.lvlMode = FRONTIER_LVL_OPEN;
+    gSaveBlock2Ptr->frontier.pikeWinStreaks[FRONTIER_LVL_OPEN] = 0;
+    CreateMon(&gParties[B_TRAINER_OPPONENT_A][0], SPECIES_SEVIPER, 50, 0, OTID_STRUCT_PRESET(0));
+    EXPECT(TryGenerateBattlePikeWildMon(FALSE));
+    EXPECT_EQ(GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LEVEL), 12 - 4);
+
+    // Before any zone (team level 0), the party's highest level, as before
+    VarSet(VAR_KJH_KANTO_ZONE_TOP, 0);
+    EXPECT_EQ(GetFrontierTeamLevel(), 34);
+    EXPECT_EQ(GetFrontierEnemyMonLevel(FRONTIER_LVL_OPEN), 34);
+
+    gSaveBlock2Ptr->frontier.lvlMode = lvlMode;
+    gSaveBlock2Ptr->frontier.pikeWinStreaks[FRONTIER_LVL_OPEN] = pikeStreak;
+    ZeroMonData(&gParties[B_TRAINER_OPPONENT_A][0]);
+    FlagClear(FLAG_KJH_LEVELLESS);
+}

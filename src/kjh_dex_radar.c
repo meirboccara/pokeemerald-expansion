@@ -4,6 +4,7 @@
 #include "global.h"
 #include "event_data.h"
 #include "kjh_dex_radar.h"
+#include "kjh_map_regions.h"
 #include "kjh_swarms.h"
 #include "malloc.h"
 #include "mass_outbreak.h"
@@ -68,14 +69,13 @@ static bool32 IsHoennReached(void)
 }
 
 // The radar's regions, in the order the route list shows them. A region's wild tables are those of its map groups
-// (include/constants/map_groups.h: Emerald's Hoenn groups come first, then FireRed's, then Johto's). A region
+// (include/kjh_map_regions.h: Emerald's Hoenn groups come first, then FireRed's, then Johto's). A region
 // without a travel order lists its routes by map section. Hoenn's wild tables are Emerald's own (wild_encounters.json,
 // built in the FireRed version with Hoenn's maps, HAS_HOENN_MAPS).
 static const struct RadarRegion
 {
     const u8 *name;
-    u8 firstMapGroup;
-    u8 lastMapGroup;
+    bool32 (*hasMapGroup)(u32 mapGroup);
     bool32 (*isReached)(void);
     const u16 *travelOrder;
     u16 travelOrderCount;
@@ -83,22 +83,19 @@ static const struct RadarRegion
 {
     {
         .name = sText_RadarKanto,
-        .firstMapGroup = MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG),
-        .lastMapGroup = MAP_GROUP(MAP_JOHTO_OLIVINE_POKECENTER_1F) - 1,
+        .hasMapGroup = KJH_IsKantoMapGroup,
         .isReached = IsKantoReached,
     },
     {
         .name = sText_RadarJohto,
-        .firstMapGroup = MAP_GROUP(MAP_JOHTO_OLIVINE_POKECENTER_1F),
-        .lastMapGroup = MAP_GROUP(MAP_JOHTO_CHERRYGROVE_CITY),
+        .hasMapGroup = KJH_IsJohtoMapGroup,
         .isReached = IsJohtoReached,
         .travelOrder = sJohtoTravelOrder,
         .travelOrderCount = ARRAY_COUNT(sJohtoTravelOrder),
     },
     {
         .name = sText_RadarHoenn,
-        .firstMapGroup = MAP_GROUP(MAP_LITTLEROOT_TOWN),
-        .lastMapGroup = MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG) - 1,
+        .hasMapGroup = KJH_IsHoennMapGroup,
         .isReached = IsHoennReached,
         .travelOrder = sHoennTravelOrder,
         .travelOrderCount = ARRAY_COUNT(sHoennTravelOrder),
@@ -123,7 +120,7 @@ static u32 RegionOfMapGroup(u32 mapGroup)
 {
     for (u32 i = 0; i < ARRAY_COUNT(sRadarRegions); i++)
     {
-        if (mapGroup >= sRadarRegions[i].firstMapGroup && mapGroup <= sRadarRegions[i].lastMapGroup)
+        if (sRadarRegions[i].hasMapGroup(mapGroup))
             return i;
     }
     return NO_REGION;

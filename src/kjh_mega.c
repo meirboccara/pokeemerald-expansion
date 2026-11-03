@@ -6,6 +6,7 @@
 #include "event_data.h"
 #include "item.h"
 #include "kjh_bond.h"
+#include "kjh_hoenn_story.h"
 #include "kjh_mega.h"
 #include "kjh_pack.h"
 #include "kjh_power_cap.h"
@@ -348,8 +349,10 @@ static const struct { u16 flag; enum Species line[3]; } sJohtoStarterLines[] =
     {FLAG_J_GOT_TOTODILE_FROM_ELM, {SPECIES_TOTODILE, SPECIES_CROCONAW, SPECIES_FERALIGATR}},
 };
 
-// LV-23: Prof. Birch's. Emerald keeps the pick in VAR_STARTER_MON, which is Kanto's here: the line is found from
-// the player's own Pokemon instead
+// LV-23: Prof. Birch's, by the one the player took from his bag (VAR_KJH_HOENN_STARTER, ENG-10). Hoenn's
+// FLAG_RESCUED_BIRCH is set as the bag opens on Route 101 (data/maps/Route101/scripts.inc); before that the player
+// has no Birch starter, so the stone is a free pick. A Treecko, Torchic or Mudkip from elsewhere (hatched, caught,
+// traded) is never taken for his.
 static const enum Species sHoennStarterLines[][3] =
 {
     {SPECIES_TREECKO, SPECIES_GROVYLE, SPECIES_SCEPTILE},
@@ -357,41 +360,17 @@ static const enum Species sHoennStarterLines[][3] =
     {SPECIES_MUDKIP, SPECIES_MARSHTOMP, SPECIES_SWAMPERT},
 };
 
-static const enum Species *HoennLineOf(struct BoxPokemon *boxMon)
-{
-    enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-
-    if (species == SPECIES_NONE || GetBoxMonData(boxMon, MON_DATA_IS_EGG)
-     || GetBoxMonData(boxMon, MON_DATA_OT_ID) != GetPlayerIDAsU32())
-        return NULL;
-    for (u32 i = 0; i < ARRAY_COUNT(sHoennStarterLines); i++)
-    {
-        for (u32 s = 0; s < ARRAY_COUNT(sHoennStarterLines[0]); s++)
-        {
-            if (species == sHoennStarterLines[i][s])
-                return sHoennStarterLines[i];
-        }
-    }
-    return NULL;
-}
-
-// The line of the player's own Treecko, Torchic or Mudkip family: the party first, then the PC; NULL without one
 static const enum Species *HoennStarterLine(void)
 {
-    const enum Species *line;
+    enum Species picked;
 
-    for (u32 i = 0; i < PARTY_SIZE; i++)
+    if (!FlagGet(FLAG_RESCUED_BIRCH))
+        return NULL;
+    picked = KJH_HoennStarterSpecies(VarGet(VAR_KJH_HOENN_STARTER));
+    for (u32 i = 0; i < ARRAY_COUNT(sHoennStarterLines); i++)
     {
-        if ((line = HoennLineOf(&gPlayerParty[i].box)) != NULL)
-            return line;
-    }
-    for (u32 box = 0; box < TOTAL_BOXES_COUNT; box++)
-    {
-        for (u32 pos = 0; pos < IN_BOX_COUNT; pos++)
-        {
-            if ((line = HoennLineOf(GetBoxedMonPtr(box, pos))) != NULL)
-                return line;
-        }
+        if (sHoennStarterLines[i][0] == picked)
+            return sHoennStarterLines[i];
     }
     return NULL;
 }
