@@ -2,11 +2,11 @@
 #include "global.h"
 #include "event_data.h"
 #include "kjh_hidden_ability.h"
+#include "kjh_team_level.h"
 #include "pokemon.h"
 #include "random.h"
 #include "script.h"
 #include "string_util.h"
-#include "constants/flags.h"
 
 static const u8 sText_HiddenMark[] = _(" (HIDDEN)");
 
@@ -67,26 +67,10 @@ u32 KJH_BossAbilityNum(enum Species species, u32 abilityNum)
     }
 }
 
-// Only Kanto's badges are in the expansion build so far. LV-3 will add a shared KJH_CountBadges.
-static u32 CountKantoBadges(void)
-{
-    u32 badges = 0;
-
-    for (u32 i = 0; i < NUM_BADGES; i++)
-    {
-        if (FlagGet(FLAG_BADGE01_GET + i))
-        {
-            badges++;
-        }
-    }
-
-    return badges;
-}
-
 void KJH_ScriptIsAbilitySwitchUnlocked(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1);
-    gSpecialVar_Result = CountKantoBadges() >= KJH_ABILITY_SWITCH_BADGES;
+    gSpecialVar_Result = KJH_CountKantoBadges() >= KJH_ABILITY_SWITCH_BADGES; // only Kanto's badges so far
 }
 
 void KJH_ScriptBufferAbilityChoices(struct ScriptContext *ctx)
