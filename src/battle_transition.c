@@ -22,6 +22,7 @@
 #include "util.h"
 #include "battle_setup.h"
 #include "data.h"
+#include "kjh_battle_scenes.h"
 #include "constants/field_effects.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -2278,7 +2279,7 @@ static bool8 Mugshot_SetGfx(struct Task *task)
     s16 i, j;
     u16 *tilemap, *tileset;
     const u16 *mugshotsMap = sMugshotsTilemap;
-    enum MugshotColor mugshotColor = GetTrainerMugshotColorFromId(TRAINER_BATTLE_PARAM.opponentA);
+    enum MugshotColor mugshotColor = KJH_TrainerMugshotColor(TRAINER_BATTLE_PARAM.opponentA); // KJH: a boss's banner (ENG-7)
 
     GetBg0TilesDst(&tilemap, &tileset);
     CpuSet(sEliteFour_Tileset, tileset, 0xF0);

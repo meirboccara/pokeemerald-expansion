@@ -26,6 +26,7 @@
 #include "follower_npc.h"
 #include "gym_leader_rematch.h"
 #include "item.h"
+#include "kjh_battle_scenes.h"
 #include "kjh_progression.h"
 #include "load_save.h"
 #include "malloc.h"
@@ -915,7 +916,7 @@ enum BattleTransition GetTrainerBattleTransition(void)
     u32 trainerId = SanitizeTrainerId(TRAINER_BATTLE_PARAM.opponentA);
     enum TrainerClassID trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
 
-    if (DoesTrainerHaveMugshot(trainerId))
+    if (KJH_TrainerMugshotColor(trainerId) != MUGSHOT_COLOR_NONE) // KJH: every boss has a mugshot (ENG-7)
         return B_TRANSITION_MUGSHOT;
 
     if (trainerClass == TRAINER_CLASS_TEAM_MAGMA
