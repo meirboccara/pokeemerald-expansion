@@ -20,6 +20,7 @@
 #include "international_string_util.h"
 #include "item.h"
 #include "kjh_field.h"
+#include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
 #include "util.h"
 #include "battle_scripts.h"
@@ -6488,7 +6489,7 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
 {
     u32 holdEffectParamAtk;
     u32 ownPower = CalcMoveBasePower(ctx);
-    u32 basePower = KJH_CapBattleMovePower(ownPower); // KJH: the power cap (LV-11)
+    u32 basePower = KJH_CappedPower(ownPower, KJH_BattleMovePercent(ctx->battlerAtk, ctx->move)); // KJH: the power cap (LV-11) and move stars (LV-12)
     enum BattlerId battlerAtk = ctx->battlerAtk;
     enum BattlerId battlerDef = ctx->battlerDef;
     enum Move move = ctx->move;

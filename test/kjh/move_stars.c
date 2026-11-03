@@ -5,7 +5,8 @@
 #include "kjh_power_cap.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
-#include "test/test.h"
+#include "event_data.h"
+#include "test/battle.h"
 
 static void Create(struct Pokemon *mon, u32 species, u32 level, u32 personality)
 {
@@ -131,4 +132,82 @@ TEST("KJH: the notebook keeps 100 moves and drops the one unused the longest; un
     Create(&mon, SPECIES_CHARMANDER, 10, 999);
     EXPECT_EQ(KJH_GetMovePoints(&mon.box, MOVE_SCRATCH), 10);
     KJH_ClearNotebook();
+}
+
+static void SetBadges(u32 count)
+{
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        if (i < count)
+            FlagSet(FLAG_BADGE01_GET + i);
+        else
+            FlagClear(FLAG_BADGE01_GET + i);
+    }
+}
+
+// A test Pokemon's met level is its level, so its moves start at 1 star; points come from the notebook
+SINGLE_BATTLE_TEST("KJH: move stars, a 150-power move at 1 star hits like a 90-power one at 5 stars", s16 damage)
+{
+    enum Move move;
+    PARAMETRIZE { move = MOVE_ERUPTION; }
+    PARAMETRIZE { move = MOVE_FLAMETHROWER; }
+    GIVEN {
+        ASSUME(GetMovePower(MOVE_ERUPTION) == 150);
+        ASSUME(GetMovePower(MOVE_FLAMETHROWER) == 90);
+        ASSUME(GetMoveCategory(MOVE_ERUPTION) == GetMoveCategory(MOVE_FLAMETHROWER));
+        WITH_CONFIG(B_KJH_MOVE_STARS, TRUE);
+        KJH_ClearNotebook();
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_ERUPTION, MOVE_FLAMETHROWER); }
+        OPPONENT(SPECIES_WOBBUFFET);
+        KJH_AddMovePoints(&gParties[B_TRAINER_PLAYER][0].box, MOVE_FLAMETHROWER, KJH_MOVE_POINTS_MAX);
+    } WHEN {
+        TURN { MOVE(player, move); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+    }
+}
+
+// Eruption at 5 stars with 2 badges (cap 60%) and at 1 star (60%) with 6 badges (no cap): both hit at 90
+SINGLE_BATTLE_TEST("KJH: move stars and the power cap don't stack, the lower percentage wins", s16 damage)
+{
+    u32 badges, points;
+    PARAMETRIZE { badges = 2; points = KJH_MOVE_POINTS_MAX; }
+    PARAMETRIZE { badges = 6; points = 0; }
+    GIVEN {
+        WITH_CONFIG(B_KJH_MOVE_STARS, TRUE);
+        WITH_CONFIG(B_KJH_POWER_CAP, TRUE);
+        SetBadges(badges);
+        KJH_ClearNotebook();
+        PLAYER(SPECIES_WOBBUFFET) { Moves(MOVE_ERUPTION); }
+        OPPONENT(SPECIES_WOBBUFFET);
+        if (points)
+            KJH_AddMovePoints(&gParties[B_TRAINER_PLAYER][0].box, MOVE_ERUPTION, points);
+    } WHEN {
+        TURN { MOVE(player, MOVE_ERUPTION); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+        SetBadges(0);
+    }
+}
+
+SINGLE_BATTLE_TEST("KJH: move stars, the opponent's moves have none", s16 damage)
+{
+    u32 stars;
+    PARAMETRIZE { stars = FALSE; }
+    PARAMETRIZE { stars = TRUE; }
+    GIVEN {
+        WITH_CONFIG(B_KJH_MOVE_STARS, stars);
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET) { Moves(MOVE_ERUPTION); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_ERUPTION); }
+    } SCENE {
+        HP_BAR(player, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+    }
 }

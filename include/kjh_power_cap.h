@@ -20,6 +20,7 @@ u32 KJH_RegionBadges(void);
 
 // In battle
 void KJH_PowerCapStartBattle(void);
+u32 KJH_PowerCapPercentNow(void); // the cap's share now: 100 when it is off (test build, link battles)
 u32 KJH_CapBattleMovePower(u32 power);
 bool32 KJH_IsOhkoLockedInBattle(void);
 bool32 KJH_TryPreparePowerHeldBack(enum Move move); // TRUE once per battle, with the % in gBattleTextBuff1

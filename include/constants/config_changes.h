@@ -252,6 +252,8 @@
     F(B_MULTI_BATTLE_WHITEOUT,     multiBattleWhiteout,     (u32, GEN_COUNT - 1)) \
     /* KJH: the power cap (LV-11) */ \
     F(B_KJH_POWER_CAP,             kjhPowerCap,             (u32, TRUE))          \
+    /* KJH: move stars (LV-12) */ \
+    F(B_KJH_MOVE_STARS,            kjhMoveStars,            (u32, TRUE))          \
 
 
 #define POKEMON_CONFIG_DEFINITIONS(F) \

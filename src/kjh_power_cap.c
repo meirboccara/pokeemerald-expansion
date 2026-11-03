@@ -65,6 +65,11 @@ static u32 CurrentPercent(void)
     return KJH_PowerCapPercent(KJH_RegionBadges());
 }
 
+u32 KJH_PowerCapPercentNow(void)
+{
+    return CurrentPercent();
+}
+
 void KJH_PowerCapStartBattle(void)
 {
     sHeldBackShown = FALSE;

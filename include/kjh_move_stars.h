@@ -36,6 +36,9 @@ u32 KJH_GetMovePoints(struct BoxPokemon *boxMon, enum Move move);
 u32 KJH_GetMoveStars(struct BoxPokemon *boxMon, enum Move move);
 u32 KJH_AddMovePoints(struct BoxPokemon *boxMon, enum Move move, u32 points); // the stars after
 
+// In battle: the lower of the power cap and, for a move the player's own Pokemon knows, its stars (B_KJH_MOVE_STARS)
+u32 KJH_BattleMovePercent(u32 battler, enum Move move);
+
 // The notebook
 void KJH_ClearNotebook(void);
 u32 KJH_NotebookCount(void);

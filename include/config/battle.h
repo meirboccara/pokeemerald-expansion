@@ -11,6 +11,7 @@
 #define B_LIGHT_BALL_ATTACK_BOOST   GEN_LATEST // In Gen4+, Light Ball doubles Attack in addition to Sp. Atk.
 #define B_PARALYSIS_CHANCE          GEN_LATEST // In Champions, paralysis has a 12.5% chance of not moving, instead of 25%.
 #define B_KJH_POWER_CAP             TRUE       // KJH: moves above 60 power are held back by the region's badges (LV-11, src/kjh_power_cap.c). FALSE in the test build (config/test.h).
+#define B_KJH_MOVE_STARS            TRUE       // KJH: the player's moves above 60 power hit at their stars' share (LV-12, src/kjh_move_stars.c). FALSE in the test build (config/test.h).
 
 // Experience settings
 #define B_EXP_CATCH                 GEN_LATEST // In Gen6+, the party gains experience when the player catches another Pokémon.

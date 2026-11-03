@@ -1148,5 +1148,8 @@
 // KJH: the power cap is off so expansion's tests keep their numbers; KJH's own use WITH_CONFIG(B_KJH_POWER_CAP, TRUE)
 #undef B_KJH_POWER_CAP
 #define B_KJH_POWER_CAP                  FALSE
+// KJH: and so are move stars (LV-12); KJH's tests use WITH_CONFIG(B_KJH_MOVE_STARS, TRUE)
+#undef B_KJH_MOVE_STARS
+#define B_KJH_MOVE_STARS                 FALSE
 
 #endif // GUARD_CONFIG_TEST_H

@@ -1,5 +1,8 @@
 // KJH (LV-12): move stars and the training notebook (include/kjh_move_stars.h).
 #include "global.h"
+#include "battle.h"
+#include "battle_controllers.h"
+#include "config_changes.h"
 #include "kjh_levelless.h"
 #include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
@@ -131,6 +134,21 @@ u32 KJH_AddMovePoints(struct BoxPokemon *boxMon, enum Move move, u32 points)
     memmove(&notebook[1], &notebook[0], i * sizeof(*notebook));
     notebook[0] = entry;
     return KJH_StarsFromPoints(entry.points);
+}
+
+u32 KJH_BattleMovePercent(u32 battler, enum Move move)
+{
+    u32 percent = KJH_PowerCapPercentNow();
+
+    if (!GetConfig(B_KJH_MOVE_STARS) || (gBattleTypeFlags & BATTLE_TYPE_LINK)
+     || GetBattlerTrainer(battler) != B_TRAINER_PLAYER)
+        return percent;
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (gBattleMons[battler].moves[i] == move) // not a move it calls (Metronome) or copies
+            return KJH_StarsAndCapPercent(KJH_GetMoveStars(&GetBattlerMon(battler)->box, move), percent);
+    }
+    return percent;
 }
 
 void KJH_ClearNotebook(void)
