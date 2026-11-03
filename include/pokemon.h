@@ -2,6 +2,7 @@
 #define GUARD_POKEMON_H
 
 #include "contest_effect.h"
+#include "kjh_levelless.h"
 #include "sprite.h"
 #include "wild_encounter_ow.h"
 #include "constants/battle.h"
@@ -125,6 +126,12 @@ enum MonData {
     MON_DATA_GIGANTAMAX_FACTOR,
     MON_DATA_TERA_TYPE,
     MON_DATA_EVOLUTION_TRACKER,
+    // KJH (LV-1): the levels-free data, see include/kjh_levelless.h.
+    MON_DATA_PEAK_LEVEL,
+    MON_DATA_TRAINING_BANK,
+    MON_DATA_TRAINING_HALF,
+    MON_DATA_PEAK_BOND,
+    MON_DATA_TIER_MARK,
 };
 
 #define BLOCK_AI_DYNAMAX 15 // Used as dynamax level value by the AI to indicate this mon shouldn't dynamax
@@ -175,10 +182,15 @@ struct PokemonSubstruct2
     u8 speedEV;
     u8 spAttackEV;
     u8 spDefenseEV;
-    u8 cool;
-    u8 beauty;
-    u8 cute;
-    u8 smart;
+    // KJH (LV-1): FireRed has no contests, so the cool, beauty, cute and smart bytes hold the levels-free data
+    // (include/kjh_levelless.h). MON_DATA_COOL..MON_DATA_SMART read 0 and ignore writes.
+    u16 peakLevel:7;     // 127, holds 0..100.
+    u16 peakBond:5;      // 31, holds 0..20.
+    enum KjhTierMark tierMark:2;
+    u16 trainingHalf:1;
+    u16 unused_06:1;
+    u16 trainingBank:10; // 1023, holds 0..630.
+    u16 unused_08:6;
     u8 tough;
     u8 sheen;
 };

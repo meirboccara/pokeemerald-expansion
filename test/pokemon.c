@@ -708,10 +708,13 @@ TEST("BoxPokemon encryption works")
     EXPECT_EQ(GetMonData(&mon, MON_DATA_PP3), 3);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_PP4), 4);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_PP_BONUSES), 255);
-    EXPECT_EQ(GetMonData(&mon, MON_DATA_COOL), 10);
-    EXPECT_EQ(GetMonData(&mon, MON_DATA_BEAUTY), 20);
-    EXPECT_EQ(GetMonData(&mon, MON_DATA_CUTE), 30);
-    EXPECT_EQ(GetMonData(&mon, MON_DATA_SMART), 40);
+    // KJH (LV-1): the cool, beauty, cute and smart bytes (10, 20, 30, 40) hold the levels-free data now.
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_COOL), 0);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_PEAK_LEVEL), 10);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_PEAK_BOND), 8);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_TIER_MARK), 1);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_TRAINING_HALF), 0);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_TRAINING_BANK), 30);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_TOUGH), 50);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_SHEEN), 150);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_EXP), 12345);

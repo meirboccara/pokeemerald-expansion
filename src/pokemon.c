@@ -26,6 +26,7 @@
 #include "frontier_util.h"
 #include "graphics.h"
 #include "item.h"
+#include "kjh_levelless.h"
 #include "link.h"
 #include "m4a.h"
 #include "main.h"
@@ -2170,17 +2171,12 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         case MON_DATA_SPDEF_EV:
             retVal = GetSubstruct2(boxMon)->spDefenseEV;
             break;
+        // KJH (LV-1): these bytes hold the levels-free data.
         case MON_DATA_COOL:
-            retVal = GetSubstruct2(boxMon)->cool;
-            break;
         case MON_DATA_BEAUTY:
-            retVal = GetSubstruct2(boxMon)->beauty;
-            break;
         case MON_DATA_CUTE:
-            retVal = GetSubstruct2(boxMon)->cute;
-            break;
         case MON_DATA_SMART:
-            retVal = GetSubstruct2(boxMon)->smart;
+            retVal = 0;
             break;
         case MON_DATA_TOUGH:
             retVal = GetSubstruct2(boxMon)->tough;
@@ -2425,6 +2421,21 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                     .tracker2 = substruct1->evolutionTracker2,
                 }.combinedValue;
             }
+            break;
+        case MON_DATA_PEAK_LEVEL:
+            retVal = GetSubstruct2(boxMon)->peakLevel;
+            break;
+        case MON_DATA_TRAINING_BANK:
+            retVal = GetSubstruct2(boxMon)->trainingBank;
+            break;
+        case MON_DATA_TRAINING_HALF:
+            retVal = GetSubstruct2(boxMon)->trainingHalf;
+            break;
+        case MON_DATA_PEAK_BOND:
+            retVal = GetSubstruct2(boxMon)->peakBond;
+            break;
+        case MON_DATA_TIER_MARK:
+            retVal = GetSubstruct2(boxMon)->tierMark;
             break;
         default:
             break;
@@ -2685,17 +2696,11 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         case MON_DATA_SPDEF_EV:
             SET8(GetSubstruct2(boxMon)->spDefenseEV);
             break;
+        // KJH (LV-1): these bytes hold the levels-free data.
         case MON_DATA_COOL:
-            SET8(GetSubstruct2(boxMon)->cool);
-            break;
         case MON_DATA_BEAUTY:
-            SET8(GetSubstruct2(boxMon)->beauty);
-            break;
         case MON_DATA_CUTE:
-            SET8(GetSubstruct2(boxMon)->cute);
-            break;
         case MON_DATA_SMART:
-            SET8(GetSubstruct2(boxMon)->smart);
             break;
         case MON_DATA_TOUGH:
             SET8(GetSubstruct2(boxMon)->tough);
@@ -2856,6 +2861,41 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             SET32(evoTracker.combinedValue);
             substruct1->evolutionTracker1 = evoTracker.tracker1;
             substruct1->evolutionTracker2 = evoTracker.tracker2;
+            break;
+        }
+        case MON_DATA_PEAK_LEVEL:
+        {
+            u8 peakLevel;
+            SET8(peakLevel);
+            GetSubstruct2(boxMon)->peakLevel = min(peakLevel, KJH_PEAK_LEVEL_MAX);
+            break;
+        }
+        case MON_DATA_TRAINING_BANK:
+        {
+            u16 bank;
+            SET16(bank);
+            GetSubstruct2(boxMon)->trainingBank = min(bank, KJH_TRAINING_BANK_MAX);
+            break;
+        }
+        case MON_DATA_TRAINING_HALF:
+        {
+            u8 half;
+            SET8(half);
+            GetSubstruct2(boxMon)->trainingHalf = (half != 0);
+            break;
+        }
+        case MON_DATA_PEAK_BOND:
+        {
+            u8 peakBond;
+            SET8(peakBond);
+            GetSubstruct2(boxMon)->peakBond = min(peakBond, KJH_BOND_MAX);
+            break;
+        }
+        case MON_DATA_TIER_MARK:
+        {
+            u8 tierMark;
+            SET8(tierMark);
+            GetSubstruct2(boxMon)->tierMark = min(tierMark, KJH_TIER_COUNT - 1);
             break;
         }
         default:
