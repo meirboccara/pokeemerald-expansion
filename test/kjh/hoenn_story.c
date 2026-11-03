@@ -5,6 +5,7 @@
 #include "bg.h"
 #include "event_data.h"
 #include "kjh_hoenn_story.h"
+#include "kjh_swarms.h"
 #include "overworld.h"
 #include "pokemon.h"
 #include "test/test.h"
@@ -71,6 +72,21 @@ TEST("KJH: Hoenn story: after the Hoenn Hall of Fame, CONTINUE wakes the player 
     EXPECT_EQ(gSaveBlock1Ptr->continueGameWarp.mapNum, MAP_NUM(MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F));
     gSaveBlock2Ptr->playerGender = gender;
     FlagClear(FLAG_HOENN_GAME_CLEAR);
+}
+
+TEST("KJH: Hoenn story: the S.S. AQUA's first landing makes Hoenn reached, and today has a Hoenn swarm")
+{
+    gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species = SPECIES_NONE;
+    FlagClear(FLAG_KJH_HOENN_ARRIVED);
+    EXPECT(!FlagGet(KJH_HOENN_REACHED_FLAG));
+    FlagSet(FLAG_KJH_HOENN_ARRIVED); // KJH_EventScript_FerryToHoenn
+    EXPECT(FlagGet(KJH_HOENN_REACHED_FLAG)); // CF-6's swarms and ENG-8's radar page
+    KJH_HoennArrived();               // the landing, before the truck
+    EXPECT_NE(gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species, SPECIES_NONE);
+    KJH_StartDailySwarm();            // and the next day too
+    EXPECT_NE(gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species, SPECIES_NONE);
+    FlagClear(FLAG_KJH_HOENN_ARRIVED);
+    gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species = SPECIES_NONE;
 }
 
 // FireRed's credits (after every League's Hall of Fame) set up their windows with the tile allocator on: marking a

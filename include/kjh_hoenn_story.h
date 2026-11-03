@@ -5,6 +5,7 @@
 u16 KJH_HoennStarterSpecies(u16 choice);
 u16 KJH_ChooseHoennStarter(u16 choice);
 bool32 KJH_HoennGameClear(void);
+void KJH_HoennArrived(void);
 void KJH_RideMovingTruck(void);
 
 #endif // GUARD_KJH_HOENN_STORY_H

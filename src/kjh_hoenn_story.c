@@ -10,8 +10,10 @@
 #include "field_screen_effect.h"
 #include "field_special_scene.h"
 #include "kjh_hoenn_story.h"
+#include "kjh_swarms.h"
 #include "load_save.h"
 #include "overworld.h"
+#include "random.h"
 #include "constants/heal_locations.h"
 #include "constants/map_groups.h"
 
@@ -49,10 +51,19 @@ bool32 KJH_HoennGameClear(void)
     return records;
 }
 
+// The first landing (FLAG_KJH_HOENN_ARRIVED is set): Hoenn is reached, so today has a Hoenn swarm already, not only
+// from the next day on (KJH_StartDailySwarm, CF-6)
+void KJH_HoennArrived(void)
+{
+    if (gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_HOENN].species == SPECIES_NONE)
+        KJH_StartRegionSwarm(KJH_SWARM_HOENN, Random() % KJH_RegionSwarmCount(KJH_SWARM_HOENN));
+}
+
 // Special (data/scripts/kjh_ferry.inc): into the moving truck as in Emerald's new game: it drives, stops and opens
 // on Littleroot Town (InsideOfTruck's own events), then Emerald's opening goes on.
 void KJH_RideMovingTruck(void)
 {
+    KJH_HoennArrived();
     SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
     DoWarp();
     gFieldCallback = ExecuteTruckSequence;
