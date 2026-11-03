@@ -777,7 +777,9 @@ AI_DOUBLE_BATTLE_TEST("Trainer Slide: Doubles: Opponent Last Low Hp")
         PLAYER(SPECIES_WOBBUFFET) { Defense(1); Speed(4); }
         PLAYER(SPECIES_WOBBUFFET) { Defense(1); Speed(3); Moves(MOVE_MEMENTO); }
         OPPONENT(SPECIES_WOBBUFFET) { Attack(999); Speed(2); }
-        OPPONENT(SPECIES_WOBBUFFET) { Attack(999); Speed(1); }
+        // KJH: with no moves it used Struggle (999 Atk vs 1 Def), whose hit wrapped in s16 moveDamage and healed
+        // the player back to full; now that damage saturates, Struggle KOs the player's last Pokemon first.
+        OPPONENT(SPECIES_WOBBUFFET) { Attack(999); Speed(1); Moves(MOVE_CELEBRATE); }
     } WHEN {
         TURN {
             MOVE(playerRight, MOVE_MEMENTO, target: playerLeft);

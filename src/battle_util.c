@@ -8164,7 +8164,12 @@ s32 CalculateMoveDamage(struct DamageContext *ctx)
     else
         damage = DoMoveDamageCalc(ctx);
 
-    return GetAdjustedDamage(ctx, damage);
+    damage = GetAdjustedDamage(ctx, damage);
+    // KJH: callers store this in s16 (moveDamage, passiveHpUpdate). Above INT16_MAX it wrapped, and a negative
+    // value heals the target. No HP is that high, so saturate (upstream 1.17.2 has the same bug).
+    if (damage > INT16_MAX)
+        damage = INT16_MAX;
+    return damage;
 }
 
 // for AI so that typeEffectivenessModifier, weather, abilities and holdEffects are calculated only once
