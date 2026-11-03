@@ -638,3 +638,6 @@ gSpecials::
 	def_special UpdateTrainerCardPhotoIcons
 	def_special StickerManGetBragFlags
 	def_special CheckAddCoins
+	@ KJH (CF-3): the charms, src/kjh_charms.c
+	def_special KJH_ShinyCharmSpeciesLeft
+	def_special KJH_HasHatchedAnEgg

@@ -236,3 +236,23 @@ PokedexRating_Text_LoveSeeingYourPokedex::
 	.string "Actually, I know how it is, but I\n"
 	.string "love seeing it anyway!\p"
 	.string "Let's see…$"
+
+@ KJH (CF-3): the Shiny Charm
+PokedexRating_Text_KjhKindsLeft::
+	.string "OAK: Catch {STR_VAR_1} more kinds of\n"
+	.string "POKéMON, and I'll have something\l"
+	.string "special for you!$"
+
+PokedexRating_Text_KjhEveryKindCaught::
+	.string "OAK: You've caught every kind of\n"
+	.string "POKéMON there is to find!\p"
+	.string "You've earned this. Take it!$"
+
+PokedexRating_Text_KjhReceivedShinyCharm::
+	.string "{PLAYER} received the\n"
+	.string "SHINY CHARM from PROF. OAK.$"
+
+PokedexRating_Text_KjhShinyCharmExplained::
+	.string "OAK: With the SHINY CHARM,\n"
+	.string "you'll meet POKéMON of unusual\l"
+	.string "colors more often.$"

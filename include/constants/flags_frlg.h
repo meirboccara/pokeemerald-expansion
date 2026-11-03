@@ -154,7 +154,9 @@
 #define FLAG_0x0B0               0x0B0
 #define FLAG_KJH_GOT_BOX_LINK                              FLAG_0x0B0 // KJH: Bill gave the Pokemon Box Link (CF-1)
 #define FLAG_0x0B1               0x0B1
+#define FLAG_KJH_GOT_SHINY_CHARM                           FLAG_0x0B1 // KJH: Prof. Oak gave the Shiny Charm (CF-3)
 #define FLAG_0x0B2               0x0B2
+#define FLAG_KJH_GOT_OVAL_CHARM                            FLAG_0x0B2 // KJH: the Day Care man gave the Oval Charm (CF-3)
 #define FLAG_0x0B3               0x0B3
 #define FLAG_0x0B4               0x0B4
 #define FLAG_0x0B5               0x0B5

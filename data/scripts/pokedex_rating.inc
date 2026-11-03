@@ -2,6 +2,27 @@ PokedexRating_EventScript_RateInPerson::
 	call_if_set FLAG_OAK_SAW_DEX_COMPLETION, PokedexRating_EventScript_DexCompleteIntro
 	call_if_unset FLAG_OAK_SAW_DEX_COMPLETION, PokedexRating_EventScript_NormalIntro
 	call PokedexRating_EventScript_Rate
+	call PokedexRating_EventScript_KjhShinyCharm
+	return
+
+@ KJH (CF-3): with the National Pokedex, Oak counts the species of sShinyCharmDex (src/kjh_charms.c) still to catch.
+@ None left: he gives the Shiny Charm, once. VAR_0x800A is still the National Pokedex flag from the rating.
+PokedexRating_EventScript_KjhShinyCharm::
+	goto_if_set FLAG_KJH_GOT_SHINY_CHARM, PokedexRating_EventScript_KjhShinyCharmEnd
+	goto_if_eq VAR_0x800A, FALSE, PokedexRating_EventScript_KjhShinyCharmEnd
+	specialvar VAR_RESULT, KJH_ShinyCharmSpeciesLeft
+	goto_if_ne VAR_RESULT, 0, PokedexRating_EventScript_KjhShinyCharmLeft
+	checkitemspace ITEM_SHINY_CHARM
+	goto_if_eq VAR_RESULT, FALSE, PokedexRating_EventScript_KjhShinyCharmEnd
+	msgbox PokedexRating_Text_KjhEveryKindCaught
+	giveitem_msg PokedexRating_Text_KjhReceivedShinyCharm, ITEM_SHINY_CHARM, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_KJH_GOT_SHINY_CHARM
+	msgbox PokedexRating_Text_KjhShinyCharmExplained
+	return
+
+PokedexRating_EventScript_KjhShinyCharmLeft::
+	msgbox PokedexRating_Text_KjhKindsLeft
+PokedexRating_EventScript_KjhShinyCharmEnd::
 	return
 
 PokedexRating_EventScript_DexCompleteIntro::

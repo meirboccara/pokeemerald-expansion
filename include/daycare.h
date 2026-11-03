@@ -29,6 +29,7 @@ enum Species GetSelectedMonNicknameAndSpecies(void);
 void GetDaycareMonNicknames(void);
 u8 GetDaycareState(void);
 u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
+u8 ModifyBreedingScoreForOvalCharm(u8 score);
 void SetDaycareCompatibilityString(void);
 bool8 NameHasGenderSymbol(const u8 *name, u8 genderRatio);
 void ShowDaycareLevelMenu(void);

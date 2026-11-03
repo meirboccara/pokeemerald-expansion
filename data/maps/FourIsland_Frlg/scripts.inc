@@ -70,6 +70,7 @@ FourIsland_Movement_PlayerWatchRivalExit::
 FourIsland_EventScript_DaycareMan::
 	lock
 	faceplayer
+	call FourIsland_EventScript_DaycareManTryGiveOvalCharm
 	special GetDaycareMonNicknames
 	specialvar VAR_RESULT, GetDaycareState
 	goto_if_eq VAR_RESULT, DAYCARE_EGG_WAITING, FourIsland_EventScript_DaycareEggWaiting
@@ -78,6 +79,33 @@ FourIsland_EventScript_DaycareMan::
 	msgbox DayCare_Text_ImDaycareManSpeakToMyWife
 	release
 	end
+
+@ KJH (CF-3): the first talk after the player's first egg has hatched, the Day Care man gives the Oval Charm
+FourIsland_EventScript_DaycareManTryGiveOvalCharm::
+	goto_if_set FLAG_KJH_GOT_OVAL_CHARM, FourIsland_EventScript_DaycareManOvalCharmEnd
+	specialvar VAR_RESULT, KJH_HasHatchedAnEgg
+	goto_if_eq VAR_RESULT, FALSE, FourIsland_EventScript_DaycareManOvalCharmEnd
+	checkitemspace ITEM_OVAL_CHARM
+	goto_if_eq VAR_RESULT, FALSE, FourIsland_EventScript_DaycareManOvalCharmEnd
+	msgbox FourIsland_Text_DaycareManEggHatched
+	giveitem_msg FourIsland_Text_ReceivedOvalCharm, ITEM_OVAL_CHARM, 1, MUS_RG_OBTAIN_KEY_ITEM
+	setflag FLAG_KJH_GOT_OVAL_CHARM
+	msgbox FourIsland_Text_OvalCharmExplained
+FourIsland_EventScript_DaycareManOvalCharmEnd::
+	return
+
+FourIsland_Text_DaycareManEggHatched::
+	.string "I heard you hatched your first\n"
+	.string "EGG! Raising POKéMON suits you.\p"
+	.string "Here, this is for you.$"
+
+FourIsland_Text_ReceivedOvalCharm::
+	.string "{PLAYER} received the\n"
+	.string "OVAL CHARM.$"
+
+FourIsland_Text_OvalCharmExplained::
+	.string "With the OVAL CHARM, you'll find\n"
+	.string "EGGS at the DAY CARE more often.$"
 
 FourIsland_EventScript_DaycareEggWaiting::
 	msgbox DayCare_Text_DoYouWantEgg, MSGBOX_YESNO

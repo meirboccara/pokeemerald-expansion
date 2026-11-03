@@ -157,9 +157,12 @@ static void WarpToTruck(void)
 // 0x0203FF2C species and level of a second Pokemon (0: none),
 // 0x0203FF34 the VS Seeker's charge in steps (100: ready), 0x0203FF36 an item registered to SELECT
 // (0x0203FF30-33 are the KJH tree's pack and journey switches),
-// 0x0203FF38 a variable and its value (0: none)
+// 0x0203FF38 a variable and its value (0: none), 0x0203FF3C a game stat and its value (0: none),
+// 0x0203FF40 National Pokedex numbers 1 to N seen and caught, with the National Pokedex on (0: none)
 static void KJH_DebugHarnessStart(void)
 {
+    vu16 *stat = (vu16 *)0x0203FF3C;
+    vu16 *caughtUpTo = (vu16 *)0x0203FF40;
     vu16 *flags = (vu16 *)0x0203FF04;
     vu16 *dbgMon = (vu16 *)0x0203FF24;
     vu16 *vsSeeker = (vu16 *)0x0203FF34; // charge, registered item
@@ -189,6 +192,17 @@ static void KJH_DebugHarnessStart(void)
     gSaveBlock1Ptr->registeredItem = vsSeeker[1];
     if (var[0] >= VARS_START && var[0] <= VARS_END)
         VarSet(var[0], var[1]);
+    if (stat[0] != 0 && stat[0] < NUM_GAME_STATS)
+        SetGameStat(stat[0], stat[1]);
+    if (caughtUpTo[0] != 0)
+    {
+        EnableNationalPokedex();
+        for (u32 dexNum = 1; dexNum <= caughtUpTo[0] && dexNum < NATIONAL_DEX_COUNT + 1; dexNum++)
+        {
+            GetSetPokedexFlag(dexNum, FLAG_SET_SEEN);
+            GetSetPokedexFlag(dexNum, FLAG_SET_CAUGHT);
+        }
+    }
 }
 #endif
 

@@ -35,7 +35,6 @@
 static void ClearDaycareMonMail(struct DaycareMail *mail);
 static void SetInitialEggData(struct Pokemon *mon, enum Species species, struct DayCare *daycare);
 static void DaycarePrintMonInfo(u8 windowId, u32 daycareSlotId, u8 y);
-static u8 ModifyBreedingScoreForOvalCharm(u8 score);
 static bool32 IsEggPending(struct DayCare *daycare);
 static void AlterEggSpeciesWithIncenseItem(enum Species *species, struct DayCare *daycare);
 
@@ -1491,7 +1490,7 @@ void ChooseSendDaycareMon(void)
     gMain.savedCallback = CB2_ReturnToField;
 }
 
-static u8 ModifyBreedingScoreForOvalCharm(u8 score)
+u8 ModifyBreedingScoreForOvalCharm(u8 score) // KJH: public for test/kjh/charms.c (CF-3)
 {
     if (CheckBagHasItem(ITEM_OVAL_CHARM, 1))
     {
