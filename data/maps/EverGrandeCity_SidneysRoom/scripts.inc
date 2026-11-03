@@ -7,6 +7,7 @@ EverGrandeCity_SidneysRoom_MapScripts::
 
 EverGrandeCity_SidneysRoom_OnTransition:
 	setflag FLAG_MET_SCOTT_IN_EVERGRANDE
+	setflag FLAG_KJH_MOVES_LOCKED @ KJH (LV-10, LV-18): moves are locked until the run ends (Hall of Fame or whiteout)
 	setflag FLAG_HIDE_EVER_GRANDE_POKEMON_CENTER_1F_SCOTT
 	end
 

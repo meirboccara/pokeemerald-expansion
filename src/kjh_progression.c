@@ -284,7 +284,7 @@ static void SetBossEvsAndNature(struct Pokemon *mon)
     SetBossNature(mon, baseStats, physicalPower, specialPower);
 }
 
-// The rival's battles in order (each has a party per starter, in a row); 0 for another trainer.
+// The rival's battles in order (each has a party per starter, in a row); 0 for another trainer. Hoenn's rival too.
 #define RIVAL_PARTIES_PER_BATTLE 3
 static u32 RivalBattleNumber(u16 trainerNum)
 {
@@ -300,6 +300,27 @@ static u32 RivalBattleNumber(u16 trainerNum)
     {
         if (trainerNum >= sFirstParties[i] && trainerNum < sFirstParties[i] + RIVAL_PARTIES_PER_BATTLE)
             return i + 1;
+    }
+
+    // LV-18: Hoenn's rival, Brendan or May, in Emerald's five battles (a party per starter, not in a row)
+    #define HOENN_RIVAL_BATTLE(place)     { TRAINER_BRENDAN_##place##_MUDKIP, TRAINER_BRENDAN_##place##_TREECKO, TRAINER_BRENDAN_##place##_TORCHIC,       TRAINER_MAY_##place##_MUDKIP, TRAINER_MAY_##place##_TREECKO, TRAINER_MAY_##place##_TORCHIC }
+    static const u16 sHoennRivalParties[][6] =
+    {
+        HOENN_RIVAL_BATTLE(ROUTE_103),
+        HOENN_RIVAL_BATTLE(RUSTBORO),
+        HOENN_RIVAL_BATTLE(ROUTE_110),
+        HOENN_RIVAL_BATTLE(ROUTE_119),
+        HOENN_RIVAL_BATTLE(LILYCOVE),
+    };
+    #undef HOENN_RIVAL_BATTLE
+
+    for (u32 i = 0; i < ARRAY_COUNT(sHoennRivalParties); i++)
+    {
+        for (u32 j = 0; j < ARRAY_COUNT(sHoennRivalParties[0]); j++)
+        {
+            if (trainerNum == sHoennRivalParties[i][j])
+                return i + 1;
+        }
     }
 #endif
 

@@ -17,6 +17,7 @@ EverGrandeCity_HallOfFame_OnFrame:
 
 EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 	lockall
+	clearflag FLAG_KJH_MOVES_LOCKED @ KJH (LV-10, LV-18): the League run is over
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame1
 	applymovement LOCALID_PLAYER, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame1
 	waitmovement 0

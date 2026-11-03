@@ -494,3 +494,16 @@ TEST("KJH: the rival grows with each battle: on the S.S. Anne IVs 18, EVs 192, B
     EXPECT_EQ(GetBond(&party[0]), 12);
     Free(party);
 }
+
+TEST("KJH: Hoenn's rival grows with each of Emerald's battles: on Route 119, the 4th, IVs 18, EVs 192, Bond 12")
+{
+    static const u8 levels[] = {56};
+    FlagSet(FLAG_KJH_LEVELLESS);
+    GivePlayerParty(levels, ARRAY_COUNT(levels));
+    SetMap(MAP_ROUTE119);
+    struct Pokemon *party = CreateParty(&sSsAnneRival, TRAINER_MAY_ROUTE_119_TREECKO);
+    EXPECT_EQ(GetMonData(&party[0], MON_DATA_SPEED_IV), 18);
+    EXPECT_EQ(TotalEvs(&party[0]), 192);
+    EXPECT_EQ(GetBond(&party[0]), 12);
+    Free(party);
+}

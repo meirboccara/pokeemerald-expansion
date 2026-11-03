@@ -370,6 +370,8 @@ PetalburgCity_Gym_EventScript_GiveEnigmaBerry::
 
 PetalburgCity_Gym_EventScript_NormanBattle::
 	msgbox PetalburgCity_Gym_Text_NormanIntro, MSGBOX_DEFAULT
+	setvar VAR_0x8004, TRAINER_NORMAN_1 @ KJH (LV-17, LV-18): pick as many as the Leader has
+	call EventScript_KjhFairFight
 	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_NormanDefeat
 	message PetalburgCity_Gym_Text_ReceivedBalanceBadge
 	waitmessage
