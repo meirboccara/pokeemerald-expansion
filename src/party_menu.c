@@ -45,6 +45,7 @@
 #include "menu_specialized.h"
 #include "metatile_behavior.h"
 #include "move_relearner.h"
+#include "kjh_move_library.h"
 #include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
@@ -111,6 +112,7 @@ enum {
     MENU_CATALOG_MOWER,
     MENU_CHANGE_FORM,
     MENU_CHANGE_ABILITY,
+    MENU_KJH_CHANGE_MOVES, // KJH (LV-10): the move library
     MENU_FIELD_MOVES
 };
 
@@ -483,6 +485,7 @@ static void CursorCb_CatalogFan(u8);
 static void CursorCb_CatalogMower(u8);
 static void CursorCb_ChangeForm(u8);
 static void CursorCb_ChangeAbility(u8);
+static void CursorCb_KjhChangeMoves(u8);
 void TryItemHoldFormChange(struct Pokemon *mon, s8 slotId, enum BattleTrainer trainer);
 static void ShowMoveSelectWindow(u8 slot);
 static void Task_HandleWhichMoveInput(u8 taskId);
@@ -2954,6 +2957,9 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 
     sPartyMenuInternal->numActions = 0;
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
+    // KJH (LV-10): "MOVES" opens the move library; closed from the League's first room to the end of the run
+    if (IS_FRLG && !KJH_AreMovesLocked() && !GetMonData(&mons[slotId], MON_DATA_IS_EGG))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_KJH_CHANGE_MOVES);
 
     // Add field moves to action list
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -3122,6 +3128,19 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
             break;
         }
     }
+}
+
+// KJH (LV-10): the move relearner for this Pokemon, for free; quitting it goes to the Summary's moves page, then
+// back to the party
+static void CursorCb_KjhChangeMoves(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+    gSpecialVar_0x8004 = gPartyMenu.slotId;
+    gRelearnMode = RELEARN_MODE_PSS_PAGE_BATTLE_MOVES;
+    gMoveRelearnerState = MOVE_RELEARNER_LEVEL_UP_MOVES;
+    gInitialSummaryScreenCallback = CB2_ReturnToPartyMenuFromSummaryScreen;
+    sPartyMenuInternal->exitCallback = CB2_InitLearnMove;
+    Task_ClosePartyMenu(taskId);
 }
 
 static void CursorCb_Summary(u8 taskId)

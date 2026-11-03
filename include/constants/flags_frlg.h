@@ -219,6 +219,7 @@
 #define FLAG_0x0ED               0x0ED
 #define FLAG_0x0EE               0x0EE
 #define FLAG_0x0EF               0x0EF
+#define FLAG_KJH_MOVES_LOCKED                              FLAG_0x0EF // KJH: moves can't be changed, League run (LV-10)
 #define FLAG_0x0F0               0x0F0
 #define FLAG_KJH_AUTO_RUN                                  FLAG_0x0F0 // KJH: L turned auto-run on (CF-11)
 #define FLAG_0x0F1               0x0F1

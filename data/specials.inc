@@ -648,3 +648,5 @@ gSpecials::
 	def_special KJH_HeadbuttWildEncounter
 	@ KJH (LV-5): Bond, src/kjh_bond.c
 	def_special KJH_SetStarterBond
+	@ KJH (LV-10): the move library, src/kjh_move_library.c
+	def_special KJH_BufferNextNewLibraryMoves

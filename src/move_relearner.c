@@ -12,6 +12,7 @@
 #include "gpu_regs.h"
 #include "item.h"
 #include "move_relearner.h"
+#include "kjh_move_library.h"
 #include "list_menu.h"
 #include "malloc.h"
 #include "menu.h"
@@ -389,7 +390,7 @@ static void CB2_InitLearnMove_Basic(void)
         if (gRelearnMode == RELEARN_MODE_SCRIPT)
             gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = TRUE;
         else
-            gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = P_SUMMARY_MOVE_RELEARNER_FULL_PP;
+            gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = IS_FRLG ? FALSE : P_SUMMARY_MOVE_RELEARNER_FULL_PP; // KJH (LV-10): PP %
         SetVBlankCallback(VBlankCB_MoveRelearner);
         SetMainCallback2(CB2_MoveRelearnerMain);
         break;
@@ -427,6 +428,8 @@ static void CB2_InitLearnMoveReturnFromSelectMove(void)
 
 static bool32 GameHasDifferentRelearners(void)
 {
+    if (IS_FRLG) // KJH (LV-10)
+        return TRUE;
     if (P_ENABLE_MOVE_RELEARNERS || P_TM_MOVES_RELEARNER)
         return TRUE;
     if (P_FLAG_EGG_MOVES || P_FLAG_TUTOR_MOVES)
@@ -468,6 +471,8 @@ static void CB2_MoveRelearnerMain(void)
 
 static bool32 ShouldConsumeTmItem(enum Move move)
 {
+    if (IS_FRLG) // KJH (LV-10): a TM in the bag stays in the library
+        return FALSE;
     if (gMoveRelearnerState != MOVE_RELEARNER_TM_MOVES || gRelearnMode == RELEARN_MODE_SCRIPT)
         return FALSE;
     if (I_REUSABLE_TMS || P_ENABLE_ALL_TM_MOVES)
@@ -914,7 +919,7 @@ static bool32 IsTmAvailable(enum Item item)
 static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
 {
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
-    u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES ? MAX_LEVEL : GetLevelFromBoxMonExp(mon));
+    u32 level = IS_FRLG ? KJH_LibraryLevel(mon) : (P_ENABLE_ALL_LEVEL_UP_MOVES ? MAX_LEVEL : GetLevelFromBoxMonExp(mon)); // KJH (LV-10)
     u32 numMoves = 0;
     do
     {
@@ -938,7 +943,7 @@ static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
                 moves[numMoves++] = learnset[i].move;
         }
 
-        species = (P_PRE_EVO_MOVES ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
+        species = ((P_PRE_EVO_MOVES || IS_FRLG) ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
     } while (species != SPECIES_NONE);
 
     return numMoves;
@@ -948,6 +953,8 @@ static u32 GetRelearnerEggMoves(struct BoxPokemon *mon, u16 *moves)
 {
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
     u32 numMoves = 0;
+    if (IS_FRLG && !KJH_HasEggMovesInLibrary(mon)) // KJH (LV-10): from Bond 8
+        return 0;
     while (GetSpeciesPreEvolution(species) != SPECIES_NONE)
         species = GetSpeciesPreEvolution(species);
 
@@ -1003,6 +1010,9 @@ static u32 GetRelearnerTutorMoves(struct BoxPokemon *mon, u16 *moves)
         if (!CanLearnTeachableMove(species, move))
             continue;
 
+        if (IS_FRLG && !KJH_IsTutorMoveInLibrary(move)) // KJH (LV-10): a tutor met
+            continue;
+
         if (!BoxMonKnowsMove(mon, move))
             moves[numMoves++] = move;
     }
@@ -1036,7 +1046,7 @@ bool32 HasMoveToRelearn(struct BoxPokemon *boxMon, enum MoveRelearnerStates stat
 static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
 {
     enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-    u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES == TRUE) ? MAX_LEVEL : GetLevelFromBoxMonExp(boxMon);
+    u32 level = IS_FRLG ? KJH_LibraryLevel(boxMon) : ((P_ENABLE_ALL_LEVEL_UP_MOVES == TRUE) ? MAX_LEVEL : GetLevelFromBoxMonExp(boxMon)); // KJH (LV-10)
 
     do
     {
@@ -1051,7 +1061,7 @@ static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
                 return TRUE;
         }
 
-        species = (P_PRE_EVO_MOVES ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
+        species = ((P_PRE_EVO_MOVES || IS_FRLG) ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
 
     } while (species != SPECIES_NONE);
 
@@ -1061,6 +1071,8 @@ static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
 static bool32 HasRelearnerEggMoves(struct BoxPokemon *boxMon)
 {
     enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
+    if (IS_FRLG && !KJH_HasEggMovesInLibrary(boxMon)) // KJH (LV-10): from Bond 8
+        return FALSE;
     while (GetSpeciesPreEvolution(species) != SPECIES_NONE)
         species = GetSpeciesPreEvolution(species);
 
@@ -1113,6 +1125,9 @@ static bool32 HasRelearnerTutorMoves(struct BoxPokemon *boxMon)
         if (!CanLearnTeachableMove(species, move))
             continue;
 
+        if (IS_FRLG && !KJH_IsTutorMoveInLibrary(move)) // KJH (LV-10): a tutor met
+            continue;
+
         if (!BoxMonKnowsMove(boxMon, move))
             return TRUE;
     }
@@ -1125,17 +1140,19 @@ static bool32 IsLevelUpMoveRelearnerActive(void)
     return TRUE;
 }
 
+// KJH (LV-10): the move library's four sources are always on in a FireRed build; each Pokemon's own limits are in
+// the Get/HasRelearner functions above (src/kjh_move_library.c)
 static bool32 IsEggMoveRelearnerActive(void)
 {
-    return (FlagGet(P_FLAG_EGG_MOVES) || P_ENABLE_MOVE_RELEARNERS);
+    return (IS_FRLG || FlagGet(P_FLAG_EGG_MOVES) || P_ENABLE_MOVE_RELEARNERS);
 }
 
 static bool32 IsTMMoveRelearnerActive(void)
 {
-    return (P_TM_MOVES_RELEARNER || P_ENABLE_MOVE_RELEARNERS);
+    return (IS_FRLG || P_TM_MOVES_RELEARNER || P_ENABLE_MOVE_RELEARNERS);
 }
 
 static bool32 IsTutorMoveRelearnerActive(void)
 {
-    return (FlagGet(P_FLAG_TUTOR_MOVES) || P_ENABLE_MOVE_RELEARNERS);
+    return (IS_FRLG || FlagGet(P_FLAG_TUTOR_MOVES) || P_ENABLE_MOVE_RELEARNERS);
 }

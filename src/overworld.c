@@ -1,6 +1,7 @@
 #include "global.h"
 #include "overworld.h"
 #include "kjh_bond.h"
+#include "kjh_move_library.h"
 #include "kjh_clock.h"
 #include "battle_pyramid.h"
 #include "battle_setup.h"
@@ -396,7 +397,10 @@ void DoWhiteOut(void)
 {
     RunScriptImmediately(EventScript_WhiteOut);
     if (IS_FRLG)
+    {
         KJH_BondOnWhiteOut(); // KJH (LV-5): -50 friendship for the whole party
+        KJH_UnlockMoves();    // KJH (LV-10): a lost League run is over
+    }
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();

@@ -34,6 +34,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "kjh_bond.h"
+#include "kjh_move_library.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -4789,6 +4790,7 @@ static void KeepMoveSelectorVisible(u8 firstSpriteId)
 static inline bool32 ShouldShowMoveRelearner(void)
 {
     return (P_SUMMARY_SCREEN_MOVE_RELEARNER
+         && !(IS_FRLG && KJH_AreMovesLocked()) // KJH (LV-10): not during the League
          && !sMonSummaryScreen->lockMovesFlag
          && sMonSummaryScreen->mode != SUMMARY_MODE_BOX_CURSOR
          && sMonSummaryScreen->hasRelearnableMoves

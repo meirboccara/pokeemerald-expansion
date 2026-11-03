@@ -26,6 +26,7 @@ PokemonLeague_LoreleisRoom_EventScript_SetDoorOpen::
 
 PokemonLeague_LoreleisRoom_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_POKEMON_LEAGUE_LORELEIS_ROOM
+	setflag FLAG_KJH_MOVES_LOCKED @ KJH (LV-10): moves are locked until the run ends (Hall of Fame or whiteout)
 	end
 
 PokemonLeague_LoreleisRoom_OnWarp::

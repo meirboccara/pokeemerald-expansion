@@ -37,6 +37,7 @@ PokemonLeague_HallOfFame_EventScript_EnterRoom::
 	call EventScript_SetDefeatedEliteFourFlagsVars
 	setrespawn HEAL_LOCATION_PALLET_TOWN
 	fadescreenspeed FADE_TO_BLACK, 24
+	clearflag FLAG_KJH_MOVES_LOCKED @ KJH (LV-10): the run is over
 	special EnterHallOfFame
 	waitstate
 	releaseall

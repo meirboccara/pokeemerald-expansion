@@ -1,5 +1,6 @@
 #include "global.h"
 #include "chooseboxmon.h"
+#include "kjh_move_library.h"
 #include "daycare.h"
 #include "event_data.h"
 #include "event_scripts.h"
@@ -219,6 +220,10 @@ enum LearnMoveState
     REPLACE_MOVE_1,
 
     DID_NOT_LEARN_1,
+
+    WARN_FORGET_1, // KJH (LV-10): a move that isn't in the move library can't come back
+    WARN_FORGET_2,
+    WARN_FORGET_3,
 };
 
 static struct BoxPokemon *LearnMove_GetBoxMonFromTaskData(u8 partyIndex)
@@ -322,8 +327,27 @@ s32 LearnMove(const struct MoveLearnUI *ui, u8 taskId)
     case WANT_REPLACE_3:
         if (GetMoveSlotToReplace() == MAX_MON_MOVES)
             return REFUSE_REPLACE_1;
+        else if (IS_FRLG && !KJH_IsMoveInLibrary(boxmon, GetBoxMonData(boxmon, MON_DATA_MOVE1 + GetMoveSlotToReplace())))
+            return WARN_FORGET_1;
         else
             return FORGOT_MOVE_1;
+    case WARN_FORGET_1:
+        StringCopy(gStringVar2, GetMoveName(GetBoxMonData(boxmon, MON_DATA_MOVE1 + GetMoveSlotToReplace())));
+        ui->printMessage(COMPOUND_STRING("{STR_VAR_2} can't come back once\nit's forgotten. Forget it anyway?"));
+        return WARN_FORGET_2;
+    case WARN_FORGET_2:
+        ui->askConfirmation();
+        return WARN_FORGET_3;
+    case WARN_FORGET_3:
+        switch (ui->waitConfirmation())
+        {
+        case 0: // Yes
+            return FORGOT_MOVE_1;
+        case 1: // No
+        case MENU_B_PRESSED:
+            return WANT_REPLACE_1;
+        }
+        return state;
     case LEARNED_MOVE_1:
         GetBoxMonNickname(boxmon, gStringVar1);
         StringCopy(gStringVar2, GetMoveName(move));
@@ -341,11 +365,18 @@ s32 LearnMove(const struct MoveLearnUI *ui, u8 taskId)
     case REPLACE_MOVE_1:
     {
         u32 slot = GetMoveSlotToReplace();
+        // KJH (LV-10): the new move keeps the PP percentage of the one it replaces (no free refill)
+        u32 oldMaxPP = CalculatePPWithBonus(GetBoxMonData(boxmon, MON_DATA_MOVE1 + slot), GetBoxMonData(boxmon, MON_DATA_PP_BONUSES), slot);
         RemoveBoxMonPPBonus(boxmon, slot);
         u32 originalPP = GetBoxMonData(boxmon, MON_DATA_PP1 + slot);
         u32 pp = GetMovePP(move);
         SetBoxMonData(boxmon, MON_DATA_MOVE1 + slot, &move);
-        if (recoverPP || (pp < originalPP))
+        if (IS_FRLG && !recoverPP)
+        {
+            pp = KJH_PpAfterSwap(pp, originalPP, oldMaxPP);
+            SetBoxMonData(boxmon, MON_DATA_PP1 + slot, &pp);
+        }
+        else if (recoverPP || (pp < originalPP))
             SetBoxMonData(boxmon, MON_DATA_PP1 + slot, &pp);
         GetBoxMonNickname(boxmon, gStringVar1);
         StringCopy(gStringVar2, GetMoveName(move));

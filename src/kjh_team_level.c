@@ -142,6 +142,8 @@ bool32 KJH_TryTeamLevelStep(void)
     if (before == 0 || level < before)
         return FALSE;
 
+    gSpecialVar_0x8005 = before; // LV-10: the moves this rise unlocked (EventScript_KjhLibraryNewMoves)
+    gSpecialVar_0x8006 = level;
     ScriptContext_SetupScript(EventScript_KjhTeamFeelsStronger);
     return TRUE;
 }
