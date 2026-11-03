@@ -127,6 +127,8 @@ static const u8* const *GetTrainerSlideArray(enum DifficultyLevel difficulty, u3
 #else
     if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
         return sFrontierTrainerSlides[difficulty][trainerId];
+    else if (trainerId >= ARRAY_COUNT(sTrainerSlides[0])) // KJH (ENG-9): Johto's and Hoenn's ids are past the table
+        return NULL;
     else
         return sTrainerSlides[difficulty][trainerId];
 #endif // TESTING

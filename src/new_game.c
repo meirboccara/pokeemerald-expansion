@@ -170,9 +170,12 @@ static void WarpToTruck(void)
 // (0x0203FF50 is src/kjh_pack.c's Alpha switch, LV-15),
 // 0x0203FF54 the player's money (LV-21; 0: a new game's),
 // 0x0203FF58 the first Pokemon's friendship (LV-23; 0: its own),
-// 0x0203FF5C 1: battle animations off and fast text, for long scripted battles (emu_story.py; 0: the defaults)
+// 0x0203FF5C 1: battle animations off and fast text, for long scripted battles (emu_story.py; 0: the defaults),
+// 0x0203FF60, 62, 64 a move the first, second and third Pokemon know, in their 4th slot (ENG-9's Hoenn field moves;
+// 0: none)
 static void KJH_DebugHarnessStart(void)
 {
+    vu16 *moves = (vu16 *)0x0203FF60;
     vu32 *money = (vu32 *)0x0203FF54;
     vu16 *friendship = (vu16 *)0x0203FF58;
     vu16 *quickBattles = (vu16 *)0x0203FF5C;
@@ -224,6 +227,11 @@ static void KJH_DebugHarnessStart(void)
         gSaveBlock2Ptr->optionsBattleSceneOff = TRUE;
         gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     }
+    for (u32 i = 0; i < 3; i++)
+    {
+        if (moves[i] != MOVE_NONE && GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) != SPECIES_NONE)
+            ScriptSetMonMoveSlot(i, moves[i], MAX_MON_MOVES - 1);
+    }
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_SYS_B_DASH);
@@ -232,7 +240,7 @@ static void KJH_DebugHarnessStart(void)
     gSaveBlock1Ptr->trainerRematchStepCounter = vsSeeker[0];
     gSaveBlock1Ptr->registeredItem = vsSeeker[1];
     // FireRed's, or Johto's in SaveBlock3 (CF-13's emu test)
-    if ((var[0] >= VARS_START && var[0] <= VARS_END) || (var[0] >= KJH_SAVE3_VARS_START && var[0] < KJH_SAVE3_VARS_END))
+    if ((var[0] >= VARS_START && var[0] <= VARS_END) || (var[0] >= KJH_SAVE3_VARS_START && var[0] < HOENN_VARS_END))
         VarSet(var[0], var[1]);
     if (stat[0] != 0 && stat[0] < NUM_GAME_STATS)
         SetGameStat(stat[0], stat[1]);

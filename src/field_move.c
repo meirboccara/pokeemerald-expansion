@@ -3,6 +3,7 @@
 #include "field_move.h"
 #include "fldeff.h"
 #include "fldeff_misc.h"
+#include "kjh_team_level.h"
 #include "party_menu.h"
 #include "strings.h"
 #include "constants/field_move.h"
@@ -19,8 +20,35 @@ static bool32 IsAlwaysTrue(enum FieldMove fieldMove)
     return TRUE;
 }
 
+#if IS_FRLG
+// KJH (ENG-9): in Hoenn, Hoenn's own badges open the HMs too, in Emerald's order (Hoenn's Gym Leaders say so). Kanto's
+// keep opening them everywhere: Hoenn comes after Kanto, so they are all open there in a real game (FEATURES.md).
+static const u8 sHoennBadgeForFieldMove[FIELD_MOVES_COUNT] =
+{
+    [FIELD_MOVE_CUT] = 1,
+    [FIELD_MOVE_FLASH] = 2,
+    [FIELD_MOVE_ROCK_SMASH] = 3,
+    [FIELD_MOVE_STRENGTH] = 4,
+    [FIELD_MOVE_SURF] = 5,
+    [FIELD_MOVE_FLY] = 6,
+    [FIELD_MOVE_DIVE] = 7,
+    [FIELD_MOVE_WATERFALL] = 8,
+};
+
+static bool32 HasHoennBadgeForFieldMove(enum FieldMove fieldMove)
+{
+    u32 badge = sHoennBadgeForFieldMove[fieldMove];
+
+    return badge != 0 && KJH_RegionHere() == KJH_REGION_HOENN && FlagGet(FLAG_HOENN_BADGE01_GET + badge - 1);
+}
+#endif
+
 static bool32 HasBadgeForFieldMove(enum FieldMove fieldMove)
 {
+#if IS_FRLG
+    if (HasHoennBadgeForFieldMove(fieldMove))
+        return TRUE;
+#endif
     return FlagGet(gFieldMoveInfo[fieldMove].arg + FLAG_BADGE01_GET);
 }
 

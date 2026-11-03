@@ -29,6 +29,7 @@ static void StandInKanto(void)
 static void SetBadges(u32 count)
 {
     u32 i;
+    StandInKanto();
     FlagClear(FLAG_SYS_GAME_CLEAR);
     for (i = 0; i < NUM_BADGES; i++)
     {
@@ -77,7 +78,6 @@ TEST("KJH: the team's ceiling is the next Gym ace, then the Champion")
 
 TEST("KJH: the team stops at 14 until Brock is beaten, and Gyms count in any order")
 {
-    StandInKanto();
     VarSet(VAR_KJH_KANTO_ZONE_TOP, 12);
     SetBadges(0);
     EXPECT_EQ(KJH_TeamLevel(), 12);
@@ -250,6 +250,8 @@ TEST("KJH: a Gym's trainers move with the badges, only in their Gym and in the l
     gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PEWTER_CITY_GYM);
     EXPECT_EQ(KJH_GymLevelShift(), 0);
     SetBadges(2);
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PEWTER_CITY_GYM);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PEWTER_CITY_GYM);
     EXPECT_EQ(KJH_GymLevelShift(), 16);
     FlagClear(FLAG_KJH_LEVELLESS);
     EXPECT_EQ(KJH_GymLevelShift(), 0);

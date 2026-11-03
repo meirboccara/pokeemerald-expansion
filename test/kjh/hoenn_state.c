@@ -5,9 +5,11 @@
 #include "battle_setup.h"
 #include "data.h"
 #include "event_data.h"
+#include "field_move.h"
 #include "kjh_team_level.h"
 #include "string_util.h"
 #include "test/test.h"
+#include "constants/field_move.h"
 #include "constants/map_groups.h"
 #include "constants/opponents.h"
 #include "constants/region_map_sections.h"
@@ -23,7 +25,7 @@ struct KjhSaveSnapshot
     u16 johtoVars[ARRAY_COUNT(gSaveBlock3Ptr->kjhVars)];
 };
 
-static struct KjhSaveSnapshot sSnapshot;
+static EWRAM_DATA struct KjhSaveSnapshot sSnapshot = {0}; // not in IWRAM: the test build's IWRAM is tight
 
 static void TakeSnapshot(void)
 {
@@ -45,6 +47,13 @@ static bool32 KantoAndJohtoUnchanged(void)
 static bool32 IsHoennFlag(u32 flag)
 {
     return flag >= HOENN_FLAGS_START && flag < HOENN_FLAGS_END;
+}
+
+// The emulator test reads them there (kjh_tools/test/emu_expansion_hoenn.py, SAVE3_HOENN_VARS / _FLAGS): change both.
+TEST("KJH: Hoenn's variables and flags sit at the end of SaveBlock3")
+{
+    EXPECT_EQ(offsetof(struct SaveBlock3, hoennVars), 524);
+    EXPECT_EQ(offsetof(struct SaveBlock3, hoennFlags), 834);
 }
 
 TEST("KJH: Hoenn's story flags are real flags in SaveBlock3, apart from Kanto's and Johto's")
@@ -166,6 +175,37 @@ TEST("KJH: Hoenn's maps are Hoenn's region, and count Hoenn's badges")
     FlagClear(FLAG_HOENN_BADGE02_GET);
     for (u32 i = 0; i < NUM_BADGES; i++)
         FlagClear(FLAG_BADGE01_GET + i);
+}
+
+TEST("KJH: in Hoenn, Hoenn's badges open the HMs in Emerald's order; Kanto's still do everywhere")
+{
+    struct WarpData saved = gSaveBlock1Ptr->location;
+
+    for (u32 i = 0; i < NUM_BADGES; i++)
+    {
+        FlagClear(FLAG_BADGE01_GET + i);
+        FlagClear(FLAG_HOENN_BADGE01_GET + i);
+    }
+    FlagSet(FLAG_HOENN_BADGE05_GET); // the Balance Badge: SURF
+
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PETALBURG_CITY);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PETALBURG_CITY);
+    EXPECT(IsFieldMoveUnlocked(FIELD_MOVE_SURF));
+    EXPECT(!IsFieldMoveUnlocked(FIELD_MOVE_WATERFALL));
+    EXPECT(!IsFieldMoveUnlocked(FIELD_MOVE_CUT));
+
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PALLET_TOWN);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PALLET_TOWN);
+    EXPECT(!IsFieldMoveUnlocked(FIELD_MOVE_SURF)); // Hoenn's badge, outside Hoenn
+    FlagSet(FLAG_BADGE05_GET); // Kanto's Soul Badge: SURF everywhere
+    EXPECT(IsFieldMoveUnlocked(FIELD_MOVE_SURF));
+    gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_PETALBURG_CITY);
+    gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_PETALBURG_CITY);
+    FlagClear(FLAG_HOENN_BADGE05_GET);
+    EXPECT(IsFieldMoveUnlocked(FIELD_MOVE_SURF));
+
+    FlagClear(FLAG_BADGE05_GET);
+    gSaveBlock1Ptr->location = saved;
 }
 
 #endif
