@@ -3217,6 +3217,12 @@ BattleScript_OverworldWeatherStarts::
 	call BattleScript_ActivateWeatherAbilities
 	end3
 
+@ KJH: the field bonus (LV-14, src/kjh_field.c)
+BattleScript_KjhFieldStarts::
+	printstring STRINGID_KJH_FIELD
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
 BattleScript_OverworldSSWeatherStarts::
 	printfromtable gMoveWeatherChangeStringIds
 	waitmessage B_WAIT_TIME_LONG

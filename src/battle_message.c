@@ -13,6 +13,7 @@
 #include "graphics.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_field.h"
 #include "link.h"
 #include "menu.h"
 #include "palette.h"
@@ -2799,6 +2800,11 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         break;
     case STRINGID_TRAINERSLIDE:
         stringPtr = gBattleStruct->trainerSlideMsg;
+        break;
+    case STRINGID_KJH_FIELD:
+        stringPtr = KJH_FieldStartMessage(KJH_GetBattleField().type);
+        if (stringPtr == NULL)
+            stringPtr = gText_EmptyString3;
         break;
     default: // load a string from the table
         if (stringID >= STRINGID_COUNT)

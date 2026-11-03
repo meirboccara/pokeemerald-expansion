@@ -6,6 +6,7 @@
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "kjh_field.h"
 #include "main.h"
 #include "menu.h"
 #include "map_name_popup.h"
@@ -362,6 +363,26 @@ enum {
 #define tYOffset       data[2]
 #define tIncomingPopUp data[3]
 #define tPrintTimer    data[4]
+#define tFieldIcon     data[5] // KJH: the field icon's window + 1, 0 for none
+
+// KJH: the field's type icon by the area name (LV-14, src/kjh_field.c)
+static void HideFieldIcon(struct Task *task)
+{
+    if (task->tFieldIcon)
+        KJH_FieldHidePopUpIcon(task->tFieldIcon - 1);
+    task->tFieldIcon = 0;
+}
+
+static void ShowFieldIcon(struct Task *task)
+{
+    HideFieldIcon(task);
+    if (OW_POPUP_GENERATION != GEN_5)
+    {
+        u8 windowId = KJH_FieldShowPopUpIcon();
+        if (windowId != WINDOW_NONE)
+            task->tFieldIcon = windowId + 1;
+    }
+}
 
 void ShowMapNamePopup(void)
 {
@@ -410,6 +431,7 @@ static void Task_MapNamePopUpWindow(u8 taskId)
             task->tState = STATE_SLIDE_IN;
             task->tPrintTimer = 0;
             ShowMapNamePopUpWindow();
+            ShowFieldIcon(task); // KJH: LV-14
             if (OW_POPUP_GENERATION == GEN_5)
             {
                 EnableInterrupts(INTR_FLAG_HBLANK);
@@ -458,6 +480,7 @@ static void Task_MapNamePopUpWindow(u8 taskId)
         break;
     case STATE_ERASE:
         ClearStdWindowAndFrame(GetMapNamePopUpWindowId(), TRUE);
+        HideFieldIcon(task); // KJH: LV-14
         if (OW_POPUP_GENERATION == GEN_5)
             ClearStdWindowAndFrame(GetSecondaryPopUpWindowId(), TRUE);
         task->tState = STATE_END;
@@ -481,6 +504,7 @@ void HideMapNamePopUpWindow(void)
             ClearStdWindowAndFrame(GetMapNamePopUpWindowId(), TRUE);
             RemoveMapNamePopUpWindow();
         }
+        HideFieldIcon(&gTasks[gPopupTaskId]); // KJH: LV-14
 
         if (OW_POPUP_GENERATION == GEN_5)
         {

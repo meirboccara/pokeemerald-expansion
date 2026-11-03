@@ -32,6 +32,7 @@
 #include "gpu_regs.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_field.h"
 #include "kjh_legendary.h"
 #include "link.h"
 #include "link_rfu.h"
@@ -567,6 +568,7 @@ static void CB2_InitBattleInternal(void)
         gBattleEnvironment = BATTLE_ENVIRONMENT_BUILDING;
     if (TestRunner_Battle_GetForcedEnvironment())
         gBattleEnvironment = TestRunner_Battle_GetForcedEnvironment() - 1;
+    KJH_FieldStartBattle(); // KJH: LV-14
 
     InitBattleBgsVideo();
     LoadBattleTextboxAndBackground();
@@ -3466,6 +3468,14 @@ static void TryDoEventsBeforeFirstTurn(void)
         gBattleStruct->eventState.beforeFirstTurn++;
         if (TryFieldEffects(FIELD_EFFECT_OVERWORLD_TERRAIN))
             return;
+        break;
+    case FIRST_TURN_EVENTS_KJH_FIELD:
+        gBattleStruct->eventState.beforeFirstTurn++;
+        if (KJH_ShouldShowFieldMessage())
+        {
+            BattleScriptPushCursorAndCallback(BattleScript_KjhFieldStarts);
+            return;
+        }
         break;
     case FIRST_TURN_EVENTS_STARTING_STATUS:
         while (TRUE)

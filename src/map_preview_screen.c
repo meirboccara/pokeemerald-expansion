@@ -5,8 +5,10 @@
 #include "fldeff.h"
 #include "gpu_regs.h"
 #include "io_reg.h"
+#include "kjh_field.h"
 #include "main.h"
 #include "malloc.h"
+#include "map_name_popup.h"
 #include "map_preview_screen.h"
 #include "menu.h"
 #include "overworld.h"
@@ -670,6 +672,10 @@ static void Task_MapPreviewScreen_FadeIn(u8 taskId)
             SetGpuReg(REG_OFFSET_WINOUT, tWINOUT);
             UnlockPlayerFieldControls();
             DestroyTask(taskId);
+            // KJH: the preview took the area-name pop-up's place; on a field (LV-14), the pop-up follows with its
+            // type icon, which the preview has no free palette for
+            if (gMapHeader.showMapName && KJH_FieldTypeHere() != TYPE_NONE)
+                ShowMapNamePopup();
         }
         break;
     }

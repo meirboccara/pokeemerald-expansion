@@ -10,6 +10,7 @@ enum StringID
     STRINGID_USEDMOVE,
     STRINGID_BATTLEEND,
     STRINGID_TRAINERSLIDE,
+    STRINGID_KJH_FIELD, // KJH: the field's battle-start message (LV-14, src/kjh_field.c)
     STRINGID_TABLE_START, // Make sure to add new messages below this marker
     // todo: make some of those names less vague: attacker/target vs pkmn, etc.
     STRINGID_TRAINER1LOSETEXT,

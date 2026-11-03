@@ -18,6 +18,7 @@
 #include "pokemon.h"
 #include "international_string_util.h"
 #include "item.h"
+#include "kjh_field.h"
 #include "util.h"
 #include "battle_scripts.h"
 #include "random.h"
@@ -7703,7 +7704,8 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
     dmg = CalculateBaseDamage(gBattleMovePower, userFinalAttack, gBattleMons[ctx->battlerAtk].level, targetFinalDefense);
     DAMAGE_APPLY_MODIFIER(GetTargetDamageModifier(ctx));
     DAMAGE_APPLY_MODIFIER(GetParentalBondModifier(ctx->battlerAtk));
-    DAMAGE_APPLY_MODIFIER(GetWeatherDamageModifier(ctx));
+    // KJH: the field bonus (LV-14), capped with the weather at x1.5
+    DAMAGE_APPLY_MODIFIER(KJH_CapWeatherAndField(GetWeatherDamageModifier(ctx), KJH_BattleFieldModifier(ctx->moveType)));
     DAMAGE_APPLY_MODIFIER(GetCriticalModifier(ctx->isCrit));
     DAMAGE_APPLY_MODIFIER(GetGlaiveRushModifier(ctx->battlerDef));
 
