@@ -22,6 +22,7 @@
 #include "kjh_field.h"
 #include "kjh_move_stars.h"
 #include "kjh_power_cap.h"
+#include "kjh_team_level.h"
 #include "util.h"
 #include "battle_scripts.h"
 #include "random.h"
@@ -5653,6 +5654,9 @@ enum Obedience GetAttackerObedienceForAction(void)
     if (B_OBEDIENCE_MECHANICS < GEN_8 && !IsOtherTrainer(gBattleMons[gBattlerAttacker].otId, gBattleMons[gBattlerAttacker].otName))
         return OBEYS;
     if (FlagGet(FLAG_BADGE08_GET)) // Rain Badge, ignore obedience altogether
+        return OBEYS;
+    // KJH (LV-2): levels follow the zones, not the player, so no level is too high to obey.
+    if (KJH_IsLevelsFree())
         return OBEYS;
 
     obedienceLevel = 10;

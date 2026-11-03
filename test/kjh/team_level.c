@@ -3,11 +3,15 @@
 // ceiling, a catch, a gift and a Day Care pickup joining at the team's level, the party levelled on a step, nothing
 // outside Kanto, and no Exp. or Rare Candy level-ups in the levels-free game.
 #include "global.h"
+#include "battle.h"
+#include "battle_controllers.h"
+#include "battle_util.h"
 #include "daycare.h"
 #include "event_data.h"
 #include "kjh_team_level.h"
 #include "pokemon.h"
 #include "script_pokemon_util.h"
+#include "string_util.h"
 #include "wild_encounter.h"
 #include "test/battle.h"
 #include "test/test.h"
@@ -242,4 +246,36 @@ TEST("KJH: a Gym's trainers move with the badges, only in their Gym and in the l
     gSaveBlock1Ptr->location.mapGroup = MAP_GROUP(MAP_ROUTE3);
     gSaveBlock1Ptr->location.mapNum = MAP_NUM(MAP_ROUTE3);
     EXPECT_EQ(KJH_GymLevelShift(), 0);
+}
+
+// A player's own Pokemon caught at the team's level (met level 14 here) with no badge: Gen 8 obedience compares the
+// met level with 10.
+static void SetUpOwnBattler(u32 metLevel)
+{
+    gBattleTypeFlags = 0;
+    gBattlerAttacker = 0;
+    gBattlerBattleController[0] = BATTLE_CONTROLLER_PLAYER;
+    gBattleMons[0].level = metLevel;
+    gBattleMons[0].metLevel = metLevel;
+    gBattleMons[0].otId = READ_OTID_FROM_SAVE;
+    StringCopy(gBattleMons[0].otName, gSaveBlock2Ptr->playerName);
+}
+
+TEST("KJH: in the levels-free game, the player's Pokemon always obey, whatever their level")
+{
+    u32 disobeyed = 0;
+    SetBadges(0);
+    SetUpOwnBattler(14);
+    FlagSet(FLAG_KJH_LEVELLESS);
+    for (u32 i = 0; i < 64; i++)
+        EXPECT_EQ(GetAttackerObedienceForAction(), OBEYS);
+    FlagClear(FLAG_KJH_LEVELLESS);
+    SetUpOwnBattler(60);
+    for (u32 i = 0; i < 64; i++)
+    {
+        if (GetAttackerObedienceForAction() != OBEYS)
+            disobeyed++;
+    }
+
+    EXPECT_GT(disobeyed, 0); // Without the levels-free game, Gen 8 obedience still applies.
 }
