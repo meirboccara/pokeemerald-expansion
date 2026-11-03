@@ -270,6 +270,11 @@ FiveIsland_RocketWarehouse_Text_Admin2PostBattle::
 	.string "I will find GIOVANNI.\n"
 	.string "And I will resurrect TEAM ROCKET!\l"
 	.string "I will…\p"
+	@ KJH (ENG-10): the story's thread to Johto (docs/STORY.md), up to "will answer!"
+	.string "Our EXECUTIVES are already\n"
+	.string "gathering in JOHTO.\p"
+	.string "When TEAM ROCKET calls, the BOSS\n"
+	.string "will answer!\p"
 	.string "Until then, farewell!$"
 
 FiveIsland_RocketWarehouse_Text_ReportWithGraphsAndText::

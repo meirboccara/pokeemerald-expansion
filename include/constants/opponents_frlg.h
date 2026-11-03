@@ -645,6 +645,8 @@
 // KJH (ENG-10): the story's trainers (data/scripts/kjh_story.inc), in src/data/trainers_kjh_story.party
 #define TRAINER_KJH_AQUA_ADMIN_MATT                 635
 #define TRAINER_KJH_MAGMA_ADMIN_COURTNEY            636
+#define TRAINER_KJH_VERMILION_AQUA_GRUNT            637
+#define TRAINER_KJH_VERMILION_MAGMA_GRUNT           638
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.

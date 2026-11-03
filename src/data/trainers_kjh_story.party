@@ -32,3 +32,35 @@ Level: 73
 
 SPECIES_CAMERUPT
 Level: 74
+
+/* Vermilion City's harbor (Kanto's Vermilion zone, 22-26): their best Pokemon at its top, the other as far below it
+   as in the pokefirered tree (20 and 21 there) */
+=== TRAINER_KJH_VERMILION_AQUA_GRUNT ===
+Name: GRUNT
+Class: TRAINER_CLASS_TEAM_AQUA
+Pic: TRAINER_PIC_AQUA_GRUNT_M
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move
+
+SPECIES_POOCHYENA
+Level: 25
+
+SPECIES_CARVANHA
+Level: 26
+
+=== TRAINER_KJH_VERMILION_MAGMA_GRUNT ===
+Name: GRUNT
+Class: TRAINER_CLASS_TEAM_MAGMA
+Pic: TRAINER_PIC_MAGMA_GRUNT_M
+Gender: Male
+Music: Magma
+Double Battle: No
+AI: Check Bad Move
+
+SPECIES_POOCHYENA
+Level: 25
+
+SPECIES_NUMEL
+Level: 26
