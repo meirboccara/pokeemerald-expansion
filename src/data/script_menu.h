@@ -639,9 +639,10 @@ static const struct MenuAction MultichoiceList_YesNo[] =
 
 static const struct MenuAction MultichoiceList_FrontierRules[] =
 {
-    {COMPOUND_STRING("TWO STYLES")},
-    {COMPOUND_STRING("LV. 50")},
-    {COMPOUND_STRING("OPEN LEVEL")},
+    // KJH (LV-4): one course, no level (the texts: BattleFrontier_ReceptionGate)
+    {COMPOUND_STRING("ONE COURSE")},
+    {COMPOUND_STRING("YOUR TEAM")},
+    {COMPOUND_STRING("OPPONENTS")},
     {COMPOUND_STRING("{PKMN} TYPE & NO.")},
     {COMPOUND_STRING("HOLD ITEMS")},
     {gText_Exit},
@@ -697,7 +698,7 @@ static const struct MenuAction MultichoiceList_BattleFactoryRules[] =
     {gText_SwapPartners},
     {gText_SwapNumber},
     {gText_SwapNotes},
-    {COMPOUND_STRING("OPEN LEVEL")},
+    {COMPOUND_STRING("RENTALS")}, // KJH (LV-4): was OPEN LEVEL
     {gText_Exit},
 };
 

@@ -23,11 +23,9 @@ Apprentice_EventScript_FirstMeeting:
 Apprentice_EventScript_WhichLvlMode:
 	apprentice_menu APPRENTICE_ASK_YES_NO
 	goto_if_eq VAR_RESULT, 1, Apprentice_EventScript_RejectTeach
-	apprentice_msg FALSE, APPRENTICE_MSG_WHICH_LVL_MODE
-	apprentice_menu APPRENTICE_ASK_WHICH_LEVEL
-	apprentice_setlvlmode VAR_RESULT
+	@ KJH (LV-4): no level question; the Apprentice takes the one course (the Open Level) and thanks his teacher
+	apprentice_setlvlmode FRONTIER_LVL_OPEN
 	apprentice_shufflespecies
-	apprentice_buff STR_VAR_1, APPRENTICE_BUFF_LEVEL
 	apprentice_msg TRUE, APPRENTICE_MSG_THANKS_LVL_MODE
 	call Apprentice_EventScript_SetHideFlags
 	release

@@ -55,7 +55,7 @@ RockTunnel_1F_Text_LennyDefeat::
 RockTunnel_1F_Text_LennyPostBattle::
 	.string "Watch for ONIX.\n"
 	.string "They appear only occasionally.\p"
-	.string "High-level ones can put the\n"
+	.string "Strong ones can put the\n"
 	.string "squeeze on you!$"
 
 RockTunnel_1F_Text_OliverIntro::

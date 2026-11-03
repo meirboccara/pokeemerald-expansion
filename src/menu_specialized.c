@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "malloc.h"
 #include "battle_main.h"
 #include "contest.h"
@@ -961,6 +962,12 @@ static u8 *GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
         *(str++) = TEXT_COLOR_TRANSPARENT;
         *(str++) = CHAR_FEMALE;
         break;
+    }
+
+    if (KJH_HideLevels()) // KJH (LV-4): the name and gender, no level
+    {
+        *str = EOS;
+        return str;
     }
 
     *(str++) = EXT_CTRL_CODE_BEGIN;

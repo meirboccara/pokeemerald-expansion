@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_team_level.h"
 #include "battle_tower.h"
 #include "apprentice.h"
 #include "event_data.h"
@@ -1934,7 +1935,7 @@ u8 SetTentPtrsGetLevel(void)
     }
 
     level = GetHighestLevelInPlayerParty();
-    if (level < TENT_MIN_LEVEL)
+    if (level < TENT_MIN_LEVEL && !KJH_IsLevelsFree()) // KJH (LV-4): the team's level, no floor
         level = TENT_MIN_LEVEL;
 
     return level;

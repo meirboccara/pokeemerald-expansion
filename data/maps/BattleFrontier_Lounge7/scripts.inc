@@ -399,8 +399,8 @@ BattleFrontier_Lounge7_Text_SoftboiledDesc::
 
 BattleFrontier_Lounge7_Text_SeismicTossDesc::
 	.string "Inflicts damage\n"
-	.string "identical to the\n"
-	.string "user's level.$"
+	.string "that grows with\n"
+	.string "the user's might.$"
 
 BattleFrontier_Lounge7_Text_DreamEaterDesc::
 	.string "Recovers half the\n"

@@ -386,5 +386,5 @@ J_Route43Sign1Text::
 J_Route43Sign2Text::
 	.string "ROUTE 43\pLAKE OF RAGE -\nMAHOGANY TOWN$"
 J_Route43TrainerTipsText::
-	.string "TRAINER TIPS\pAll POKéMON have\npros and cons\pdepending on their\ntypes.\pIf their types\ndiffer, a higher-\plevel POKéMON may\nlose in battle.\pLearn which types\nare strong and\pweak against your\nPOKéMON's type.$"
+	.string "TRAINER TIPS\pAll POKéMON have\npros and cons\pdepending on their\ntypes.\pIf their types\ndiffer, a stronger\pPOKéMON may\nlose in battle.\pLearn which types\nare strong and\pweak against your\nPOKéMON's type.$"
 J_Route43_MapEvents::

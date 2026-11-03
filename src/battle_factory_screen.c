@@ -1,4 +1,5 @@
 #include "global.h"
+#include "frontier_util.h"
 #include "battle.h"
 #include "battle_factory_screen.h"
 #include "battle_factory.h"
@@ -1719,10 +1720,7 @@ static void CreateFrontierFactorySelectableMons(u8 firstMonId)
     u8 rentalRank = 0;
 
     gFacilityTrainerMons = gBattleFrontierMons;
-    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
-        level = FRONTIER_MAX_LEVEL_OPEN;
-    else
-        level = FRONTIER_MAX_LEVEL_50;
+    level = GetFrontierRentalLevel(); // KJH (LV-4): the team's level in the levels-free game
 
     rentalRank = GetNumPastRentalsRank(battleMode, lvlMode);
     otId = READ_OTID_FROM_SAVE;
@@ -1746,7 +1744,7 @@ static void CreateSlateportTentSelectableMons(u8 firstMonId)
 {
     u8 i;
     u8 ivs = 0;
-    u8 level = TENT_MIN_LEVEL;
+    u8 level = GetFrontierRentalLevel(); // KJH (LV-4): TENT_MIN_LEVEL, or the team's level in the levels-free game
     u32 otId = 0;
 
     gFacilityTrainerMons = gSlateportBattleTentMons;

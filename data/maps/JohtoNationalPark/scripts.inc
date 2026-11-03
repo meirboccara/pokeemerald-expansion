@@ -402,7 +402,7 @@ J_SchoolboyJack1SeenText::
 J_SchoolboyJack1BeatenText::
 	.string "Wha-wha-what?$"
 J_SchoolboyJackTradeMonText::
-	.string "There is a lot\nto learn.\pFor example…\pThere are 0 kinds\nof TMs.\pTraded POKéMON\nlevel up faster.$"
+	.string "There is a lot\nto learn.\pFor example…\pThere are 0 kinds\nof TMs.\pNo two POKéMON\nare quite alike.$"
 J_PokefanfBeverly1SeenText::
 	.string "My POKéMON are\nsimply darling.\pLet me tell you\nhow proud my\ldarlings make me.$"
 J_PokefanfBeverly1BeatenText::

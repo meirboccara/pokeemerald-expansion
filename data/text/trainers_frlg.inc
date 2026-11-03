@@ -457,7 +457,7 @@ Route17_Text_NikolasRematchIntro::
 	.string "electrify you today!$"
 
 Route17_Text_ZeekRematchIntro::
-	.string "I leveled up my POKéMON, but it\n"
+	.string "I trained my POKéMON hard, but it\n"
 	.string "absolutely won't evolve. Why?$"
 
 Route17_Text_JamalRematchIntro::

@@ -180,7 +180,7 @@ J_ChuckLossText::
 J_GetStormBadgeText::
 	.string "{PLAYER} received\nSTORMBADGE.$"
 J_ChuckExplainBadgeText::
-	.string "STORMBADGE makes\nall POKéMON up to\pL70 obey, even\ntraded ones.\pIt also lets your\nPOKéMON use FLY\pwhen you're not in\na battle.\pHere, take this\ntoo!$"
+	.string "STORMBADGE lets\nyour POKéMON use\pFLY when you're\nnot in a battle.\pHere, take this\ntoo!$"
 J_ChuckExplainTMText::
 	.string "That is DYNAMIC-\nPUNCH.\pIt doesn't always\nhit, but when it\pdoes, it causes\nconfusion!$"
 J_ChuckAfterText::

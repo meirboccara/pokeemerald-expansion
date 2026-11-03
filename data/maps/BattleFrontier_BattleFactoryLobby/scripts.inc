@@ -137,9 +137,7 @@ BattleFrontier_BattleFactoryLobby_EventScript_AskTakeChallenge::
 	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
 
 BattleFrontier_BattleFactoryLobby_EventScript_TryEnterChallenge::
-	message BattleFrontier_BattleFactoryLobby_Text_WhichLevelMode
-	waitmessage
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
+	setvar VAR_RESULT, FRONTIER_LVL_OPEN @ KJH (LV-4): no level question, the team fights as it is
 	switch VAR_RESULT
 	case FRONTIER_LVL_TENT, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
@@ -546,6 +544,6 @@ BattleFrontier_BattleFactoryLobby_Text_ExplainSwapNotesRules:
 	.string "even when swaps are made.$"
 
 BattleFrontier_BattleFactoryLobby_Text_ExplainOpenLvRules:
-	.string "In the Open Level, the rental POKéMON\n"
-	.string "and the opposing TRAINERS' POKéMON\l"
-	.string "are all Level 100.$"
+	.string "The rental POKéMON and the opposing\n"
+	.string "TRAINERS' POKéMON are all matched to\l"
+	.string "the strength of your own team.$"

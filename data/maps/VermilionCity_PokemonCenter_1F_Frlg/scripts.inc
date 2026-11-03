@@ -44,7 +44,7 @@ VermilionCity_PokemonCenter_1F_EventScript_ExplainVSSeeker::
 	end
 
 VermilionCity_PokemonCenter_1F_Text_TrainerMonsStrongerThanWild::
-	.string "Even if they are the same level,\n"
+	.string "Even if they are the same kind,\n"
 	.string "POKéMON can have very different\l"
 	.string "stats and abilities.\p"
 	.string "A POKéMON raised by a TRAINER is\n"
@@ -55,8 +55,8 @@ VermilionCity_PokemonCenter_1F_Text_PoisonedMonFaintedWhileWalking::
 	.string "It fainted while we were walking!$"
 
 VermilionCity_PokemonCenter_1F_Text_AllMonWeakToSpecificTypes::
-	.string "It is true that a higher-level\n"
-	.string "POKéMON will be more powerful…\p"
+	.string "It is true that a stronger POKéMON\n"
+	.string "will have the upper hand…\p"
 	.string "But, all POKéMON will have weak\n"
 	.string "points against specific types.\p"
 	.string "So, there appears to be no\n"

@@ -91,11 +91,11 @@ gText_ApprenticeWhichLevelMode0::
 	.string "or the Open Level?$"
 
 gText_ApprenticeLevelModeThanks0::
-	.string "{STR_VAR_1}?\n"
+	.string "You will?\n"
 	.string "Waaaaah!\p"
 	.string "Oh! I'm so sorry!\n"
-	.string "You've made me happy by choosing\l"
-	.string "the level for me, and it's made me cry…\p"
+	.string "You've made me happy by agreeing\l"
+	.string "to teach me, and it's made me cry…\p"
 	.string "Snivel…\n"
 	.string "Thank you so much!\l"
 	.string "Please talk with me again!$"
@@ -122,10 +122,10 @@ gText_ApprenticeWhichLevelMode1::
 	.string "Which would be perfect for me?$"
 
 gText_ApprenticeLevelModeThanks1::
-	.string "{STR_VAR_1}, huh? That's true!\n"
-	.string "I'll do my best there!\p"
+	.string "You'll teach me? That's great!\n"
+	.string "I'll do my best at the BATTLE TOWER!\p"
 	.string "If we meet here again, please teach\n"
-	.string "me something else, teacher!$"
+	.string "me something, teacher!$"
 
 gText_ApprenticePleaseTeach2::
 	.string "Um… Are you {PLAYER}?\n"
@@ -151,9 +151,9 @@ gText_ApprenticeWhichLevelMode2::
 	.string "suitable for me?$"
 
 gText_ApprenticeLevelModeThanks2::
-	.string "Oh, the {STR_VAR_1} challenge?\n"
+	.string "Oh, you'll be my teacher?\n"
 	.string "Understood!\p"
-	.string "If I have another question, I'll come\n"
+	.string "If I have a question, I'll come\n"
 	.string "back here for your advice!$"
 
 gText_ApprenticePleaseTeach3::
@@ -203,7 +203,7 @@ gText_ApprenticeWhichLevelMode3::
 	.string "have a chance at?$"
 
 gText_ApprenticeLevelModeThanks3::
-	.string "{STR_VAR_1}? Okay!\n"
+	.string "You will? Okay!\n"
 	.string "But do you really think someone like\l"
 	.string "me would have a chance?\p"
 	.string "I'll do my best, even though I don't\n"
@@ -238,9 +238,9 @@ gText_ApprenticeWhichLevelMode4::
 	.string "for me, {PLAYER}{KUN}?$"
 
 gText_ApprenticeLevelModeThanks4::
-	.string "Okay, {STR_VAR_1} is suitable for me?\n"
+	.string "Okay, you'll teach me?\n"
 	.string "Thank you!\p"
-	.string "Knowing that you made the decision,\n"
+	.string "Knowing that you're my teacher,\n"
 	.string "{PLAYER}{KUN}, I won't be so upset if\l"
 	.string "I lose.\p"
 	.string "Okay, I'll look to you for advice again.\n"
@@ -277,7 +277,7 @@ gText_ApprenticeWhichLevelMode5::
 	.string "I gear up for?$"
 
 gText_ApprenticeLevelModeThanks5::
-	.string "{STR_VAR_1}, huh? Okay, gotcha.\n"
+	.string "You'll teach me, huh? Okay, gotcha.\n"
 	.string "I'll find time somehow and give it a go!\p"
 	.string "…Whoops, I'd better go to work!\n"
 	.string "Thanks! See you around!$"
@@ -315,7 +315,7 @@ gText_ApprenticeWhichLevelMode6::
 
 gText_ApprenticeLevelModeThanks6::
 	.string "Oh-oh-oh!\n"
-	.string "{STR_VAR_1}, you say!\l"
+	.string "You'll teach me, you say!\l"
 	.string "Thank you for a totally cool reply!\p"
 	.string "I guess that's about all I wanted\n"
 	.string "to ask you today.\p"
@@ -355,7 +355,7 @@ gText_ApprenticeWhichLevelMode7::
 	.string "Level 50 or Open Level?$"
 
 gText_ApprenticeLevelModeThanks7::
-	.string "{STR_VAR_1} is your choice!\n"
+	.string "You'll be my teacher!\n"
 	.string "I see. I will do my best!\p"
 	.string "Thank you, {PLAYER}.\n"
 	.string "I hope I can count on you again.\l"
@@ -392,7 +392,7 @@ gText_ApprenticeWhichLevelMode8::
 	.string "for me, Level 50 or Open Level?$"
 
 gText_ApprenticeLevelModeThanks8::
-	.string "{STR_VAR_1}! Perfectly understood!\n"
+	.string "A teacher! Perfectly understood!\n"
 	.string "I understand perfectly!\l"
 	.string "I'm deliriously delighted!\p"
 	.string "I hope you'll be willing to teach me\n"
@@ -426,7 +426,7 @@ gText_ApprenticeWhichLevelMode9::
 	.string "Level 50 or Open Level?$"
 
 gText_ApprenticeLevelModeThanks9::
-	.string "Uh-huh, {STR_VAR_1} it is!\n"
+	.string "Uh-huh, you're my teacher!\n"
 	.string "OK, A-OK!\l"
 	.string "I'll go show my mettle, like, jam!\p"
 	.string "All right, I'll look to you as my mentor!\n"
@@ -466,8 +466,8 @@ gText_ApprenticeWhichLevelMode10::
 	.string "Can you decide for me, master?$"
 
 gText_ApprenticeLevelModeThanks10::
-	.string "Okay, so {STR_VAR_1} is better!\n"
-	.string "I'll go to the other level, then!\p"
+	.string "Okay, so you'll teach me!\n"
+	.string "I'll go learn from someone else, then!\p"
 	.string "Just kidding!\n"
 	.string "I'll obey your teaching, master!\p"
 	.string "Thanks, master!\n"
@@ -508,8 +508,8 @@ gText_ApprenticeWhichLevelMode11::
 	.string "which is the one that's good for me?$"
 
 gText_ApprenticeLevelModeThanks11::
-	.string "Okay, {STR_VAR_1} it is, you say!\n"
-	.string "I'll go and take it on my way!\p"
+	.string "Okay, you'll teach me, you say!\n"
+	.string "I'll learn from you on my way!\p"
 	.string "If it's advice I ever need,\n"
 	.string "{PLAYER}, your word I'll always heed!$"
 
@@ -544,8 +544,8 @@ gText_ApprenticeWhichLevelMode12::
 	.string "which is the right one for me?$"
 
 gText_ApprenticeLevelModeThanks12::
-	.string "If {STR_VAR_1} is what you suggest,\n"
-	.string "it must be the very best!\p"
+	.string "If you're the teacher I have found,\n"
+	.string "I'll be the best one around!\p"
 	.string "Well, {PLAYER}, I have to roam free,\n"
 	.string "but don't you forget about me.\p"
 	.string "See you again, my smart friend!$"
@@ -579,8 +579,8 @@ gText_ApprenticeWhichLevelMode13::
 	.string "for me? Level 50 or Open Level?$"
 
 gText_ApprenticeLevelModeThanks13::
-	.string "Hm, all right. That's {STR_VAR_1}.\n"
-	.string "I'll go there right away.\p"
+	.string "Hm, all right. You'll teach me.\n"
+	.string "I'll go to the TOWER right away.\p"
 	.string "I hope I can keep hitting you up for\n"
 	.string "help--after all, you're my mentor!$"
 
@@ -655,7 +655,7 @@ gText_ApprenticeWhichLevelMode15::
 	.string "Level 50 or Open Level?$"
 
 gText_ApprenticeLevelModeThanks15::
-	.string "{STR_VAR_1}?\n"
+	.string "You will?\n"
 	.string "Are you certain?\p"
 	.string "I see. If that's the case, that's fine.\n"
 	.string "I thank you for your time.\p"

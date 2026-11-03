@@ -422,29 +422,24 @@ BattleFrontier_ReceptionGate_Text_LearnAboutWhat:
 
 BattleFrontier_ReceptionGate_Text_LevelModeInfo:
 	.string "All the challenges at the BATTLE\n"
-	.string "FRONTIER's facilities come in\l"
-	.string "two courses--Level 50 and Open Level.$"
+	.string "FRONTIER's facilities follow one\l"
+	.string "course: your POKéMON, as they are.$"
 
 BattleFrontier_ReceptionGate_Text_Level50Info:
-	.string "The Level 50 course is open to POKéMON\n"
-	.string "up to and including Level 50.\p"
-	.string "Please keep in mind, however, that\n"
-	.string "no TRAINER you face will have any\l"
-	.string "POKéMON below Level 50.\p"
-	.string "This course is the entry level for\n"
-	.string "battles at the BATTLE FRONTIER.\p"
+	.string "Bring your POKéMON just as they are.\n"
+	.string "Nothing about them is changed or\l"
+	.string "held back.\p"
+	.string "This is the course for every battle\n"
+	.string "at the BATTLE FRONTIER.\p"
 	.string "To begin, we hope you will challenge\n"
-	.string "this course.$"
+	.string "any facility you like.$"
 
 BattleFrontier_ReceptionGate_Text_OpenLevelInfo:
-	.string "The Open Level course places no limit\n"
-	.string "on the levels of POKéMON entering\l"
-	.string "challenges.\p"
-	.string "The levels of your opponents will\n"
-	.string "be adjusted to match the levels of\l"
-	.string "your POKéMON.\p"
-	.string "However, no TRAINER you face will\n"
-	.string "have any POKéMON below Level 60.$"
+	.string "The POKéMON of your opponents will\n"
+	.string "be matched to the strength of\l"
+	.string "your own team.\p"
+	.string "However strong your POKéMON grow,\n"
+	.string "every battle will be a fair challenge.$"
 
 BattleFrontier_ReceptionGate_Text_MonEntryInfo:
 	.string "Virtually any kind of POKéMON may take\n"

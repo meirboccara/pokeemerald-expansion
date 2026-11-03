@@ -689,7 +689,7 @@ Route107_Text_RayIntro:
 	.string "2-on-2!$"
 
 Route107_Text_RayDefeated:
-	.string "RAY: Wowee, you're at a higher level\n"
+	.string "RAY: Wowee, you're way stronger\n"
 	.string "than us!$"
 
 Route107_Text_RayPostBattle:

@@ -64,8 +64,7 @@ BattleFrontier_RankingHall_EventScript_PyramidRecords::
 BattleFrontier_RankingHall_EventScript_ShowRecords::
 	special ShowRankingHallRecordsWindow
 	waitbuttonpress
-	special ScrollRankingHallRecordsWindow
-	waitbuttonpress
+	@ KJH (LV-4): one course, one page of records (no Open Level page after the Level 50 one)
 	special RemoveRecordsWindow
 	releaseall
 	end

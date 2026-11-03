@@ -395,20 +395,11 @@ static void CreateRentalMon(struct Pokemon *dst, struct RentalMon *rentalMon, u3
 
 static void SetPlayerAndOpponentParties(void)
 {
-    u32 monLevel;
+    u32 monLevel = GetFrontierRentalLevel(); // KJH (LV-4): the team's level in the levels-free game
     if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_TENT)
-    {
         gFacilityTrainerMons = gSlateportBattleTentMons;
-        monLevel = TENT_MIN_LEVEL;
-    }
     else
-    {
         gFacilityTrainerMons = gBattleFrontierMons;
-        if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
-            monLevel = FRONTIER_MAX_LEVEL_OPEN;
-        else
-            monLevel = FRONTIER_MAX_LEVEL_50;
-    }
 
     ZeroPlayerPartyMons();
     for (u32 i = 0; i < FRONTIER_PARTY_SIZE; i++)
@@ -893,7 +884,7 @@ static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
 static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId)
 {
     u8 i;
-    u8 level = TENT_MIN_LEVEL;
+    u8 level = GetFrontierRentalLevel(); // KJH (LV-4): TENT_MIN_LEVEL, or the team's level in the levels-free game
     u8 fixedIV = 0;
     u32 otID = READ_OTID_FROM_SAVE;
 

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "hall_of_fame.h"
 #include "task.h"
 #include "palette.h"
@@ -1186,8 +1187,7 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon *currMon, u8 unused1, u
         stringPtr[0] = EOS;
         AddTextPrinterParameterized3(0, FONT_NORMAL, 0x80, 1, sMonInfoTextColors, TEXT_SKIP_DRAW, text);
 
-        stringPtr = StringCopy(text, gText_Level);
-        ConvertIntToDecimalStringN(stringPtr, currMon->lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
+        HallOfFameBufferMonLevel(text, currMon->lvl);
         AddTextPrinterParameterized3(0, FONT_NORMAL, 0x24, 0x11, sMonInfoTextColors, TEXT_SKIP_DRAW, text);
 
         stringPtr = StringCopy(text, gText_IDNumber);
@@ -1196,6 +1196,18 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon *currMon, u8 unused1, u
 
         CopyWindowToVram(0, COPYWIN_FULL);
     }
+}
+
+// A card's level text, "Lv. 45" (the FireRed Hall of Fame's too, hall_of_fame_frlg.c)
+u8 *HallOfFameBufferMonLevel(u8 *dst, u32 level)
+{
+    if (KJH_HideLevels()) // KJH (LV-4): no level on the card
+    {
+        *dst = EOS;
+        return dst;
+    }
+    dst = StringCopy(dst, gText_Level);
+    return ConvertIntToDecimalStringN(dst, level, STR_CONV_MODE_LEFT_ALIGN, 3);
 }
 
 static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)

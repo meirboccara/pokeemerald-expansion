@@ -680,7 +680,7 @@ J_BugCatchingContestant5BStillCompetingText::
 J_BugCatchingContestant6BText::
 	.string "BARRY: That POKé-\nMON you caught…\lit's awesome!$"
 J_BugCatchingContestant6BStillCompetingText::
-	.string "BARRY: It's easier\nto win if you get\pa high-level bug\nPOKéMON.\pBut I think they\nalso consider some\lother points.$"
+	.string "BARRY: It's easier\nto win if you get\pa strong bug\nPOKéMON.\pBut I think they\nalso consider some\lother points.$"
 J_BugCatchingContestant7BText::
 	.string "CINDY: You won?\nThat's great!\pDo you feel like\nlooking for bug\lPOKéMON with me?$"
 J_BugCatchingContestant7BStillCompetingText::

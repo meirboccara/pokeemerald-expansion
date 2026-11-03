@@ -1033,7 +1033,7 @@ J_ShowElmTogepiText3::
 J_ElmGiveEverstoneText1::
 	.string "Thanks, {PLAYER}!\nYou're helping\punravel POKéMON\nmysteries for us!\pI want you to have\nthis as a token of\lour appreciation.$"
 J_ElmGiveEverstoneText2::
-	.string "That's an\nEVERSTONE.\pSome species of\nPOKéMON evolve\pwhen they grow to\ncertain levels.\pA POKéMON holding\nthe EVERSTONE\lwon't evolve.\pGive it to a POKé-\nMON you don't want\lto evolve.$"
+	.string "That's an\nEVERSTONE.\pSome species of\nPOKéMON evolve\pwhen they grow\nstrong enough.\pA POKéMON holding\nthe EVERSTONE\lwon't evolve.\pGive it to a POKé-\nMON you don't want\lto evolve.$"
 J_ElmText_CallYou::
 	.string "ELM: {PLAYER}, I'll\ncall you if any-\lthing comes up.$"
 J_AideText_AfterTheft::

@@ -215,7 +215,7 @@ J_MortyWinLossText::
 J_Text_ReceivedFogBadge::
 	.string "{PLAYER} received\nFOGBADGE.$"
 J_MortyText_FogBadgeSpeech::
-	.string "By having FOG-\nBADGE, POKéMON up\pto L50 will obey\nyou.\pAlso, POKéMON that\nknow SURF will be\pable to use that\nmove anytime.\pI want you to have\nthis too.$"
+	.string "By having FOG-\nBADGE, POKéMON\pthat know SURF\nwill be able to\luse that move\lanytime.\pI want you to have\nthis too.$"
 J_MortyText_ShadowBallSpeech::
 	.string "It's SHADOW BALL.\nIt causes damage\pand may reduce\nSPCL.DEF.\pUse it if it\nappeals to you.$"
 J_MortyFightDoneText::

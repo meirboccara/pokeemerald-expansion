@@ -179,7 +179,7 @@ J_BugsyText_ResearchIncomplete::
 J_Text_ReceivedHiveBadge::
 	.string "{PLAYER} received\nHIVEBADGE.$"
 J_BugsyText_HiveBadgeSpeech::
-	.string "Do you know the\nbenefits of HIVE-\lBADGE?\pIf you have it,\nPOKéMON up to L30\pwill obey you,\neven traded ones.\pPOKéMON that know\nCUT will be able\pto use it outside\nof battle too.\pHere, I also want\nyou to have this.$"
+	.string "Do you know the\nbenefits of HIVE-\lBADGE?\pIf you have it,\pPOKéMON that know\nCUT will be able\pto use it outside\nof battle too.\pHere, I also want\nyou to have this.$"
 J_BugsyText_FuryCutterSpeech::
 	.string "TM49 contains\nFURY CUTTER.\pIf you don't miss,\nit gets stronger\levery turn.\pThe longer your\nbattle goes, the\lbetter it gets.\pIsn't that great?\nI discovered it!$"
 J_BugsyText_BugMonsAreDeep::

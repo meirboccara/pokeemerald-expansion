@@ -79,7 +79,7 @@ Route17_Text_NikolasPostBattle::
 	.string "POWER PLANT.$"
 
 Route17_Text_ZeekIntro::
-	.string "I leveled up my POKéMON, but it\n"
+	.string "I trained my POKéMON hard, but it\n"
 	.string "won't evolve. Why?$"
 
 Route17_Text_ZeekDefeat::
@@ -136,7 +136,7 @@ Route17_Text_SameSpeciesGrowDifferentRates::
 	.string "TRAINER TIPS\p"
 	.string "All POKéMON are unique.\p"
 	.string "Even POKéMON of the same species\n"
-	.string "and level grow at different rates.$"
+	.string "grow in different ways.$"
 
 Route17_Text_PressBToStayInPlace::
 	.string "TRAINER TIPS\p"

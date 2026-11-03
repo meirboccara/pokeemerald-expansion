@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "malloc.h"
 #include "battle_anim.h"
 #include "battle_interface.h"
@@ -2028,7 +2029,7 @@ static void PrintLevelAndGender(u8 whichParty, u8 monIdx, u8 x, u8 y, u8 width, 
     else
         level = GetMonData(&gParties[B_TRAINER_OPPONENT_A][monIdx], MON_DATA_LEVEL);
 
-    if (!sTradeMenu->isEgg[whichParty][monIdx])
+    if (!sTradeMenu->isEgg[whichParty][monIdx] && !KJH_HideLevels()) // KJH (LV-4): no level; the "Lv" tiles go as for an Egg
     {
         if (level / 10 != 0)
             sTradeMenu->tilemapBuffer[x + (y * 32)] = (level / 10) + 0x60;

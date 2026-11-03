@@ -33,6 +33,7 @@ u8 ModifyBreedingScoreForOvalCharm(u8 score);
 void SetDaycareCompatibilityString(void);
 bool8 NameHasGenderSymbol(const u8 *name, u8 genderRatio);
 void ShowDaycareLevelMenu(void);
+u8 *DaycareBufferMonLevel(u8 *dst, struct DaycareMon *daycareMon);
 void ChooseSendDaycareMon(void);
 void StorePokemonInDaycare(struct Pokemon *mon, struct DaycareMon *daycareMon);
 void IncrementDaycareSteps(void);

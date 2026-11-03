@@ -110,7 +110,7 @@ SootopolisCity_Gym_B1F_Text_BridgetIntro:
 	.string "That's the SOOTOPOLIS GYM.$"
 
 SootopolisCity_Gym_B1F_Text_BridgetDefeat:
-	.string "What a high level you are!$"
+	.string "What a skilled TRAINER you are!$"
 
 SootopolisCity_Gym_B1F_Text_BridgetPostBattle:
 	.string "Rather than being satisfied by being\n"

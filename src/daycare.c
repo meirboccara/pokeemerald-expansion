@@ -1411,17 +1411,23 @@ static void DaycarePrintMonNickname(struct DayCare *daycare, u8 windowId, u32 da
     DaycareAddTextPrinter(windowId, nickname, 8, y);
 }
 
+// The take-back list's level text, "Lv12"
+u8 *DaycareBufferMonLevel(u8 *dst, struct DaycareMon *daycareMon)
+{
+    u8 level = GetLevelAfterDaycareSteps(&daycareMon->mon, daycareMon->steps);
+
+    if (KJH_HideLevels()) // KJH (LV-4): the Bond where the level was
+        return KJH_BufferBondLabel(dst, GetBoxMonData(&daycareMon->mon, MON_DATA_FRIENDSHIP));
+    dst = StringCopy(dst, gText_Lv);
+    return ConvertIntToDecimalStringN(dst, level, STR_CONV_MODE_LEFT_ALIGN, 3);
+}
+
 static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycareSlotId, u32 y)
 {
-    u8 level;
     u32 x;
     u8 lvlText[12];
-    u8 intText[8];
 
-    StringCopy(lvlText, gText_Lv);
-    level = GetLevelAfterDaycareSteps(&daycare->mons[daycareSlotId].mon, daycare->mons[daycareSlotId].steps);
-    ConvertIntToDecimalStringN(intText, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(lvlText, intText);
+    DaycareBufferMonLevel(lvlText, &daycare->mons[daycareSlotId]);
     x = GetStringRightAlignXOffset(FONT_NORMAL, lvlText, 112);
     DaycareAddTextPrinter(windowId, lvlText, x, y);
 }

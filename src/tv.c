@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "rtc.h"
 #include "overworld.h"
 #include "random.h"
@@ -4184,7 +4185,9 @@ static void DoTVShowBravoTrainerBattleTower(void)
     case BRAVOTOWER_STATE_NEW_RECORD:
         // The TV show states a "new record" was achieved as long as all the battles in the challenge were attempted,
         // regardless of any previous records or whether the final battle was won or lost.
-        if (show->bravoTrainerTower.btLevel == FRONTIER_MAX_LEVEL_50)
+        if (KJH_HideLevels()) // KJH (LV-4): no level name
+            StringCopy(gStringVar1, COMPOUND_STRING("BATTLE TOWER"));
+        else if (show->bravoTrainerTower.btLevel == FRONTIER_MAX_LEVEL_50)
             StringCopy(gStringVar1, gText_Lv50);
         else
             StringCopy(gStringVar1, gText_OpenLevel);

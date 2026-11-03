@@ -120,9 +120,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_AskTakeChallenge::
 	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
 
 BattleFrontier_BattlePyramidLobby_EventScript_TryEnterChallenge::
-	message BattleFrontier_BattlePyramidLobby_Text_WhichLevelMode
-	waitmessage
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
+	setvar VAR_RESULT, FRONTIER_LVL_OPEN @ KJH (LV-4): no level question, the team fights as it is
 	switch VAR_RESULT
 	case FRONTIER_LVL_TENT, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
@@ -217,7 +215,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_HintGiver::
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_GiveHint::
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
+	setvar VAR_RESULT, FRONTIER_LVL_OPEN @ KJH (LV-4): no level question
 	switch VAR_RESULT
 	case FRONTIER_LVL_50, BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLv50
 	case FRONTIER_LVL_OPEN, BattleFrontier_BattlePyramidLobby_EventScript_GiveHintLvOpen
@@ -895,10 +893,7 @@ BattleFrontier_BattlePyramidLobby_Text_ExplainMazeRules:
 BattleFrontier_BattlePyramidLobby_Text_ExplainBagRules:
 	.string "The BATTLE BAG serves as your BAG\n"
 	.string "while in the PYRAMID.\p"
-	.string "There are two separate BATTLE BAGS--\n"
-	.string "one each for the Level 50 and\l"
-	.string "Open Level adventures.\p"
-	.string "They each can hold up to 99 pieces\n"
+	.string "It can hold up to 99 pieces\n"
 	.string "of ten kinds of items.\p"
 	.string "The contents of the BATTLE BAG are\n"
 	.string "lost if you fail in your quest.$"

@@ -353,8 +353,8 @@ SlateportCity_BattleTentLobby_Text_ExplainSwapNotes:
 SlateportCity_BattleTentLobby_Text_ExplainMonRules:
 	.string "The POKéMON of the SLATEPORT\n"
 	.string "BATTLE TENT are all rentals.\p"
-	.string "All rental POKéMON are kept at\n"
-	.string "Level 30.$"
+	.string "All rental POKéMON are matched to\n"
+	.string "the strength of your own team.$"
 
 @ Unused
 VerdanturfTown_BattleTentLobby_Text_RulesAreListed2:
@@ -422,11 +422,10 @@ VerdanturfTown_BattleTentLobby_Text_ExplainWhenInDangerRules:
 	.string "in a pinch, watch it carefully.$"
 
 BattleTentLobby_Text_ExplainLevelRules:
-	.string "At this BATTLE TENT, the levels of\n"
-	.string "your opponents will be adjusted to\l"
-	.string "match the levels of your POKéMON.\p"
-	.string "However, no TRAINER you face will\n"
-	.string "have any POKéMON below Level 30.$"
+	.string "At this BATTLE TENT, your opponents\n"
+	.string "will be matched to the strength of\l"
+	.string "your POKéMON.\p"
+	.string "Every battle will be a fair challenge.$"
 
 VerdanturfTown_BattleTentLobby_Text_RulesAreListed:
 	.string "The VERDANTURF BATTLE TENT\n"

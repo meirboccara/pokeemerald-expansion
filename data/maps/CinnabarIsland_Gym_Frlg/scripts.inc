@@ -887,7 +887,7 @@ CinnabarIsland_Gym_Text_QuizQuestion4::
 	.string "against GROUND-type POKéMON?$"
 
 CinnabarIsland_Gym_Text_QuizQuestion5::
-	.string "POKéMON of the same kind and level\n"
+	.string "POKéMON of the same kind\n"
 	.string "are not identical?$"
 
 CinnabarIsland_Gym_Text_QuizQuestion6::

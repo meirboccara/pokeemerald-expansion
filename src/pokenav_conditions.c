@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "data.h"
 #include "decompress.h"
 #include "main.h"
@@ -402,6 +403,12 @@ static u8 *CopyConditionMonNameGender(u8 *str, u16 listId, bool8 skipPadding)
         *(str_++) = TEXT_COLOR_TRANSPARENT;
         *(str_++) = CHAR_FEMALE;
         break;
+    }
+
+    if (KJH_HideLevels()) // KJH (LV-4): the name and gender, no level
+    {
+        *str_ = EOS;
+        return str_;
     }
 
     *(str_++) = EXT_CTRL_CODE_BEGIN;

@@ -108,9 +108,7 @@ BattleFrontier_BattlePikeLobby_EventScript_AskTakeChallenge::
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge
 
 BattleFrontier_BattlePikeLobby_EventScript_TryEnterChallenge::
-	message BattleFrontier_BattlePikeLobby_Text_WhichChallengeMode
-	waitmessage
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
+	setvar VAR_RESULT, FRONTIER_LVL_OPEN @ KJH (LV-4): no level question, the team fights as it is
 	switch VAR_RESULT
 	case FRONTIER_LVL_TENT, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge
 	case MULTI_B_PRESSED, BattleFrontier_BattlePikeLobby_EventScript_CancelChallenge

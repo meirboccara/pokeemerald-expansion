@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_team_level.h"
 #include "battle_pike.h"
 #include "event_data.h"
 #include "frontier_util.h"
@@ -1106,7 +1107,12 @@ bool32 TryGenerateBattlePikeWildMon(bool8 checkKeenEyeIntimidate)
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
     {
         monLevel = GetHighestLevelInPlayerParty();
-        if (monLevel < FRONTIER_MIN_LEVEL_OPEN)
+        if (KJH_IsLevelsFree()) // KJH (LV-4): the team's level less the Pike's delta, no Open Level floor
+        {
+            s32 delta = wildMons[headerId][pikeMonId].levelDelta;
+            monLevel = (monLevel > delta + 1) ? monLevel - delta : 1;
+        }
+        else if (monLevel < FRONTIER_MIN_LEVEL_OPEN)
         {
             monLevel = FRONTIER_MIN_LEVEL_OPEN;
         }

@@ -319,7 +319,7 @@ J_GoldenrodPokecomCenterPerson12Text::
 J_GoldenrodPokecomCenterPerson13Text::
 	.string "Just seeing all\nthese new things\phere makes me feel\nyounger!$"
 J_GoldenrodPokecenter1FLassText::
-	.string "A higher level\nPOKéMON doesn't\lalways win.\pAfter all, it may\nhave a type dis-\ladvantage.\pI don't think\nthere is a single\pPOKéMON that is\nthe toughest.$"
+	.string "A stronger\nPOKéMON doesn't\lalways win.\pAfter all, it may\nhave a type dis-\ladvantage.\pI don't think\nthere is a single\pPOKéMON that is\nthe toughest.$"
 J_GoldenrodPokeCenter1FLinkReceptionistPleaseAcceptGSBallText::
 	.string "{PLAYER}, isn't it?\pCongratulations!\pAs a special deal,\na GS BALL has been\lsent just for you!\pPlease accept it!$"
 J_GoldenrodPokeCenter1FLinkReceptionistPleaseDoComeAgainText::

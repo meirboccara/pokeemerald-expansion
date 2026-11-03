@@ -21,6 +21,7 @@ extern struct HallofFameTeam *gHoFSaveBuffer;
 void CB2_DoHallOfFameScreen(void);
 void CB2_DoHallOfFameScreenDontSaveData(void);
 void CB2_DoHallOfFamePC(void);
+u8 *HallOfFameBufferMonLevel(u8 *dst, u32 level);
 
 // hof_pc.c
 void ReturnFromHallOfFamePC(void);

@@ -70,6 +70,7 @@ enum EncounterType
 #define DEXNAV_MASK_ENVIRONMENT     0xC000  // Last two bit
 
 void EndDexNavSearch(void);
+u8 *DexNavBufferMonLevel(u8 *dst, u32 level);
 void Task_OpenDexNavFromStartMenu(u8 taskId);
 bool32 TryStartDexNavSearch(void);
 void TryIncrementSpeciesSearchLevel(void);

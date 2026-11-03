@@ -1,4 +1,5 @@
 #include "global.h"
+#include "kjh_bond.h"
 #include "battle_main.h"
 #include "battle_setup.h"
 #include "bg.h"
@@ -176,6 +177,10 @@ static const u32 sPotentialStarGfx[] = INCGFX_U32("graphics/dexnav/star.png", ".
 static const u32 sHiddenSearchIconGfx[] = INCGFX_U32("graphics/dexnav/hidden_search.png", ".4bpp.smol");
 static const u32 sOwnedIconGfx[] = INCGFX_U32("graphics/dexnav/owned_icon.png", ".4bpp.smol");
 static const u32 sHiddenMonIconGfx[] = INCGFX_U32("graphics/dexnav/hidden.png", ".4bpp.smol");
+
+// KJH (LV-4): the bg1 tilemap's SEARCH LEVEL heading (graphics/dexnav/gui_tilemap.bin)
+#define KJH_DEXNAV_PANEL_LEFT       20
+#define KJH_DEXNAV_SEARCH_LEVEL_ROW 10
 
 // strings
 static const u8 sText_DexNav_NoInfo[] = _("--------");
@@ -447,6 +452,18 @@ static void AddSearchWindow(u8 width)
 #define SEARCH_ARROW_X      (WINDOW_MOVE_NAME_X + 90)
 #define SEARCH_ARROW_Y      0
 
+// The search window's level text, "Lv. 12"
+u8 *DexNavBufferMonLevel(u8 *dst, u32 level)
+{
+    if (KJH_HideLevels()) // KJH (LV-4): a wild Pokemon shows no level
+    {
+        *dst = EOS;
+        return dst;
+    }
+    ConvertIntToDecimalStringN(gStringVar1, level, STR_CONV_MODE_LEFT_ALIGN, 3);
+    return StringExpandPlaceholders(dst, sText_MonLevel);
+}
+
 static void AddSearchWindowText(enum Species species, u8 proximity, u8 searchLevel, bool8 hidden)
 {
     u8 windowId = sDexNavSearchDataPtr->windowId;
@@ -465,8 +482,7 @@ static void AddSearchWindowText(enum Species species, u8 proximity, u8 searchLev
     }
 
     //level - always present
-    ConvertIntToDecimalStringN(gStringVar1, sDexNavSearchDataPtr->monLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, sText_MonLevel);
+    DexNavBufferMonLevel(gStringVar4, sDexNavSearchDataPtr->monLevel);
     AddTextPrinterParameterized3(sDexNavSearchDataPtr->windowId, FONT_SMALL, WINDOW_COL_1, 0, sSearchFontColor, TEXT_SKIP_DRAW, gStringVar4);
 
     if (proximity <= SNEAKING_PROXIMITY)
@@ -1620,6 +1636,15 @@ static bool8 DexNav_LoadGraphics(void)
         if (FreeTempTileDataBuffersIfPossible() != TRUE)
         {
             DecompressDataWithHeaderWram(sDexNavGuiTilemap, sBg1TilemapBuffer);
+            if (KJH_HideLevels()) // KJH (LV-4): no SEARCH LEVEL heading; its two rows take the blank row under it
+            {
+                u16 *tilemap = (u16 *)sBg1TilemapBuffer;
+                for (u32 y = KJH_DEXNAV_SEARCH_LEVEL_ROW; y < KJH_DEXNAV_SEARCH_LEVEL_ROW + 2; y++)
+                {
+                    for (u32 x = KJH_DEXNAV_PANEL_LEFT; x < 32; x++)
+                        tilemap[y * 32 + x] = tilemap[(KJH_DEXNAV_SEARCH_LEVEL_ROW + 2) * 32 + x];
+                }
+            }
             sDexNavUiDataPtr->state++;
         }
         break;
@@ -2116,7 +2141,10 @@ static void PrintCurrentSpeciesInfo(void)
     }
 
     //search level
-    if (species == SPECIES_NONE)
+    if (KJH_HideLevels()) // KJH (LV-4): no search level (search levels are off: always 0)
+    {
+    }
+    else if (species == SPECIES_NONE)
     {
         AddTextPrinterParameterized3(WINDOW_INFO, FONT_SMALL, 0, SEARCH_LEVEL_Y, sFontColor_Black, 0, sText_DexNav_NoInfo);
     }
@@ -2623,9 +2651,12 @@ static void DrawHiddenSearchWindow(u8 width)
     AddSearchWindow(width);
     AddTextPrinterParameterized3(sDexNavSearchDataPtr->windowId, FONT_SMALL, SPECIES_ICON_X + 4, 0, sSearchFontColor, TEXT_SKIP_DRAW, sText_ThreeQmarks);
 
-    ConvertIntToDecimalStringN(gStringVar1, sDexNavSearchDataPtr->searchLevel, STR_CONV_MODE_LEFT_ALIGN, 2);
-    StringExpandPlaceholders(gStringVar4, sText_SearchLevel);
-    AddTextPrinterParameterized3(sDexNavSearchDataPtr->windowId, FONT_SMALL, SPECIES_ICON_X + 4, 12, sSearchFontColor, TEXT_SKIP_DRAW, gStringVar4);
+    if (!KJH_HideLevels()) // KJH (LV-4): no "SEARCH Lv. 0"
+    {
+        ConvertIntToDecimalStringN(gStringVar1, sDexNavSearchDataPtr->searchLevel, STR_CONV_MODE_LEFT_ALIGN, 2);
+        StringExpandPlaceholders(gStringVar4, sText_SearchLevel);
+        AddTextPrinterParameterized3(sDexNavSearchDataPtr->windowId, FONT_SMALL, SPECIES_ICON_X + 4, 12, sSearchFontColor, TEXT_SKIP_DRAW, gStringVar4);
+    }
     CopyWindowToVram(sDexNavSearchDataPtr->windowId, 2);
 }
 

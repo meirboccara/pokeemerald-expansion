@@ -1955,7 +1955,11 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Rare Candy"),
         .pluralName = ITEM_PLURAL_NAME("Rare Candies"),
         .price = (I_PRICE >= GEN_7) ? 10000 : 4800,
-        .description = COMPOUND_STRING(
+        // KJH (LV-4): the levels-free game has no level to raise (LV-2); the candy is a treasure to sell
+        .description = IS_FRLG ? COMPOUND_STRING(
+            "A rare sweet. It\n"
+            "has no effect, but\n"
+            "shops pay well.") : COMPOUND_STRING(
             "Raises the level\n"
             "of a Pokémon by\n"
             "one."),
