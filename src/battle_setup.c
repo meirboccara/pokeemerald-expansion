@@ -2247,7 +2247,9 @@ void CreateOpponentTrainerParty(struct Pokemon *party, const struct Trainer *tra
     kjhShift = KJH_TeamLevelShift(trainerNum);
     // KJH (LV-13): a training master's team is at the team's current level, whatever the zone
     if (KJH_GetMaster(trainerNum) != NULL && monsCount > 0)
+    {
         kjhShift = (s32)KJH_MasterLevel() - trainer->party[monIndices[0]].lvl;
+    }
     // KJH (LV-16): the ace, the highest level of those it sends (the last of them on a tie), is trained more.
     u32 kjhAce = 0;
     for (i = 1; i < monsCount; i++)

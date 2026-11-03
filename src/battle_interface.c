@@ -5,6 +5,8 @@
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "kjh_bond.h"
+
+#define CHAR_EMOJI_HEART 0xE7 // KJH (LV-4): EMOJI_HEART, an extra symbol (charmap.txt)
 #include "battle_z_move.h"
 #include "graphics.h"
 #include "sprite.h"
@@ -884,7 +886,7 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
         if (IsOnPlayerSide(battler))
         {
             text[0] = CHAR_EXTRA_SYMBOL;
-            text[1] = 0xE7; // EMOJI_HEART
+            text[1] = CHAR_EMOJI_HEART;
             ConvertIntToDecimalStringN(text + 2, KJH_FriendshipToBond(GetMonData(GetBattlerMon(battler), MON_DATA_FRIENDSHIP)), STR_CONV_MODE_LEFT_ALIGN, 2);
             FillSpriteRectColor(spriteId, 8, 5, 24, 11, HEALTHBOX_BG_INDEX);
             AddSpriteTextPrinterParameterized6(spriteId, FONT_SMALL, 32 - GetStringWidth(FONT_SMALL, text, 0), 3, 0, 0, sHealthBoxTextColor, 0, text);
@@ -893,6 +895,9 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
         {
             FillSpriteRectColor(spriteId, 0, 5, 24, 11, HEALTHBOX_BG_INDEX);
         }
+        // The gimmick indicator (Mega, Tera...) shows or hides as with a level.
+        UpdateIndicatorLevelData(healthboxSpriteId, lvl);
+        UpdateIndicatorVisibilityAndType(healthboxSpriteId, GetIndicatorPalTag(battler) == TAG_NONE);
         return;
     }
 

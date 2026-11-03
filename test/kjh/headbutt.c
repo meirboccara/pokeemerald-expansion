@@ -150,6 +150,7 @@ static u32 Headbutts(u32 trainerId, const struct WildPokemonInfo *table, u32 *ot
 {
     u32 battles = 0;
 
+    *otherSlots = 0;
     SetTrainerId(trainerId);
     SeedRng(11);
     for (u32 i = 0; i < 200; i++)

@@ -8,12 +8,13 @@
 #include "pokemon.h"
 #include "constants/opponents.h"
 
-#define MASTER(t, flag) {TRAINER_KJH_MASTER_##t, TYPE_##t, FLAG_KJH_MASTER_##t##_ONCE, FLAG_KJH_MASTER_##t##_TWICE}
+#define MASTER(t) {TRAINER_KJH_MASTER_##t, TYPE_##t, FLAG_KJH_MASTER_##t##_ONCE, FLAG_KJH_MASTER_##t##_TWICE}
+#define MASTER_FIGHTS_PER_DAY 2
 
 static const struct KjhMaster sMasters[KJH_MASTERS_COUNT] =
 {
-    MASTER(WATER, 0), MASTER(FIRE, 0), MASTER(ELECTRIC, 0), MASTER(GHOST, 0), MASTER(ICE, 0), MASTER(BUG, 0),
-    MASTER(ROCK, 0), MASTER(FIGHTING, 0), MASTER(POISON, 0), MASTER(GROUND, 0), MASTER(NORMAL, 0),
+    MASTER(WATER), MASTER(FIRE), MASTER(ELECTRIC), MASTER(GHOST), MASTER(ICE), MASTER(BUG),
+    MASTER(ROCK), MASTER(FIGHTING), MASTER(POISON), MASTER(GROUND), MASTER(NORMAL),
 };
 
 const struct KjhMaster *KJH_GetMaster(u32 trainerId)
@@ -32,7 +33,7 @@ u32 KJH_MasterFightsLeftToday(u32 trainerId)
 
     if (master == NULL || FlagGet(master->flagTwice))
         return 0;
-    return FlagGet(master->flagOnce) ? 1 : 2;
+    return FlagGet(master->flagOnce) ? MASTER_FIGHTS_PER_DAY - 1 : MASTER_FIGHTS_PER_DAY;
 }
 
 void KJH_NoteMasterFought(u32 trainerId)
@@ -42,9 +43,13 @@ void KJH_NoteMasterFought(u32 trainerId)
     if (master == NULL)
         return;
     if (FlagGet(master->flagOnce))
+    {
         FlagSet(master->flagTwice);
+    }
     else
+    {
         FlagSet(master->flagOnce);
+    }
 }
 
 u32 KJH_MasterLevel(void)
@@ -55,8 +60,8 @@ u32 KJH_MasterLevel(void)
         return KJH_TeamLevel();
     for (u32 i = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) != SPECIES_NONE)
-            level = max(level, GetMonData(&gPlayerParty[i], MON_DATA_LEVEL));
+        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) != SPECIES_NONE)
+            level = max(level, GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_LEVEL));
     }
     return level;
 }

@@ -66,12 +66,13 @@ TEST("KJH: field, Kanto's special places are set by hand, wherever the battle is
     EXPECT(!KJH_FieldForMap(MAP_POWER_PLANT, BATTLE_ENVIRONMENT_BUILDING).boostOnly);
 }
 
-// The training masters' spots get their own field with the masters (LV-13): "only where the master stands"
-TEST("KJH: field, other maps take the environment's field")
+// The training masters' spots (LV-13) are set in the table: wild battles there count too (LEVELLESS_DESIGN.md §12)
+TEST("KJH: field, other maps take the environment's field; the masters' spots have theirs")
 {
     EXPECT_EQ(KJH_FieldForMap(MAP_MT_MOON_1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
-    EXPECT_EQ(KJH_FieldForMap(MAP_DIGLETTS_CAVE_B1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
-    EXPECT_EQ(KJH_FieldForMap(MAP_SAFFRON_CITY_DOJO, BATTLE_ENVIRONMENT_BUILDING).type, TYPE_NONE);
+    EXPECT_EQ(KJH_FieldForMap(MAP_DIGLETTS_CAVE_B1F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_GROUND);
+    EXPECT_EQ(KJH_FieldForMap(MAP_SAFFRON_CITY_DOJO, BATTLE_ENVIRONMENT_BUILDING).type, TYPE_FIGHTING);
+    EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE19, BATTLE_ENVIRONMENT_SAND).type, TYPE_WATER);
     EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE1, BATTLE_ENVIRONMENT_GRASS).type, TYPE_NONE);
     EXPECT_EQ(KJH_FieldForMap(MAP_ROUTE1, BATTLE_ENVIRONMENT_POND).type, TYPE_WATER);
     EXPECT(!KJH_FieldForMap(MAP_ROUTE1, BATTLE_ENVIRONMENT_POND).boostOnly);

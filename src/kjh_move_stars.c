@@ -18,11 +18,17 @@
 #include "event_data.h"
 #include "string_util.h"
 #include "constants/characters.h"
+#include "constants/daycare.h"
 
 // docs/LEVELLESS_DESIGN.md §12: the points each star needs, counted from 1 star, and the share of power it gives
 static const u8 sPointsForStars[KJH_STARS_MAX + 1] = {[1] = 0, [2] = 10, [3] = 30, [4] = 60, [5] = 100};
 static const u8 sStarsPercent[KJH_STARS_MAX + 1] = {[1] = 60, [2] = 70, [3] = 80, [4] = 90, [5] = 100};
-#define LATE_MOVE_POINTS 30 // a level-up move learned while with the team starts at 3 stars
+#define LATE_MOVE_POINTS 30 // A level-up move learned while with the team starts at 3 stars.
+#define WIN_POINTS_WILD    1
+#define WIN_POINTS_TRAINER 2
+#define WIN_POINTS_BOSS    5
+#define WIN_TIMES_LEADER   3
+#define WIN_TIMES_ALPHA    6
 #define MAX_STAR_MESSAGES (PARTY_SIZE * MAX_MON_MOVES)
 
 // This battle's moves used by each of the player's Pokemon, and the messages left to show after a win
@@ -37,7 +43,9 @@ u32 KJH_StarsFromPoints(u32 points)
     u32 stars = 1;
 
     while (stars < KJH_STARS_MAX && points >= sPointsForStars[stars + 1])
+    {
         stars++;
+    }
     return stars;
 }
 
@@ -66,16 +74,16 @@ u32 KJH_MovePointsForWin(enum KjhWinKind kind, u32 tierMark)
     switch (kind)
     {
     case KJH_WIN_BOSS:
-        return 5;
+        return WIN_POINTS_BOSS;
     case KJH_WIN_TRAINER:
-        return 2;
+        return WIN_POINTS_TRAINER;
     case KJH_WIN_WILD:
     default:
         if (tierMark == KJH_TIER_ALPHA)
-            return 6;
+            return WIN_POINTS_WILD * WIN_TIMES_ALPHA;
         if (tierMark == KJH_TIER_LEADER)
-            return 3;
-        return 1;
+            return WIN_POINTS_WILD * WIN_TIMES_LEADER;
+        return WIN_POINTS_WILD;
     }
 }
 
@@ -94,6 +102,9 @@ u32 KJH_StartingMovePoints(struct BoxPokemon *boxMon, enum Move move)
 {
     const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(GetBoxMonData(boxMon, MON_DATA_SPECIES));
     u32 metLevel = GetBoxMonData(boxMon, MON_DATA_MET_LEVEL);
+
+    if (metLevel == 0) // Hatched: the moves it hatched with were not learned on the way.
+        metLevel = EGG_HATCH_LEVEL;
 
     for (u32 i = 0; learnset[i].move != LEVEL_UP_MOVE_END; i++)
     {
@@ -163,6 +174,16 @@ u32 KJH_AddMovePoints(struct BoxPokemon *boxMon, enum Move move, u32 points)
     return KJH_StarsFromPoints(entry.points);
 }
 
+static bool32 KnowsMove(struct BoxPokemon *boxMon, enum Move move)
+{
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
+    {
+        if (GetBoxMonData(boxMon, MON_DATA_MOVE1 + i) == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 u32 KJH_BattleMovePercent(u32 battler, enum Move move)
 {
     u32 percent = KJH_PowerCapPercentNow();
@@ -170,12 +191,10 @@ u32 KJH_BattleMovePercent(u32 battler, enum Move move)
     if (!GetConfig(B_KJH_MOVE_STARS) || (gBattleTypeFlags & BATTLE_TYPE_LINK)
      || GetBattlerTrainer(battler) != B_TRAINER_PLAYER)
         return percent;
-    for (u32 i = 0; i < MAX_MON_MOVES; i++)
-    {
-        if (gBattleMons[battler].moves[i] == move) // not a move it calls (Metronome) or copies
-            return KJH_StarsAndCapPercent(KJH_GetMoveStars(&GetBattlerMon(battler)->box, move), percent);
-    }
-    return percent;
+    // Its own move: not one it calls (Metronome) or copies (Transform, Mimic)
+    if (!KnowsMove(&GetBattlerMon(battler)->box, move))
+        return percent;
+    return KJH_StarsAndCapPercent(KJH_GetMoveStars(&GetBattlerMon(battler)->box, move), percent);
 }
 
 void KJH_MoveStarsStartBattle(void)
@@ -187,34 +206,26 @@ void KJH_MoveStarsStartBattle(void)
 void KJH_NoteMoveUsed(u32 battler, enum Move move)
 {
     u16 *used;
-    u32 i;
 
     if (!GetConfig(B_KJH_MOVE_STARS) || GetBattlerTrainer(battler) != B_TRAINER_PLAYER
      || gBattlerPartyIndexes[battler] >= PARTY_SIZE)
         return;
-    for (i = 0; i < MAX_MON_MOVES && gBattleMons[battler].moves[i] != move; i++)
-        ;
-    if (i == MAX_MON_MOVES) // a move it calls (Metronome) or copies
+    // Its own move: not one it calls (Metronome) or copies (Transform, Mimic)
+    if (!KnowsMove(&GetBattlerMon(battler)->box, move))
         return;
     used = sUsedMoves[gBattlerPartyIndexes[battler]];
-    for (i = 0; i < MAX_MON_MOVES && used[i] != MOVE_NONE; i++)
+    for (u32 i = 0; i < MAX_MON_MOVES; i++)
     {
         if (used[i] == move)
             return;
+        if (used[i] == MOVE_NONE)
+        {
+            used[i] = move;
+            return;
+        }
     }
-    if (i < MAX_MON_MOVES)
-        used[i] = move;
 }
 
-static bool32 KnowsMove(struct BoxPokemon *boxMon, enum Move move)
-{
-    for (u32 i = 0; i < MAX_MON_MOVES; i++)
-    {
-        if (GetBoxMonData(boxMon, MON_DATA_MOVE1 + i) == move)
-            return TRUE;
-    }
-    return FALSE;
-}
 
 static enum KjhWinKind BattleWinKind(void)
 {
@@ -309,7 +320,9 @@ void BS_KjhTryMoveGrewStronger(void)
     PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, B_POSITION_PLAYER_LEFT, sStarMessages[sStarMessageNext].partyId);
     PREPARE_MOVE_BUFFER(gBattleTextBuff2, sStarMessages[sStarMessageNext].move);
     for (u32 i = 0; i < sStarMessages[sStarMessageNext].stars; i++)
+    {
         stars = StringCopy(stars, COMPOUND_STRING("{STAR}"));
+    }
     sStarMessageNext++;
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
@@ -331,7 +344,9 @@ u8 *KJH_StringMoveStars(u8 *dest, struct BoxPokemon *boxMon, enum Move move)
     u32 stars = KJH_StarsFromPoints(points);
 
     for (u32 i = 0; i < stars; i++)
+    {
         dest = StringCopy(dest, COMPOUND_STRING("{STAR}"));
+    }
     if (stars == KJH_STARS_MAX)
         return dest;
     *dest++ = CHAR_SPACE;

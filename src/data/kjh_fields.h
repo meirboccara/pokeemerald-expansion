@@ -93,6 +93,13 @@ static const struct KjhFieldMap sKjhFieldMaps[] =
     FIELD(MAP_JOHTO_WHIRL_ISLAND_B1F, TYPE_WATER),
     FIELD(MAP_JOHTO_WHIRL_ISLAND_B2F, TYPE_WATER),
     FIELD(MAP_JOHTO_WHIRL_ISLAND_LUGIA_CHAMBER, TYPE_WATER),
+
+    // Kanto's training masters' spots that their place doesn't give (LV-13)
+    FIELD(MAP_SAFFRON_CITY_DOJO, TYPE_FIGHTING),
+    FIELD(MAP_POKEMON_MANSION_1F, TYPE_POISON),
+    FIELD(MAP_DIGLETTS_CAVE_B1F, TYPE_GROUND),
+    FIELD(MAP_ROUTE19, TYPE_WATER),                    // the beach is sand
+    FIELD(MAP_CELADON_CITY_CONDOMINIUMS_1F, TYPE_NORMAL),
 };
 
 #undef FIELD
