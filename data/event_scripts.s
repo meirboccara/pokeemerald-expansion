@@ -1047,6 +1047,7 @@ gStdScripts_End::
 	.include "data/scripts/flavor_text.inc"
 	.include "data/scripts/pkmn_center_nurse_frlg.inc"
 	.include "data/scripts/kjh_swarm.inc"
+	.include "data/scripts/kjh_headbutt.inc"
 
 .endif
 

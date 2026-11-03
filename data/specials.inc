@@ -643,3 +643,6 @@ gSpecials::
 	def_special KJH_HasHatchedAnEgg
 	@ KJH (CF-5): the swarm reporter, src/kjh_swarms.c
 	def_special KJH_BufferTodaysSwarm
+	@ KJH (CF-8): headbutt trees, src/kjh_headbutt.c
+	def_special KJH_GetHeadbuttPartySlot
+	def_special KJH_HeadbuttWildEncounter

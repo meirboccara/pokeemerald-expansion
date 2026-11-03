@@ -35,6 +35,7 @@ struct WildEncounterTypes
     const struct WildPokemonInfo *rockSmashMonsInfo;
     const struct WildPokemonInfo *fishingMonsInfo;
     const struct WildPokemonInfo *hiddenMonsInfo;
+    const struct WildPokemonInfo *headbuttMonsInfo; // KJH (CF-8): headbutt trees, src/kjh_headbutt.c
 };
 
 struct WildPokemonHeader

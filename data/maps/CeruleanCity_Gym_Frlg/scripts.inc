@@ -91,6 +91,8 @@ CeruleanCity_Gym_Text_ExplainCascadeBadge::
 	.string "anytime, even out of battle.\p"
 	.string "You can CUT down small trees to\n"
 	.string "open new pathways.\p"
+	.string "And your POKéMON can HEADBUTT\n"
+	.string "big trees to shake POKéMON out!\p"
 	.string "You can also have my favorite TM.$"
 
 CeruleanCity_Gym_Text_ReceivedTM03FromMisty::
