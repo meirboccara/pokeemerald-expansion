@@ -11,15 +11,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DODUO
-Level: 15
+Level: 41
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DODUO
-Level: 16
+Level: 42
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DODUO
-Level: 17
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_HARRY ===
@@ -32,7 +32,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WOOPER
-Level: 19
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_LASS_DANA1 ===
@@ -45,12 +45,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FLAAFFY
-Level: 18
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
 SPECIES_PSYDUCK
-Level: 18
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
@@ -64,7 +64,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MR_MIME
-Level: 19
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BEAUTY_VALERIE ===
@@ -77,12 +77,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HOPPIP
-Level: 17
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SYNTHESIS
 
 SPECIES_SKIPLOOM
-Level: 17
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SYNTHESIS
 
@@ -96,7 +96,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CORSOLA
-Level: 19
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEFANM_DEREK1 ===
@@ -109,7 +109,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIKACHU @ ITEM_ORAN_BERRY
-Level: 17
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEFANF_RUTH ===
@@ -122,7 +122,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIKACHU @ ITEM_ORAN_BERRY
-Level: 17
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_EUGENE ===
@@ -135,15 +135,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWHIRL
-Level: 17
+Level: 41
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATICATE
-Level: 17
+Level: 41
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KRABBY
-Level: 19
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PSYCHIC_T_NORMAN ===
@@ -156,12 +156,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SLOWPOKE
-Level: 17
+Level: 40
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
 SPECIES_SLOWPOKE
-Level: 20
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CURSE
 
@@ -175,7 +175,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_JYNX
-Level: 28
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SKIER_CLARISSA ===
@@ -188,7 +188,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DEWGONG
-Level: 28
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BOARDER_RONALD ===
@@ -201,15 +201,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEEL
-Level: 24
+Level: 67
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DEWGONG
-Level: 25
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEEL
-Level: 24
+Level: 67
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BOARDER_BRAD ===
@@ -222,11 +222,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SWINUB
-Level: 26
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SWINUB
-Level: 26
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BOARDER_DOUGLAS ===
@@ -239,15 +239,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SHELLDER
-Level: 24
+Level: 67
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CLOYSTER
-Level: 25
+Level: 68
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SHELLDER
-Level: 24
+Level: 67
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_TULLY1 ===
@@ -260,7 +260,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 18
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_SHANE ===
@@ -273,11 +273,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NIDORINA
-Level: 16
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDORINO
-Level: 16
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_BENJAMIN ===
@@ -290,15 +290,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DIGLETT
-Level: 14
+Level: 54
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 14
+Level: 54
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DUGTRIO
-Level: 16
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_VANCE1 ===
@@ -311,11 +311,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEOTTO
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEOTTO
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PSYCHIC_T_PHIL ===
@@ -328,12 +328,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NATU
-Level: 24
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEER
 
 SPECIES_KADABRA
-Level: 26
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DISABLE
 
@@ -347,15 +347,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 23
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 23
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEAKING
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_EDGAR ===
@@ -368,12 +368,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_REMORAID
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LOCK_ON
 
 SPECIES_REMORAID
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LOCK_ON
 
@@ -387,12 +387,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BUTTERFREE
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
 SPECIES_BELLOSSOM
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ABSORB
 
@@ -406,7 +406,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RHYHORN
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_ALLEN ===
@@ -419,7 +419,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CHARMELEON
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EMBER
 
@@ -433,15 +433,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_NICO ===
@@ -454,15 +454,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_EDMOND ===
@@ -475,15 +475,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 3
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_JIN ===
@@ -496,7 +496,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 6
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_TROY ===
@@ -509,11 +509,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 7
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HOOTHOOT
-Level: 7
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_NEAL ===
@@ -526,7 +526,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 6
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_JACK1 ===
@@ -539,11 +539,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ODDISH
-Level: 12
+Level: 31
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEFANM_WILLIAM ===
@@ -556,7 +556,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RAICHU @ ITEM_ORAN_BERRY
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEFANF_BEVERLY1 ===
@@ -569,7 +569,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SNUBBULL @ ITEM_ORAN_BERRY
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_LASS_KRISE ===
@@ -582,11 +582,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ODDISH
-Level: 12
+Level: 31
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CUBONE
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_3 ===
@@ -599,11 +599,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATICATE
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_4 ===
@@ -616,15 +616,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRIMER
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRIMER
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MUK
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_5 ===
@@ -637,23 +637,23 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 21
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 21
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_6 ===
@@ -666,11 +666,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ZUBAT
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTF_GRUNTF_2 ===
@@ -683,7 +683,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ARBOK
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_7 ===
@@ -696,19 +696,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRIMER
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 23
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_8 ===
@@ -721,7 +721,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEZING
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_9 ===
@@ -734,11 +734,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 24
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCIENTIST_MARC ===
@@ -751,15 +751,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGNEMITE
-Level: 27
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 27
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 27
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_10 ===
@@ -772,15 +772,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ZUBAT
-Level: 22
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLBAT
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRIMER
-Level: 22
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_EXECUTIVEM_EXECUTIVEM_2 ===
@@ -793,7 +793,7 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GOLBAT
-Level: 36
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
@@ -807,19 +807,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_EKANS
-Level: 21
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ODDISH
-Level: 23
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_EKANS
-Level: 21
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GLOOM
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCIENTIST_RICH ===
@@ -832,7 +832,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PORYGON
-Level: 30
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONVERSION
 
@@ -846,17 +846,17 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_ARBOK
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_WRAP
 
 SPECIES_VILEPLUME
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_ABSORB
 
 SPECIES_MURKROW
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_PECK
 
@@ -870,7 +870,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GIRAFARIG
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SUPER_NERD_STAN ===
@@ -896,7 +896,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SLOWPOKE
-Level: 10
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_RUSSELL ===
@@ -909,15 +909,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 4
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 6
+Level: 16
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 8
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_DANIEL ===
@@ -930,7 +930,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ONIX
-Level: 11
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FIREBREATHER_BILL ===
@@ -943,11 +943,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 6
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 6
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FIREBREATHER_RAY ===
@@ -960,7 +960,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VULPIX
-Level: 9
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_ANDREW ===
@@ -973,11 +973,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAROWAK
-Level: 24
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAROWAK
-Level: 24
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_CALVIN ===
@@ -990,7 +990,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KANGASKHAN
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_PHILLIP ===
@@ -1003,15 +1003,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 23
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 23
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 23
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_LEONARD ===
@@ -1024,11 +1024,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 23
+Level: 16
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOP
-Level: 25
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_NICK ===
@@ -1041,17 +1041,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CHARMANDER
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EMBER
 
 SPECIES_SQUIRTLE
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WITHDRAW
 
 SPECIES_BULBASAUR
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEECH_SEED
 
@@ -1065,19 +1065,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_EEVEE
-Level: 26
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_FLAREON
-Level: 22
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VAPOREON
-Level: 22
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_JOLTEON
-Level: 22
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_EMMA ===
@@ -1090,7 +1090,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWHIRL
-Level: 28
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_29 ===
@@ -1103,11 +1103,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 9
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 9
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_1 ===
@@ -1120,7 +1120,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 14
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_2 ===
@@ -1133,15 +1133,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 7
+Level: 19
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 9
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 9
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTF_GRUNTF_1 ===
@@ -1154,11 +1154,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ZUBAT
-Level: 9
+Level: 19
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_EKANS
-Level: 11
+Level: 21
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GENTLEMAN_ALFRED ===
@@ -1171,7 +1171,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NOCTOWL
-Level: 20
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_HUEY1 ===
@@ -1184,11 +1184,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWAG
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_POLIWHIRL
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_THEO ===
@@ -1201,23 +1201,23 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEY
-Level: 17
+Level: 44
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 15
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 19
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 15
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 15
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GENTLEMAN_PRESTON ===
@@ -1230,11 +1230,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GROWLITHE
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GROWLITHE
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_TERRELL ===
@@ -1247,7 +1247,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWHIRL
-Level: 20
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_LASS_CONNIE1 ===
@@ -1260,7 +1260,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MARILL
-Level: 21
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_KENT ===
@@ -1273,12 +1273,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KRABBY
-Level: 18
+Level: 44
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BUBBLE
 
 SPECIES_KRABBY
-Level: 20
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BUBBLE_BEAM
 
@@ -1292,15 +1292,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SPEAROW
-Level: 18
+Level: 44
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_FEAROW
-Level: 20
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SPEAROW
-Level: 18
+Level: 44
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_ERNEST ===
@@ -1313,15 +1313,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MACHOP
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOP
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_POLIWHIRL
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCIENTIST_JED ===
@@ -1334,15 +1334,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGNEMITE
-Level: 20
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 20
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 20
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_16 ===
@@ -1355,19 +1355,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 16
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 16
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 16
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 16
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_17 ===
@@ -1380,7 +1380,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLBAT
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_18 ===
@@ -1393,15 +1393,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 17
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 17
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 17
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_19 ===
@@ -1414,11 +1414,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENONAT
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VENONAT
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTF_GRUNTF_5 ===
@@ -1431,12 +1431,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_EKANS
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WRAP
 
 SPECIES_GLOOM
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ABSORB
 
@@ -1450,7 +1450,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCIENTIST_ROSS ===
@@ -1463,11 +1463,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCIENTIST_MITCH ===
@@ -1480,7 +1480,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DITTO
-Level: 24
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_WAYNE ===
@@ -1493,11 +1493,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_LEDYBA
-Level: 8
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PARAS
-Level: 10
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SUPER_NERD_ERIC ===
@@ -1510,11 +1510,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRIMER
-Level: 11
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRIMER
-Level: 11
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SUPER_NERD_TERU ===
@@ -1527,19 +1527,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGNEMITE
-Level: 7
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 11
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 7
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 9
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_ISSAC ===
@@ -1552,7 +1552,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_LICKITUNG
-Level: 12
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LICK
 
@@ -1566,11 +1566,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SLOWPOKE
-Level: 10
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SLOWPOKE
-Level: 10
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_11 ===
@@ -1583,15 +1583,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MUK
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_25 ===
@@ -1604,11 +1604,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MUK
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BURGLAR_DUNCAN ===
@@ -1621,15 +1621,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGMAR
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 23
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BURGLAR_EDDIE ===
@@ -1642,12 +1642,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GROWLITHE
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ROAR
 
 SPECIES_KOFFING
-Level: 24
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
@@ -1661,7 +1661,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 27
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTF_GRUNTF_3 ===
@@ -1674,11 +1674,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GLOOM
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GLOOM
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_24 ===
@@ -1691,11 +1691,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KOFFING
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KOFFING
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_14 ===
@@ -1708,11 +1708,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLBAT
-Level: 24
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_15 ===
@@ -1725,11 +1725,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRIMER
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WEEZING
-Level: 23
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_MILLER ===
@@ -1742,11 +1742,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NIDOKING
-Level: 17
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDOQUEEN
-Level: 17
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SUPER_NERD_MARKUS ===
@@ -1759,7 +1759,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SLOWPOKE
-Level: 19
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CURSE
 
@@ -1773,7 +1773,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEADRA
-Level: 39
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SMOKESCREEN
 
@@ -1787,7 +1787,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DRAGONAIR
-Level: 37
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WRAP
 
@@ -1801,17 +1801,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HORSEA
-Level: 33
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SMOKESCREEN
 
 SPECIES_HORSEA
-Level: 33
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SMOKESCREEN
 
 SPECIES_SEADRA
-Level: 35
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SWIFT
 
@@ -1825,12 +1825,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DRATINI
-Level: 35
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_THUNDER_WAVE
 
 SPECIES_DRATINI
-Level: 35
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_THUNDER_WAVE
 
@@ -1844,11 +1844,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NOCTOWL
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_FLAREON
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_MASA ===
@@ -1861,11 +1861,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NOCTOWL
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_JOLTEON
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_KOJI ===
@@ -1878,11 +1878,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NOCTOWL
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VAPOREON
-Level: 32
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_KIMONO_GIRL_NAOKO ===
@@ -1895,7 +1895,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FLAREON
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_KIMONO_GIRL_SAYO ===
@@ -1908,7 +1908,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ESPEON
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_KIMONO_GIRL_ZUKI ===
@@ -1921,7 +1921,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_UMBREON
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_KIMONO_GIRL_KUNI ===
@@ -1934,7 +1934,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VAPOREON
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_KIMONO_GIRL_MIKI ===
@@ -1947,7 +1947,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_JOLTEON
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_JEFFREY ===
@@ -1960,7 +1960,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HAUNTER
-Level: 22
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAGE_PING ===
@@ -1973,23 +1973,23 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GASTLY
-Level: 16
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GASTLY
-Level: 16
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GASTLY
-Level: 16
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GASTLY
-Level: 16
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GASTLY
-Level: 16
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_MEDIUM_MARTHA ===
@@ -2002,15 +2002,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GASTLY
-Level: 18
+Level: 36
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HAUNTER
-Level: 20
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GASTLY
-Level: 20
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_MEDIUM_GRACE ===
@@ -2023,11 +2023,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HAUNTER
-Level: 20
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HAUNTER
-Level: 20
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_PAUL ===
@@ -2040,15 +2040,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DRATINI
-Level: 34
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DRATINI
-Level: 34
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DRATINI
-Level: 34
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_MIKE ===
@@ -2061,7 +2061,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DRAGONAIR
-Level: 37
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_LOLA ===
@@ -2074,11 +2074,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DRATINI
-Level: 34
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DRAGONAIR
-Level: 36
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_CODY ===
@@ -2091,11 +2091,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HORSEA
-Level: 34
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEADRA
-Level: 36
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_FRAN ===
@@ -2108,7 +2108,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEADRA
-Level: 37
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BLACKBELT_T_KENJI3 ===
@@ -2121,7 +2121,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MACHOKE
-Level: 28
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_ERIK ===
@@ -2134,15 +2134,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MACHOP
-Level: 24
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOP
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_MICHAEL ===
@@ -2155,15 +2155,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLEM
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_PARRY3 ===
@@ -2176,7 +2176,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ONIX
-Level: 29
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_TIMOTHY ===
@@ -2189,12 +2189,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DIGLETT
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_MAGNITUDE
 
 SPECIES_DUGTRIO
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_MAGNITUDE
 
@@ -2208,12 +2208,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEOT
-Level: 25
+Level: 76
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SAND_ATTACK
 
 SPECIES_ELECTABUZZ
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_THUNDER_PUNCH
 
@@ -2227,15 +2227,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MARILL
-Level: 27
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WARTORTLE
-Level: 24
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WARTORTLE
-Level: 24
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_TED ===
@@ -2248,7 +2248,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MANKEY
-Level: 17
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_ERIN1 ===
@@ -2261,11 +2261,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PONYTA
-Level: 16
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PONYTA
-Level: 16
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_BAILEY ===
@@ -2278,23 +2278,23 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 13
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 13
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 13
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 13
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 13
+Level: 8
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_TWINS_AMYANDMAY1 ===
@@ -2307,11 +2307,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SPINARAK
-Level: 10
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_LEDYBA
-Level: 10
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_TWINS_AMYANDMAY2 ===
@@ -2324,11 +2324,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_LEDYBA
-Level: 10
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SPINARAK
-Level: 10
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_BUG_CATCHER_BENNY ===
@@ -2341,15 +2341,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEDLE
-Level: 7
+Level: 15
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KAKUNA
-Level: 9
+Level: 17
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BEEDRILL
-Level: 12
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_AL ===
@@ -2362,11 +2362,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CATERPIE
-Level: 12
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WEEDLE
-Level: 12
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_JOSH ===
@@ -2379,7 +2379,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PARAS
-Level: 13
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_ANTHONY2 ===
@@ -2392,11 +2392,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 11
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOP
-Level: 11
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_SPENCER ===
@@ -2409,15 +2409,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SANDSHREW
-Level: 17
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SANDSLASH
-Level: 17
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_BEN ===
@@ -2430,7 +2430,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SLOWBRO
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_BRENT1 ===
@@ -2443,7 +2443,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_LICKITUNG
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_RON ===
@@ -2456,7 +2456,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NIDOKING
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_MARVIN ===
@@ -2469,19 +2469,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGIKARP
-Level: 10
+Level: 61
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GYARADOS
-Level: 10
+Level: 61
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 15
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GYARADOS
-Level: 15
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_TIFFANY3 ===
@@ -2494,7 +2494,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CLEFAIRY
-Level: 20
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ENCORE
 
@@ -2508,7 +2508,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GYARADOS
-Level: 27
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_RAYMOND ===
@@ -2521,19 +2521,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGIKARP
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 22
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_AARON ===
@@ -2546,15 +2546,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_IVYSAUR
-Level: 24
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CHARMELEON
-Level: 24
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WARTORTLE
-Level: 24
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_LOIS ===
@@ -2567,12 +2567,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SKIPLOOM
-Level: 25
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SYNTHESIS
 
 SPECIES_NINETALES
-Level: 25
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EMBER
 
@@ -2586,7 +2586,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NIDORAN_M
-Level: 9
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_JUSTIN ===
@@ -2599,19 +2599,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGIKARP
-Level: 5
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 5
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 15
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGIKARP
-Level: 5
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_RALPH1 ===
@@ -2624,7 +2624,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 10
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_HENRY ===
@@ -2637,11 +2637,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWAG
-Level: 8
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_POLIWAG
-Level: 8
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_LIZ1 ===
@@ -2654,7 +2654,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NIDORAN_F
-Level: 9
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_ALBERT ===
@@ -2667,11 +2667,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 6
+Level: 16
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 8
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_GORDON ===
@@ -2684,7 +2684,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WOOPER
-Level: 10
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_PETER ===
@@ -2697,15 +2697,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEY
-Level: 6
+Level: 16
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 6
+Level: 16
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SPEAROW
-Level: 8
+Level: 18
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_BRYAN ===
@@ -2718,11 +2718,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEY
-Level: 12
+Level: 32
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEOTTO
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_JUGGLER_IRWIN1 ===
@@ -2735,19 +2735,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VOLTORB
-Level: 2
+Level: 30
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 6
+Level: 30
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 10
+Level: 30
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_IVAN ===
@@ -2760,15 +2760,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DIGLETT
-Level: 10
+Level: 30
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 10
+Level: 30
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DIGLETT
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_ELLIOT ===
@@ -2781,11 +2781,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SANDSHREW
-Level: 13
+Level: 32
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MARILL
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_BROOKE ===
@@ -2798,7 +2798,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIKACHU
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_THUNDER_SHOCK
 
@@ -2812,7 +2812,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VULPIX
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_ARNIE1 ===
@@ -2825,7 +2825,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENONAT
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FIREBREATHER_WALT ===
@@ -2838,11 +2838,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGMAR
-Level: 11
+Level: 32
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGMAR
-Level: 13
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_ALAN1 ===
@@ -2855,7 +2855,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_TANGELA
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PSYCHIC_T_MARK ===
@@ -2868,17 +2868,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ABRA
-Level: 13
+Level: 32
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TELEPORT
 
 SPECIES_ABRA
-Level: 13
+Level: 32
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TELEPORT
 
 SPECIES_KADABRA
-Level: 15
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TELEPORT
 
@@ -2892,12 +2892,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CLEFAIRY
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GROWL
 
 SPECIES_JIGGLYPUFF
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SING
 
@@ -2911,12 +2911,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_JIGGLYPUFF
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SING
 
 SPECIES_CLEFAIRY
-Level: 16
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GROWL
 
@@ -2930,7 +2930,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DROWZEE
-Level: 17
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_HYPNOSIS
 
@@ -2944,11 +2944,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEY
-Level: 7
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEY
-Level: 7
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_ABE ===
@@ -2961,7 +2961,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SPEAROW
-Level: 9
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_TODD1 ===
@@ -2974,7 +2974,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PSYDUCK
-Level: 14
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_GINA1 ===
@@ -2987,15 +2987,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HOPPIP
-Level: 9
+Level: 23
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HOPPIP
-Level: 9
+Level: 23
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BULBASAUR
-Level: 12
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_SAMUEL ===
@@ -3008,19 +3008,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 7
+Level: 23
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SANDSHREW
-Level: 10
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SPEAROW
-Level: 8
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SPEAROW
-Level: 8
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_IAN ===
@@ -3033,11 +3033,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MANKEY
-Level: 10
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_DIGLETT
-Level: 12
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEFANM_BRANDON ===
@@ -3050,7 +3050,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SNUBBULL @ ITEM_ORAN_BERRY
-Level: 13
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_IRENE ===
@@ -3063,11 +3063,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 22
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEAKING
-Level: 24
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_JENN ===
@@ -3097,11 +3097,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SHELLDER
-Level: 26
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CLOYSTER
-Level: 28
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_LASS_CARRIE ===
@@ -3114,7 +3114,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SNUBBULL
-Level: 18
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCARY_FACE
 
@@ -3128,15 +3128,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_JIGGLYPUFF
-Level: 15
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_JIGGLYPUFF
-Level: 15
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_JIGGLYPUFF
-Level: 15
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BEAUTY_VICTORIA ===
@@ -3149,15 +3149,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SENTRET
-Level: 9
+Level: 20
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SENTRET
-Level: 13
+Level: 24
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SENTRET
-Level: 17
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BEAUTY_SAMANTHA ===
@@ -3170,12 +3170,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MEOWTH
-Level: 16
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
 SPECIES_MEOWTH
-Level: 16
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
@@ -3189,7 +3189,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARYU
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERF_PAULA ===
@@ -3202,11 +3202,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARYU
-Level: 19
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SHELLDER
-Level: 19
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_SIMON ===
@@ -3219,11 +3219,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_TENTACOOL
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACOOL
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_RANDALL ===
@@ -3236,15 +3236,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SHELLDER
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WARTORTLE
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SHELLDER
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERF_KAYLEE ===
@@ -3257,15 +3257,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEAKING
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERF_SUSIE ===
@@ -3278,12 +3278,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PSYDUCK
-Level: 20
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
 SPECIES_GOLDEEN
-Level: 22
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_PECK
 
@@ -3297,7 +3297,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEEL
-Level: 22
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERF_KARA ===
@@ -3310,11 +3310,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARYU
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_STARMIE
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERF_WENDY ===
@@ -3327,12 +3327,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HORSEA
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BUBBLE
 
 SPECIES_HORSEA
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DRAGON_RAGE
 
@@ -3346,15 +3346,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SHELLDER
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACOOL
-Level: 19
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACRUEL
-Level: 19
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_GEORGE ===
@@ -3367,27 +3367,27 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_TENTACOOL
-Level: 16
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACOOL
-Level: 17
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACOOL
-Level: 16
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_STARYU
-Level: 19
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TENTACOOL
-Level: 17
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_REMORAID
-Level: 19
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_BERKE ===
@@ -3400,7 +3400,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 23
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_KIRK ===
@@ -3413,11 +3413,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GYARADOS
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GYARADOS
-Level: 20
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SWIMMERM_MATHEW ===
@@ -3430,7 +3430,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KRABBY
-Level: 23
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BLACKBELT_T_YOSHI ===
@@ -3443,7 +3443,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HITMONLEE
-Level: 27
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DOUBLE_KICK
 
@@ -3457,7 +3457,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HITMONCHAN
-Level: 27
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_COMET_PUNCH
 
@@ -3471,12 +3471,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MACHOP
-Level: 25
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEER
 
 SPECIES_MACHOKE
-Level: 25
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEER
 
@@ -3490,15 +3490,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MANKEY
-Level: 23
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MANKEY
-Level: 23
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PRIMEAPE
-Level: 25
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_JAKE ===
@@ -3511,12 +3511,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PARASECT
-Level: 33
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_GOLDUCK
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
@@ -3530,17 +3530,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VICTREEBEL
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WRAP
 
 SPECIES_KINGLER
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BUBBLE_BEAM
 
 SPECIES_FLAREON
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SAND_ATTACK
 
@@ -3554,12 +3554,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIKACHU
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_QUICK_ATTACK
 
 SPECIES_BLASTOISE
-Level: 32
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BITE
 
@@ -3573,7 +3573,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RAPIDASH
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_STOMP
 
@@ -3587,7 +3587,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ESPEON
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_SCOTT ===
@@ -3600,15 +3600,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 30
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_QWILFISH
-Level: 30
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEAKING
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PSYCHIC_T_GILBERT ===
@@ -3621,15 +3621,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARMIE
-Level: 30
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_EXEGGCUTE
-Level: 30
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GIRAFARIG
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_JOSE2 ===
@@ -3642,7 +3642,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FARFETCHD
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERM_BLAKE ===
@@ -3655,17 +3655,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MAGNETON
-Level: 33
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_THUNDERBOLT
 
 SPECIES_QUAGSIRE
-Level: 31
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WATER_GUN
 
 SPECIES_EXEGGCUTE
-Level: 31
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_LEECH_SEED
 
@@ -3679,7 +3679,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SANDSLASH
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SAND_ATTACK
 
@@ -3693,15 +3693,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARMIE
-Level: 31
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDOQUEEN
-Level: 33
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_STARMIE
-Level: 31
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_MEGAN ===
@@ -3714,17 +3714,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BULBASAUR
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GROWL
 
 SPECIES_IVYSAUR
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GROWL
 
 SPECIES_VENUSAUR
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BODY_SLAM
 
@@ -3738,7 +3738,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 4
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_MIKEY ===
@@ -3751,11 +3751,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEY
-Level: 2
+Level: 10
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 4
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_DON ===
@@ -3768,11 +3768,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CATERPIE
-Level: 3
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CATERPIE
-Level: 3
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_WADE1 ===
@@ -3785,19 +3785,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CATERPIE
-Level: 2
+Level: 11
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CATERPIE
-Level: 2
+Level: 11
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_WEEDLE
-Level: 3
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_CATERPIE
-Level: 2
+Level: 11
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_JASMINE_JASMINE1 ===
@@ -3811,17 +3811,17 @@ AI: Check Bad Move / Try To Faint / Check Viability
 Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
 
 SPECIES_MAGNEMITE
-Level: 30
+Level: 55
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDERBOLT
 
 SPECIES_MAGNEMITE
-Level: 30
+Level: 55
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDERBOLT
 
 SPECIES_STEELIX
-Level: 35
+Level: 60
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SCREECH
 
@@ -3835,12 +3835,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FLAAFFY
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
 SPECIES_PSYDUCK
-Level: 21
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
@@ -3854,12 +3854,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PSYDUCK
-Level: 29
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
 SPECIES_AMPHAROS
-Level: 29
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
@@ -3873,12 +3873,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PSYDUCK
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCRATCH
 
 SPECIES_AMPHAROS
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TACKLE
 
@@ -3892,12 +3892,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_AMPHAROS
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SWIFT
 
 SPECIES_GOLDUCK
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DISABLE
 
@@ -3911,11 +3911,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MR_MIME
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNEMITE
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_CHAD3 ===
@@ -3928,11 +3928,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MR_MIME
-Level: 27
+Level: 70
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNETON
-Level: 31
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_CHAD4 ===
@@ -3945,11 +3945,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MR_MIME
-Level: 30
+Level: 79
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MAGNETON
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_CHAD5 ===
@@ -3962,12 +3962,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MR_MIME
-Level: 34
+Level: 96
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_PSYCHIC
 
 SPECIES_MAGNETON
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ZAP_CANNON
 
@@ -3981,7 +3981,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_MEOWTH @ ITEM_ORAN_BERRY
-Level: 16
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PRYCE_PRYCE1 ===
@@ -3995,17 +3995,17 @@ AI: Check Bad Move / Try To Faint / Check Viability
 Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
 
 SPECIES_SEEL
-Level: 27
+Level: 66
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HEADBUTT
 
 SPECIES_DEWGONG
-Level: 29
+Level: 68
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HEADBUTT
 
 SPECIES_PILOSWINE
-Level: 31
+Level: 70
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_ICY_WIND
 
@@ -4019,7 +4019,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 23
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_TULLY3 ===
@@ -4032,15 +4032,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_QWILFISH
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_TULLY4 ===
@@ -4053,17 +4053,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEAKING
-Level: 34
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUPERSONIC
 
 SPECIES_SEAKING
-Level: 34
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUPERSONIC
 
 SPECIES_QWILFISH
-Level: 37
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ROLLOUT
 
@@ -4077,11 +4077,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEOTTO
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PIDGEOTTO
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_VANCE3 ===
@@ -4094,12 +4094,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PIDGEOT
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TOXIC
 
 SPECIES_PIDGEOT
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SWIFT
 
@@ -4113,15 +4113,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 29
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 29
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SEAKING
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_WILTON3 ===
@@ -4134,17 +4134,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SEAKING
-Level: 34
+Level: 96
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUPERSONIC
 
 SPECIES_SEAKING
-Level: 34
+Level: 96
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUPERSONIC
 
 SPECIES_REMORAID
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_PSYBEAM
 
@@ -4158,15 +4158,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BELLSPROUT
-Level: 7
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BELLSPROUT
-Level: 7
+Level: 12
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HOOTHOOT
-Level: 10
+Level: 14
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_3_TOTODILE ===
@@ -4179,22 +4179,22 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_HAUNTER
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_MAGNEMITE
-Level: 18
+Level: 34
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_ZUBAT
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_CROCONAW
-Level: 22
+Level: 38
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
@@ -4208,22 +4208,22 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_HAUNTER
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_MAGNEMITE
-Level: 18
+Level: 34
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_ZUBAT
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_BAYLEEF
-Level: 22
+Level: 38
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_GROWL
 
@@ -4237,22 +4237,22 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_HAUNTER
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_MAGNEMITE
-Level: 18
+Level: 34
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_ZUBAT
-Level: 20
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_QUILAVA
-Level: 22
+Level: 38
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
@@ -4266,11 +4266,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ODDISH
-Level: 14
+Level: 43
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_VOLTORB
-Level: 17
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_JACK3 ===
@@ -4283,11 +4283,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GLOOM
-Level: 28
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ELECTRODE
-Level: 31
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_JACK4 ===
@@ -4300,15 +4300,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GLOOM
-Level: 30
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GROWLITHE
-Level: 33
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ELECTRODE
-Level: 33
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_JACK5 ===
@@ -4321,17 +4321,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ELECTRODE
-Level: 35
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SCREECH
 
 SPECIES_GROWLITHE
-Level: 35
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUNNY_DAY
 
 SPECIES_VILEPLUME
-Level: 37
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SOLAR_BEAM
 
@@ -4345,32 +4345,32 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_KOFFING
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_KOFFING
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_KOFFING
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_WEEZING
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_KOFFING
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_KOFFING
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
@@ -4384,17 +4384,17 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_HOUNDOUR
-Level: 33
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_EMBER
 
 SPECIES_KOFFING
-Level: 33
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_HOUNDOOM
-Level: 35
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_EMBER
 
@@ -4408,11 +4408,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWHIRL
-Level: 28
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_POLIWHIRL
-Level: 28
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_HUEY3 ===
@@ -4425,11 +4425,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLIWHIRL
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_POLIWRATH
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SAILOR_HUEY4 ===
@@ -4442,12 +4442,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_POLITOED
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WHIRLPOOL
 
 SPECIES_POLIWRATH
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SURF
 
@@ -4461,11 +4461,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_DROWZEE
-Level: 17
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_ZUBAT
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_GRUNTM_GRUNTM_21 ===
@@ -4478,15 +4478,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ZUBAT
-Level: 16
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRIMER
-Level: 17
+Level: 65
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_RATTATA
-Level: 18
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_EXECUTIVEF_EXECUTIVEF_2 ===
@@ -4499,17 +4499,17 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_ARBOK
-Level: 23
+Level: 64
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_WRAP
 
 SPECIES_GLOOM
-Level: 23
+Level: 64
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_ABSORB
 
 SPECIES_MURKROW
-Level: 25
+Level: 66
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_PECK
 
@@ -4523,15 +4523,15 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_ZUBAT
-Level: 22
+Level: 64
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_RATICATE
-Level: 24
+Level: 66
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_KOFFING
-Level: 22
+Level: 64
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_4_TOTODILE ===
@@ -4544,27 +4544,27 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GOLBAT
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_MAGNEMITE
-Level: 28
+Level: 70
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_HAUNTER
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_SNEASEL
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
 SPECIES_FERALIGATR
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_RAGE
 
@@ -4578,27 +4578,27 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GOLBAT
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_MAGNEMITE
-Level: 28
+Level: 70
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_HAUNTER
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_SNEASEL
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
 SPECIES_MEGANIUM
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_REFLECT
 
@@ -4612,27 +4612,27 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GOLBAT
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEECH_LIFE
 
 SPECIES_MAGNEMITE
-Level: 28
+Level: 70
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_HAUNTER
-Level: 30
+Level: 72
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_SNEASEL
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
 SPECIES_QUILAVA
-Level: 32
+Level: 74
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SMOKESCREEN
 
@@ -4646,11 +4646,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HITMONLEE
-Level: 34
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HITMONCHAN
-Level: 34
+Level: 56
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_RED_RED1 ===
@@ -4664,32 +4664,32 @@ AI: Check Bad Move / Try To Faint / Check Viability
 Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
 
 SPECIES_PIKACHU
-Level: 81
+Level: 100
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_CHARM
 
 SPECIES_ESPEON
-Level: 73
+Level: 92
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_MUD_SLAP
 
 SPECIES_SNORLAX
-Level: 75
+Level: 94
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_AMNESIA
 
 SPECIES_VENUSAUR
-Level: 77
+Level: 96
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SUNNY_DAY
 
 SPECIES_CHARIZARD
-Level: 77
+Level: 96
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_FLAMETHROWER
 
 SPECIES_BLASTOISE
-Level: 77
+Level: 96
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_RAIN_DANCE
 
@@ -4703,22 +4703,22 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GASTLY
-Level: 21
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_HAUNTER
-Level: 21
+Level: 36
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HYPNOSIS
 
 SPECIES_GENGAR
-Level: 25
+Level: 40
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HYPNOSIS
 
 SPECIES_HAUNTER
-Level: 23
+Level: 38
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SPITE
 
@@ -4733,22 +4733,22 @@ AI: Check Bad Move / Try To Faint / Check Viability
 Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
 
 SPECIES_DRAGONAIR
-Level: 37
+Level: 77
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDER_WAVE
 
 SPECIES_DRAGONAIR
-Level: 37
+Level: 77
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDER_WAVE
 
 SPECIES_DRAGONAIR
-Level: 37
+Level: 77
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_THUNDER_WAVE
 
 SPECIES_KINGDRA
-Level: 40
+Level: 80
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SMOKESCREEN
 
@@ -4762,11 +4762,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_ONIX
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SWINUB
-Level: 33
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_PARRY2 ===
@@ -4779,17 +4779,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PILOSWINE
-Level: 35
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EARTHQUAKE
 
 SPECIES_DUGTRIO
-Level: 35
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_MAGNITUDE
 
 SPECIES_STEELIX
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DIG
 
@@ -4803,15 +4803,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FEAROW
-Level: 30
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PRIMEAPE
-Level: 30
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TAUROS
-Level: 30
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_ERIN2 ===
@@ -4824,11 +4824,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PONYTA
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PONYTA
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_ERIN3 ===
@@ -4841,17 +4841,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PONYTA
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DOUBLE_TEAM
 
 SPECIES_RAICHU
-Level: 34
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SWIFT
 
 SPECIES_PONYTA
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DOUBLE_TEAM
 
@@ -4865,17 +4865,17 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_METAPOD
-Level: 14
+Level: 20
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_KAKUNA
-Level: 14
+Level: 20
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_POISON_STING
 
 SPECIES_SCYTHER
-Level: 16
+Level: 22
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_QUICK_ATTACK
 
@@ -4889,11 +4889,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 16
+Level: 44
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHAMP
-Level: 18
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_ANTHONY3 ===
@@ -4906,15 +4906,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRAVELER
-Level: 25
+Level: 70
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 27
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOKE
-Level: 29
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_ANTHONY4 ===
@@ -4927,15 +4927,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRAVELER
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_MACHOKE
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_HIKER_ANTHONY5 ===
@@ -4948,17 +4948,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRAVELER
-Level: 34
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_MAGNITUDE
 
 SPECIES_GOLEM
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_MAGNITUDE
 
 SPECIES_MACHOKE
-Level: 34
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_KARATE_CHOP
 
@@ -4972,15 +4972,15 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GASTLY
-Level: 12
+Level: 18
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_ZUBAT
-Level: 14
+Level: 19
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_CROCONAW
-Level: 16
+Level: 21
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_2_CHIKORITA ===
@@ -4993,15 +4993,15 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GASTLY
-Level: 12
+Level: 18
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_ZUBAT
-Level: 14
+Level: 19
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_BAYLEEF
-Level: 16
+Level: 21
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_2_CYNDAQUIL ===
@@ -5014,15 +5014,15 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_GASTLY
-Level: 12
+Level: 18
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_ZUBAT
-Level: 14
+Level: 19
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 SPECIES_QUILAVA
-Level: 16
+Level: 21
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_POKEMANIAC_BRENT2 ===
@@ -5035,7 +5035,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_KANGASKHAN
-Level: 25
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_POKEMANIAC_BRENT3 ===
@@ -5048,7 +5048,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_PORYGON
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_RECOVER
 
@@ -5062,7 +5062,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CHANSEY
-Level: 41
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ROLLOUT
 
@@ -5076,7 +5076,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CLEFAIRY
-Level: 31
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ENCORE
 
@@ -5090,7 +5090,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CLEFAIRY
-Level: 37
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ENCORE
 
@@ -5104,7 +5104,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_CLEFAIRY
-Level: 43
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_METRONOME
 
@@ -5118,7 +5118,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GOLDEEN
-Level: 17
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_RALPH3 ===
@@ -5131,11 +5131,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 17
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_RALPH4 ===
@@ -5148,11 +5148,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GOLDEEN
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_FISHER_RALPH5 ===
@@ -5165,12 +5165,12 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_QWILFISH
-Level: 35
+Level: 96
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TOXIC
 
 SPECIES_SEAKING
-Level: 39
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ENDURE
 
@@ -5184,11 +5184,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEPINBELL
-Level: 15
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDORINA
-Level: 15
+Level: 38
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_LIZ3 ===
@@ -5201,15 +5201,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEPINBELL
-Level: 19
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDORINO
-Level: 19
+Level: 64
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDOQUEEN
-Level: 21
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_LIZ4 ===
@@ -5222,15 +5222,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEPINBELL
-Level: 24
+Level: 72
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDORINO
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDOQUEEN
-Level: 26
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_LIZ5 ===
@@ -5243,17 +5243,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_WEEPINBELL
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SLEEP_POWDER
 
 SPECIES_NIDOKING
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EARTHQUAKE
 
 SPECIES_NIDOQUEEN
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EARTHQUAKE
 
@@ -5267,7 +5267,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENONAT
-Level: 19
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_ARNIE3 ===
@@ -5280,7 +5280,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENOMOTH
-Level: 28
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DISABLE
 
@@ -5294,7 +5294,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENOMOTH
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GUST
 
@@ -5308,7 +5308,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VENOMOTH
-Level: 40
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GUST
 
@@ -5322,11 +5322,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GROWLITHE
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GROWLITHE
-Level: 14
+Level: 34
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_ALAN2 ===
@@ -5339,11 +5339,11 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_TANGELA
-Level: 17
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_YANMA
-Level: 17
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_ALAN3 ===
@@ -5356,19 +5356,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NATU
-Level: 20
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TANGELA
-Level: 22
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_QUAGSIRE
-Level: 20
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_YANMA
-Level: 25
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_ALAN4 ===
@@ -5381,19 +5381,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_NATU
-Level: 27
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_TANGELA
-Level: 27
+Level: 80
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_QUAGSIRE
-Level: 30
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_YANMA
-Level: 30
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_SCHOOLBOY_ALAN5 ===
@@ -5406,22 +5406,22 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_XATU
-Level: 35
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_PECK
 
 SPECIES_TANGELA
-Level: 32
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_POISON_POWDER
 
 SPECIES_YANMA
-Level: 32
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_QUICK_ATTACK
 
 SPECIES_QUAGSIRE
-Level: 35
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TAIL_WHIP
 
@@ -5435,12 +5435,12 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_PIDGEY
-Level: 7
+Level: 12
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
 SPECIES_PIDGEOTTO
-Level: 9
+Level: 14
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_TACKLE
 
@@ -5454,15 +5454,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 17
+Level: 42
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 17
+Level: 42
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PSYDUCK
-Level: 23
+Level: 48
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_TODD3 ===
@@ -5475,15 +5475,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GEODUDE
-Level: 23
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GEODUDE
-Level: 23
+Level: 75
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PSYDUCK
-Level: 26
+Level: 78
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_TODD4 ===
@@ -5496,19 +5496,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRAVELER
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_GRAVELER
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SLUGMA
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_PSYDUCK
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_CAMPER_TODD5 ===
@@ -5521,22 +5521,22 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GRAVELER
-Level: 33
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SELF_DESTRUCT
 
 SPECIES_GRAVELER
-Level: 33
+Level: 97
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SELF_DESTRUCT
 
 SPECIES_MAGCARGO
-Level: 36
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_ROCK_THROW
 
 SPECIES_GOLDUCK
-Level: 34
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DISABLE
 
@@ -5550,15 +5550,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_HOPPIP
-Level: 14
+Level: 63
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_HOPPIP
-Level: 14
+Level: 63
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_IVYSAUR
-Level: 17
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_GINA3 ===
@@ -5571,15 +5571,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SKIPLOOM
-Level: 26
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SKIPLOOM
-Level: 26
+Level: 71
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_IVYSAUR
-Level: 29
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_GINA4 ===
@@ -5592,15 +5592,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_SKIPLOOM
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_SKIPLOOM
-Level: 30
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_IVYSAUR
-Level: 32
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_PICNICKER_GINA5 ===
@@ -5613,17 +5613,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_JUMPLUFF
-Level: 33
+Level: 95
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_STUN_SPORE
 
 SPECIES_JUMPLUFF
-Level: 33
+Level: 95
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SUNNY_DAY
 
 SPECIES_VENUSAUR
-Level: 38
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SOLAR_BEAM
 
@@ -5637,7 +5637,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_GROWLITHE
-Level: 17
+Level: 26
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_WHITNEY_WHITNEY1 ===
@@ -5650,12 +5650,12 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_CLEFAIRY
-Level: 18
+Level: 28
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_DOUBLE_SLAP
 
 SPECIES_MILTANK
-Level: 20
+Level: 30
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_ROLLOUT
 
@@ -5669,17 +5669,17 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_DROWZEE
-Level: 23
+Level: 46
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_DREAM_EATER
 
 SPECIES_HAUNTER
-Level: 23
+Level: 46
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LICK
 
 SPECIES_ELECTRODE
-Level: 25
+Level: 48
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_SCREECH
 
@@ -5694,12 +5694,12 @@ AI: Check Bad Move / Try To Faint / Check Viability
 Items: ITEM_FULL_RESTORE / ITEM_FULL_RESTORE
 
 SPECIES_PRIMEAPE
-Level: 27
+Level: 47
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_LEER
 
 SPECIES_POLIWRATH
-Level: 30
+Level: 50
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 - MOVE_HYPNOSIS
 
@@ -5713,17 +5713,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VICTREEBEL
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_WRAP
 
 SPECIES_KINGLER
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BUBBLE_BEAM
 
 SPECIES_FLAREON
-Level: 35
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SAND_ATTACK
 
@@ -5737,17 +5737,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_VICTREEBEL
-Level: 39
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_GIGA_DRAIN
 
 SPECIES_KINGLER @ ITEM_KINGS_ROCK
-Level: 39
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_SURF
 
 SPECIES_FLAREON
-Level: 39
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_FLAMETHROWER
 
@@ -5761,7 +5761,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RAPIDASH
-Level: 39
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_STOMP
 
@@ -5775,7 +5775,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RAPIDASH @ ITEM_FOCUS_BAND
-Level: 43
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_STOMP
 
@@ -5789,7 +5789,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FARFETCHD
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BIRD_KEEPER_JOSE3 ===
@@ -5802,7 +5802,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_FARFETCHD
-Level: 40
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_FURY_ATTACK
 
@@ -5816,15 +5816,15 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARMIE
-Level: 34
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_NIDOQUEEN
-Level: 36
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_STARMIE
-Level: 34
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_COOLTRAINERF_REENA3 ===
@@ -5837,17 +5837,17 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_STARMIE
-Level: 38
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_DOUBLE_TEAM
 
 SPECIES_NIDOQUEEN @ ITEM_SILK_SCARF
-Level: 40
+Level: 100
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_EARTHQUAKE
 
 SPECIES_STARMIE
-Level: 38
+Level: 98
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_BLIZZARD
 
@@ -5861,7 +5861,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATTATA
-Level: 15
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_YOUNGSTER_JOEY3 ===
@@ -5874,7 +5874,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 21
+Level: 46
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TAIL_WHIP
 
@@ -5888,7 +5888,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 30
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_TAIL_WHIP
 
@@ -5902,7 +5902,7 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_RATICATE
-Level: 37
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_HYPER_BEAM
 
@@ -5916,19 +5916,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_METAPOD
-Level: 9
+Level: 27
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_METAPOD
-Level: 9
+Level: 27
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_KAKUNA
-Level: 10
+Level: 28
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_METAPOD
-Level: 9
+Level: 27
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_WADE3 ===
@@ -5941,19 +5941,19 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BUTTERFREE
-Level: 14
+Level: 65
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BUTTERFREE
-Level: 14
+Level: 65
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BEEDRILL
-Level: 15
+Level: 66
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 SPECIES_BUTTERFREE
-Level: 14
+Level: 65
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 
 === TRAINER_J_BUG_CATCHER_WADE4 ===
@@ -5966,22 +5966,22 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BUTTERFREE
-Level: 24
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
 SPECIES_BUTTERFREE
-Level: 24
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
 SPECIES_BEEDRILL
-Level: 25
+Level: 74
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_FURY_ATTACK
 
 SPECIES_BUTTERFREE
-Level: 24
+Level: 73
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
@@ -5995,22 +5995,22 @@ Double Battle: No
 AI: Check Bad Move
 
 SPECIES_BUTTERFREE
-Level: 30
+Level: 79
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
 SPECIES_BUTTERFREE
-Level: 30
+Level: 79
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_CONFUSION
 
 SPECIES_BEEDRILL
-Level: 32
+Level: 81
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_FURY_ATTACK
 
 SPECIES_BUTTERFREE
-Level: 34
+Level: 83
 IVs: 7 HP / 7 Atk / 7 Def / 7 SpA / 7 SpD / 7 Spe
 - MOVE_PSYBEAM
 
@@ -6024,7 +6024,7 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_TOTODILE
-Level: 5
+Level: 12
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_1_CHIKORITA ===
@@ -6037,7 +6037,7 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_CHIKORITA
-Level: 5
+Level: 12
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe
 
 === TRAINER_J_RIVAL1_RIVAL1_1_CYNDAQUIL ===
@@ -6050,5 +6050,5 @@ Double Battle: No
 AI: Check Bad Move / Try To Faint / Check Viability
 
 SPECIES_CYNDAQUIL
-Level: 5
+Level: 12
 IVs: 24 HP / 24 Atk / 24 Def / 24 SpA / 24 SpD / 24 Spe

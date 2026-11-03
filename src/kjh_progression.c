@@ -277,7 +277,7 @@ static void SetBossEvsAndNature(struct Pokemon *mon)
     u16 physicalPower, specialPower;
 
     GetBaseStatsAndPower(mon, baseStats, &physicalPower, &specialPower);
-    KJH_BossEvs(baseStats, physicalPower, specialPower, KJH_CountKantoBadges(), evs);
+    KJH_BossEvs(baseStats, physicalPower, specialPower, KJH_CountBadgesHere(), evs);
     for (u32 i = 0; i < NUM_STATS; i++)
         SetMonData(mon, MON_DATA_HP_EV + i, &evs[i]);
     SetBossNature(mon, baseStats, physicalPower, specialPower);
@@ -308,7 +308,7 @@ static u32 RivalBattleNumber(u16 trainerNum)
 // LV-16: the trainer's group and step for KJH_TrainerTraining.
 static struct KjhTraining GetTraining(const struct Trainer *trainer, u16 trainerNum, bool32 ace)
 {
-    u32 badges = KJH_CountKantoBadges(), rivalBattle = RivalBattleNumber(trainerNum);
+    u32 badges = KJH_CountBadgesHere(), rivalBattle = RivalBattleNumber(trainerNum);
     u8 gymNumber = min(badges + 1, NUM_BADGES);
 
     switch (KJH_BossKind(trainer->trainerClass))

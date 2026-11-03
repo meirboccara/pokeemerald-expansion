@@ -5,6 +5,7 @@
 #include "config_changes.h"
 #include "event_data.h"
 #include "kjh_power_cap.h"
+#include "kjh_team_level.h"
 #include "main.h"
 #include "move.h"
 #include "string_util.h"
@@ -37,15 +38,7 @@ bool32 KJH_IsOhkoLocked(u32 regionBadges)
 
 u32 KJH_RegionBadges(void)
 {
-    u32 badges = 0;
-
-    for (u32 i = 0; i < NUM_BADGES; i++)
-    {
-        if (FlagGet(FLAG_BADGE01_GET + i))
-            badges++;
-    }
-
-    return badges;
+    return KJH_CountBadgesHere(); // LV-18: the region the player stands in
 }
 
 // Off in the test build, and in link battles: the two players' badges differ

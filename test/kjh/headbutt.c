@@ -160,7 +160,9 @@ static u32 Headbutts(u32 trainerId, const struct WildPokemonInfo *table, u32 *ot
         EXPECT(InTable(table, GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES)));
         if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES) != table->wildPokemon[0].species)
             (*otherSlots)++;
-        EXPECT_EQ(GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LEVEL), 10);
+        // LV-18: Route 29's zone, 5-8 (Crystal's trees were all at 10)
+        EXPECT_GE(GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LEVEL), 5);
+        EXPECT_LE(GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LEVEL), 8);
     }
     return battles;
 }

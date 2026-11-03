@@ -1,5 +1,6 @@
 // KJH: maps whose field is set by hand (LV-14, docs/LEVELLESS_DESIGN.md §8 in the KJH repo). Everywhere else the
-// field comes from the battle environment (KJH_FieldTypeFromEnvironment). Johto and Hoenn join with LV-18.
+// field comes from the battle environment (KJH_FieldTypeFromEnvironment). Johto joined with LV-18; Hoenn comes
+// with its maps (ENG-9's step 2).
 // - Gyms use the leader's type; the first 2 Gyms of each region only boost (no x0.8).
 // - Each Elite Four room uses its member's type; the Champion's room is neutral.
 // - Special places. The training masters' spots (§12: "only where the master stands") come with the masters, LV-13.
@@ -60,6 +61,38 @@ static const struct KjhFieldMap sKjhFieldMaps[] =
     FIELD(MAP_MT_EMBER_RUBY_PATH_B4F, TYPE_FIRE),
     FIELD(MAP_MT_EMBER_RUBY_PATH_B5F, TYPE_FIRE),
     FIELD(MAP_VIRIDIAN_FOREST, TYPE_BUG),
+
+    // Johto's Gyms (LV-18), in Crystal's order
+    EARLY_GYM(MAP_JOHTO_VIOLET_GYM, TYPE_FLYING),       // Falkner
+    EARLY_GYM(MAP_JOHTO_AZALEA_GYM, TYPE_BUG),          // Bugsy
+    FIELD(MAP_JOHTO_GOLDENROD_GYM, TYPE_NORMAL),        // Whitney
+    FIELD(MAP_JOHTO_ECRUTEAK_GYM, TYPE_GHOST),          // Morty
+    FIELD(MAP_JOHTO_CIANWOOD_GYM, TYPE_FIGHTING),       // Chuck
+    FIELD(MAP_JOHTO_OLIVINE_GYM, TYPE_STEEL),           // Jasmine
+    FIELD(MAP_JOHTO_MAHOGANY_GYM, TYPE_ICE),            // Pryce
+    FIELD(MAP_JOHTO_BLACKTHORN_GYM_1F, TYPE_DRAGON),    // Clair
+    FIELD(MAP_JOHTO_BLACKTHORN_GYM_2F, TYPE_DRAGON),
+
+    // Johto's special places (LV-18). Johto's League is Indigo Plateau's rooms (ENG-10).
+    FIELD(MAP_JOHTO_ICE_PATH_1F, TYPE_ICE),
+    FIELD(MAP_JOHTO_ICE_PATH_B1F, TYPE_ICE),
+    FIELD(MAP_JOHTO_ICE_PATH_B2F_MAHOGANY_SIDE, TYPE_ICE),
+    FIELD(MAP_JOHTO_ICE_PATH_B2F_BLACKTHORN_SIDE, TYPE_ICE),
+    FIELD(MAP_JOHTO_ICE_PATH_B3F, TYPE_ICE),
+    FIELD(MAP_JOHTO_DRAGONS_DEN_1F, TYPE_DRAGON),
+    FIELD(MAP_JOHTO_DRAGONS_DEN_B1F, TYPE_DRAGON),
+    FIELD(MAP_JOHTO_DRAGON_SHRINE, TYPE_DRAGON),
+    FIELD(MAP_JOHTO_BURNED_TOWER_1F, TYPE_FIRE),
+    FIELD(MAP_JOHTO_BURNED_TOWER_B1F, TYPE_FIRE),
+    FIELD(MAP_JOHTO_ILEX_FOREST, TYPE_BUG),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_NW, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_NE, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_SW, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_SE, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_CAVE, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_B1F, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_B2F, TYPE_WATER),
+    FIELD(MAP_JOHTO_WHIRL_ISLAND_LUGIA_CHAMBER, TYPE_WATER),
 };
 
 #undef FIELD

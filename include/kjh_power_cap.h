@@ -15,7 +15,7 @@ u32 KJH_PowerCapPercent(u32 regionBadges);
 u32 KJH_CappedPower(u32 power, u32 percent);
 bool32 KJH_IsOhkoLocked(u32 regionBadges);
 
-// The region's badges: Kanto's only, until Johto and Hoenn join (LV-18)
+// The badges of the region the player stands in (LV-18: Kanto's or Johto's; Kanto's outside every region)
 u32 KJH_RegionBadges(void);
 
 // In battle

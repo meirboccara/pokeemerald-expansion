@@ -172,6 +172,9 @@ u16 KJH_BufferNextNewLibraryMoves(void)
 
         if (species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
             continue;
+        // LV-18: a veteran in a new region was above this level before, so these moves aren't new to it
+        if (GetMonData(mon, MON_DATA_PEAK_LEVEL) > gSpecialVar_0x8006)
+            continue;
         count = KJH_GetNewLevelUpMoves(species, gSpecialVar_0x8005, gSpecialVar_0x8006, moves, ARRAY_COUNT(moves));
         if (count == 0)
             continue;

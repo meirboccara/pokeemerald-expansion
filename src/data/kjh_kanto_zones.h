@@ -44,10 +44,10 @@ enum KjhKantoZone
     KJH_KANTO_ZONE_COUNT,
 };
 
-// The team's ceiling for each badge count: the next Gym ace, then the Champion.
-static const u8 sKantoTeamLevelCaps[NUM_BADGES + 1] = {14, 22, 30, 40, 50, 60, 70, 80, 100};
+// The team's ceiling for each badge count: the next Gym ace, then the Champion. The same in every region (LV-18).
+static const u8 sTeamLevelCaps[NUM_BADGES + 1] = {14, 22, 30, 40, 50, 60, 70, 80, 100};
 
-static const struct { u8 min, max; } sKantoZones[KJH_KANTO_ZONE_COUNT] =
+static const struct KjhZoneRange sKantoZones[KJH_KANTO_ZONE_COUNT] =
 {
     [KJH_KANTO_ZONE_PALLET]          = {  5,   8 },
     [KJH_KANTO_ZONE_VIRIDIAN]        = {  9,  12 },
@@ -77,7 +77,7 @@ static const struct { u8 min, max; } sKantoZones[KJH_KANTO_ZONE_COUNT] =
 
 // FireRed's Gyms and their ace in FireRed's Gym order (the ceiling of the badges before them). LV-3 put each Gym's
 // trainers just under it (kjh_tools/zone_levels.py); in the game the whole Gym moves to the player's badges.
-static const struct { u16 map; u8 ace; } sKantoGyms[] =
+static const struct KjhGymAce sKantoGyms[] =
 {
     { MAP_PEWTER_CITY_GYM,     14 },
     { MAP_CERULEAN_CITY_GYM,   22 },
@@ -90,7 +90,7 @@ static const struct { u16 map; u8 ace; } sKantoGyms[] =
 };
 
 // Maps that have a zone of their own, before their section's.
-static const struct { u16 map; u8 zone; } sKantoMapZones[] =
+static const struct KjhMapZone sKantoMapZones[] =
 {
     { MAP_POKEMON_LEAGUE_LORELEIS_ROOM, KJH_KANTO_ZONE_LORELEI },
     { MAP_POKEMON_LEAGUE_BRUNOS_ROOM,   KJH_KANTO_ZONE_BRUNO },
@@ -101,7 +101,7 @@ static const struct { u16 map; u8 zone; } sKantoMapZones[] =
 };
 
 // Every Kanto section (towns take in their houses, Pokémon Centers and Gyms).
-static const struct { u16 mapsec; u8 zone; } sKantoMapsecZones[] =
+static const struct KjhMapsecZone sKantoMapsecZones[] =
 {
     { MAPSEC_PALLET_TOWN,         KJH_KANTO_ZONE_PALLET },
     { MAPSEC_ROUTE_1,             KJH_KANTO_ZONE_PALLET },
