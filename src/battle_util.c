@@ -6,6 +6,7 @@
 #include "battle_environment.h"
 #include "battle_pyramid.h"
 #include "battle_util.h"
+#include "kjh_bond.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "battle_setup.h"
@@ -11232,6 +11233,8 @@ void SetValuesOnFaint(enum BattlerId battler)
         if (gBattleResults.opponentFaintCounter < 255)
             gBattleResults.opponentFaintCounter++;
         gBattleResults.lastOpponentSpecies = GetMonData(GetBattlerMon(battler), MON_DATA_SPECIES);
+        if (IS_FRLG) // KJH (LV-5): +2 friendship for each party Pokemon that fought this foe
+            KJH_BondOnFoeDown(gSentPokesToOpponent[(battler & BIT_FLANK) >> 1]);
         gSideTimers[B_SIDE_OPPONENT].retaliateTimer = 2;
     }
 }

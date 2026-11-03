@@ -33,6 +33,7 @@
 #include "pokemon_sprite_visualizer.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
+#include "kjh_bond.h"
 #include "pokerus.h"
 #include "region_map.h"
 #include "scanline_effect.h"
@@ -338,7 +339,24 @@ static void UpdateMoveRelearnerState();
 static void UpdateRelearnPrompt(void);
 static struct BoxPokemon *GetCurrentBoxmon(void);
 
-#define IS_MOVE_PAGE(page) (page == PSS_PAGE_BATTLE_MOVES || page == PSS_PAGE_CONTEST_MOVES)
+#define IS_MOVE_PAGE(page) (page == PSS_PAGE_BATTLE_MOVES || (page == PSS_PAGE_CONTEST_MOVES && !KJH_BOND_PAGE))
+
+// KJH (LV-5): in a FireRed build the contest moves page is the BOND page (KJH has no contests)
+#define KJH_BOND_PAGE IS_FRLG
+static void PrintKjhBondPage(void);
+static const struct WindowTemplate sKjhBondPageTemplate[] =
+{
+    [PSS_DATA_WINDOW_MOVE_NAMES] = {
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 2,
+        .width = 19,
+        .height = 16,
+        .paletteNum = 6,
+        .baseBlock = 467, // the move windows' tiles (467-696), unused on this page; up to 770, under 800
+    },
+};
+static const u8 sKjhBondTextColors[] = {13, 1, 2};
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -1232,7 +1250,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
         break;
     case SUMMARY_MODE_SELECT_MOVE:
         sMonSummaryScreen->minPageIndex = PSS_PAGE_BATTLE_MOVES;
-        sMonSummaryScreen->maxPageIndex = maxPageIndex;
+        sMonSummaryScreen->maxPageIndex = KJH_BOND_PAGE ? PSS_PAGE_BATTLE_MOVES : maxPageIndex; // no moves on BOND
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
@@ -3271,7 +3289,7 @@ static void PrintPageNamesAndStats(void)
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, gText_PkmnInfo, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, gText_PkmnSkills, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, gText_ContestMoves, 2, 1, 0, 1);
+    PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, KJH_BOND_PAGE ? COMPOUND_STRING("BOND") : gText_ContestMoves, 2, 1, 0, 1);
 
     ShowUtilityPrompt(SUMMARY_MODE_NORMAL);
 
@@ -3340,6 +3358,11 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_CONTEST_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE);
+        if (KJH_BOND_PAGE)
+        {
+            ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_UTILITY); // no A prompt, no relearner on the BOND page
+            break;
+        }
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_UTILITY);
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
@@ -4109,6 +4132,11 @@ static void PrintMovePowerAndAccuracy(enum Move moveIndex)
 
 static void PrintContestMoves(void)
 {
+    if (KJH_BOND_PAGE)
+    {
+        PrintKjhBondPage();
+        return;
+    }
     PrintMoveNameAndPP(0);
     PrintMoveNameAndPP(1);
     PrintMoveNameAndPP(2);
@@ -4124,6 +4152,13 @@ static void PrintContestMoves(void)
 static void Task_PrintContestMoves(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+
+    if (KJH_BOND_PAGE)
+    {
+        PrintKjhBondPage();
+        DestroyTask(taskId);
+        return;
+    }
 
     switch (data[0])
     {
@@ -4302,10 +4337,24 @@ static void SetTypeIcons(void)
         SetNewMoveTypeIcon();
         break;
     case PSS_PAGE_CONTEST_MOVES:
+        if (KJH_BOND_PAGE)
+            break;
         SetContestMoveTypeIcons();
         SetNewMoveTypeIcon();
         break;
     }
+}
+
+// KJH (LV-5): the BOND page (src/kjh_bond.c formats it), on a plain panel over the contest page's boxes
+static void PrintKjhBondPage(void)
+{
+    u8 windowId = AddWindowFromTemplateList(sKjhBondPageTemplate, PSS_DATA_WINDOW_MOVE_NAMES);
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(sKjhBondTextColors[0]));
+    KJH_FormatBondPage(&sMonSummaryScreen->currentMon, gStringVar4);
+    AddTextPrinterParameterized4(windowId, FONT_SMALL, 4, 2, 0, 0, sKjhBondTextColors, 0, gStringVar4);
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 
 static void CreateMoveTypeIcons(void)

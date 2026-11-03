@@ -9,6 +9,7 @@
 #include "battle_hold_effects.h"
 #include "battle_interface.h"
 #include "battle_main.h"
+#include "kjh_bond.h"
 #include "battle_message.h"
 #include "battle_pyramid.h"
 #include "battle_scripts.h"
@@ -5297,6 +5298,8 @@ static void HandleEndTurn_FinishBattle(void)
         BeginFastPaletteFade(3);
         FadeOutMapMusic(5);
         TryRestoreHeldItems();
+        if (IS_FRLG)
+            KJH_BondAfterBattle(); // KJH (LV-5)
 
         for (u32 i = 0; i < PARTY_SIZE; i++)
         {

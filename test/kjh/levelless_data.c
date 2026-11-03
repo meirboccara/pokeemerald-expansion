@@ -30,7 +30,7 @@ TEST("KJH: a new Pokémon has no levels-free data yet")
     EXPECT_EQ(GetMonData(&mon, MON_DATA_PEAK_LEVEL), 0);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_TRAINING_BANK), 0);
     EXPECT_EQ(GetMonData(&mon, MON_DATA_TRAINING_HALF), 0);
-    EXPECT_EQ(GetMonData(&mon, MON_DATA_PEAK_BOND), 0);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_PEAK_BOND), 1); // LV-5: the peak follows friendship from creation (70: Bond 1)
     EXPECT_EQ(GetMonData(&mon, MON_DATA_TIER_MARK), KJH_TIER_REGULAR);
 }
 

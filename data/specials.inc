@@ -646,3 +646,5 @@ gSpecials::
 	@ KJH (CF-8): headbutt trees, src/kjh_headbutt.c
 	def_special KJH_GetHeadbuttPartySlot
 	def_special KJH_HeadbuttWildEncounter
+	@ KJH (LV-5): Bond, src/kjh_bond.c
+	def_special KJH_SetStarterBond

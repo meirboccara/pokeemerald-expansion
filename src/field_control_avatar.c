@@ -12,6 +12,7 @@
 #include "event_scripts.h"
 #include "fieldmap.h"
 #include "field_control_avatar.h"
+#include "kjh_bond.h"
 #include "kjh_travel.h"
 #include "field_message_box.h"
 #include "field_move.h"
@@ -842,7 +843,7 @@ static void UpdateFriendshipStepCounter(void)
     int i;
 
     (*ptr)++;
-    (*ptr) %= 128;
+    (*ptr) %= IS_FRLG ? KJH_BOND_WALK_STEPS : 128; // KJH (LV-5): +1 Bond point every 256 steps
     if (*ptr == 0)
     {
         struct Pokemon *mon = gParties[B_TRAINER_PLAYER];

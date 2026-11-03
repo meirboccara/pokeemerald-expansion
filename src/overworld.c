@@ -1,5 +1,6 @@
 #include "global.h"
 #include "overworld.h"
+#include "kjh_bond.h"
 #include "kjh_clock.h"
 #include "battle_pyramid.h"
 #include "battle_setup.h"
@@ -394,6 +395,8 @@ static void (*const sMovementStatusHandler[])(struct LinkPlayerObjectEvent *, st
 void DoWhiteOut(void)
 {
     RunScriptImmediately(EventScript_WhiteOut);
+    if (IS_FRLG)
+        KJH_BondOnWhiteOut(); // KJH (LV-5): -50 friendship for the whole party
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();
     SetWarpDestinationToLastHealLocation();

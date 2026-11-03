@@ -39,6 +39,7 @@
 #include "pokedex.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "kjh_bond.h"
 #include "pokemon_animation.h"
 #include "pokemon_icon.h"
 #include "pokemon_summary_screen.h"
@@ -2653,6 +2654,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             break;
         case MON_DATA_FRIENDSHIP:
             SET8(GetSubstruct0(boxMon)->friendship);
+            // KJH (LV-5): the peak Bond follows every rise
+            if (KJH_FriendshipToBond(GetSubstruct0(boxMon)->friendship) > GetSubstruct2(boxMon)->peakBond)
+                GetSubstruct2(boxMon)->peakBond = KJH_FriendshipToBond(GetSubstruct0(boxMon)->friendship);
             break;
         case MON_DATA_MOVE1:
             SET16(GetSubstruct1(boxMon)->move1);
@@ -4877,6 +4881,16 @@ void AdjustFriendship(struct Pokemon *mon, u8 event)
 
     if (ShouldSkipFriendshipChange())
         return;
+
+    if (IS_FRLG) // KJH (LV-5): Bond's own table (src/kjh_bond.c)
+    {
+        s32 points = KJH_BondFriendshipEvent(event);
+        if (points > 0)
+            KJH_GainBond(mon, points);
+        else if (points < 0)
+            KJH_LoseBond(mon, -points);
+        return;
+    }
 
     species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG, 0);
     heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, 0);

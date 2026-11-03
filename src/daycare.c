@@ -2,6 +2,7 @@
 #include "pokemon.h"
 #include "battle.h"
 #include "daycare.h"
+#include "kjh_bond.h"
 #include "string_util.h"
 #include "caps.h"
 #include "mail.h"
@@ -332,6 +333,8 @@ static u16 TakeSelectedPokemonFromDaycare(struct DaycareMon *daycareMon)
     BoxMonToMon(&daycareMon->mon, &pokemon);
 
     TryFormChange(&pokemon, FORM_CHANGE_WITHDRAW, B_TRAINER_PLAYER);
+    if (IS_FRLG)
+        KJH_BondOnDaycarePickup(&pokemon); // KJH (LV-5): -20 friendship once, however long the stay
 
     if (GetMonData(&pokemon, MON_DATA_LEVEL) < GetCurrentLevelCap())
     {

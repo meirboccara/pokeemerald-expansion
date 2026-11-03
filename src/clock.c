@@ -7,6 +7,7 @@
 #include "field_weather.h"
 #include "lottery_corner.h"
 #include "main.h"
+#include "kjh_bond.h"
 #include "kjh_swarms.h"
 #include "mass_outbreak.h"
 #include "overworld.h"
@@ -82,6 +83,8 @@ static void UpdatePerDay(struct Time *localTime)
 
     if (*days != localTime->days && *days <= localTime->days)
     {
+        if (IS_FRLG) // KJH (LV-5): each in-game week, boxed Pokemon lose friendship
+            KJH_BondPcWeeks(localTime->days / 7 - *days / 7);
         daysSince = localTime->days - *days;
         DoDailyEvents(daysSince);
         *days = localTime->days;
