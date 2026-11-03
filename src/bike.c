@@ -1,5 +1,6 @@
 #include "global.h"
 #include "bike.h"
+#include "kjh_travel.h"
 #include "event_object_movement.h"
 #include "field_player_avatar.h"
 #include "fieldmap.h"
@@ -325,6 +326,8 @@ static void StandardBikeTransition_MoveDirection(u8 direction)
     {
         if (ObjectMovingOnRockStairs(playerObjEvent, direction))
             PlayerWalkFast(direction);
+        else if (KJH_IsFastTravelHeld(JOY_HELD(B_BUTTON)))
+            PlayerWalkFaster(direction); // KJH (CF-11): B rides faster
         else
             PlayerRideWaterCurrent(direction);
     }

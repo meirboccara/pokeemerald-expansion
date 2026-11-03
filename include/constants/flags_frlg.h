@@ -219,6 +219,7 @@
 #define FLAG_0x0EE               0x0EE
 #define FLAG_0x0EF               0x0EF
 #define FLAG_0x0F0               0x0F0
+#define FLAG_KJH_AUTO_RUN                                  FLAG_0x0F0 // KJH: L turned auto-run on (CF-11)
 #define FLAG_0x0F1               0x0F1
 #define FLAG_0x0F2               0x0F2
 #define FLAG_0x0F3               0x0F3

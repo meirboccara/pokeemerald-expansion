@@ -9,6 +9,7 @@
 #include "field_effect_helpers.h"
 #include "field_screen_effect.h"
 #include "field_player_avatar.h"
+#include "kjh_travel.h"
 #include "fieldmap.h"
 #include "follower_npc.h"
 #include "menu.h"
@@ -900,6 +901,10 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
             gPlayerAvatar.creeping = TRUE;
             PlayerWalkSlow(direction);
         }
+        else if (KJH_IsFastTravelHeld(heldKeys))
+        {
+            PlayerWalkFaster(direction); // KJH (CF-11): B surfs faster
+        }
         else
         {
             // speed 2 is fast, same speed as running
@@ -909,7 +914,7 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
     }
 
     if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER)
-     && (heldKeys & B_BUTTON)
+     && KJH_IsRunning(heldKeys) // KJH (CF-11): B, or no B with auto-run on
      && FlagGet(FLAG_SYS_B_DASH)
      && IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior) == 0
      && !FollowerNPCComingThroughDoor()
