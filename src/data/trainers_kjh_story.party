@@ -1,0 +1,34 @@
+/* KJH (ENG-10): the story's trainers (data/scripts/kjh_story.inc, docs/STORY.md). zone_levels.py doesn't place them:
+   their levels are set here by hand, on the zone of the scene they belong to. */
+
+/* Olivine Port, after the Radio Tower (Johto's Radio Tower zone, 70-74): the ace at its top, the rest as far below
+   it as in the pokefirered tree (33 and 34 there) */
+=== TRAINER_KJH_AQUA_ADMIN_MATT ===
+Name: MATT
+Class: TRAINER_CLASS_AQUA_ADMIN
+Pic: TRAINER_PIC_AQUA_ADMIN_M
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MIGHTYENA
+Level: 73
+
+SPECIES_SHARPEDO
+Level: 74
+
+=== TRAINER_KJH_MAGMA_ADMIN_COURTNEY ===
+Name: COURTNEY
+Class: TRAINER_CLASS_MAGMA_ADMIN
+Pic: TRAINER_PIC_KJH_MAGMA_ADMIN_F
+Gender: Female
+Music: Magma
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MIGHTYENA
+Level: 73
+
+SPECIES_CAMERUPT
+Level: 74

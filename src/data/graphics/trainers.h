@@ -561,6 +561,7 @@ const union AnimCmd *const sBackAnims_OldManPokedude[] = {
 };
 
 #include "johto_trainer_front_pics.h" // KJH (ENG-9)
+#include "kjh_trainer_front_pics.h" // KJH (ENG-10)
 
 // The first two parameters invoke a front pic and palette by
 // calling a "TRAINER_PIC" constant (e.g. TRAINER_PIC_HIKER), and
@@ -1229,4 +1230,5 @@ const struct TrainerPicInfo gTrainerPicInfo[TRAINER_PIC_COUNT] =
         .frontPic = TRAINER_FRONT_PIC(gTrainerFrontPic_PainterFrlg, gTrainerPalette_PainterFrlg),
     },
 #include "johto_trainer_pic_info.h" // KJH (ENG-9)
+#include "kjh_trainer_pic_info.h" // KJH (ENG-10)
 };

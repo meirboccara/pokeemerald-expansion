@@ -642,6 +642,10 @@
 #define TRAINER_KJH_MASTER_NORMAL                   634
 #define KJH_MASTERS_COUNT                          11
 
+// KJH (ENG-10): the story's trainers (data/scripts/kjh_story.inc), in src/data/trainers_kjh_story.party
+#define TRAINER_KJH_AQUA_ADMIN_MATT                 635
+#define TRAINER_KJH_MAGMA_ADMIN_COURTNEY            636
+
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.
 //       MAX_TRAINERS_COUNT_FRLG can be increased but will take up additional saveblock space

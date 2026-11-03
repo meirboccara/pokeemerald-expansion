@@ -198,6 +198,7 @@ enum __attribute__((packed)) TrainerPicID
     TRAINER_PIC_J_SKIER,
     TRAINER_PIC_J_WHITNEY,
     // KJH (ENG-9): end of Johto's trainer pics
+    TRAINER_PIC_KJH_MAGMA_ADMIN_F, // KJH (ENG-10): Courtney, FireRed's own pic (src/data/graphics/kjh_trainer_*.h)
     TRAINER_PIC_COUNT,
 };
 

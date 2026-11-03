@@ -55,6 +55,7 @@ src/data/trainers.h
 src/data/trainers_frlg.h
 src/data/trainers_johto.h
 src/data/trainers_kjh_masters.h
+src/data/trainers_kjh_story.h
 src/data/debug_trainers.h
 src/data/tutor_moves.h
 test/battle/trainer_control.h
