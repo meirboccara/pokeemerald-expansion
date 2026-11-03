@@ -1532,7 +1532,9 @@ static void InterviewAfter_PkmnFanClubOpinions(void)
 
 static void TryStartRandomMassOutbreak(void)
 {
-    if (!FlagGet(FLAG_SYS_GAME_CLEAR))
+    // KJH (CF-6): in the FireRed build, the outbreak record is Kanto's daily swarm, and Hoenn's swarm (Emerald's five
+    // outbreaks, src/kjh_swarms.c) is named by its Pokemon Centers' reporter: Emerald's TV starts none of its own
+    if (IS_FRLG || !FlagGet(FLAG_SYS_GAME_CLEAR))
         return;
 
     for (u32 i = 0; i < LAST_TVSHOW_IDX; i++)

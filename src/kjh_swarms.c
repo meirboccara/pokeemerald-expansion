@@ -47,8 +47,28 @@ static const struct KjhSwarm sJohtoSwarms[] =
     {SPECIES_REMORAID,  MAP_JOHTO_ROUTE_44,                  50, KJH_SWARM_FISHING},
 };
 
-// Johto's map groups come after all of Kanto's (data/maps/map_groups.json)
+// Hoenn's: Emerald's five mass outbreaks (pokeemerald's sPokeOutbreakSpeciesList in src/tv.c, each at the 50% that
+// TryStartRandomMassOutbreak gives them), all in the grass. In KJH, Emerald's TV doesn't start an outbreak of its own
+// (src/tv.c): the Center reporter names this swarm instead.
+static const struct KjhSwarm sHoennSwarms[] =
+{
+    {SPECIES_SEEDOT,  MAP_ROUTE102, 50, KJH_SWARM_LAND},
+    {SPECIES_NUZLEAF, MAP_ROUTE114, 50, KJH_SWARM_LAND},
+    {SPECIES_SEEDOT,  MAP_ROUTE117, 50, KJH_SWARM_LAND},
+    {SPECIES_SEEDOT,  MAP_ROUTE120, 50, KJH_SWARM_LAND},
+    {SPECIES_SKITTY,  MAP_ROUTE116, 50, KJH_SWARM_LAND},
+};
+
+static const struct { const struct KjhSwarm *swarms; u8 count; } sRegionSwarms[KJH_SWARM_REGIONS] =
+{
+    [KJH_SWARM_JOHTO] = {sJohtoSwarms, ARRAY_COUNT(sJohtoSwarms)},
+    [KJH_SWARM_HOENN] = {sHoennSwarms, ARRAY_COUNT(sHoennSwarms)},
+};
+
+// Hoenn's map groups come first, then Kanto's, then Johto's (data/maps/map_groups.json)
+#define FIRST_KANTO_MAP_GROUP MAP_GROUP(MAP_BATTLE_COLOSSEUM_2P_FRLG)
 #define FIRST_JOHTO_MAP_GROUP MAP_GROUP(MAP_JOHTO_OLIVINE_POKECENTER_1F)
+#define NO_SWARM_REGION       KJH_SWARM_REGIONS // Kanto's swarm is expansion's outbreak record
 
 u32 KJH_SwarmCount(void)
 {
@@ -74,12 +94,12 @@ void KJH_StartSwarm(u32 index)
 
 u32 KJH_RegionSwarmCount(u32 region)
 {
-    return region == KJH_SWARM_JOHTO ? ARRAY_COUNT(sJohtoSwarms) : 0;
+    return region < KJH_SWARM_REGIONS ? sRegionSwarms[region].count : 0;
 }
 
 const struct KjhSwarm *KJH_GetRegionSwarm(u32 region, u32 index)
 {
-    return &sJohtoSwarms[index];
+    return &sRegionSwarms[region].swarms[index];
 }
 
 void KJH_StartRegionSwarm(u32 region, u32 index)
@@ -98,25 +118,34 @@ void KJH_StartRegionSwarm(u32 region, u32 index)
 void KJH_StartDailySwarm(void)
 {
     KJH_StartSwarm(Random() % ARRAY_COUNT(sKantoSwarms));
-    gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_JOHTO] = (struct KjhRegionSwarm) {0};
-    if (FlagGet(FLAG_KJH_JOHTO_ARRIVED))
+    for (u32 region = 0; region < KJH_SWARM_REGIONS; region++)
     {
-        KJH_StartRegionSwarm(KJH_SWARM_JOHTO, Random() % ARRAY_COUNT(sJohtoSwarms));
+        gSaveBlock3Ptr->kjhSwarms[region] = (struct KjhRegionSwarm) {0};
+        if (FlagGet(region == KJH_SWARM_JOHTO ? FLAG_KJH_JOHTO_ARRIVED : KJH_HOENN_REACHED_FLAG))
+            KJH_StartRegionSwarm(region, Random() % sRegionSwarms[region].count);
     }
 }
 
-static bool32 InJohto(void)
+// The swarm record of the region the player stands in: Johto's or Hoenn's, NO_SWARM_REGION in Kanto
+static u32 SwarmRegionHere(void)
 {
-    return gSaveBlock1Ptr->location.mapGroup >= FIRST_JOHTO_MAP_GROUP;
+    if (gSaveBlock1Ptr->location.mapGroup >= FIRST_JOHTO_MAP_GROUP)
+        return KJH_SWARM_JOHTO;
+    if (gSaveBlock1Ptr->location.mapGroup < FIRST_KANTO_MAP_GROUP)
+        return KJH_SWARM_HOENN;
+    return NO_SWARM_REGION;
 }
 
 enum Species KJH_RegionSwarmSpecies(enum Species species, enum WildPokemonArea area)
 {
-    const struct KjhRegionSwarm *swarm = &gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_JOHTO];
+    u32 region = SwarmRegionHere();
+    const struct KjhRegionSwarm *swarm;
     u32 method = area == WILD_AREA_FISHING ? KJH_SWARM_FISHING : KJH_SWARM_LAND;
     u32 here = gSaveBlock1Ptr->location.mapNum | (gSaveBlock1Ptr->location.mapGroup << 8); // a MAP_* value
 
-    if (!InJohto() || swarm->species == SPECIES_NONE || swarm->map != here || swarm->method != method) return species;
+    if (region == NO_SWARM_REGION) return species;
+    swarm = &gSaveBlock3Ptr->kjhSwarms[region];
+    if (swarm->species == SPECIES_NONE || swarm->map != here || swarm->method != method) return species;
     if (area != WILD_AREA_LAND && area != WILD_AREA_FISHING) return species;
     // Outcome 0 is the swarm, so a test that doesn't set RNG_KJH_SWARM (its default is the last outcome) never sees it
     if (RandomWeighted(RNG_KJH_SWARM, swarm->chance, 100 - swarm->chance) != 0) return species;
@@ -133,9 +162,11 @@ static void BufferSwarm(u32 species, u32 mapGroup, u32 mapNum)
 
 u16 KJH_BufferTodaysSwarm(void)
 {
-    if (InJohto())
+    u32 region = SwarmRegionHere();
+
+    if (region != NO_SWARM_REGION)
     {
-        const struct KjhRegionSwarm *swarm = &gSaveBlock3Ptr->kjhSwarms[KJH_SWARM_JOHTO];
+        const struct KjhRegionSwarm *swarm = &gSaveBlock3Ptr->kjhSwarms[region];
 
         if (swarm->species == SPECIES_NONE) return FALSE;
         BufferSwarm(swarm->species, MAP_GROUP(swarm->map), MAP_NUM(swarm->map));

@@ -1065,6 +1065,10 @@
 #define KJH_HOENN_DAILY_FLAGS_START            HOENN_FLAG(0x918) // a byte of Hoenn's flags, daily
 #define FLAG_KJH_HOENN_MASTER_POISON_ONCE      (KJH_HOENN_DAILY_FLAGS_START + 0) // KJH (LV-18)
 #define FLAG_KJH_HOENN_MASTER_POISON_TWICE     (KJH_HOENN_DAILY_FLAGS_START + 1)
+// KJH (CF-6, ENG-8): Hoenn counts as reached (its daily swarm, its radar page) with its arrival flag, which ENG-10's
+// Hoenn part (the S.S. Aqua, agent hoenn-story) sets. Until that flag is in, a placeholder from hoenn-extras' own range
+// that nothing sets yet: point this at it.
+#define KJH_HOENN_REACHED_FLAG                 HOENN_FLAG(0x914)
 #define NUM_DAILY_FLAGS                             (DAILY_FLAGS_END - DAILY_FLAGS_START + 1)
 
 #define FLAG_0x3D0               0x3D0
