@@ -231,3 +231,257 @@ IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
 SPECIES_TAUROS
 Level: 50
 IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+/* KJH (LV-18): Johto's training masters, the same way (one per type, Johto's Pokemon). */
+
+=== TRAINER_KJH_JOHTO_MASTER_WATER ===
+Name: NAMI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_SWIMMER_F_FRLG
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_LANTURN
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_OCTILLERY
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_QUAGSIRE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_FIRE ===
+Name: ENJI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_J_FIREBREATHER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_HOUNDOOM
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MAGCARGO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_NINETALES
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_ICE ===
+Name: SHIRO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_J_BOARDER
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_PILOSWINE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_JYNX
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_LAPRAS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_DRAGON ===
+Name: RYU
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_COOLTRAINER_M_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_DRAGONAIR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_KINGDRA
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_DRAGONITE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_BUG ===
+Name: SHUN
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BUG_CATCHER_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_ARIADOS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_HERACROSS
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SCIZOR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_ROCK ===
+Name: IWAO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_HIKER_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_SUDOWOODO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_PUPITAR
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_GOLEM
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_FIGHTING ===
+Name: GORO
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_BLACK_BELT_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_PRIMEAPE
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_POLIWRATH
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_HITMONTOP
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_DARK ===
+Name: YORU
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_COOLTRAINER_F_FRLG
+Gender: Female
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MURKROW
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SNEASEL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_UMBREON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_PSYCHIC ===
+Name: SORA
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_PSYCHIC_M_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_GIRAFARIG
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_XATU
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_ESPEON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_FLYING ===
+Name: KAZE
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_J_SAGE
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_DODRIO
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_NOCTOWL
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_CROBAT
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_STEEL ===
+Name: TETSU
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_SAILOR_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_MAGNETON
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_STEELIX
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_SKARMORY
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+=== TRAINER_KJH_JOHTO_MASTER_NORMAL ===
+Name: HEIJI
+Class: TRAINER_CLASS_KJH_MASTER
+Pic: TRAINER_PIC_GENTLEMAN_FRLG
+Gender: Male
+Music: Intense
+Double Battle: No
+AI: Check Bad Move / Try To Faint / Check Viability
+
+SPECIES_STANTLER
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_MILTANK
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe
+
+SPECIES_URSARING
+Level: 50
+IVs: 20 HP / 20 Atk / 20 Def / 20 SpA / 20 SpD / 20 Spe

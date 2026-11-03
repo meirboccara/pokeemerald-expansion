@@ -640,13 +640,29 @@
 #define TRAINER_KJH_MASTER_POISON                   632
 #define TRAINER_KJH_MASTER_GROUND                   633
 #define TRAINER_KJH_MASTER_NORMAL                   634
-#define KJH_MASTERS_COUNT                          11
+#define KJH_KANTO_MASTERS_COUNT                    11
 
 // KJH (ENG-10): the story's trainers (data/scripts/kjh_story.inc), in src/data/trainers_kjh_story.party
 #define TRAINER_KJH_AQUA_ADMIN_MATT                 635
 #define TRAINER_KJH_MAGMA_ADMIN_COURTNEY            636
 #define TRAINER_KJH_VERMILION_AQUA_GRUNT            637
 #define TRAINER_KJH_VERMILION_MAGMA_GRUNT           638
+
+// KJH (LV-18): Johto's training masters (src/kjh_masters.c), in src/data/trainers_kjh_masters.party
+#define TRAINER_KJH_JOHTO_MASTER_WATER              639
+#define TRAINER_KJH_JOHTO_MASTER_FIRE               640
+#define TRAINER_KJH_JOHTO_MASTER_ICE                641
+#define TRAINER_KJH_JOHTO_MASTER_DRAGON             642
+#define TRAINER_KJH_JOHTO_MASTER_BUG                643
+#define TRAINER_KJH_JOHTO_MASTER_ROCK               644
+#define TRAINER_KJH_JOHTO_MASTER_FIGHTING           645
+#define TRAINER_KJH_JOHTO_MASTER_DARK               646
+#define TRAINER_KJH_JOHTO_MASTER_PSYCHIC            647
+#define TRAINER_KJH_JOHTO_MASTER_FLYING             648
+#define TRAINER_KJH_JOHTO_MASTER_STEEL              649
+#define TRAINER_KJH_JOHTO_MASTER_NORMAL             650
+#define KJH_JOHTO_MASTERS_COUNT                    12
+#define KJH_MASTERS_COUNT                          (KJH_KANTO_MASTERS_COUNT + KJH_JOHTO_MASTERS_COUNT)
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is
 //       only space for 25 additional trainers before trainer flag space overflows.

@@ -177,6 +177,7 @@ enum __attribute__((packed)) TrainerPicID
     TRAINER_PIC_CRUSH_GIRL_FRLG,
     TRAINER_PIC_POKEMON_BREEDER_FRLG,
     TRAINER_PIC_PAINTER_FRLG,
+    TRAINER_PIC_KJH_MAGMA_ADMIN_F, // KJH (ENG-10): Courtney, FireRed's own pic (src/data/graphics/kjh_trainer_*.h)
     // KJH (ENG-9): Johto's trainer pics (kjh_tools/johto/to_expansion.py)
     TRAINER_PIC_J_BOARDER,
     TRAINER_PIC_J_BUGSY,
@@ -198,7 +199,6 @@ enum __attribute__((packed)) TrainerPicID
     TRAINER_PIC_J_SKIER,
     TRAINER_PIC_J_WHITNEY,
     // KJH (ENG-9): end of Johto's trainer pics
-    TRAINER_PIC_KJH_MAGMA_ADMIN_F, // KJH (ENG-10): Courtney, FireRed's own pic (src/data/graphics/kjh_trainer_*.h)
     TRAINER_PIC_COUNT,
 };
 

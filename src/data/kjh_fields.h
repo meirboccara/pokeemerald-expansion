@@ -100,6 +100,14 @@ static const struct KjhFieldMap sKjhFieldMaps[] =
     FIELD(MAP_DIGLETTS_CAVE_B1F, TYPE_GROUND),
     FIELD(MAP_ROUTE19, TYPE_WATER),                    // the beach is sand
     FIELD(MAP_CELADON_CITY_CONDOMINIUMS_1F, TYPE_NORMAL),
+
+    // Johto's training masters' spots that their place doesn't give (LV-18)
+    FIELD(MAP_JOHTO_MOUNT_MORTAR_B1F, TYPE_FIGHTING),       // the Karate King's floor
+    FIELD(MAP_JOHTO_DARK_CAVE_VIOLET_ENTRANCE, TYPE_DARK),
+    FIELD(MAP_JOHTO_RUINS_OF_ALPH_OUTSIDE, TYPE_PSYCHIC),
+    FIELD(MAP_JOHTO_TIN_TOWER_2F, TYPE_FLYING),
+    FIELD(MAP_JOHTO_OLIVINE_LIGHTHOUSE_1F, TYPE_STEEL),
+    FIELD(MAP_JOHTO_NATIONAL_PARK, TYPE_NORMAL),            // grass and paths: no field of its own
 };
 
 #undef FIELD

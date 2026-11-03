@@ -1,4 +1,4 @@
-// KJH (LV-13): training masters (include/kjh_masters.h).
+// KJH (LV-13, LV-18): training masters, Kanto's and Johto's (include/kjh_masters.h).
 #include "global.h"
 #include "battle.h"
 #include "battle_setup.h"
@@ -9,12 +9,17 @@
 #include "constants/opponents.h"
 
 #define MASTER(t) {TRAINER_KJH_MASTER_##t, TYPE_##t, FLAG_KJH_MASTER_##t##_ONCE, FLAG_KJH_MASTER_##t##_TWICE}
+#define JOHTO_MASTER(t) {TRAINER_KJH_JOHTO_MASTER_##t, TYPE_##t, FLAG_KJH_JOHTO_MASTER_##t##_ONCE,                          FLAG_KJH_JOHTO_MASTER_##t##_TWICE}
 #define MASTER_FIGHTS_PER_DAY 2
 
 static const struct KjhMaster sMasters[KJH_MASTERS_COUNT] =
 {
     MASTER(WATER), MASTER(FIRE), MASTER(ELECTRIC), MASTER(GHOST), MASTER(ICE), MASTER(BUG),
     MASTER(ROCK), MASTER(FIGHTING), MASTER(POISON), MASTER(GROUND), MASTER(NORMAL),
+    // Johto's (LV-18)
+    JOHTO_MASTER(WATER), JOHTO_MASTER(FIRE), JOHTO_MASTER(ICE), JOHTO_MASTER(DRAGON), JOHTO_MASTER(BUG),
+    JOHTO_MASTER(ROCK), JOHTO_MASTER(FIGHTING), JOHTO_MASTER(DARK), JOHTO_MASTER(PSYCHIC), JOHTO_MASTER(FLYING),
+    JOHTO_MASTER(STEEL), JOHTO_MASTER(NORMAL),
 };
 
 const struct KjhMaster *KJH_GetMaster(u32 trainerId)

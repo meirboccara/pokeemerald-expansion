@@ -187,7 +187,8 @@ TEST("KJH: field, Johto's special places are set by hand, wherever the battle is
     EXPECT_EQ(KJH_FieldForMap(MAP_JOHTO_BURNED_TOWER_B1F, BATTLE_ENVIRONMENT_BUILDING).type, TYPE_FIRE);
     EXPECT_EQ(KJH_FieldForMap(MAP_JOHTO_ILEX_FOREST, BATTLE_ENVIRONMENT_GRASS).type, TYPE_BUG);
     EXPECT_EQ(KJH_FieldForMap(MAP_JOHTO_WHIRL_ISLAND_B2F, BATTLE_ENVIRONMENT_CAVE).type, TYPE_WATER);
-    EXPECT_EQ(KJH_FieldForMap(MAP_JOHTO_DARK_CAVE_VIOLET_ENTRANCE, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
+    // a cave without a hand-set field (Dark Cave's Violet side is the Dark master's, LV-18)
+    EXPECT_EQ(KJH_FieldForMap(MAP_JOHTO_DARK_CAVE_BLACKTHORN_ENTRANCE, BATTLE_ENVIRONMENT_CAVE).type, TYPE_ROCK);
 }
 
 TEST("KJH: a rise in Johto names no move as new to a veteran, only to a Pokemon that never was that strong")
