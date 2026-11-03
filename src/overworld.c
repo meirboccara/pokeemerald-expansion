@@ -1,5 +1,6 @@
 #include "global.h"
 #include "overworld.h"
+#include "kjh_clock.h"
 #include "battle_pyramid.h"
 #include "battle_setup.h"
 #include "battle_util.h"
@@ -1949,7 +1950,8 @@ void CB2_NewGame(void)
     SetMainCallback2(CB2_Overworld);
 #if OW_USE_FAKE_RTC
     // Wall clock now track local time so we set it to 10AM to match initial wall clock time
-    RtcCalcLocalTimeOffset(0, 10, 0, 0);
+    // KJH (CF-4): FireRed has no wall clock; its clock starts in the morning (KJH_StartClock set the same hour)
+    RtcCalcLocalTimeOffset(0, IS_FRLG ? KJH_CLOCK_START_HOUR : 10, 0, 0);
 #endif
 }
 
@@ -2133,6 +2135,7 @@ void CB2_ContinueSavedGame(void)
         LoadSaveblockObjEventScripts();
 
     UnfreezeObjectEvents();
+    KJH_StartClockIfUnset();
     DoTimeBasedEvents();
     UpdateMiscOverworldStates();
     if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)

@@ -52,6 +52,7 @@
 #include "constants/items.h"
 #include "script_pokemon_util.h"
 #include "difficulty.h"
+#include "kjh_clock.h"
 #include "follower_npc.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
@@ -300,6 +301,8 @@ void NewGameInitData(void)
     ClearFollowerNPCData();
     if (I_EXP_SHARE_FLAG != 0)
         FlagSet(I_EXP_SHARE_FLAG); // KJH: the party Exp. Share is on from the start.
+    if (OW_USE_FAKE_RTC)
+        KJH_StartClock(); // KJH (CF-4): the in-game clock starts in the morning, with no question.
 #if defined(KJH_DEBUG_WARP) && KJH_DEBUG_WARP == 4
     KJH_DebugHarnessStart();
 #endif

@@ -1,6 +1,7 @@
 #ifndef GUARD_CONSTANTS_VARS_H
 #define GUARD_CONSTANTS_VARS_H
 
+#include "constants/global.h"
 #include "constants/vars_frlg.h"
 
 #define VARS_START 0x4000
@@ -83,7 +84,11 @@
 #define VAR_REGICE_STEPS_3                               0x403D
 #define VAR_ALTERING_CAVE_WILD_SET                       0x403E
 #define VAR_DISTRIBUTE_EON_TICKET                        0x403F // This var is read and written, but is always zero. The only way to obtain the Eon Ticket in Emerald is via Record Mixing
+#if IS_FRLG
+#define VAR_DAYS                                         VAR_KJH_DAYS // KJH: 0x4040 is FireRed's VAR_MAGIKARP_SIZE_RECORD
+#else
 #define VAR_DAYS                                         0x4040
+#endif
 #define VAR_FANCLUB_FAN_COUNTER                          0x4041
 #define VAR_FANCLUB_LOSE_FAN_TIMER                       0x4042
 #define VAR_DEPT_STORE_FLOOR                             0x4043

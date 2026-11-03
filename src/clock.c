@@ -53,14 +53,20 @@ void DoDailyEvents(u32 daysSince)
     UpdateTVShowsPerDay(daysSince);
     UpdateWeatherPerDay(daysSince);
     UpdatePartyPokerusTime(daysSince);
-    UpdateBirchState(daysSince);
-    UpdateFrontierManiac(daysSince);
-    UpdateFrontierGambler(daysSince);
-    SetShoalItemFlag(daysSince);
-    if (!OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES)
+    // KJH (CF-4): these keep their state in Emerald variables, which a FireRed build shares with its own story
+    // variables (VAR_BIRCH_STATE is VAR_HOF_BRAG_STATE, VAR_FRONTIER_GAMBLER_CHALLENGE is VAR_ICE_STEP_COUNT_FRLG,
+    // VAR_MIRAGE_RND_H is VAR_ALTERING_CAVE_WILD_SET_FRLG...), and FireRed has none of these features.
+    if (!IS_FRLG)
     {
-        UpdateMirageRnd(daysSince);
-        SetRandomLotteryNumber(daysSince);
+        UpdateBirchState(daysSince);
+        UpdateFrontierManiac(daysSince);
+        UpdateFrontierGambler(daysSince);
+        SetShoalItemFlag(daysSince);
+        if (!OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES)
+        {
+            UpdateMirageRnd(daysSince);
+            SetRandomLotteryNumber(daysSince);
+        }
     }
     UpdateDaysPassedSinceFormChange(daysSince);
     DailyResetApricornTrees();
