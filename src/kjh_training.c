@@ -142,6 +142,10 @@ u32 KJH_TrainingGoalOfEvolution(enum Species species, u32 index)
 
     if (!NeedsTrainingPoints(evolutions, index))
         return 0;
+    // Level-based evolutions: original evolution level × 5 (e.g. lv16 → 80 TP)
+    if (evolutions[index].method == EVO_LEVEL || evolutions[index].method == EVO_LEVEL_BATTLE_ONLY)
+        return min(evolutions[index].param * KJH_TRAINING_POINTS_PER_LEVEL, KJH_TRAINING_LIFETIME_HALVES_MAX / 2);
+    // Trade / trade-substitute evolutions keep their fixed goals
     if (IsPseudoLegendaryLastForm(evolutions[index].targetSpecies))
         return KJH_TRAINING_GOAL_PSEUDO_LAST;
     if (GetSpeciesPreEvolution(species) == SPECIES_NONE)
@@ -195,6 +199,13 @@ static void GetEvs(struct Pokemon *mon, u8 *evs)
         evs[i] = GetMonData(mon, MON_DATA_HP_EV + i);
 }
 
+static void AddLifetime(struct Pokemon *mon, u32 halves)
+{
+    u32 current = GetMonData(mon, MON_DATA_TRAINING_LIFETIME_HALVES);
+    u32 updated = min(current + halves, KJH_TRAINING_LIFETIME_HALVES_MAX);
+    SetMonData(mon, MON_DATA_TRAINING_LIFETIME_HALVES, &updated);
+}
+
 static void AddHalves(struct Pokemon *mon, u32 halves)
 {
     u32 bank = GetMonData(mon, MON_DATA_TRAINING_BANK);
@@ -203,6 +214,7 @@ static void AddHalves(struct Pokemon *mon, u32 halves)
     KJH_TrainingAddHalves(&bank, &half, halves);
     SetMonData(mon, MON_DATA_TRAINING_BANK, &bank);
     SetMonData(mon, MON_DATA_TRAINING_HALF, &half);
+    AddLifetime(mon, halves);
 }
 
 // Called once per foe knocked out or caught (Cmd_getexp). foughtBits: the party slots that fought it. A fainted
@@ -266,10 +278,21 @@ void KJH_TrainingRefund(struct Pokemon *mon, u32 points)
     AddHalves(mon, 2 * points);
 }
 
-// Every point it has earned: placed (vitamins included) or still in the bank
+// Lifetime earned TP: the monotonic counter, seeded from placed+bank on first read
 u32 KJH_TrainingEarned(struct Pokemon *mon)
 {
-    return KJH_TrainingPlaced(mon) + KJH_TrainingBank(mon);
+    u32 placed = KJH_TrainingPlaced(mon);
+    u32 bank = KJH_TrainingBank(mon);
+    u32 current = placed + bank;
+    u32 lifetime = GetMonData(mon, MON_DATA_TRAINING_LIFETIME_HALVES) / 2;
+
+    if (lifetime == 0 && current > 0)
+    {
+        lifetime = current;
+        u32 halves = min(lifetime * 2, KJH_TRAINING_LIFETIME_HALVES_MAX);
+        SetMonData(mon, MON_DATA_TRAINING_LIFETIME_HALVES, &halves);
+    }
+    return max(lifetime, current);
 }
 
 u32 KJH_TrainingTowardEvolution(struct Pokemon *mon, u32 *goal)

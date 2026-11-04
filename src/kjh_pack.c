@@ -406,6 +406,7 @@ static void AddHelper(void)
     CreateMonWithIVs(helper, species, level, personality, OTID_STRUCT_PLAYER_ID, USE_RANDOM_IVS);
     GiveMonInitialMoveset(helper);
     KJH_RollWildHiddenAbility(helper); // like any wild Pokemon
+    SetWildMonHeldItemForMon(helper);
     if (leader)
     {
         sPack.helperLeaders++;

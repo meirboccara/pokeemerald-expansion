@@ -351,7 +351,11 @@
 #define VAR_KJH_HOENN_ARRIVAL_STATE     (HOENN_KJH_SPARE_VARS_START + 1) // 1: just landed in Slateport, the truck next
 // KJH (ENG-9): the script macros (asm/macros/event.inc) take Johto's and Hoenn's variables for variables too
 #define SCRIPT_VARS_END (HOENN_VARS_END - 1)
+#define VAR_KJH_BOND_CARE_DAY_LO (HOENN_KJH_SPARE_VARS_START + 5)
+#define VAR_KJH_BOND_CARE_DAY_HI (HOENN_KJH_SPARE_VARS_START + 6)
 #else
+#define VAR_KJH_BOND_CARE_DAY_LO 0x40FA
+#define VAR_KJH_BOND_CARE_DAY_HI 0x40FB
 #define SCRIPT_VARS_END VARS_END
 #endif
 

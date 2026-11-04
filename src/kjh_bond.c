@@ -9,6 +9,9 @@
 #include "event_data.h"
 #include "item.h"
 #include "kjh_bond.h"
+#include "kjh_real_clock.h"
+#include "money.h"
+#include "constants/vars.h"
 #include "kjh_mega.h"
 #include "kjh_levelless.h"
 #include "kjh_progression.h"
@@ -144,9 +147,31 @@ static bool32 IsBossBattle(void)
     return KJH_IsBossTrainer(GetTrainerStructFromId(trainerNum), trainerNum);
 }
 
+static EWRAM_DATA bool8 sProtectedWhiteout = FALSE;
+
+static bool32 IsProtectedTrainer(u32 trainer)
+{
+    u32 kind;
+    if (trainer == TRAINER_NONE || IsSpecialTrainer(trainer))
+        return FALSE;
+    kind = KJH_BossKind(GetTrainerStructFromId(trainer)->trainerClass);
+    return kind == KJH_BOSS_LEADER || kind == KJH_BOSS_ELITE_FOUR || kind == KJH_BOSS_CHAMPION;
+}
+
+bool32 KJH_BondBattleProtected(void)
+{
+    if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        return FALSE;
+    return IsProtectedTrainer(TRAINER_BATTLE_PARAM.opponentA)
+        || ((gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS) && IsProtectedTrainer(TRAINER_BATTLE_PARAM.opponentB));
+}
+
 void KJH_BondAfterBattle(void)
 {
     u32 points;
+
+    // DoWhiteOut runs after leaving battle; do not rely on stale trainer flags in the field.
+    sProtectedWhiteout = gBattleOutcome == B_OUTCOME_LOST && KJH_BondBattleProtected();
 
     if (gBattleOutcome == B_OUTCOME_CAUGHT)
         points = KJH_BOND_GAIN_WIN + KJH_BOND_GAIN_FOE; // the catch counts as a won battle and a foe
@@ -173,6 +198,12 @@ void KJH_BondRecalculatePartyStats(void)
 void KJH_BondOnWhiteOut(void)
 {
     u32 count = 0;
+
+    if (sProtectedWhiteout)
+    {
+        sProtectedWhiteout = FALSE;
+        return;
+    }
 
     for (u32 i = 0; i < PARTY_SIZE; i++)
     {
@@ -211,6 +242,9 @@ s32 KJH_BondFriendshipEvent(u32 event)
         return KJH_BOND_GAIN_WALK;
     case FRIENDSHIP_EVENT_FAINT_SMALL:
     case FRIENDSHIP_EVENT_FAINT_LARGE:
+        if (gMain.inBattle && KJH_BondBattleProtected())
+            return 0;
+        return -KJH_BOND_LOSS_FAINT;
     case FRIENDSHIP_EVENT_FAINT_FIELD_PSN:
         return -KJH_BOND_LOSS_FAINT;
     case FRIENDSHIP_EVENT_MASSAGE:
@@ -218,6 +252,66 @@ s32 KJH_BondFriendshipEvent(u32 event)
     default:
         return 0;  // levels, the League bonus and TMs give no Bond: battles and steps do
     }
+}
+
+u32 KJH_BondCareRecovery(struct Pokemon *mon)
+{
+    if (!IsBondHolder(GetMonData(mon, MON_DATA_SPECIES), GetMonData(mon, MON_DATA_IS_EGG)))
+        return 0;
+    return min(KJH_GetPeakBond(mon) - KJH_GetBond(mon), KJH_BOND_CARE_MAX);
+}
+
+bool32 KJH_BondCareDayAvailable(u32 seconds)
+{
+    u32 last = VarGet(VAR_KJH_BOND_CARE_DAY_LO) | ((u32)VarGet(VAR_KJH_BOND_CARE_DAY_HI) << 16);
+    return last == 0 || seconds / 86400 + 1 > last;
+}
+
+static u32 BondCareStatus(u32 slot, u32 *seconds)
+{
+    if (slot >= gPlayerPartyCount || KJH_BondCareRecovery(&gPlayerParty[slot]) == 0)
+        return KJH_BOND_CARE_NO_LOSS;
+    if (!KJH_RealClockNow(seconds))
+        return KJH_BOND_CARE_NO_CLOCK;
+    if (!KJH_BondCareDayAvailable(*seconds))
+        return KJH_BOND_CARE_USED;
+    return KJH_BOND_CARE_OK;
+}
+
+void KJH_PreviewBondCare(void)
+{
+    u32 seconds;
+    gSpecialVar_Result = BondCareStatus(gSpecialVar_0x8004, &seconds);
+    if (gSpecialVar_Result == KJH_BOND_CARE_OK)
+    {
+        struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+        GetMonData(mon, MON_DATA_NICKNAME, gStringVar1);
+        StringGet_Nickname(gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, KJH_BondCareRecovery(mon), STR_CONV_MODE_LEFT_ALIGN, 2);
+    }
+}
+
+void KJH_ApplyBondCare(void)
+{
+    u32 seconds, friendship, day;
+    struct Pokemon *mon;
+    gSpecialVar_Result = BondCareStatus(gSpecialVar_0x8004, &seconds);
+    if (gSpecialVar_Result != KJH_BOND_CARE_OK)
+        return;
+    if (!IsEnoughMoney(&gSaveBlock1Ptr->money, KJH_BOND_CARE_PRICE))
+    {
+        gSpecialVar_Result = KJH_BOND_CARE_NO_MONEY;
+        return;
+    }
+    mon = &gPlayerParty[gSpecialVar_0x8004];
+    friendship = KJH_BondToFriendship(KJH_GetBond(mon) + KJH_BondCareRecovery(mon));
+    // Direct restoration, not a gain: the Soothe Bell must not multiply paid care.
+    SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+    RecalculateStats(mon);
+    RemoveMoney(&gSaveBlock1Ptr->money, KJH_BOND_CARE_PRICE);
+    day = seconds / 86400 + 1;
+    VarSet(VAR_KJH_BOND_CARE_DAY_LO, day & 0xFFFF);
+    VarSet(VAR_KJH_BOND_CARE_DAY_HI, day >> 16);
 }
 
 void KJH_SetStarterBond(void)

@@ -2440,6 +2440,11 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         case MON_DATA_TRAINING_HALF:
             retVal = GetSubstruct2(boxMon)->trainingHalf;
             break;
+        case MON_DATA_TRAINING_LIFETIME_HALVES:
+            retVal = GetSubstruct2(boxMon)->trainingLifetimeLo
+                   | (GetSubstruct2(boxMon)->trainingLifetimeMid << 1)
+                   | (GetSubstruct0(boxMon)->trainingLifetimeHi << 7);
+            break;
         case MON_DATA_PEAK_BOND:
             retVal = GetSubstruct2(boxMon)->peakBond;
             break;
@@ -2887,6 +2892,16 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             u16 bank;
             SET16(bank);
             GetSubstruct2(boxMon)->trainingBank = min(bank, KJH_TRAINING_BANK_MAX);
+            break;
+        }
+        case MON_DATA_TRAINING_LIFETIME_HALVES:
+        {
+            u16 halves;
+            SET16(halves);
+            halves = min(halves, KJH_TRAINING_LIFETIME_HALVES_MAX);
+            GetSubstruct2(boxMon)->trainingLifetimeLo = halves & 1;
+            GetSubstruct2(boxMon)->trainingLifetimeMid = (halves >> 1) & 63;
+            GetSubstruct0(boxMon)->trainingLifetimeHi = halves >> 7;
             break;
         }
         case MON_DATA_TRAINING_HALF:
@@ -5480,62 +5495,51 @@ static inline bool32 CanFirstMonBoostHeldItemRarity(void)
     return FALSE;
 }
 
+static void TryGiveWildMonBerry(struct Pokemon *mon)
+{
+    static const enum Item berries[] = {
+        ITEM_CHERI_BERRY, ITEM_CHESTO_BERRY, ITEM_PECHA_BERRY,
+        ITEM_RAWST_BERRY, ITEM_ASPEAR_BERRY, ITEM_ORAN_BERRY,
+        ITEM_PERSIM_BERRY,
+    };
+
+    if (GetMonData(mon, MON_DATA_HELD_ITEM) == ITEM_NONE && RandomUniform(RNG_NONE, 0, 99) < 20)
+    {
+        enum Item item = berries[RandomUniform(RNG_NONE, 0, ARRAY_COUNT(berries) - 1)];
+        SetMonData(mon, MON_DATA_HELD_ITEM, &item);
+    }
+}
+
+void SetWildMonHeldItemForMon(struct Pokemon *mon)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    bool32 boost = CanFirstMonBoostHeldItemRarity();
+    u32 roll = Random() % 100;
+    enum Item item = ITEM_NONE;
+
+    if (GetMonData(mon, MON_DATA_HELD_ITEM) != ITEM_NONE)
+        return;
+    s32 caveId = gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE ? GetWildMonTableIdInAlteringCave(species) : 0;
+    if (caveId != 0)
+    {
+        if (roll >= (boost ? 80 : 95))
+            item = sAlteringCaveWildMonHeldItems[caveId].item;
+    }
+    else if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare)
+        item = gSpeciesInfo[species].itemCommon;
+    else if (roll >= (boost ? 80 : 95))
+        item = gSpeciesInfo[species].itemRare;
+    else if (roll >= (boost ? 20 : 45))
+        item = gSpeciesInfo[species].itemCommon;
+    SetMonData(mon, MON_DATA_HELD_ITEM, &item);
+    TryGiveWildMonBerry(mon);
+}
+
 void SetWildMonHeldItem(void)
 {
-    u16 rnd;
-    enum Species species;
-    u16 count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
-    u16 i;
-    bool32 itemHeldBoost = CanFirstMonBoostHeldItemRarity();
-    u16 chanceNoItem = itemHeldBoost ? 20 : 45;
-    u16 chanceNotRare = itemHeldBoost ? 80 : 95;
-
-    for (i = 0; i < count; i++)
-    {
-        if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM) != ITEM_NONE)
-            continue; // prevent overwriting previously set item
-
-        rnd = Random() % 100;
-        species = GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_SPECIES, 0);
-        if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
-        {
-            s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
-            if (alteringCaveId != 0)
-            {
-                // In active Altering Cave, use special item list
-                if (rnd < chanceNotRare)
-                    continue;
-                SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
-            }
-            else
-            {
-                // In inactive Altering Cave, use normal items
-                if (rnd < chanceNoItem)
-                    continue;
-                if (rnd < chanceNotRare)
-                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                else
-                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-            }
-        }
-        else
-        {
-            if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare && gSpeciesInfo[species].itemCommon != ITEM_NONE)
-            {
-                // Both held items are the same, 100% chance to hold item
-                SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-            }
-            else
-            {
-                if (rnd < chanceNoItem)
-                    continue;
-                if (rnd < chanceNotRare)
-                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                else
-                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-            }
-        }
-    }
+    u32 count = WILD_DOUBLE_BATTLE ? 2 : 1;
+    for (u32 i = 0; i < count; i++)
+        SetWildMonHeldItemForMon(&gParties[B_TRAINER_OPPONENT_A][i]);
 }
 
 bool8 IsMonShiny(struct Pokemon *mon)

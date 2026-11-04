@@ -132,6 +132,7 @@ enum MonData {
     MON_DATA_TRAINING_HALF,
     MON_DATA_PEAK_BOND,
     MON_DATA_TIER_MARK,
+    MON_DATA_TRAINING_LIFETIME_HALVES,
 };
 
 #define BLOCK_AI_DYNAMAX 15 // Used as dynamax level value by the AI to indicate this mon shouldn't dynamax
@@ -144,7 +145,7 @@ struct PokemonSubstruct0
     u16 unused_02:6;
     u32 experience:21;
     u32 nickname11:8; // 11th character of nickname.
-    u32 unused_04:3;
+    u32 trainingLifetimeHi:3; // Upper bits of the saturated lifetime TP half-point counter.
     u8 ppBonuses;
     u8 friendship;
     u16 pokeball:6; // 63 balls.
@@ -188,9 +189,9 @@ struct PokemonSubstruct2
     u16 peakBond:5;      // 31, holds 0..20.
     enum KjhTierMark tierMark:2;
     u16 trainingHalf:1;
-    u16 unused_06:1;
+    u16 trainingLifetimeLo:1;
     u16 trainingBank:10; // 1023, holds 0..630.
-    u16 unused_08:6;
+    u16 trainingLifetimeMid:6;
     u8 tough;
     u8 sheen;
 };
@@ -942,6 +943,7 @@ void MonRestorePP(struct Pokemon *mon);
 void BoxMonRestorePP(struct BoxPokemon *boxMon);
 void SetMonPreventsSwitchingString(void);
 void SetWildMonHeldItem(void);
+void SetWildMonHeldItemForMon(struct Pokemon *mon);
 bool8 IsMonShiny(struct Pokemon *mon);
 const u8 *GetTrainerPartnerName(void);
 void BattleAnimateFrontSprite(struct Sprite *sprite, enum Species species, bool8 noCry, u8 panMode);

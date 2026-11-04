@@ -38,6 +38,23 @@ void KJH_LoseBond(struct Pokemon *mon, u32 points);              // down to Bond
 void KJH_LoseBondFloored(struct Pokemon *mon, u32 points);       // down to half the peak Bond
 void KJH_BoxMonLoseBondFloored(struct BoxPokemon *boxMon, u32 points);
 
+#define KJH_BOND_CARE_MAX 10 // displayed Bond points, not friendship units
+#define KJH_BOND_CARE_PRICE 500
+
+enum KjhBondCareStatus
+{
+    KJH_BOND_CARE_OK,
+    KJH_BOND_CARE_NO_LOSS,
+    KJH_BOND_CARE_NO_CLOCK,
+    KJH_BOND_CARE_USED,
+    KJH_BOND_CARE_NO_MONEY,
+};
+bool32 KJH_BondBattleProtected(void);
+u32 KJH_BondCareRecovery(struct Pokemon *mon);
+bool32 KJH_BondCareDayAvailable(u32 seconds);
+void KJH_PreviewBondCare(void); // selected party slot in VAR_0x8004, status in VAR_RESULT
+void KJH_ApplyBondCare(void);
+
 // The hooks
 void KJH_BondOnFoeDown(u32 sentInBits);   // each party Pokemon in sentInBits fought a foe that fell or was caught
 void KJH_BondAfterBattle(void);           // battle won or caught: everyone sent out; whiteouts lose separately

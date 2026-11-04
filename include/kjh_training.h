@@ -22,7 +22,12 @@
 #define KJH_TRAINING_MULT_BOSS         3  // every Pokémon of a Gym Leader, an Elite Four member or a Champion
 #define KJH_TRAINING_MULT_ALPHA        6
 
-// The points an evolution by level or trade asks for (LV-9 checks them; the Summary shows how far along it is)
+// Ten formerly unused save bits store exact half points through 500 TP (all level thresholds).
+// Saturation is deliberate: this is evolution progress, not an unbounded statistics counter.
+#define KJH_TRAINING_LIFETIME_HALVES_MAX 1000
+#define KJH_TRAINING_POINTS_PER_LEVEL 5
+
+// Non-level trade requirements are unchanged.
 #define KJH_TRAINING_GOAL_SECOND_FORM  100
 #define KJH_TRAINING_GOAL_THIRD_FORM   200
 #define KJH_TRAINING_GOAL_PSEUDO_LAST  300  // Dragonite, Tyranitar, Salamence, Metagross

@@ -9341,6 +9341,28 @@ void SetItemsToRestoreAfterBattle(enum BattleTrainer trainer, u32 partySlot)
 
 void TryRestoreHeldItems(void)
 {
+    // Recover only berries still held by defeated wilds. Check every party slot:
+    // pack helpers can outnumber active battlers. Failed rolls/full bags discard
+    // the berry too, so cleanup cannot roll again or duplicate a reward.
+    if (gBattleOutcome == B_OUTCOME_WON
+        && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK
+                               | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_CATCH_TUTORIAL)))
+    {
+        for (u32 slot = 0; slot < PARTY_SIZE; slot++)
+        {
+            struct Pokemon *mon = &gParties[B_TRAINER_OPPONENT_A][slot];
+            enum Item item = GetMonData(mon, MON_DATA_HELD_ITEM);
+            if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE
+                && GetMonData(mon, MON_DATA_HP) == 0 && GetItemPocket(item) == POCKET_BERRIES)
+            {
+                enum Item none = ITEM_NONE;
+                if (RandomUniform(RNG_NONE, 0, 1) == 0)
+                    AddBagItem(item, 1);
+                SetMonData(mon, MON_DATA_HELD_ITEM, &none);
+            }
+        }
+    }
+
     for (enum BattleTrainer trainer = 0; trainer < gBattlersCount; trainer++)
     {
         for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
@@ -9351,6 +9373,7 @@ void TryRestoreHeldItems(void)
             if (lostItem->wildItemPending)
             {
                 AddBagItem(originaItem, 1);
+                lostItem->wildItemPending = FALSE;
                 continue;
             }
 
