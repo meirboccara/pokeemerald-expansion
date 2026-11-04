@@ -51,4 +51,14 @@ u32 KJH_TrainingEarned(struct Pokemon *mon);                         // placed +
 u32 KJH_TrainingTowardEvolution(struct Pokemon *mon, u32 *goal);
 u8 *KJH_StringTrainingEarned(u8 *dest, struct Pokemon *mon);         // "87/100", or all the points earned
 
+// The Summary's Training menu: what the Pokémon had when it opened, to ask before keeping what was placed
+struct KjhTrainingSnapshot
+{
+    u8 evs[NUM_STATS];
+    u16 bank;
+};
+void KJH_TrainingSnapshot(struct Pokemon *mon, struct KjhTrainingSnapshot *snapshot);
+bool32 KJH_TrainingChanged(struct Pokemon *mon, const struct KjhTrainingSnapshot *snapshot);
+void KJH_TrainingRestore(struct Pokemon *mon, const struct KjhTrainingSnapshot *snapshot); // its stats too
+
 #endif // GUARD_KJH_TRAINING_H

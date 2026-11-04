@@ -289,3 +289,32 @@ u8 *KJH_StringTrainingEarned(u8 *dest, struct Pokemon *mon)
     *dest++ = CHAR_SLASH;
     return ConvertIntToDecimalStringN(dest, goal, STR_CONV_MODE_LEFT_ALIGN, 3);
 }
+
+// The Summary's Training menu (LV-7): the stats' points and the bank when it opens; NO on "keep these?" puts them back
+void KJH_TrainingSnapshot(struct Pokemon *mon, struct KjhTrainingSnapshot *snapshot)
+{
+    GetEvs(mon, snapshot->evs);
+    snapshot->bank = KJH_TrainingBank(mon);
+}
+
+bool32 KJH_TrainingChanged(struct Pokemon *mon, const struct KjhTrainingSnapshot *snapshot)
+{
+    u8 evs[NUM_STATS];
+
+    GetEvs(mon, evs);
+    return KJH_TrainingBank(mon) != snapshot->bank || memcmp(evs, snapshot->evs, sizeof(evs)) != 0;
+}
+
+void KJH_TrainingRestore(struct Pokemon *mon, const struct KjhTrainingSnapshot *snapshot)
+{
+    u32 value;
+
+    for (enum Stat i = 0; i < NUM_STATS; i++)
+    {
+        value = snapshot->evs[i];
+        SetMonData(mon, MON_DATA_HP_EV + i, &value);
+    }
+    value = snapshot->bank;
+    SetMonData(mon, MON_DATA_TRAINING_BANK, &value);
+    CalculateMonStats(mon);
+}

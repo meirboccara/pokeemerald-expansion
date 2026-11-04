@@ -1,5 +1,6 @@
 #include "global.h"
 #include "kjh_bond.h"
+#include "kjh_dexnav.h"
 #include "battle_main.h"
 #include "battle_setup.h"
 #include "bg.h"
@@ -1047,6 +1048,16 @@ static void RevealHiddenMon(void)
     DexNavUpdateDirectionArrow();
 }
 
+// KJH (ENG-8 follow-up): how the player took this step, for KJH_DexNavScared
+static enum KjhDexNavPace KJH_DexNavPlayerPace(void)
+{
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH | PLAYER_AVATAR_FLAG_BIKE))
+        return KJH_DEXNAV_PACE_RUN;
+    if (!gPlayerAvatar.creeping)
+        return KJH_DEXNAV_PACE_WALK;
+    return KJH_DEXNAV_PACE_CREEP;
+}
+
 bool32 OnStep_DexNavSearch(void)
 {
     if (!FlagGet(DN_FLAG_SEARCHING) || sDexNavSearchDataPtr == NULL)
@@ -1071,8 +1082,9 @@ bool32 OnStep_DexNavSearch(void)
         }
     }
 
-    if (sDexNavSearchDataPtr->proximity <= CREEPING_PROXIMITY && !gPlayerAvatar.creeping && frameCount > 60)
-    { //should be creeping but player walks normally
+    // KJH (ENG-8 follow-up): getting close too fast only sometimes scares it off (include/kjh_dexnav.h), not for sure
+    if (frameCount > 60 && KJH_DexNavScared(KJH_DexNavPlayerPace(), sDexNavSearchDataPtr->proximity))
+    { //should be creeping but player walks or runs
         if (sDexNavSearchDataPtr->hiddenSearch)
         {
             EndDexNavSearch();
@@ -1083,13 +1095,6 @@ bool32 OnStep_DexNavSearch(void)
             EndDexNavSearchSetupScript(EventScript_MovedTooFast);
             return TRUE;
         }
-    }
-
-    if (sDexNavSearchDataPtr->proximity <= SNEAKING_PROXIMITY && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH | PLAYER_AVATAR_FLAG_BIKE))
-    { // running/biking too close
-        //always do event script, even if player hasn't revealed a hidden mon. It's assumed they would be creeping towards it
-        EndDexNavSearchSetupScript(EventScript_MovedTooFast);
-        return TRUE;
     }
 
     if (frameCount > DEXNAV_TIMEOUT * 60)

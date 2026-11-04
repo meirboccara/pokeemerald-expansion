@@ -159,3 +159,44 @@ TEST("KJH: training, an EV-lowering berry gives the stat's points back to the ba
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_ATK_EV), 0);
     EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_TRAINING_BANK), 40);
 }
+
+// KJH: the Summary's Training menu asks to keep the points placed before it closes (a snapshot when it opens; NO
+// puts it back)
+TEST("KJH: training, a snapshot sees points placed since it was taken")
+{
+    struct Pokemon mon;
+    struct KjhTrainingSnapshot snapshot;
+    u32 bank = 10;
+
+    CreateMon(&mon, SPECIES_WOBBUFFET, 50, 0, OTID_STRUCT_PRESET(0));
+    SetMonData(&mon, MON_DATA_TRAINING_BANK, &bank);
+    KJH_TrainingSnapshot(&mon, &snapshot);
+    EXPECT(!KJH_TrainingChanged(&mon, &snapshot));
+    KJH_PlaceTrainingPoints(&mon, STAT_SPEED, 3);
+    EXPECT(KJH_TrainingChanged(&mon, &snapshot));
+}
+
+TEST("KJH: training, restoring a snapshot gives the placed points back to the bank")
+{
+    struct Pokemon mon;
+    struct KjhTrainingSnapshot snapshot;
+    u32 bank = 30, ev = 8;
+
+    CreateMon(&mon, SPECIES_WOBBUFFET, 50, 0, OTID_STRUCT_PRESET(0));
+    SetMonData(&mon, MON_DATA_TRAINING_BANK, &bank);
+    SetMonData(&mon, MON_DATA_DEF_EV, &ev);
+    CalculateMonStats(&mon);
+    u32 hp = GetMonData(&mon, MON_DATA_MAX_HP), attack = GetMonData(&mon, MON_DATA_ATK);
+    KJH_TrainingSnapshot(&mon, &snapshot);
+    KJH_PlaceTrainingPoints(&mon, STAT_HP, 10);
+    KJH_PlaceTrainingPoints(&mon, STAT_ATK, 12);
+    KJH_TrainingRestore(&mon, &snapshot);
+    EXPECT_EQ(KJH_TrainingBank(&mon), 30);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_HP_EV), 0);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_ATK_EV), 0);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_DEF_EV), 8);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_MAX_HP), hp);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_HP), hp);
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_ATK), attack);
+    EXPECT(!KJH_TrainingChanged(&mon, &snapshot));
+}

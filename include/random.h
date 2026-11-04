@@ -268,6 +268,7 @@ enum RandomTag
     RNG_KJH_LEADER_IVS,     // KJH: which two of a Leader's stats get perfect IVs (LV-15)
     RNG_KJH_PACK_HELPER_LEADER, // KJH: a helper that answers a Leader is a Leader too (LV-15); 0: it is one
     RNG_KJH_SWARM,          // KJH: a Johto or Hoenn encounter is today's swarm species (src/kjh_swarms.c, CF-6); 0: it is
+    RNG_KJH_DEXNAV_FLEE,    // KJH: a DexNav Pokemon is scared off by a fast step (src/kjh_dexnav.c, ENG-8); TRUE: it flees
 };
 
 #define RandomWeighted(tag, ...) \

@@ -360,6 +360,9 @@ static const u8 *KjhMemoWithoutLevel(const u8 *text, enum KjhTierMark tierMark);
 static bool32 KJH_CanPlaceTrainingHere(void);
 static void KJH_PrintTrainingPoints(u8 windowId);
 static void KJH_OpenTrainingMenu(u8 taskId);
+static EWRAM_DATA bool8 sKjhTrainingMenuOpen = FALSE; // the prompt says DONE meanwhile
+static EWRAM_DATA u8 sKjhTrainingMenuCursor = 0;
+static EWRAM_DATA struct KjhTrainingSnapshot sKjhTrainingSnapshot = {0}; // when the menu opened
 static const struct WindowTemplate sKjhBondPageTemplate[] =
 {
     [PSS_DATA_WINDOW_MOVE_NAMES] = {
@@ -1832,7 +1835,12 @@ static void Task_HandleInput(u8 taskId)
             }
             if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
             {
-                if (ShouldShowIvEvPrompt())
+                if (KJH_CanPlaceTrainingHere()) // KJH (LV-7): the prompt says TRAIN
+                {
+                    PlaySE(SE_SELECT);
+                    KJH_OpenTrainingMenu(taskId);
+                }
+                else if (ShouldShowIvEvPrompt())
                 {
                     ShowMonSkillsInfo(taskId, IncrementSkillsStatsMode(sMonSummaryScreen->skillsPageMode));
                     PlaySE(SE_SELECT);
@@ -4978,6 +4986,7 @@ static inline void ShowUtilityPrompt(s16 mode)
     const u8* gText_SkillPageEvs = COMPOUND_STRING("EVs");
     const u8* gText_SkillPageStats = COMPOUND_STRING("STATS");
     const u8* gText_Rename = COMPOUND_STRING("RENAME");
+    bool32 bButton = FALSE;
 
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
     {
@@ -4988,7 +4997,16 @@ static inline void ShowUtilityPrompt(s16 mode)
     }
     else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
     {
-        if (ShouldShowIvEvPrompt())
+        if (sKjhTrainingMenuOpen) // KJH (LV-7): B is done placing Training points
+        {
+            promptText = COMPOUND_STRING("DONE");
+            bButton = TRUE;
+        }
+        else if (KJH_CanPlaceTrainingHere()) // KJH (LV-7): A places the Training points waiting
+        {
+            promptText = COMPOUND_STRING("TRAIN");
+        }
+        else if (ShouldShowIvEvPrompt())
         {
             if (mode == SUMMARY_SKILLS_MODE_STATS)
             {
@@ -5034,7 +5052,7 @@ static inline void ShowUtilityPrompt(s16 mode)
     if (iconXPos < 0)
         iconXPos = 0;
 
-    PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_UTILITY, FALSE, iconXPos);
+    PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_UTILITY, bButton, iconXPos);
     PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_UTILITY, promptText, stringXPos, 1, 0, 0);
 }
 
@@ -5088,8 +5106,10 @@ static bool32 KJH_CanPlaceTrainingHere(void)
         && KJH_TrainingPointsToPlace(&sMonSummaryScreen->currentMon) > 0;
 }
 
-// KJH (LV-7): placing Training points. START on the SKILLS page opens a menu of the six stats in the portrait's place;
-// the stats show their points (EVs) meanwhile. A places one point in the chosen stat, R ten, B closes.
+// KJH (LV-7): placing Training points. A (or START) on the SKILLS page, whose prompt says TRAIN while points wait,
+// opens a menu of the six stats in the portrait's place; the stats show their points (EVs) meanwhile. A places one
+// point in the chosen stat, R ten, B is done: if points were placed, "Keep these points?" YES keeps them, NO gives
+// them back to the bank, B goes back to placing.
 #define tKjhTrainingWindow data[15]
 
 static const struct WindowTemplate sKjhTrainingMenuTemplate =
@@ -5115,7 +5135,19 @@ static const struct MenuAction sKjhTrainingMenuItems[NUM_STATS] =
     {gText_Speed2,   {NULL}},
 };
 
+static const struct MenuAction sKjhTrainingKeepItems[] =
+{
+    {gText_Yes, {NULL}},
+    {gText_No,  {NULL}},
+};
+
+#define KJH_TRAINING_LINE_HEIGHT 16 // pixels, as PrintMenuTable's
+#define KJH_TRAINING_TEXT_LEFT   2
+#define KJH_TRAINING_ITEM_LEFT   8  // after the cursor, as PrintMenuTable's
+#define KJH_TRAINING_KEEP_TOP    (2 * KJH_TRAINING_LINE_HEIGHT + 9) // YES / NO under the question's two lines
+
 static void Task_KjhTrainingMenu(u8 taskId);
+static void Task_KjhTrainingKeep(u8 taskId);
 
 static void KJH_ShowTrainingEvs(u8 taskId)
 {
@@ -5124,30 +5156,87 @@ static void KJH_ShowTrainingEvs(u8 taskId)
     gTasks[taskId].func = Task_KjhTrainingMenu;
 }
 
+static void KJH_PrintTrainingMenu(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].tKjhTrainingWindow;
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+    PrintMenuTable(windowId, NUM_STATS, sKjhTrainingMenuItems);
+    InitMenuInUpperLeftCornerNormal(windowId, NUM_STATS, sKjhTrainingMenuCursor);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
 static void KJH_OpenTrainingMenu(u8 taskId)
 {
     u8 windowId = AddWindow(&sKjhTrainingMenuTemplate);
 
     gTasks[taskId].tKjhTrainingWindow = windowId;
-    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    PrintMenuTable(windowId, NUM_STATS, sKjhTrainingMenuItems);
-    InitMenuInUpperLeftCornerNormal(windowId, NUM_STATS, 0);
+    sKjhTrainingMenuOpen = TRUE;
+    sKjhTrainingMenuCursor = 0;
+    KJH_TrainingSnapshot(&sMonSummaryScreen->monList.mons[sMonSummaryScreen->curMonIndex], &sKjhTrainingSnapshot);
+    KJH_PrintTrainingMenu(taskId);
     PutWindowTilemap(windowId);
-    CopyWindowToVram(windowId, COPYWIN_FULL);
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].invisible = TRUE; // the menu takes the portrait's place
     KJH_ShowTrainingEvs(taskId);
+}
+
+// The Training lines after the points changed (placed, or given back)
+static void KJH_RefreshTrainingLines(void)
+{
+    CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
+    PrintExpPointsNextLevel();
+    TryDrawExperienceProgressBar();
 }
 
 static void KJH_CloseTrainingMenu(u8 taskId)
 {
     u8 windowId = gTasks[taskId].tKjhTrainingWindow;
 
+    sKjhTrainingMenuOpen = FALSE;
     ClearWindowTilemap(windowId);
     RemoveWindow(windowId);
     ScheduleBgCopyTilemapToVram(0);
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].invisible = FALSE;
     sMonSummaryScreen->skillsPageMode = SUMMARY_SKILLS_MODE_STATS;
     ShowMonSkillsInfo(taskId, SUMMARY_SKILLS_MODE_STATS); // and back to Task_HandleInput
+}
+
+// "Keep these points?" in the menu's window, YES / NO under it
+static void KJH_AskKeepTraining(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].tKjhTrainingWindow;
+
+    sKjhTrainingMenuCursor = Menu_GetCursorPos();
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, COMPOUND_STRING("Keep these"), KJH_TRAINING_TEXT_LEFT, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, COMPOUND_STRING("points?"), KJH_TRAINING_TEXT_LEFT, KJH_TRAINING_LINE_HEIGHT + 1, TEXT_SKIP_DRAW, NULL);
+    PrintMenuActionTextsAtPos(windowId, FONT_NORMAL, KJH_TRAINING_ITEM_LEFT, KJH_TRAINING_KEEP_TOP, KJH_TRAINING_LINE_HEIGHT, ARRAY_COUNT(sKjhTrainingKeepItems), sKjhTrainingKeepItems);
+    InitMenuNormal(windowId, FONT_NORMAL, 0, KJH_TRAINING_KEEP_TOP, KJH_TRAINING_LINE_HEIGHT, ARRAY_COUNT(sKjhTrainingKeepItems), 0);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+    gTasks[taskId].func = Task_KjhTrainingKeep;
+}
+
+static void Task_KjhTrainingKeep(u8 taskId)
+{
+    struct Pokemon *partyMon = &sMonSummaryScreen->monList.mons[sMonSummaryScreen->curMonIndex];
+
+    switch (Menu_ProcessInputNoWrap())
+    {
+    case 0: // YES
+        PlaySE(SE_SELECT);
+        KJH_CloseTrainingMenu(taskId);
+        break;
+    case 1: // NO: the points go back to the bank
+        PlaySE(SE_SELECT);
+        KJH_TrainingRestore(partyMon, &sKjhTrainingSnapshot);
+        KJH_RefreshTrainingLines();
+        KJH_CloseTrainingMenu(taskId);
+        break;
+    case MENU_B_PRESSED: // back to placing
+        KJH_PrintTrainingMenu(taskId);
+        gTasks[taskId].func = Task_KjhTrainingMenu;
+        break;
+    }
 }
 
 static void Task_KjhTrainingMenu(u8 taskId)
@@ -5165,7 +5254,10 @@ static void Task_KjhTrainingMenu(u8 taskId)
         input = Menu_ProcessInputNoWrap();
         if (input == MENU_B_PRESSED)
         {
-            KJH_CloseTrainingMenu(taskId);
+            if (KJH_TrainingChanged(partyMon, &sKjhTrainingSnapshot))
+                KJH_AskKeepTraining(taskId);
+            else
+                KJH_CloseTrainingMenu(taskId);
             return;
         }
         if (input >= 0)
@@ -5180,10 +5272,8 @@ static void Task_KjhTrainingMenu(u8 taskId)
         return;
     }
     PlaySE(SE_SELECT);
-    CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
+    KJH_RefreshTrainingLines();
     KJH_ShowTrainingEvs(taskId);
-    PrintExpPointsNextLevel();
-    TryDrawExperienceProgressBar();
 }
 
 #undef tKjhTrainingWindow

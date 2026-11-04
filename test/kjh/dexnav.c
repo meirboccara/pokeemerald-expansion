@@ -4,6 +4,7 @@
 #include "global.h"
 #include "dexnav.h"
 #include "event_data.h"
+#include "kjh_dexnav.h"
 #include "kjh_hidden_ability.h"
 #include "pokemon.h"
 #include "random.h"
@@ -55,4 +56,47 @@ TEST("KJH dexnav: without the roll, a DexNav Pokemon has one of its usual abilit
     CreateDexNavWildMon(SPECIES_PIDGEY, 0, 5, 2, ITEM_NONE, moves); // DexNav asking for 2 doesn't give it
     EXPECT_NE(GetMonData(mon, MON_DATA_ABILITY_NUM), KJH_ABILITY_NUM_HIDDEN);
     EXPECT_EQ(GetMonData(mon, MON_DATA_LEVEL), 5);
+}
+
+// KJH: getting close too fast doesn't always scare the Pokemon off (auto-run makes running the usual pace): a chance
+// per step instead of DexNav's sure flight, none while creeping (A held), none on the step that reaches it
+TEST("KJH dexnav: running near a DexNav Pokemon only sometimes scares it off")
+{
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_RUN, SNEAKING_PROXIMITY + 1), 0);
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_RUN, SNEAKING_PROXIMITY), KJH_DEXNAV_FLEE_RUN_PERCENT);
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_RUN, 1), KJH_DEXNAV_FLEE_RUN_PERCENT);
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_RUN, 0), 0);
+    EXPECT_GT(KJH_DEXNAV_FLEE_RUN_PERCENT, 0);
+    EXPECT_LE(KJH_DEXNAV_FLEE_RUN_PERCENT, 10);
+}
+
+TEST("KJH dexnav: walking right up to a DexNav Pokemon rarely scares it off, creeping never")
+{
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_WALK, CREEPING_PROXIMITY + 1), 0);
+    EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_WALK, CREEPING_PROXIMITY), KJH_DEXNAV_FLEE_WALK_PERCENT);
+    EXPECT_LT(KJH_DEXNAV_FLEE_WALK_PERCENT, KJH_DEXNAV_FLEE_RUN_PERCENT);
+    for (u32 proximity = 0; proximity <= MAX_PROXIMITY; proximity++)
+        EXPECT_EQ(KJH_DexNavFleeChance(KJH_DEXNAV_PACE_CREEP, proximity), 0);
+}
+
+TEST("KJH dexnav: running all the way in, the Pokemon stays most of the time")
+{
+    u32 staysPerMille = 1000;
+
+    for (u32 proximity = SNEAKING_PROXIMITY; proximity >= 1; proximity--)
+        staysPerMille = staysPerMille * (100 - KJH_DexNavFleeChance(KJH_DEXNAV_PACE_RUN, proximity)) / 100;
+    EXPECT_GE(staysPerMille, 700);
+}
+
+TEST("KJH dexnav: the flight roll uses its own RNG tag")
+{
+    SET_RNG(RNG_KJH_DEXNAV_FLEE, TRUE);
+    EXPECT(KJH_DexNavScared(KJH_DEXNAV_PACE_RUN, 2));
+    EXPECT(!KJH_DexNavScared(KJH_DEXNAV_PACE_CREEP, 2)); // no chance: no roll
+}
+
+TEST("KJH dexnav: the flight roll can let the player through")
+{
+    SET_RNG(RNG_KJH_DEXNAV_FLEE, FALSE);
+    EXPECT(!KJH_DexNavScared(KJH_DEXNAV_PACE_RUN, 2));
 }
