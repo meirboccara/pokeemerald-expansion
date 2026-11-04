@@ -172,6 +172,16 @@ void KJH_BondRecalculatePartyStats(void)
 
 void KJH_BondOnWhiteOut(void)
 {
+    u32 count = 0;
+
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (IsBondHolder(GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES),
+                         GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_IS_EGG)))
+            count++;
+    }
+    if (count < KJH_BOND_WHITEOUT_MIN_PARTY)
+        return;
     for (u32 i = 0; i < PARTY_SIZE; i++)
         KJH_LoseBond(&gParties[B_TRAINER_PLAYER][i], KJH_BOND_LOSS_WHITEOUT);
 }

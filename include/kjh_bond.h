@@ -15,8 +15,9 @@
 #define KJH_BOND_GAIN_WALK      1         // every KJH_BOND_WALK_STEPS steps in the party
 #define KJH_BOND_WALK_STEPS     256
 // Losses
-#define KJH_BOND_LOSS_FAINT     20        // it faints (in battle, or from poison outside)
-#define KJH_BOND_LOSS_WHITEOUT  50        // the player whites out: the whole party
+#define KJH_BOND_LOSS_FAINT     10        // it faints (in battle, or from poison outside): -1 Bond
+#define KJH_BOND_LOSS_WHITEOUT  30        // the player whites out: the whole party, -3 Bond...
+#define KJH_BOND_WHITEOUT_MIN_PARTY 3     // ...only with 3 Pokemon or more (a lone partner already paid its faint)
 #define KJH_BOND_LOSS_PC_WEEK   20        // each in-game week in a PC box (CF-4's clock: 7 days)
 #define KJH_BOND_LOSS_DAYCARE   20        // once, when picked up from a Day Care
 
@@ -68,9 +69,9 @@ enum KjhBondShake
 };
 enum KjhBondShake KJH_TryBondShake(u32 battler);     // the end-of-turn perk, rolled; the caller runs its script
 
-// LV-4: no level shown. While the levels-free design is on (FLAG_KJH_LEVELLESS), the player's Pokemon show their
-// Bond where the level was (Summary, party menu, PC: "BOND 12"; battle healthbox: a heart and the number), and wild
-// and trainers' Pokemon show none.
+// LV-4: no level shown. While the levels-free design is on (FLAG_KJH_LEVELLESS), no Pokemon shows a level. The Bond
+// is shown on the Summary only ("BOND 12" where the level was, and the BOND page); the party menu, the PC, the Day
+// Care and the battle healthbox show neither (playtest, 2026-11-04).
 bool32 KJH_HideLevels(void);
 u8 *KJH_BufferBondLabel(u8 *dest, u32 friendship); // "BOND 12"
 

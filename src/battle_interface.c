@@ -881,20 +881,9 @@ static void UpdateLvlInHealthbox(u8 healthboxSpriteId, u8 lvl)
     enum BattlerId battler = gSprites[healthboxSpriteId].hMain_Battler;
     u32 spriteId = gSprites[healthboxSpriteId].oam.affineParam;
 
-    if (KJH_HideLevels()) // KJH (LV-4): a heart and the Bond for the player's Pokemon, nothing for the others
+    if (KJH_HideLevels()) // KJH (LV-4): no level and no Bond (the Bond is on the Summary only)
     {
-        if (IsOnPlayerSide(battler))
-        {
-            text[0] = CHAR_EXTRA_SYMBOL;
-            text[1] = CHAR_EMOJI_HEART;
-            ConvertIntToDecimalStringN(text + 2, KJH_FriendshipToBond(GetMonData(GetBattlerMon(battler), MON_DATA_FRIENDSHIP)), STR_CONV_MODE_LEFT_ALIGN, 2);
-            FillSpriteRectColor(spriteId, 8, 5, 24, 11, HEALTHBOX_BG_INDEX);
-            AddSpriteTextPrinterParameterized6(spriteId, FONT_SMALL, 32 - GetStringWidth(FONT_SMALL, text, 0), 3, 0, 0, sHealthBoxTextColor, 0, text);
-        }
-        else
-        {
-            FillSpriteRectColor(spriteId, 0, 5, 24, 11, HEALTHBOX_BG_INDEX);
-        }
+        FillSpriteRectColor(spriteId, IsOnPlayerSide(battler) ? 8 : 0, 5, 24, 11, HEALTHBOX_BG_INDEX);
         // The gimmick indicator (Mega, Tera...) shows or hides as with a level.
         UpdateIndicatorLevelData(healthboxSpriteId, lvl);
         UpdateIndicatorVisibilityAndType(healthboxSpriteId, GetIndicatorPalTag(battler) == TAG_NONE);

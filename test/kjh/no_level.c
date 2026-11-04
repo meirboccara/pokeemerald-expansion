@@ -58,7 +58,7 @@ TEST("KJH: the DexNav search window shows no level while levels are hidden")
     EXPECT_EQ(text[0], EOS);
 }
 
-TEST("KJH: the Day Care list shows the Bond, not the level, while levels are hidden")
+TEST("KJH: the Day Care list shows no level and no Bond while levels are hidden (Bond is on the Summary only)")
 {
     u8 text[16];
     struct Pokemon mon;
@@ -72,7 +72,7 @@ TEST("KJH: the Day Care list shows the Bond, not the level, while levels are hid
     EXPECT_EQ(StringCompare(text, COMPOUND_STRING("{LV}12")), 0);
     FlagSet(FLAG_KJH_LEVELLESS);
     DaycareBufferMonLevel(text, &sNoLevelDaycareMon);
-    EXPECT_EQ(StringCompare(text, COMPOUND_STRING("BOND 7")), 0);
+    EXPECT_EQ(text[0], EOS);
 }
 
 TEST("KJH: a Hall of Fame card shows no level while levels are hidden")

@@ -57,19 +57,42 @@ TEST("KJH: gains add friendship points, x1.5 with a Soothe Bell; the peak Bond f
     EXPECT_EQ(KJH_GetPeakBond(mon), KJH_BOND_MAX);
 }
 
-TEST("KJH: faints and whiteouts go down to Bond 1, no lower")
+TEST("KJH: a faint loses 1 Bond (10 friendship), down to Bond 1, no lower")
 {
-    struct Pokemon *mon = GiveWobbuffet(100);
+    struct Pokemon *mon = GiveWobbuffet(85);
 
+    EXPECT_EQ(KJH_BOND_LOSS_FAINT, 10);
     AdjustFriendship(mon, FRIENDSHIP_EVENT_FAINT_SMALL);
-    EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), 80);
+    EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), 75);
     AdjustFriendship(mon, FRIENDSHIP_EVENT_FAINT_FIELD_PSN);
     EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), KJH_BOND_MIN_FRIENDSHIP);
-    SetFriendship(mon, 150);
+}
+
+TEST("KJH: a whiteout costs nothing more with only 1 or 2 Pokemon in the party")
+{
+    struct Pokemon *mon = GiveWobbuffet(150);
+
     KJH_BondOnWhiteOut();
-    EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), 100);
+    EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), 150);
+    RUN_OVERWORLD_SCRIPT(givemon SPECIES_WYNAUT, 20;);
+    SetFriendship(&gPlayerParty[1], 150);
     KJH_BondOnWhiteOut();
-    EXPECT_EQ(GetMonData(mon, MON_DATA_FRIENDSHIP), KJH_BOND_MIN_FRIENDSHIP);
+    EXPECT_EQ(GetMonData(&gPlayerParty[0], MON_DATA_FRIENDSHIP), 150);
+    EXPECT_EQ(GetMonData(&gPlayerParty[1], MON_DATA_FRIENDSHIP), 150);
+}
+
+TEST("KJH: with 3 Pokemon or more, a whiteout loses 3 Bond (30 friendship) each, down to Bond 1")
+{
+    GiveWobbuffet(150);
+    RUN_OVERWORLD_SCRIPT(givemon SPECIES_WYNAUT, 20; givemon SPECIES_PIDGEY, 20;);
+    SetFriendship(&gPlayerParty[1], 150);
+    SetFriendship(&gPlayerParty[2], 80);
+
+    EXPECT_EQ(KJH_BOND_LOSS_WHITEOUT, 30);
+    KJH_BondOnWhiteOut();
+    EXPECT_EQ(GetMonData(&gPlayerParty[0], MON_DATA_FRIENDSHIP), 120);
+    EXPECT_EQ(GetMonData(&gPlayerParty[1], MON_DATA_FRIENDSHIP), 120);
+    EXPECT_EQ(GetMonData(&gPlayerParty[2], MON_DATA_FRIENDSHIP), KJH_BOND_MIN_FRIENDSHIP);
 }
 
 TEST("KJH: levels, the League and TMs give no Bond; steps do")
@@ -141,7 +164,7 @@ SINGLE_BATTLE_TEST("KJH: a won battle gives each Pokemon that fought +2 per foe 
     }
 }
 
-SINGLE_BATTLE_TEST("KJH: a Pokemon that faints in battle loses 20 friendship")
+SINGLE_BATTLE_TEST("KJH: a Pokemon that faints in battle loses 10 friendship")
 {
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Friendship(150); HP(1); }
@@ -154,7 +177,7 @@ SINGLE_BATTLE_TEST("KJH: a Pokemon that faints in battle loses 20 friendship")
         MESSAGE("Wobbuffet fainted!");
         MESSAGE("The opposing Wobbuffet fainted!");
     } THEN {
-        // fainted: -20; it had faced the foe, which fell later: +2; it was sent out in a won battle: +1
+        // fainted: -10; it had faced the foe, which fell later: +2; it was sent out in a won battle: +1
         EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_FRIENDSHIP),
                   150 - KJH_BOND_LOSS_FAINT + KJH_BOND_GAIN_FOE + KJH_BOND_GAIN_WIN);
         EXPECT_EQ(GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_FRIENDSHIP), 100 + KJH_BOND_GAIN_FOE + KJH_BOND_GAIN_WIN);

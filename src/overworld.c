@@ -398,7 +398,7 @@ void DoWhiteOut(void)
     RunScriptImmediately(EventScript_WhiteOut);
     if (IS_FRLG)
     {
-        KJH_BondOnWhiteOut(); // KJH (LV-5): -50 friendship for the whole party
+        KJH_BondOnWhiteOut(); // KJH (LV-5): -30 friendship for the whole party, with 3 Pokemon or more
         KJH_UnlockMoves();    // KJH (LV-10): a lost League run is over
     }
     HealPlayerParty();

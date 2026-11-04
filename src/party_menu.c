@@ -2617,12 +2617,7 @@ static void DisplayPartyPokemonLevelCheck(struct Pokemon *mon, struct PartyMenuB
         {
             if (c != 0)
                 menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->dimensions[4] >> 3, (menuBox->infoRects->dimensions[5] >> 3) + 1, menuBox->infoRects->dimensions[6] >> 3, menuBox->infoRects->dimensions[7] >> 3, FALSE);
-            if (c != 2 && KJH_HideLevels()) // KJH (LV-4): Bond where the level was
-            {
-                KJH_BufferBondLabel(gStringVar1, GetMonData(mon, MON_DATA_FRIENDSHIP));
-                DisplayPartyPokemonBarDetail(menuBox->windowId, gStringVar1, 0, &menuBox->infoRects->dimensions[4]);
-            }
-            else if (c != 2)
+            if (c != 2 && !KJH_HideLevels()) // KJH (LV-4): no level; the Bond is on the Summary only
                 DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), menuBox);
         }
     }

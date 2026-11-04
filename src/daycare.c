@@ -1416,8 +1416,11 @@ u8 *DaycareBufferMonLevel(u8 *dst, struct DaycareMon *daycareMon)
 {
     u8 level = GetLevelAfterDaycareSteps(&daycareMon->mon, daycareMon->steps);
 
-    if (KJH_HideLevels()) // KJH (LV-4): the Bond where the level was
-        return KJH_BufferBondLabel(dst, GetBoxMonData(&daycareMon->mon, MON_DATA_FRIENDSHIP));
+    if (KJH_HideLevels()) // KJH (LV-4): no level; the Bond is on the Summary only
+    {
+        *dst = EOS;
+        return dst;
+    }
     dst = StringCopy(dst, gText_Lv);
     return ConvertIntToDecimalStringN(dst, level, STR_CONV_MODE_LEFT_ALIGN, 3);
 }
