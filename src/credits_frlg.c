@@ -23,7 +23,7 @@
 #if IS_FRLG
 
 #if defined(FIRERED)
-#define TITLE_TEXT gString_PokemonFireRed_Staff
+#define TITLE_TEXT gString_PokemonPhoenixReborn_Staff
 #else
 #define TITLE_TEXT gString_PokemonLeafGreen_Staff
 #endif
@@ -346,7 +346,7 @@ static const struct WindowTemplate sWindowTemplates_Pikachu[] = {
 
 
 
-ALIGNED(4) const u8 gString_PokemonFireRed_Staff[] = _("Pokémon FireRed Version\nStaff");
+ALIGNED(4) const u8 gString_PokemonPhoenixReborn_Staff[] = _("Pokémon PhoenixReborn\nStaff");
 ALIGNED(4) const u8 gString_PokemonLeafGreen_Staff[] = _("Pokémon LeafGreen Version\nStaff");
 ALIGNED(4) const u8 gCreditsString_Director[] = _("\n\nDirector\n\n\n\n");
 ALIGNED(4) const u8 gCreditsString_Junichi_Masuda[] = _("\n\n\nJunichi Masuda\n\n\n");
