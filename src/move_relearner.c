@@ -312,8 +312,18 @@ static void VBlankCB_MoveRelearner(void)
 }
 
 // Script arguments: The Pokémon to teach is in VAR_0x8004
+static EWRAM_DATA bool8 sKjhGrowthReview = FALSE;
+
+void KJH_ReviewLibraryMoves(void)
+{
+    TeachMoveRelearnerMove();
+    sKjhGrowthReview = TRUE;
+    gInitialSummaryScreenCallback = NULL;
+}
+
 void TeachMoveRelearnerMove(void)
 {
+    sKjhGrowthReview = FALSE;
     LockPlayerFieldControls();
     CreateTask(Task_WaitForFadeOut, 10);
     gRelearnMode = RELEARN_MODE_SCRIPT;
@@ -388,7 +398,7 @@ static void CB2_InitLearnMove_Basic(void)
             gTasks[sMoveRelearnerStruct->mainTask].func = Task_MoveRelearner_HandleInput;
         }
         if (gRelearnMode == RELEARN_MODE_SCRIPT)
-            gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = TRUE;
+            gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = !sKjhGrowthReview;
         else
             gTasks[sMoveRelearnerStruct->mainTask].tRecoverPp = IS_FRLG ? FALSE : P_SUMMARY_MOVE_RELEARNER_FULL_PP; // KJH (LV-10): PP %
         SetVBlankCallback(VBlankCB_MoveRelearner);
@@ -539,7 +549,7 @@ static void UIEndTask(u8 taskId)
         if (!GetItemImportance(item))
             RemoveBagItem(item, 1);
     }
-    if (gRelearnMode == RELEARN_MODE_SCRIPT && gSpecialVar_Result == TRUE)
+    if (gRelearnMode == RELEARN_MODE_SCRIPT && !sKjhGrowthReview && gSpecialVar_Result == TRUE)
     {
         gTasks[taskId].func = Task_MoveRelearner_Quit;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
@@ -582,6 +592,7 @@ static void Task_MoveRelearner_Quit(u8 taskId)
 
     FreeMoveRelearnerResources();
     gRelearnMode = RELEARN_MODE_NONE;
+    sKjhGrowthReview = FALSE;
     DestroyTask(taskId);
 }
 
@@ -794,6 +805,20 @@ static void CreateLearnableMovesList(void)
     if (gRelearnMode == RELEARN_MODE_SCRIPT || sRelearnTypes[gMoveRelearnerState].isActive())
         sMoveRelearnerStruct->numMenuChoices = sRelearnTypes[gMoveRelearnerState].getMoves(boxmon, sMoveRelearnerStruct->movesToLearn);
 
+    if (sKjhGrowthReview)
+    {
+        sMoveRelearnerStruct->numMenuChoices = 0;
+        for (u32 move = 1; move < MOVES_COUNT; move++)
+        {
+            bool32 known = FALSE;
+            for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+                if (GetBoxMonData(boxmon, MON_DATA_MOVE1 + slot) == move)
+                    known = TRUE;
+            if (!known && KJH_IsMoveInLibrary(boxmon, move)
+                && sMoveRelearnerStruct->numMenuChoices < ARRAY_COUNT(sMoveRelearnerStruct->movesToLearn) - 1)
+                sMoveRelearnerStruct->movesToLearn[sMoveRelearnerStruct->numMenuChoices++] = move;
+        }
+    }
     if (P_SORT_MOVES)
         SortMovesAlphabetically(sMoveRelearnerStruct->movesToLearn, sMoveRelearnerStruct->numMenuChoices);
 

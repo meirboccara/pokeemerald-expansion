@@ -2906,6 +2906,8 @@ static u8 DisplaySelectionWindow(u8 windowType)
         else
             text = sCursorOptions[sPartyMenuInternal->actions[i]].text;
 
+        if (sPartyMenuInternal->actions[i] == MENU_KJH_CHANGE_MOVES && KJH_HasPendingMoveReview())
+            text = COMPOUND_STRING("Moves: NEW");
         AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], FONT_NORMAL, cursorDimension, (i * 16) + 1, letterSpacing, 0, sFontColorTable[fontColorsId], 0, text);
     }
 

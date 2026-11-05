@@ -3,6 +3,7 @@
 #include "event_data.h"
 #include "kjh_map_regions.h"
 #include "kjh_team_level.h"
+#include "kjh_move_library.h"
 #include "overworld.h"
 #include "pokemon.h"
 #include "script.h"
@@ -334,12 +335,21 @@ bool32 KJH_TryTeamLevelStep(void)
     teamLevelVar = sRegions[KJH_RegionHere()].teamLevelVar;
     before = VarGet(teamLevelVar);
     if (level == before)
-        return FALSE;
+    {
+        extern const u8 EventScript_KjhReviewTeamMoves[];
+        if (!KJH_CheckMoveReview())
+            return FALSE;
+        gSpecialVar_0x8005 = 0;
+        gSpecialVar_0x8006 = MAX_LEVEL;
+        ScriptContext_SetupScript(EventScript_KjhReviewTeamMoves);
+        return TRUE;
+    }
 
     VarSet(teamLevelVar, level);
     if (before == 0 || level < before)
         return FALSE;
 
+    KJH_CheckMoveReview();
     gSpecialVar_0x8005 = before; // LV-10: the moves this rise unlocked (EventScript_KjhLibraryNewMoves)
     gSpecialVar_0x8006 = level;
     ScriptContext_SetupScript(EventScript_KjhTeamFeelsStronger);

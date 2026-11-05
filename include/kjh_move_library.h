@@ -26,4 +26,8 @@ void KJH_UnlockMoves(void);  // the run ends (Hall of Fame or whiteout)
 u32 KJH_PpAfterSwap(u32 newMaxPP, u32 oldPP, u32 oldMaxPP);
 u16 KJH_BufferNextNewLibraryMoves(void); // special, after a team level rise (data/scripts/kjh_team_level.inc)
 
+bool32 KJH_CheckMoveReview(void);
+bool32 KJH_HasPendingMoveReview(void);
+void KJH_ClearMoveReview(void);
+
 #endif // GUARD_KJH_MOVE_LIBRARY_H
