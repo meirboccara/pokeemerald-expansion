@@ -11,6 +11,7 @@
 #include "overworld.h"
 #include "pokedex.h"
 #include "pokemon.h"
+#include "rtc.h"
 #include "wild_encounter.h"
 #include "constants/johto_flags.h"
 #include "constants/map_groups.h"
@@ -198,10 +199,9 @@ static bool32 IsHeaderEnd(u32 headerId)
     return gWildMonHeaders[headerId].mapGroup == MAP_GROUP(MAP_UNDEFINED);
 }
 
-// The radar shows the default time's tables (time-of-day encounters are off in KJH)
-static const struct WildPokemonInfo *GetTable(const struct WildPokemonHeader *header, u32 table)
+static const struct WildPokemonInfo *GetPeriodTable(const struct WildPokemonHeader *header, u32 table, u32 time)
 {
-    const struct WildEncounterTypes *types = &header->encounterTypes[TIME_OF_DAY_DEFAULT];
+    const struct WildEncounterTypes *types = &header->encounterTypes[time];
 
     switch (table)
     {
@@ -213,6 +213,39 @@ static const struct WildPokemonInfo *GetTable(const struct WildPokemonHeader *he
     case KJH_RADAR_TABLE_HEADBUTT_RARE: return types->headbuttRareMonsInfo;
     }
     return NULL;
+}
+
+// DN-7: the table the game uses in a period (KJH_RADAR_PERIOD_DAY or _NIGHT), as GetTimeOfDayForEncounters picks it:
+// the night's own table at night, else the map's base table (OW_TIME_OF_DAY_FALLBACK, the morning's and the day's)
+static const struct WildPokemonInfo *GetTable(const struct WildPokemonHeader *header, u32 table, u32 period)
+{
+    const struct WildPokemonInfo *info = NULL;
+
+    if (OW_TIME_OF_DAY_ENCOUNTERS && period == KJH_RADAR_PERIOD_NIGHT)
+        info = GetPeriodTable(header, table, TIME_NIGHT);
+    return info != NULL ? info : GetPeriodTable(header, table, OW_TIME_OF_DAY_FALLBACK);
+}
+
+static u32 CurrentPeriod(void)
+{
+    return GetTimeOfDay() == TIME_NIGHT ? KJH_RADAR_PERIOD_NIGHT : KJH_RADAR_PERIOD_DAY;
+}
+
+// One map's entries in a period: every table's slots
+static u8 AddPeriodSlots(const struct WildPokemonHeader *header, u32 period, struct KjhRadarEntry *entries, u8 max)
+{
+    const struct WildPokemonInfo *info;
+    u8 count = 0;
+
+    for (u32 table = 0; table < KJH_RADAR_TABLE_COUNT; table++)
+    {
+        info = GetTable(header, table, period);
+        if (info == NULL)
+            continue;
+        for (u32 slot = 0; slot < KJH_RadarTableSlots(table); slot++)
+            count = KJH_RadarAddSlot(entries, count, max, info->wildPokemon[slot].species, table, slot);
+    }
+    return count;
 }
 
 // --- CF-7: today's swarms, every region's ---
@@ -263,37 +296,36 @@ static u32 MapSecOfMap(u32 map)
 
 // --- The route page ---
 
+// DN-7: the current period's tables, with the chances the player meets now; a species of the other period's tables
+// only is listed too, marked with that period (KJH_RadarAddPeriods)
 u8 KJH_RadarBuildRoute(u16 mapSec, struct KjhRadarEntry *entries, u8 max)
 {
-    struct KjhRadarEntry map[KJH_RADAR_MAX_ENTRIES];
+    struct KjhRadarEntry *map = Alloc(KJH_RADAR_MAX_ENTRIES * sizeof(struct KjhRadarEntry));
+    struct KjhRadarEntry *other = Alloc(KJH_RADAR_MAX_ENTRIES * sizeof(struct KjhRadarEntry));
     struct RadarSwarm swarms[MAX_RADAR_SWARMS];
     const struct WildPokemonHeader *header;
-    const struct WildPokemonInfo *info;
     u32 swarmCount = GetTodaysSwarms(swarms);
-    u8 count = 0, mapCount;
+    u32 now = CurrentPeriod(), later = now == KJH_RADAR_PERIOD_NIGHT ? KJH_RADAR_PERIOD_DAY : KJH_RADAR_PERIOD_NIGHT;
+    u8 count = 0, mapCount, otherCount;
 
     for (u32 i = 0; !IsHeaderEnd(i); i++)
     {
         header = &gWildMonHeaders[i];
         if (MapSecOfHeader(header) != mapSec || !IsHeaderUsed(i))
             continue;
-        mapCount = 0;
-        for (u32 table = 0; table < KJH_RADAR_TABLE_COUNT; table++)
-        {
-            info = GetTable(header, table);
-            if (info == NULL)
-                continue;
-            for (u32 slot = 0; slot < KJH_RadarTableSlots(table); slot++)
-                mapCount = KJH_RadarAddSlot(map, mapCount, ARRAY_COUNT(map), info->wildPokemon[slot].species, table, slot);
-        }
+        mapCount = AddPeriodSlots(header, now, map, KJH_RADAR_MAX_ENTRIES);
+        otherCount = AddPeriodSlots(header, later, other, KJH_RADAR_MAX_ENTRIES);
+        mapCount = KJH_RadarAddPeriods(map, mapCount, KJH_RADAR_MAX_ENTRIES, other, otherCount, now, later);
         for (u32 s = 0; s < swarmCount; s++)
         {
             if (swarms[s].map == (header->mapNum | (header->mapGroup << 8)))
-                mapCount = KJH_RadarApplySwarm(map, mapCount, ARRAY_COUNT(map), swarms[s].species, swarms[s].method,
-                                               swarms[s].chance);
+                mapCount = KJH_RadarApplySwarm(map, mapCount, KJH_RADAR_MAX_ENTRIES, swarms[s].species,
+                                               swarms[s].method, swarms[s].chance);
         }
         count = KJH_RadarMergeMap(entries, count, max, map, mapCount);
     }
+    Free(other);
+    Free(map);
     KJH_RadarSort(entries, count);
     return count;
 }
@@ -390,13 +422,16 @@ u16 KJH_RadarBuildRoutes(struct KjhRadarRoute *routes, u16 max)
             header = &gWildMonHeaders[i];
             if (routeOfHeader[i] != r)
                 continue;
-            for (u32 table = 0; table < KJH_RADAR_TABLE_COUNT; table++)
+            for (u32 period = KJH_RADAR_PERIOD_DAY; period <= KJH_RADAR_PERIOD_NIGHT; period++) // DN-7: both
             {
-                info = GetTable(header, table);
-                if (info == NULL)
-                    continue;
-                for (u32 slot = 0; slot < KJH_RadarTableSlots(table); slot++)
-                    n = KJH_RadarAddSpecies(species, n, KJH_RADAR_MAX_ENTRIES, info->wildPokemon[slot].species);
+                for (u32 table = 0; table < KJH_RADAR_TABLE_COUNT; table++)
+                {
+                    info = GetTable(header, table, period);
+                    if (info == NULL)
+                        continue;
+                    for (u32 slot = 0; slot < KJH_RadarTableSlots(table); slot++)
+                        n = KJH_RadarAddSpecies(species, n, KJH_RADAR_MAX_ENTRIES, info->wildPokemon[slot].species);
+                }
             }
         }
         routes[r].speciesCount = n;

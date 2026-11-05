@@ -92,7 +92,31 @@ static u8 AddEntry(struct KjhRadarEntry *entries, u8 count, u8 max, u16 species,
     entries[count].species = species;
     entries[count].method = method;
     entries[count].rate = rate;
+    entries[count].period = KJH_RADAR_PERIOD_ANY;
     return count + 1;
+}
+
+u8 KJH_RadarAddPeriods(struct KjhRadarEntry *entries, u8 count, u8 max, const struct KjhRadarEntry *other,
+                       u8 otherCount, u8 nowPeriod, u8 otherPeriod)
+{
+    u8 nowCount = count;
+
+    for (u32 i = 0; i < nowCount; i++)
+    {
+        bool32 inOther = FALSE;
+        for (u32 j = 0; j < otherCount && !inOther; j++)
+            inOther = other[j].species == entries[i].species && other[j].method == entries[i].method;
+        entries[i].period = inOther ? KJH_RADAR_PERIOD_ANY : nowPeriod;
+    }
+    for (u32 j = 0; j < otherCount; j++)
+    {
+        if (FindEntry(entries, nowCount, other[j].species, other[j].method) != NULL || count >= max)
+            continue;
+        entries[count] = other[j];
+        entries[count].period = otherPeriod;
+        count++;
+    }
+    return count;
 }
 
 u8 KJH_RadarAddSlot(struct KjhRadarEntry *entries, u8 count, u8 max, u16 species, u8 table, u8 slot)
@@ -111,6 +135,8 @@ u8 KJH_RadarMergeMap(struct KjhRadarEntry *route, u8 count, u8 max, const struct
         {
             if (map[i].rate > entry->rate)
                 entry->rate = map[i].rate;
+            if (map[i].period != entry->period) // met at night on one map, at any time on another: any time
+                entry->period = KJH_RADAR_PERIOD_ANY;
         }
         else if (count < max)
         {

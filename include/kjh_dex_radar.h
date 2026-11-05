@@ -39,11 +39,21 @@ enum
     KJH_RADAR_TABLE_COUNT
 };
 
+// DN-7: when a species can be met (DN-4's night tables). A map's base table is used in the morning and the day
+// (OW_TIME_OF_DAY_FALLBACK), its night table at night: DAY is "not at night".
+enum
+{
+    KJH_RADAR_PERIOD_ANY,
+    KJH_RADAR_PERIOD_DAY,
+    KJH_RADAR_PERIOD_NIGHT,
+};
+
 struct KjhRadarEntry
 {
     u16 species;
     u8 method; // KJH_RADAR_*
-    u8 rate;   // percent, for this method
+    u8 rate;   // percent, for this method (in its period, for a DAY or NIGHT entry)
+    u8 period; // KJH_RADAR_PERIOD_*
 };
 
 // --- The rules (src/kjh_dex_radar_rules.c): no game state ---
@@ -58,7 +68,8 @@ u8 KJH_RadarTableSlots(u8 table);
 // Returns the new count (unchanged when full).
 u8 KJH_RadarAddSlot(struct KjhRadarEntry *entries, u8 count, u8 max, u16 species, u8 table, u8 slot);
 // Merges one map's entries into its route's (a route can have several maps: cave floors, Safari Zone areas). A
-// species found on several maps keeps its best chance. Returns the new count.
+// species found on several maps keeps its best chance, and a period it has on every map (else ANY). Returns the new
+// count.
 u8 KJH_RadarMergeMap(struct KjhRadarEntry *route, u8 count, u8 max, const struct KjhRadarEntry *map, u8 mapCount);
 // Sorts by method (swarms first), then highest chance first, then species
 void KJH_RadarSort(struct KjhRadarEntry *entries, u8 count);
@@ -70,6 +81,11 @@ u8 KJH_RadarAddSpecies(u16 *species, u8 count, u8 max, u16 newSpecies);
 // map's other entries of that method keep (100 - chance) % of theirs, rounded. Adds the swarm's own entry. Returns
 // the new count.
 u8 KJH_RadarApplySwarm(struct KjhRadarEntry *entries, u8 count, u8 max, u16 species, u8 swarmMethod, u8 chance);
+// DN-7: one map's entries now (entries: its current period's tables) and in the other period (other). An entry now
+// with no entry of the same species and method in the other period gets nowPeriod; one in both, ANY; an entry only in
+// the other period is added with otherPeriod and its chance there. Returns the new count.
+u8 KJH_RadarAddPeriods(struct KjhRadarEntry *entries, u8 count, u8 max, const struct KjhRadarEntry *other,
+                       u8 otherCount, u8 nowPeriod, u8 otherPeriod);
 
 // --- The game side (src/kjh_dex_radar.c): the wild tables, the regions reached, the Pokedex flags ---
 

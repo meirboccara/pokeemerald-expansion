@@ -74,6 +74,11 @@ static const u8 sText_RouteRadar[] = _("ROUTE RADAR");
 static const u8 sText_RouteListControls[] = _("{A_BUTTON}ROUTE  {B_BUTTON}POKéDEX");
 static const u8 sText_RoutePageControls[] = _("{DPAD_UPDOWN}SCROLL  {B_BUTTON}ROUTES");
 static const u8 sText_Swarm[] = _("SWARM");
+static const u8 *const sPeriodNames[] = // DN-7: a species met only by day or only at night
+{
+    [KJH_RADAR_PERIOD_DAY]   = COMPOUND_STRING("DAY"),
+    [KJH_RADAR_PERIOD_NIGHT] = COMPOUND_STRING("NIGHT"),
+};
 static const u8 sText_NoRoutes[] = _("No route yet.");
 
 static const u8 *const sMethodNames[KJH_RADAR_METHOD_COUNT] =
@@ -182,7 +187,7 @@ static void ItemPrintFunc_Route(u8 windowId, u32 itemId, u8 y)
     PrintRight(windowId, buffer, y);
 }
 
-// Species: a Poke Ball if caught, and its chance by this method
+// Species: a Poke Ball if caught, DAY or NIGHT if met only then (DN-7), and its chance by this method
 static void ItemPrintFunc_Entry(u8 windowId, u32 itemId, u8 y)
 {
     const struct KjhRadarEntry *entry;
@@ -194,6 +199,9 @@ static void ItemPrintFunc_Entry(u8 windowId, u32 itemId, u8 y)
     entry = &sRadar->entries[itemId];
     if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(entry->species), FLAG_GET_CAUGHT))
         DrawCaughtBall(windowId, y);
+    if (entry->period != KJH_RADAR_PERIOD_ANY)
+        AddTextPrinterParameterized4(windowId, FONT_SMALL, RADAR_SWARM_X, y, 0, 0, sSwarmColors, TEXT_SKIP_DRAW,
+                                     sPeriodNames[entry->period]);
     end = ConvertIntToDecimalStringN(buffer, entry->rate, STR_CONV_MODE_LEFT_ALIGN, 3);
     *end++ = CHAR_PERCENT;
     *end = EOS;

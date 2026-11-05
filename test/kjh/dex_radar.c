@@ -2,6 +2,7 @@
 // each method's chances (headbutt trees included), ????? for a species never seen, and today's swarms.
 #include "global.h"
 #include "event_data.h"
+#include "fake_rtc.h"
 #include "kjh_dex_radar.h"
 #include "kjh_swarms.h"
 #include "malloc.h"
@@ -41,8 +42,10 @@ static s32 Rate(u32 count, u32 species, u32 method)
     return -1;
 }
 
+// No swarm, at noon: the radar shows the day's tables (DN-4's night tables are tested in day_night.c)
 static void NoSwarms(void)
 {
+    FakeRtc_ManuallySetTime(0, 12, 0, 0);
     ZeroMassOutbreak();
     for (u32 i = 0; i < KJH_SWARM_REGIONS; i++)
         gSaveBlock3Ptr->kjhSwarms[i].species = SPECIES_NONE;
