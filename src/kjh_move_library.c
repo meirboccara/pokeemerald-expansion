@@ -4,6 +4,7 @@
 #include "item.h"
 #include "kjh_bond.h"
 #include "kjh_move_library.h"
+#include "kjh_team_level.h"
 #include "move.h"
 #include "party_menu.h"
 #include "pokemon.h"
@@ -219,28 +220,91 @@ void KJH_ClearMoveReview(void)
     VarSet(VAR_KJH_MOVE_REVIEW_PENDING, 0);
 }
 
-// Persist the last offered party growth state: declining must survive saving/loading.
-// Moves themselves are deliberately excluded so teaching or declining does not nag.
-bool32 KJH_CheckMoveReview(void)
+static u32 CountMonNewLibraryMoves(struct Pokemon *mon, u32 fromLevel, u32 toLevel, u16 *moves, u32 maxMoves)
+{
+    u32 species = GetMonData(mon, MON_DATA_SPECIES);
+    u32 count;
+
+    if (species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+        return 0;
+    if (GetMonData(mon, MON_DATA_PEAK_LEVEL) > toLevel)
+        return 0;
+
+    count = KJH_GetNewLevelUpMoves(species, fromLevel,
+                                 min(KJH_LibraryLevel(&mon->box), toLevel),
+                                 moves, maxMoves);
+    for (u32 i = 0; i < count; )
+    {
+        bool32 known = FALSE;
+
+        for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+        {
+            if (GetMonData(mon, MON_DATA_MOVE1 + slot) == moves[i])
+                known = TRUE;
+        }
+        if (known)
+            moves[i] = moves[--count];
+        else
+            i++;
+    }
+    return count;
+}
+
+bool32 KJH_PartyHasNewLibraryMoves(u32 fromLevel, u32 toLevel)
+{
+    u16 move;
+
+    if (fromLevel >= toLevel)
+        return FALSE;
+
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        if (CountMonNewLibraryMoves(&gPlayerParty[i], fromLevel, toLevel, &move, 1) > 0)
+            return TRUE;
+    }
+    return FALSE;
+}
+
+void KJH_SyncMoveReviewSignature(void)
 {
     u32 signature = 17;
     bool32 hasMon = FALSE;
-    if (KJH_AreMovesLocked())
-        return FALSE;
+
     for (u32 i = 0; i < PARTY_SIZE; i++)
     {
         struct Pokemon *mon = &gPlayerParty[i];
         u32 species = GetMonData(mon, MON_DATA_SPECIES);
+
         if (species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
             continue;
         hasMon = TRUE;
         signature += species * 31 + KJH_LibraryLevel(&mon->box) * 127
                    + GetMonData(mon, MON_DATA_PERSONALITY);
     }
-    signature = (signature & 0xFFFF) | 1;
-    if (!hasMon || VarGet(VAR_KJH_MOVE_REVIEW_SIGNATURE) == signature)
+    if (hasMon)
+        VarSet(VAR_KJH_MOVE_REVIEW_SIGNATURE, (signature & 0xFFFF) | 1);
+}
+
+// Persist the last offered party growth state: declining must survive saving/loading.
+// Moves themselves are deliberately excluded so teaching or declining does not nag.
+bool32 KJH_CheckMoveReview(void)
+{
+    u32 teamLevel;
+
+    if (KJH_AreMovesLocked())
         return FALSE;
-    VarSet(VAR_KJH_MOVE_REVIEW_SIGNATURE, signature);
+
+    teamLevel = KJH_TeamLevel();
+    if (teamLevel == 0 || !KJH_PartyHasNewLibraryMoves(0, teamLevel))
+    {
+        VarSet(VAR_KJH_MOVE_REVIEW_PENDING, 0);
+        return FALSE;
+    }
+
+    KJH_SyncMoveReviewSignature();
+    if (KJH_HasPendingMoveReview())
+        return TRUE;
+
     VarSet(VAR_KJH_MOVE_REVIEW_PENDING, 1);
     return TRUE;
 }
@@ -262,34 +326,9 @@ u16 KJH_BufferNextNewLibraryMoves(void)
 
         if (species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
             continue;
-        bool32 emptySlot = FALSE;
-        for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
-            if (GetMonData(mon, MON_DATA_MOVE1 + slot) == MOVE_NONE)
-                emptySlot = TRUE;
-        // An incomplete moveset also deserves an offer for older library moves.
-        if (!emptySlot && GetMonData(mon, MON_DATA_PEAK_LEVEL) > gSpecialVar_0x8006)
+        if (GetMonData(mon, MON_DATA_PEAK_LEVEL) > gSpecialVar_0x8006)
             continue;
-        if (emptySlot)
-        {
-            count = KJH_GetUnknownLibraryMoves(&mon->box, moves, ARRAY_COUNT(moves));
-        }
-        else
-        {
-            count = KJH_GetNewLevelUpMoves(species, gSpecialVar_0x8005,
-                                         min(KJH_LibraryLevel(&mon->box), gSpecialVar_0x8006),
-                                         moves, ARRAY_COUNT(moves));
-            for (u32 i = 0; i < count; )
-            {
-                bool32 known = FALSE;
-                for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
-                    if (GetMonData(mon, MON_DATA_MOVE1 + slot) == moves[i])
-                        known = TRUE;
-                if (known)
-                    moves[i] = moves[--count];
-                else
-                    i++;
-            }
-        }
+        count = CountMonNewLibraryMoves(mon, gSpecialVar_0x8005, gSpecialVar_0x8006, moves, ARRAY_COUNT(moves));
         if (count == 0)
             continue;
         GetMonNickname(mon, gStringVar4);

@@ -26,7 +26,7 @@ EventScript_KjhLibraryNewMoves::
 	specialvar VAR_RESULT, KJH_BufferNextNewLibraryMoves
 	goto_if_eq VAR_RESULT, FALSE, EventScript_KjhLibraryNewMovesEnd
 	msgbox Text_KjhReviewMoves, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, EventScript_KjhLibraryNewMovesEnd
+	goto_if_eq VAR_RESULT, NO, EventScript_KjhLibraryNewMovesDecline
 	special KJH_ClearMoveReview
 	setvar VAR_0x8004, 0
 EventScript_KjhLibraryNewMovesLoop:
@@ -41,6 +41,9 @@ EventScript_KjhLibraryNewMovesLoop:
 	waitstate
 	addvar VAR_0x8004, 1
 	goto EventScript_KjhLibraryNewMovesLoop
+EventScript_KjhLibraryNewMovesDecline:
+	special KJH_ClearMoveReview
+	goto EventScript_KjhLibraryNewMovesEnd
 EventScript_KjhLibraryNewMovesEnd:
 	return
 

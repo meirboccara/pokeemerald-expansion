@@ -335,23 +335,19 @@ bool32 KJH_TryTeamLevelStep(void)
     teamLevelVar = sRegions[KJH_RegionHere()].teamLevelVar;
     before = VarGet(teamLevelVar);
     if (level == before)
-    {
-        extern const u8 EventScript_KjhReviewTeamMoves[];
-        if (!KJH_CheckMoveReview())
-            return FALSE;
-        gSpecialVar_0x8005 = 0;
-        gSpecialVar_0x8006 = MAX_LEVEL;
-        ScriptContext_SetupScript(EventScript_KjhReviewTeamMoves);
-        return TRUE;
-    }
+        return FALSE;
 
     VarSet(teamLevelVar, level);
     if (before == 0 || level < before)
         return FALSE;
 
-    KJH_CheckMoveReview();
+    KJH_SyncMoveReviewSignature();
     gSpecialVar_0x8005 = before; // LV-10: the moves this rise unlocked (EventScript_KjhLibraryNewMoves)
     gSpecialVar_0x8006 = level;
+    if (!KJH_PartyHasNewLibraryMoves(before, level))
+        VarSet(VAR_KJH_MOVE_REVIEW_PENDING, 0);
+    else
+        VarSet(VAR_KJH_MOVE_REVIEW_PENDING, 1);
     ScriptContext_SetupScript(EventScript_KjhTeamFeelsStronger);
     return TRUE;
 }
