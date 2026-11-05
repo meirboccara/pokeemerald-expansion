@@ -35,6 +35,13 @@ def save_tiles(image, stem, bank):
     Path(str(stem) + '.bin').write_bytes(struct.pack('<640H', *tilemap))
 
 
+def opaque_mask(image):
+    """Build alpha from indices, without interpreting them through the palette."""
+    mask = Image.new('L', image.size)
+    mask.putdata([255 if index else 0 for index in image.getdata()])
+    return mask
+
+
 def main(root):
     root = Path(root)
     folder = root / 'graphics/title_screen_frlg'
@@ -45,7 +52,7 @@ def main(root):
         frame = Image.open(path / 'anim_front.png').crop((0, 0, 64, 64))
         pal = palette(path / 'normal.pal')
         frame.putpalette([v for color in pal for v in color])
-        alpha = frame.point(lambda p: 255 if p else 0).convert('L')
+        alpha = opaque_mask(frame)
         box = alpha.getbbox()
         rgb = frame.convert('RGB').crop(box)
         alpha = alpha.crop(box)
@@ -101,7 +108,7 @@ def main(root):
     save_tiles(footer, folder / 'copyright_press_start', 15)
     preview = Image.new('RGB', (240, 160), (16, 24, 40))
     preview.paste(indexed.convert('RGB'), (0, 0), mask.convert('L').point(lambda p: 255 if p else 0))
-    footer_mask = footer.point(lambda p: 255 if p else 0).convert('L')
+    footer_mask = opaque_mask(footer)
     preview.paste(footer.convert('RGB'), (0, 0), footer_mask)
     # Reconstruct the actual logo tilemap, rather than displaying its tile sheet.
     logo = Image.open(folder / 'firered/game_title_logo.png')
@@ -115,7 +122,7 @@ def main(root):
                 piece = piece.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
             if entry & 2048:
                 piece = piece.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
-            preview.paste(piece.convert('RGB'), (c * 8, r * 8), piece.point(lambda p: 255 if p else 0).convert('L'))
+            preview.paste(piece.convert('RGB'), (c * 8, r * 8), opaque_mask(piece))
     preview.resize((960, 640), Image.Resampling.NEAREST).save(root / 'origin-title-preview.png')
 
 
