@@ -1,6 +1,8 @@
 #include "global.h"
+#include "battle_setup.h"
 #include "event_data.h"
 #include "item.h"
+#include "safari_zone.h"
 #include "kjh_alpha_locator.h"
 #include "kjh_pack.h"
 #include "kjh_real_clock.h"
@@ -90,7 +92,7 @@ void KJH_AlphaLocatorNextAvailability(void)
     u32 remaining;
     if (!KJH_RealClockNow(&seconds))
     {
-        gSpecialVar_Result = 0xFFFFFFFF;
+        gSpecialVar_Result = (u16)0xFFFF;
         return;
     }
     remaining = KJH_AlphaLocatorCooldownRemaining(seconds);

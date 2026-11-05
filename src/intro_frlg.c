@@ -40,7 +40,7 @@ enum {
     GFXTAG_STAR,
     GFXTAG_SPARKLES_SMALL,
     GFXTAG_SPARKLES_BIG,
-    GFXTAG_GF_LOGO,
+    GFXTAG_KG_LOGO,
     GFXTAG_PRESENTS,
     GFXTAG_SCENE3_NIDORINO,
     GFXTAG_SCENE2_GENGAR,
@@ -55,7 +55,7 @@ enum {
     PALTAG_STAR,
     PALTAG_SPARKLES,
     PALTAG_UNUSED_2,
-    PALTAG_GF,
+    PALTAG_KG,
     PALTAG_UNUSED_4,
     PALTAG_UNUSED_5,
     PALTAG_GENGAR,
@@ -68,8 +68,8 @@ enum {
 
 // Background IDs for Khol Games logo scene
 enum {
-    BG_GF_TEXT_LOGO = 2,
-    BG_GF_BACKGROUND
+    BG_KG_TEXT_LOGO = 2,
+    BG_KG_BACKGROUND
 };
 
 
@@ -125,7 +125,7 @@ enum {
 
 // Window ids for sWindowTemplates (only one)
 enum {
-    WIN_GF_TEXT_LOGO,
+    WIN_KG_TEXT_LOGO,
     WIN_COUNT
 };
 
@@ -307,7 +307,7 @@ static const u32 sScene3_RecoilDust_Gfx[]    = INCGFX_U32("graphics/intro_frlg/s
 
 static const struct BgTemplate sBgTemplates_KholGamesScene[] = {
     {
-        .bg = BG_GF_BACKGROUND,
+        .bg = BG_KG_BACKGROUND,
         .charBaseIndex = 3,
         .mapBaseIndex = 31,
         .screenSize = 0,
@@ -315,7 +315,7 @@ static const struct BgTemplate sBgTemplates_KholGamesScene[] = {
         .priority = 3,
         .baseTile = 0x000
     }, {
-        .bg = BG_GF_TEXT_LOGO,
+        .bg = BG_KG_TEXT_LOGO,
         .charBaseIndex = 3,
         .mapBaseIndex = 30,
         .screenSize = 0,
@@ -402,8 +402,8 @@ static const struct BgTemplate sBgTemplates_Scene3[] = {
 };
 
 static const struct WindowTemplate sWindowTemplates[WIN_COUNT + 1] = {
-    [WIN_GF_TEXT_LOGO] = {
-        .bg = BG_GF_TEXT_LOGO,
+    [WIN_KG_TEXT_LOGO] = {
+        .bg = BG_KG_TEXT_LOGO,
         .tilemapLeft = 6,
         .tilemapTop = 4,
         .width = 18,
@@ -425,14 +425,14 @@ static const struct CompressedSpriteSheet sSpriteSheets_KholGamesScene[] = {
     {sStar_Gfx,          0x80,  GFXTAG_STAR},
     {sSparklesSmall_Gfx, 0x80,  GFXTAG_SPARKLES_SMALL},
     {sSparklesBig_Gfx,   0x800, GFXTAG_SPARKLES_BIG},
-    {sKholGamesLogo_Gfx, 0x400, GFXTAG_GF_LOGO},
+    {sKholGamesLogo_Gfx, 0x400, GFXTAG_KG_LOGO},
     {sPresents_Gfx,      0x100, GFXTAG_PRESENTS}
 };
 
 static const struct SpritePalette sSpritePalettes_KholGamesScene[] = {
     {sStar_Pal,          PALTAG_STAR},
     {sSparkles_Pal,      PALTAG_SPARKLES},
-    {sKholGamesLogo_Pal, PALTAG_GF},
+    {sKholGamesLogo_Pal, PALTAG_KG},
     {0}
 };
 
@@ -564,8 +564,8 @@ static const struct OamData sOam_KholGamesLogo = {
 };
 
 static const struct SpriteTemplate sSpriteTemplate_KholGamesLogoArt = {
-    .tileTag = GFXTAG_GF_LOGO,
-    .paletteTag = PALTAG_GF,
+    .tileTag = GFXTAG_KG_LOGO,
+    .paletteTag = PALTAG_KG,
     .oam = &sOam_KholGamesLogo,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -588,7 +588,7 @@ static const struct OamData sOam_PresentsText = {
 
 static const struct SpriteTemplate sSpriteTemplate_Presents = {
     .tileTag = GFXTAG_PRESENTS,
-    .paletteTag = PALTAG_GF,
+    .paletteTag = PALTAG_KG,
     .oam = &sOam_PresentsText,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
@@ -1023,8 +1023,8 @@ void CB2_SetUpIntroFrlg(void)
         break;
     case 1:
         LoadPalette(sKholGamesBg_Pal, BG_PLTT_ID(0), sizeof(sKholGamesBg_Pal));
-        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sKholGamesBg_Gfx, 0, 0, 0);
-        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sKholGamesBg_Map, 0, 0, 1);
+        DecompressAndCopyTileDataToVram(BG_KG_BACKGROUND, sKholGamesBg_Gfx, 0, 0, 0);
+        DecompressAndCopyTileDataToVram(BG_KG_BACKGROUND, sKholGamesBg_Map, 0, 0, 1);
         LoadPalette(sKholGamesLogo_Pal, BG_PLTT_ID(13), sizeof(sKholGamesLogo_Pal));
         break;
     case 2:
@@ -1105,11 +1105,11 @@ static void IntroCB_Init(struct IntroSequenceData * this)
         InitWindows(sWindowTemplates);
         DecompressDataWithHeaderWram(sKholGamesText_Gfx, this->kholGamesTextGfx);
         DecompressDataWithHeaderWram(sKholGamesLogo_Gfx, this->kholGamesLogoGfx);
-        FillBgTilemapBufferRect(BG_GF_TEXT_LOGO, 0x000, 0, 0, 32, 32, 17);
-        FillWindowPixelBuffer(WIN_GF_TEXT_LOGO, PIXEL_FILL(0));
-        BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesTextGfx, 0, 40, 144, 16);
-        PutWindowTilemap(WIN_GF_TEXT_LOGO);
-        CopyWindowToVram(WIN_GF_TEXT_LOGO, COPYWIN_FULL);
+        FillBgTilemapBufferRect(BG_KG_TEXT_LOGO, 0x000, 0, 0, 32, 32, 17);
+        FillWindowPixelBuffer(WIN_KG_TEXT_LOGO, PIXEL_FILL(0));
+        BlitBitmapToWindow(WIN_KG_TEXT_LOGO, this->kholGamesTextGfx, 0, 40, 144, 16);
+        PutWindowTilemap(WIN_KG_TEXT_LOGO);
+        CopyWindowToVram(WIN_KG_TEXT_LOGO, COPYWIN_FULL);
         this->state++;
         break;
     case 1:
@@ -1133,7 +1133,7 @@ static void IntroCB_GF_OpenWindow(struct IntroSequenceData * this)
         this->state++;
         break;
     case 1:
-        ShowBg(BG_GF_BACKGROUND);
+        ShowBg(BG_KG_BACKGROUND);
         BlendPalettes(PALETTES_ALL, 0, RGB_BLACK);
         this->state++;
         break;
@@ -1194,7 +1194,7 @@ static void IntroCB_GF_RevealName(struct IntroSequenceData * this)
         this->state++;
         break;
     case 3:
-        ShowBg(BG_GF_TEXT_LOGO);
+        ShowBg(BG_KG_TEXT_LOGO);
         this->state++;
         break;
     case 4:
@@ -1231,9 +1231,9 @@ static void IntroCB_GF_RevealLogo(struct IntroSequenceData * this)
     case 2:
         if (!IsBlendTaskActive())
         {
-            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesLogoGfx, 0x38, 0x06, 0x20, 0x40);
-            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesTextGfx, 0x00, 0x28, 0x90, 0x10);
-            CopyWindowToVram(WIN_GF_TEXT_LOGO, COPYWIN_GFX);
+            BlitBitmapToWindow(WIN_KG_TEXT_LOGO, this->kholGamesLogoGfx, 0x38, 0x06, 0x20, 0x40);
+            BlitBitmapToWindow(WIN_KG_TEXT_LOGO, this->kholGamesTextGfx, 0x00, 0x28, 0x90, 0x10);
+            CopyWindowToVram(WIN_KG_TEXT_LOGO, COPYWIN_GFX);
             this->state++;
         }
         break;
@@ -1257,7 +1257,7 @@ static void IntroCB_GF_RevealLogo(struct IntroSequenceData * this)
     case 5:
         if (!IsBlendTaskActive())
         {
-            HideBg(BG_GF_TEXT_LOGO);
+            HideBg(BG_KG_TEXT_LOGO);
             this->state++;
         }
         break;
