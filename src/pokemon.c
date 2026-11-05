@@ -1932,7 +1932,7 @@ static union PokemonSubstruct *GetSubstruct(struct BoxPokemon *boxMon, u32 perso
     return &boxMon->secure.substructs[sSubstructOffsets[substructType][ConstantMod24(personality)]];
 }
 
-/* GameFreak called GetMonData with either 2 or 3 arguments, for type
+/* KholGames called GetMonData with either 2 or 3 arguments, for type
  * safety we have a GetMonData macro (in include/pokemon.h) which
  * dispatches to either GetMonData2 or GetMonData3 based on the number
  * of arguments. */
@@ -2035,7 +2035,7 @@ static ALWAYS_INLINE bool32 IsEggOrBadEgg(struct BoxPokemon *boxMon)
     return GetSubstruct3(boxMon)->isEgg || IsBadEgg(boxMon);
 }
 
-/* GameFreak called GetBoxMonData with either 2 or 3 arguments, for type
+/* KholGames called GetBoxMonData with either 2 or 3 arguments, for type
  * safety we have a GetBoxMonData macro (in include/pokemon.h) which
  * dispatches to either GetBoxMonData2 or GetBoxMonData3 based on the
  * number of arguments. */

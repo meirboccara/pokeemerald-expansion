@@ -148,7 +148,7 @@ static const enum PlayerSpeed sMachBikeSpeeds[] = {PLAYER_SPEED_NORMAL, PLAYER_S
 // this is a list of timers to compare against later, terminated with 0. the only timer being compared against is 4 frames in this list.
 static const u8 sAcroBikeJumpTimerList[] = {4, 0};
 
-// this is a list of history inputs to do in order to do the check to retrieve a jump direction for acro bike. it seems to be an extensible list, so its possible that Game Freak may have intended for the Acro Bike to have more complex tricks at some point. The final list only has the acro jump.
+// this is a list of history inputs to do in order to do the check to retrieve a jump direction for acro bike. it seems to be an extensible list, so its possible that Khol Games may have intended for the Acro Bike to have more complex tricks at some point. The final list only has the acro jump.
 static const struct BikeHistoryInputInfo sAcroBikeTricksList[] =
 {
     // the 0xF is a mask performed with each byte of the array in order to perform the check on only the last entry of the history list, otherwise the check wouldn't work as there can be 0xF0 as opposed to 0x0F.

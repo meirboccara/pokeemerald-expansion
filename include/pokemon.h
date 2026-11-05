@@ -830,7 +830,7 @@ void SetMultiuseSpriteTemplateToPokemon(enum Species speciesTag, enum BattlerPos
 void SetMultiuseSpriteTemplateToTrainerBack(enum TrainerPicID trainerPicId, enum BattlerPosition battlerPosition);
 void SetMultiuseSpriteTemplateToTrainerFront(enum TrainerPicID trainerPicId, enum BattlerPosition battlerPosition);
 
-/* GameFreak called Get(Box)MonData with either 2 or 3 arguments, for
+/* Khol Games called Get(Box)MonData with either 2 or 3 arguments, for
  * type safety we have a Get(Box)MonData macro which dispatches to
  * either Get(Box)MonData2 or Get(Box)MonData3 based on the number of
  * arguments. The two functions are aliases of each other, but they

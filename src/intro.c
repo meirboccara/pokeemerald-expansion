@@ -48,7 +48,7 @@ static void Task_Scene1_End(u8);
 
 // Scene 1 supplemental functions
 static void IntroResetGpuRegs(void);
-static u8 CreateGameFreakLogoSprites(s16, s16, s16);
+static u8 CreateKholGamesLogoSprites(s16, s16, s16);
 static void Task_BlendLogoIn(u8);
 static void Task_BlendLogoOut(u8);
 static void Task_CreateSparkles(u8);
@@ -61,7 +61,7 @@ static void SpriteCB_WaterDrop_Fall(struct Sprite *);
 static void SpriteCB_WaterDrop_Ripple(struct Sprite *);
 static void SpriteCB_Sparkle(struct Sprite *sprite);
 static void SpriteCB_LogoLetter(struct Sprite *sprite);
-static void SpriteCB_GameFreakLogo(struct Sprite *sprite);
+static void SpriteCB_KholGamesLogo(struct Sprite *sprite);
 static void SpriteCB_FlygonSilhouette(struct Sprite *sprite);
 
 // Scene 2 main tasks
@@ -649,7 +649,7 @@ static const union AnimCmd *const sAnims_PlayerBicycle[] =
     sAnim_PlayerBicycle_LookBack,
     sAnim_PlayerBicycle_LookForward,
 };
-static const struct OamData sOamData_GameFreakLetter =
+static const struct OamData sOamData_KholGamesLetter =
 {
     .y = DISPLAY_HEIGHT,
     .affineMode = ST_OAM_AFFINE_DOUBLE,
@@ -681,7 +681,7 @@ static const struct OamData sOamData_PresentsLetter =
     .paletteNum = 0,
     .affineParam = 0,
 };
-static const struct OamData sOamData_GameFreakLogo =
+static const struct OamData sOamData_KholGamesLogo =
 {
     .y = DISPLAY_HEIGHT,
     .affineMode = ST_OAM_AFFINE_DOUBLE,
@@ -697,37 +697,37 @@ static const struct OamData sOamData_GameFreakLogo =
     .paletteNum = 0,
     .affineParam = 0,
 };
-static const union AnimCmd sAnim_GameFreakLetter_G[] =
+static const union AnimCmd sAnim_KholGamesLetter_G[] =
 {
     ANIMCMD_FRAME(80, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_A[] =
+static const union AnimCmd sAnim_KholGamesLetter_A[] =
 {
     ANIMCMD_FRAME(84, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_M[] =
+static const union AnimCmd sAnim_KholGamesLetter_M[] =
 {
     ANIMCMD_FRAME(88, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_E[] =
+static const union AnimCmd sAnim_KholGamesLetter_E[] =
 {
     ANIMCMD_FRAME(92, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_F[] =
+static const union AnimCmd sAnim_KholGamesLetter_F[] =
 {
     ANIMCMD_FRAME(96, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_R[] =
+static const union AnimCmd sAnim_KholGamesLetter_R[] =
 {
     ANIMCMD_FRAME(100, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLetter_K[] =
+static const union AnimCmd sAnim_KholGamesLetter_K[] =
 {
     ANIMCMD_FRAME(104, 8),
     ANIMCMD_END,
@@ -762,20 +762,20 @@ static const union AnimCmd sAnim_PresentsLetter_T[] =
     ANIMCMD_FRAME(117, 8),
     ANIMCMD_END,
 };
-static const union AnimCmd sAnim_GameFreakLogo[] =
+static const union AnimCmd sAnim_KholGamesLogo[] =
 {
     ANIMCMD_FRAME(128, 8),
     ANIMCMD_END,
 };
 
 enum {
-    GAMEFREAK_G,
-    GAMEFREAK_A,
-    GAMEFREAK_M,
-    GAMEFREAK_E,
-    GAMEFREAK_F,
-    GAMEFREAK_R,
-    GAMEFREAK_K,
+    KHOLGAMES_G,
+    KHOLGAMES_A,
+    KHOLGAMES_M,
+    KHOLGAMES_E,
+    KHOLGAMES_F,
+    KHOLGAMES_R,
+    KHOLGAMES_K,
 };
 enum {
     PRESENTS_P,
@@ -785,15 +785,15 @@ enum {
     PRESENTS_N,
     PRESENTS_T,
 };
-static const union AnimCmd *const sAnims_GameFreakLetter[] =
+static const union AnimCmd *const sAnims_KholGamesLetter[] =
 {
-    [GAMEFREAK_G] = sAnim_GameFreakLetter_G,
-    [GAMEFREAK_A] = sAnim_GameFreakLetter_A,
-    [GAMEFREAK_M] = sAnim_GameFreakLetter_M,
-    [GAMEFREAK_E] = sAnim_GameFreakLetter_E,
-    [GAMEFREAK_F] = sAnim_GameFreakLetter_F,
-    [GAMEFREAK_R] = sAnim_GameFreakLetter_R,
-    [GAMEFREAK_K] = sAnim_GameFreakLetter_K,
+    [KHOLGAMES_G] = sAnim_KholGamesLetter_G,
+    [KHOLGAMES_A] = sAnim_KholGamesLetter_A,
+    [KHOLGAMES_M] = sAnim_KholGamesLetter_M,
+    [KHOLGAMES_E] = sAnim_KholGamesLetter_E,
+    [KHOLGAMES_F] = sAnim_KholGamesLetter_F,
+    [KHOLGAMES_R] = sAnim_KholGamesLetter_R,
+    [KHOLGAMES_K] = sAnim_KholGamesLetter_K,
 };
 static const union AnimCmd *const sAnims_PresentsLetter[] =
 {
@@ -804,23 +804,23 @@ static const union AnimCmd *const sAnims_PresentsLetter[] =
     [PRESENTS_N] = sAnim_PresentsLetter_N,
     [PRESENTS_T] = sAnim_PresentsLetter_T,
 };
-static const union AnimCmd *const sAnims_GameFreakLogo[] =
+static const union AnimCmd *const sAnims_KholGamesLogo[] =
 {
-    sAnim_GameFreakLogo,
+    sAnim_KholGamesLogo,
 };
-#define NUM_GF_LETTERS 9 // Letters in "Game Freak"
-static const s16 sGameFreakLetterData[NUM_GF_LETTERS][2] =
+#define NUM_GF_LETTERS 9 // Letters in "Khol Games"
+static const s16 sKholGamesLetterData[NUM_GF_LETTERS][2] =
 {
     // Letter,   x offset
-    {GAMEFREAK_G, -72},
-    {GAMEFREAK_A, -56},
-    {GAMEFREAK_M, -40},
-    {GAMEFREAK_E, -24},
-    {GAMEFREAK_F,   8},
-    {GAMEFREAK_R,  24},
-    {GAMEFREAK_E,  40},
-    {GAMEFREAK_A,  56},
-    {GAMEFREAK_K,  72},
+    {KHOLGAMES_G, -72},
+    {KHOLGAMES_A, -56},
+    {KHOLGAMES_M, -40},
+    {KHOLGAMES_E, -24},
+    {KHOLGAMES_F,   8},
+    {KHOLGAMES_R,  24},
+    {KHOLGAMES_E,  40},
+    {KHOLGAMES_A,  56},
+    {KHOLGAMES_K,  72},
 };
 static const s16 sPresentsLetterData[][2] =
 {
@@ -834,38 +834,38 @@ static const s16 sPresentsLetterData[][2] =
     {PRESENTS_T,  20},
     {PRESENTS_S,  28},
 };
-static const union AffineAnimCmd sAffineAnim_GameFreak_Small[] =
+static const union AffineAnimCmd sAffineAnim_KholGames_Small[] =
 {
     AFFINEANIMCMD_FRAME(128, 128, 0, 0),
     AFFINEANIMCMD_END,
 };
-static const union AffineAnimCmd sAffineAnim_GameFreak_GrowAndShrink[] =
+static const union AffineAnimCmd sAffineAnim_KholGames_GrowAndShrink[] =
 {
     AFFINEANIMCMD_FRAME(128, 128, 0, 0),
     AFFINEANIMCMD_FRAME(16, 16, 0, 16),
     AFFINEANIMCMD_FRAME(-16, -16, 0, 8),
     AFFINEANIMCMD_END,
 };
-static const union AffineAnimCmd sAffineAnim_GameFreak_GrowBig[] =
+static const union AffineAnimCmd sAffineAnim_KholGames_GrowBig[] =
 {
     AFFINEANIMCMD_FRAME(256, 256, 0, 0),
     AFFINEANIMCMD_FRAME(8, 8, 0, 48),
     AFFINEANIMCMD_END,
 };
-static const union AffineAnimCmd sAffineAnim_GameFreak_GrowMedium[] =
+static const union AffineAnimCmd sAffineAnim_KholGames_GrowMedium[] =
 {
     AFFINEANIMCMD_FRAME(256, 256, 0, 0),
     AFFINEANIMCMD_FRAME(2, 2, 0, 48),
     AFFINEANIMCMD_END,
 };
-static const union AffineAnimCmd *const sAffineAnims_GameFreak[] =
+static const union AffineAnimCmd *const sAffineAnims_KholGames[] =
 {
-    sAffineAnim_GameFreak_Small,         // Initialize letters while still invisible
-    sAffineAnim_GameFreak_GrowAndShrink, // For letters appearing. Logo does this too, but while it's invisible
-    sAffineAnim_GameFreak_GrowBig,       // For letters disappearing
-    sAffineAnim_GameFreak_GrowMedium,    // For logo disappearing
+    sAffineAnim_KholGames_Small,         // Initialize letters while still invisible
+    sAffineAnim_KholGames_GrowAndShrink, // For letters appearing. Logo does this too, but while it's invisible
+    sAffineAnim_KholGames_GrowBig,       // For letters disappearing
+    sAffineAnim_KholGames_GrowMedium,    // For logo disappearing
 };
-static const u16 sGameFreakLettersMoveSpeed[NUM_GF_LETTERS] =
+static const u16 sKholGamesLettersMoveSpeed[NUM_GF_LETTERS] =
 {
     256, // G
     192, // A
@@ -877,13 +877,13 @@ static const u16 sGameFreakLettersMoveSpeed[NUM_GF_LETTERS] =
     192, // A
     256  // K
 };
-static const struct SpriteTemplate sSpriteTemplate_GameFreakLetter =
+static const struct SpriteTemplate sSpriteTemplate_KholGamesLetter =
 {
     .tileTag = GFXTAG_DROPS_LOGO,
     .paletteTag = PALTAG_LOGO,
-    .oam = &sOamData_GameFreakLetter,
-    .anims = sAnims_GameFreakLetter,
-    .affineAnims = sAffineAnims_GameFreak,
+    .oam = &sOamData_KholGamesLetter,
+    .anims = sAnims_KholGamesLetter,
+    .affineAnims = sAffineAnims_KholGames,
     .callback = SpriteCB_LogoLetter,
 };
 // Unused
@@ -895,16 +895,16 @@ static const struct SpriteTemplate sSpriteTemplate_PresentsLetter =
     .anims = sAnims_PresentsLetter,
     .callback = SpriteCB_LogoLetter,
 };
-static const struct SpriteTemplate sSpriteTemplate_GameFreakLogo =
+static const struct SpriteTemplate sSpriteTemplate_KholGamesLogo =
 {
     .tileTag = GFXTAG_DROPS_LOGO,
     .paletteTag = PALTAG_LOGO,
-    .oam = &sOamData_GameFreakLogo,
-    .anims = sAnims_GameFreakLogo,
-    .affineAnims = sAffineAnims_GameFreak,
-    .callback = SpriteCB_GameFreakLogo,
+    .oam = &sOamData_KholGamesLogo,
+    .anims = sAnims_KholGamesLogo,
+    .affineAnims = sAffineAnims_KholGames,
+    .callback = SpriteCB_KholGamesLogo,
 };
-static const u8 sGameFreakLetterStartDelays[NUM_GF_LETTERS] =
+static const u8 sKholGamesLetterStartDelays[NUM_GF_LETTERS] =
 {
     0,  // G
     23, // A
@@ -1193,7 +1193,7 @@ void Task_Scene1_Load(u8 taskId)
     CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(0)], &gPlttBufferUnfaded[OBJ_PLTT_ID(11) + 4], PLTT_SIZEOF(16 - 4));
     CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(0)], &gPlttBufferUnfaded[OBJ_PLTT_ID(10) + 5], PLTT_SIZEOF(16 - 5));
     CpuCopy16(&gPlttBufferUnfaded[OBJ_PLTT_ID(0)], &gPlttBufferUnfaded[OBJ_PLTT_ID( 9) + 6], PLTT_SIZEOF(16 - 6));
-    CreateGameFreakLogoSprites(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, 0);
+    CreateKholGamesLogoSprites(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, 0);
     gTasks[taskId].sBigDropSpriteId = CreateWaterDrop(236, -14, 0x200, 1, 0x78, FALSE);
     gTasks[taskId].func = Task_Scene1_FadeIn;
 }
@@ -3165,7 +3165,7 @@ static void SpriteCB_Flygon(struct Sprite *sprite)
 
 #define COLOR_CHANGES 9 // Number of stages for changing the letter color
 
-// For the letters in "Game Freak"
+// For the letters in "Khol Games"
 // Also intended for the letters in "Presents", which is never shown
 static void SpriteCB_LogoLetter(struct Sprite *sprite)
 {
@@ -3200,16 +3200,16 @@ static void SpriteCB_LogoLetter(struct Sprite *sprite)
             sprite->sColorDelay = 2;
             if (sprite->sTimer != 0)
             {
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
                 sprite->sTimer--;
             }
             else
             {
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
                 sprite->sState++;
             }
         }
@@ -3229,9 +3229,9 @@ static void SpriteCB_LogoLetter(struct Sprite *sprite)
             sprite->sColorDelay = 2;
             if (sprite->sTimer <= COLOR_CHANGES)
             {
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
-                CpuCopy16(&gIntroGameFreakTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer],      &gPlttBufferFaded[OBJ_PLTT_ID(1) + 15], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 16], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 4], PLTT_SIZEOF(1));
+                CpuCopy16(&gIntroKholGamesTextFade_Pal[sprite->sTimer + 32], &gPlttBufferFaded[OBJ_PLTT_ID(1) + 10], PLTT_SIZEOF(1));
                 sprite->sTimer++;
             }
             else
@@ -3251,7 +3251,7 @@ static void SpriteCB_LogoLetter(struct Sprite *sprite)
         break;
     case 5:
         // Spread the letters out as they grow
-        sprite->sLetterX += sGameFreakLettersMoveSpeed[sprite->sLetterId];
+        sprite->sLetterX += sKholGamesLettersMoveSpeed[sprite->sLetterId];
         sprite->x2 = (sprite->sLetterX & 0xFF00) >> 8;
         if (sprite->sLetterId < 4)
         {
@@ -3265,7 +3265,7 @@ static void SpriteCB_LogoLetter(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_GameFreakLogo(struct Sprite *sprite)
+static void SpriteCB_KholGamesLogo(struct Sprite *sprite)
 {
     switch (sprite->sState)
     {
@@ -3291,26 +3291,26 @@ static void SpriteCB_GameFreakLogo(struct Sprite *sprite)
     }
 }
 
-static u8 CreateGameFreakLogoSprites(s16 x, s16 y, s16 unused)
+static u8 CreateKholGamesLogoSprites(s16 x, s16 y, s16 unused)
 {
     u16 i;
     u8 spriteId;
 
-    // Create "Game Freak" letters
+    // Create "Khol Games" letters
     for (i = 0; i < NUM_GF_LETTERS; i++)
     {
-        spriteId = CreateSprite(&sSpriteTemplate_GameFreakLetter, sGameFreakLetterData[i][1] + x, y - 4, 0);
+        spriteId = CreateSprite(&sSpriteTemplate_KholGamesLetter, sKholGamesLetterData[i][1] + x, y - 4, 0);
         gSprites[spriteId].sState = 0;
-        gSprites[spriteId].sTimer = sGameFreakLetterStartDelays[i];
+        gSprites[spriteId].sTimer = sKholGamesLetterStartDelays[i];
         gSprites[spriteId].sLetterId = i;
         gSprites[spriteId].invisible = TRUE;
         gSprites[spriteId].oam.matrixNum = i + 12;
-        StartSpriteAnim(&gSprites[spriteId], sGameFreakLetterData[i][0]);
+        StartSpriteAnim(&gSprites[spriteId], sKholGamesLetterData[i][0]);
         StartSpriteAffineAnim(&gSprites[spriteId], 0);
     }
 
-    // Create Game Freak logo
-    spriteId = CreateSprite(&sSpriteTemplate_GameFreakLogo, 120, y - 6, 0);
+    // Create Khol Games logo
+    spriteId = CreateSprite(&sSpriteTemplate_KholGamesLogo, 120, y - 6, 0);
     gSprites[spriteId].sState = 0;
     gSprites[spriteId].invisible = TRUE;
     gSprites[spriteId].oam.matrixNum = i + 12;

@@ -173,7 +173,7 @@ static const u8 sBGControlRegs[] = {
     REG_OFFSET_BG2CNT,
     REG_OFFSET_BG3CNT
 };
-static const char sASCIIGameFreakInc[] = "GameFreak inc.";
+static const char sASCIIKholGamesInc[] = "KholGames inc.";
 static const char sASCIITestPrint[] = "TEST PRINT\nP0\nP1\nP2\nP3";
 static const struct BgTemplate sLinkErrorBgTemplates[] = {
     {
@@ -524,8 +524,8 @@ static void ProcessRecvCmds(u8 unused)
             InitLocalLinkPlayer();
             block = &gLocalLinkPlayerBlock;
             block->linkPlayer = gLocalLinkPlayer;
-            memcpy(block->magic1, sASCIIGameFreakInc, sizeof(block->magic1) - 1);
-            memcpy(block->magic2, sASCIIGameFreakInc, sizeof(block->magic2) - 1);
+            memcpy(block->magic1, sASCIIKholGamesInc, sizeof(block->magic1) - 1);
+            memcpy(block->magic2, sASCIIKholGamesInc, sizeof(block->magic2) - 1);
             InitBlockSend(block, sizeof(*block));
             break;
         }
@@ -581,8 +581,8 @@ static void ProcessRecvCmds(u8 unused)
                             linkPlayer->progressFlags = 0;
                         }
                         ConvertLinkPlayerName(linkPlayer);
-                        if (strcmp(block->magic1, sASCIIGameFreakInc) != 0
-                            || strcmp(block->magic2, sASCIIGameFreakInc) != 0)
+                        if (strcmp(block->magic1, sASCIIKholGamesInc) != 0
+                            || strcmp(block->magic2, sASCIIKholGamesInc) != 0)
                         {
                             SetMainCallback2(CB2_LinkError);
                         }
@@ -1710,8 +1710,8 @@ void LocalLinkPlayerToBlock(void)
     InitLocalLinkPlayer();
     block = &gLocalLinkPlayerBlock;
     block->linkPlayer = gLocalLinkPlayer;
-    memcpy(block->magic1, sASCIIGameFreakInc, sizeof(block->magic1) - 1);
-    memcpy(block->magic2, sASCIIGameFreakInc, sizeof(block->magic2) - 1);
+    memcpy(block->magic1, sASCIIKholGamesInc, sizeof(block->magic1) - 1);
+    memcpy(block->magic2, sASCIIKholGamesInc, sizeof(block->magic2) - 1);
     memcpy(gBlockSendBuffer, block, sizeof(*block));
 }
 
@@ -1726,8 +1726,8 @@ void LinkPlayerFromBlock(u32 who)
     *player = block->linkPlayer;
     ConvertLinkPlayerName(player);
 
-    if (strcmp(block->magic1, sASCIIGameFreakInc) != 0
-     || strcmp(block->magic2, sASCIIGameFreakInc) != 0)
+    if (strcmp(block->magic1, sASCIIKholGamesInc) != 0
+     || strcmp(block->magic2, sASCIIKholGamesInc) != 0)
         SetMainCallback2(CB2_LinkError);
 }
 

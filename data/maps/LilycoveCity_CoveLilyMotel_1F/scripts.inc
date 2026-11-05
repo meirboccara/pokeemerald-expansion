@@ -122,7 +122,7 @@ LilycoveCity_CoveLilyMotel_1F_Text_BetterGetWorkingOnGuestsDinner:
 	.string "I was too involved in watching TV.\p"
 	.string "Oh, yes. A big group of guests arrived\n"
 	.string "a little while ago.\p"
-	.string "They booked in as GAME FREAK,\n"
+	.string "They booked in as KHOL GAMES,\n"
 	.string "so I guess they must make games.\p"
 	.string "Uh-oh, I'd better get working on\n"
 	.string "their dinner!$"

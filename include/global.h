@@ -58,7 +58,7 @@
 
 #define ARRAY_COUNT(array) (size_t)(sizeof(array) / sizeof((array)[0]))
 
-// GameFreak used a macro called "NELEMS", as evidenced by
+// Khol Games used a macro called "NELEMS", as evidenced by
 // AgbAssert calls.
 #define NELEMS(arr) (sizeof(arr)/sizeof(*(arr)))
 

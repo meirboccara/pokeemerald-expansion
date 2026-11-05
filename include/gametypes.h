@@ -9,7 +9,7 @@
 //
 // These typedefs include the underlying type in their name for two reasons:
 //
-//  - Game Freak wasn't fully consistent about field widths throughout
+//  - Khol Games wasn't fully consistent about field widths throughout
 //    their codebase. For example, when Region Map Sections are persistently
 //    stored in savedata, they're stored as 8-bit values; but much of the
 //    codebase handles them as 16-bit values.

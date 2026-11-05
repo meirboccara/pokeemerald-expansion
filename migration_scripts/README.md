@@ -348,7 +348,7 @@ Updates egg moves to the refactored format. Only necessary if new species have b
 * Filepath [`migration_scripts/1.8/item_ball_refactor.py`](1.8/item_ball_refactor.py)
 * Introduced in [Item Ball refactor / Pluralize item names for giveitem and finditem #3942](https://github.com/rh-hideout/pokeemerald-expansion/pull/3942)
 
-Modifies all item ball scripts defined using to original Game Freak method to the new refactored method.
+Modifies all item ball scripts defined using to original Khol Games method to the new refactored method.
 
 #### [data/scripts/item_ball_scripts.inc](../data/scripts/item_ball_scripts.inc)
 ```diff

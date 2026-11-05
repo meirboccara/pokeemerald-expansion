@@ -191,7 +191,7 @@
 .include "sound/voicegroups/rg_obtain_key_item.inc"
 .include "sound/voicegroups/rg_caught_intro.inc"
 .include "sound/voicegroups/rg_photo.inc"
-.include "sound/voicegroups/rg_game_freak.inc"
+.include "sound/voicegroups/rg_khol_games.inc"
 .include "sound/voicegroups/rg_new_game.inc"
 .include "sound/voicegroups/rg_mystery_gift.inc"
 .include "sound/voicegroups/rg_encounter_deoxys.inc"

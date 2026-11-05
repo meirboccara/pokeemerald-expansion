@@ -2567,7 +2567,7 @@ static bool8 DecideStop_Bias_Reel2_Bet1or2(void)
 //    - Bias symbol is in bottom row of reel 1 and bias symbol could get to the
 //      middle row of reel 2 in 4 turns.
 //
-// Assuming this is the implementation Game Freak intended, the game effectively
+// Assuming this is the implementation Khol Games intended, the game effectively
 // turns straight matches into diagonal matches with 2/5 probability.
 // Presumably, this makes the player feel fortunate that they bet 3 coins rather
 // than 2, even though most times the game would have still forced a match with

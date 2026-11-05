@@ -464,7 +464,7 @@
 #define MUS_RG_OBTAIN_KEY_ITEM      530 // MUS_RG_FAN5
 #define MUS_RG_CAUGHT_INTRO         531 // MUS_RG_FAN6
 #define MUS_RG_PHOTO                532 // MUS_ME_RG_PHOTO
-#define MUS_RG_GAME_FREAK           533 // MUS_RG_TITLEROG
+#define MUS_RG_KHOL_GAMES           533 // MUS_RG_TITLEROG
 #define MUS_RG_CAUGHT               534 // MUS_RG_GET_YASEI
 #define MUS_RG_NEW_GAME_INSTRUCT    535 // MUS_RG_SOUSA
 #define MUS_RG_NEW_GAME_INTRO       536 // MUS_RG_SEKAIKAN

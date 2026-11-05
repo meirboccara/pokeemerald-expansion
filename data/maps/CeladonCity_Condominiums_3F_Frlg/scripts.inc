@@ -35,7 +35,7 @@ CeladonCity_Condominiums_3F_EventScript_ShowDiploma::
 	end
 
 CeladonCity_Condominiums_3F_EventScript_DevelopmentRoomSign::
-	msgbox CeladonCity_Condominiums_3F_Text_GameFreakDevelopmentRoom, MSGBOX_SIGN
+	msgbox CeladonCity_Condominiums_3F_Text_KholGamesDevelopmentRoom, MSGBOX_SIGN
 	end
 
 CeladonCity_Condominiums_3F_EventScript_Computer1::
@@ -89,6 +89,6 @@ CeladonCity_Condominiums_3F_Text_ItsScriptBetterNotLookAtEnding::
 	.string "It's the script!\n"
 	.string "Better not look at the ending!$"
 
-CeladonCity_Condominiums_3F_Text_GameFreakDevelopmentRoom::
-	.string "GAME FREAK Development Room$"
+CeladonCity_Condominiums_3F_Text_KholGamesDevelopmentRoom::
+	.string "KHOL GAMES Development Room$"
 

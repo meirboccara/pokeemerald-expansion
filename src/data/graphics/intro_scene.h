@@ -1,4 +1,4 @@
-const u16 gIntroGameFreakTextFade_Pal[] = INCGFX_U16("graphics/intro/scene_1/text.pal", ".gbapal"); // game freak text blue fade
+const u16 gIntroKholGamesTextFade_Pal[] = INCGFX_U16("graphics/intro/scene_1/text.pal", ".gbapal"); // khol games text blue fade
 const u16 gIntroPlayer_Pal[] = INCGFX_U16("graphics/intro/scene_2/player.pal", ".gbapal");
 const u16 gIntro3Bg_Pal[16][16] = INCGFX_U16("graphics/intro/scene_3/bg.pal", ".gbapal");
 const u16 gIntroVolbeat_Pal[] = INCGFX_U16("graphics/intro/scene_2/volbeat.png", ".gbapal");

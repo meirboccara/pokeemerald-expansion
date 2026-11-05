@@ -72,7 +72,7 @@
 #error "OBJECT_EVENT_TEMPLATES_COUNT is too large. Object event local IDs may overlap with reserved IDs."
 #endif
 
-// this file was known as evobjmv.c in Game Freak's original source
+// this file was known as evobjmv.c in Khol Games's original source
 
 enum {
     MOVE_SPEED_NORMAL, // walking

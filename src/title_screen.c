@@ -70,7 +70,7 @@ static const u32 sTitleScreenCloudsGfx[] = INCGFX_U32("graphics/title_screen/clo
 
 
 // Used to blend "Emerald Version" as it passes over over the Pokémon banner.
-// Also used by the intro to blend the Game Freak name/logo in and out as they appear and disappear
+// Also used by the intro to blend the Khol Games name/logo in and out as they appear and disappear
 const u16 gTitleScreenAlphaBlend[64] =
 {
     BLDALPHA_BLEND(16, 0),

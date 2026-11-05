@@ -66,7 +66,7 @@ enum {
     PALTAG_SCENE3_RECOIL_DUST,
 };
 
-// Background IDs for Game Freak logo scene
+// Background IDs for Khol Games logo scene
 enum {
     BG_GF_TEXT_LOGO = 2,
     BG_GF_BACKGROUND
@@ -145,15 +145,15 @@ struct IntroSequenceData
     bool8 gengarAttackLanded;
     u16 data[5]; // [0] and [1] are set but never read, the rest are unused
     u16 timer;
-    struct Sprite *gameFreakLogoArtSprite;
+    struct Sprite *kholGamesLogoArtSprite;
     struct Sprite *scene3NidorinoSprite;
     struct Sprite *scene2GengarSprite;
     struct Sprite *scene2NidorinoSprite;
     struct Sprite *scene3GrassSprite;
     struct Sprite *scene3GengarSprites[NUM_GENGAR_BACK_SPRITES];
     u8 unused0[4];
-    u8 gameFreakLogoGfx[0x400];
-    u8 gameFreakTextGfx[0x400];
+    u8 kholGamesLogoGfx[0x400];
+    u8 kholGamesTextGfx[0x400];
     u8 unused1[0x2080];
 }; // size: 0x28BC
 
@@ -253,19 +253,19 @@ static const u16 sCopyright_Pal[] = INCGFX_U16("graphics/intro_frlg/copyright.pa
 static const u32 sCopyright_Gfx[]  = INCGFX_U32("graphics/intro_frlg/copyright.png", ".4bpp.smol");
 static const u32 sCopyright_Map[]  = INCBIN_U32( "graphics/intro_frlg/copyright.bin.smolTM");
 
-// Game Freak
-static const u16 sGameFreakBg_Pal[]   = INCGFX_U16("graphics/intro_frlg/game_freak/bg.pal", ".gbapal");
-static const u8 sGameFreakBg_Gfx[]    = INCGFX_U8("graphics/intro_frlg/game_freak/bg.png", ".4bpp.smol");
-static const u8 sGameFreakBg_Map[]    = INCBIN_U8( "graphics/intro_frlg/game_freak/bg.bin.smolTM");
-static const u16 sGameFreakLogo_Pal[] = INCGFX_U16("graphics/intro_frlg/game_freak/logo.png", ".gbapal");
-static const u32 sGameFreakText_Gfx[] = INCGFX_U32("graphics/intro_frlg/game_freak/game_freak.png", ".4bpp.smol");
-static const u32 sGameFreakLogo_Gfx[] = INCGFX_U32("graphics/intro_frlg/game_freak/logo.png", ".4bpp.smol");
-static const u16 sStar_Pal[]          = INCGFX_U16("graphics/intro_frlg/game_freak/star.png", ".gbapal");
-static const u32 sStar_Gfx[]          = INCGFX_U32("graphics/intro_frlg/game_freak/star.png", ".4bpp.smol");
-static const u16 sSparkles_Pal[]      = INCGFX_U16("graphics/intro_frlg/game_freak/sparkles.pal", ".gbapal");
-static const u32 sSparklesSmall_Gfx[] = INCGFX_U32("graphics/intro_frlg/game_freak/sparkles_small.png", ".4bpp.smol");
-static const u32 sSparklesBig_Gfx[]   = INCGFX_U32("graphics/intro_frlg/game_freak/sparkles_big.png", ".4bpp.smol");
-static const u32 sPresents_Gfx[]      = INCGFX_U32("graphics/intro_frlg/game_freak/presents.png", ".4bpp.smol");
+// Khol Games
+static const u16 sKholGamesBg_Pal[]   = INCGFX_U16("graphics/intro_frlg/khol_games/bg.pal", ".gbapal");
+static const u8 sKholGamesBg_Gfx[]    = INCGFX_U8("graphics/intro_frlg/khol_games/bg.png", ".4bpp.smol");
+static const u8 sKholGamesBg_Map[]    = INCBIN_U8( "graphics/intro_frlg/khol_games/bg.bin.smolTM");
+static const u16 sKholGamesLogo_Pal[] = INCGFX_U16("graphics/intro_frlg/khol_games/logo.png", ".gbapal");
+static const u32 sKholGamesText_Gfx[] = INCGFX_U32("graphics/intro_frlg/khol_games/khol_games.png", ".4bpp.smol");
+static const u32 sKholGamesLogo_Gfx[] = INCGFX_U32("graphics/intro_frlg/khol_games/logo.png", ".4bpp.smol");
+static const u16 sStar_Pal[]          = INCGFX_U16("graphics/intro_frlg/khol_games/star.png", ".gbapal");
+static const u32 sStar_Gfx[]          = INCGFX_U32("graphics/intro_frlg/khol_games/star.png", ".4bpp.smol");
+static const u16 sSparkles_Pal[]      = INCGFX_U16("graphics/intro_frlg/khol_games/sparkles.pal", ".gbapal");
+static const u32 sSparklesSmall_Gfx[] = INCGFX_U32("graphics/intro_frlg/khol_games/sparkles_small.png", ".4bpp.smol");
+static const u32 sSparklesBig_Gfx[]   = INCGFX_U32("graphics/intro_frlg/khol_games/sparkles_big.png", ".4bpp.smol");
+static const u32 sPresents_Gfx[]      = INCGFX_U32("graphics/intro_frlg/khol_games/presents.png", ".4bpp.smol");
 
 // Scene 1 (Grass close up)
 static const u16 sScene1_Grass_Pal[] = INCGFX_U16("graphics/intro_frlg/scene_1/grass.png", ".gbapal");
@@ -305,7 +305,7 @@ static const u16 sScene3_RecoilDust_Pal[]    = INCGFX_U16("graphics/intro_frlg/s
 static const u32 sScene3_Swipe_Gfx[]         = INCGFX_U32("graphics/intro_frlg/scene_3/swipe.png", ".4bpp.smol");
 static const u32 sScene3_RecoilDust_Gfx[]    = INCGFX_U32("graphics/intro_frlg/scene_3/recoil_dust.png", ".4bpp.smol");
 
-static const struct BgTemplate sBgTemplates_GameFreakScene[] = {
+static const struct BgTemplate sBgTemplates_KholGamesScene[] = {
     {
         .bg = BG_GF_BACKGROUND,
         .charBaseIndex = 3,
@@ -421,18 +421,18 @@ static const u8 sGengarZoomMatrixAnchors[NUM_GENGAR_BACK_SPRITES][2] = {
     { 0,  0}
 };
 
-static const struct CompressedSpriteSheet sSpriteSheets_GameFreakScene[] = {
+static const struct CompressedSpriteSheet sSpriteSheets_KholGamesScene[] = {
     {sStar_Gfx,          0x80,  GFXTAG_STAR},
     {sSparklesSmall_Gfx, 0x80,  GFXTAG_SPARKLES_SMALL},
     {sSparklesBig_Gfx,   0x800, GFXTAG_SPARKLES_BIG},
-    {sGameFreakLogo_Gfx, 0x400, GFXTAG_GF_LOGO},
+    {sKholGamesLogo_Gfx, 0x400, GFXTAG_GF_LOGO},
     {sPresents_Gfx,      0x100, GFXTAG_PRESENTS}
 };
 
-static const struct SpritePalette sSpritePalettes_GameFreakScene[] = {
+static const struct SpritePalette sSpritePalettes_KholGamesScene[] = {
     {sStar_Pal,          PALTAG_STAR},
     {sSparkles_Pal,      PALTAG_SPARKLES},
-    {sGameFreakLogo_Pal, PALTAG_GF},
+    {sKholGamesLogo_Pal, PALTAG_GF},
     {0}
 };
 
@@ -550,7 +550,7 @@ static const struct SpriteTemplate sSpriteTemplate_SparklesBig = {
     .callback = SpriteCB_SparklesBig
 };
 
-static const struct OamData sOam_GameFreakLogo = {
+static const struct OamData sOam_KholGamesLogo = {
     .affineMode = ST_OAM_AFFINE_OFF,
     .objMode = ST_OAM_OBJ_BLEND,
     .mosaic = FALSE,
@@ -563,10 +563,10 @@ static const struct OamData sOam_GameFreakLogo = {
     .paletteNum = 0
 };
 
-static const struct SpriteTemplate sSpriteTemplate_GameFreakLogoArt = {
+static const struct SpriteTemplate sSpriteTemplate_KholGamesLogoArt = {
     .tileTag = GFXTAG_GF_LOGO,
     .paletteTag = PALTAG_GF,
-    .oam = &sOam_GameFreakLogo,
+    .oam = &sOam_KholGamesLogo,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
@@ -1019,13 +1019,13 @@ void CB2_SetUpIntroFrlg(void)
         DmaFill16(3, 0, PLTT, PLTT_SIZE);
         FillPalette(RGB_BLACK, 0, PLTT_SIZE);
         ResetBgsAndClearDma3BusyFlags(FALSE);
-        InitBgsFromTemplates(0, sBgTemplates_GameFreakScene, ARRAY_COUNT(sBgTemplates_GameFreakScene));
+        InitBgsFromTemplates(0, sBgTemplates_KholGamesScene, ARRAY_COUNT(sBgTemplates_KholGamesScene));
         break;
     case 1:
-        LoadPalette(sGameFreakBg_Pal, BG_PLTT_ID(0), sizeof(sGameFreakBg_Pal));
-        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sGameFreakBg_Gfx, 0, 0, 0);
-        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sGameFreakBg_Map, 0, 0, 1);
-        LoadPalette(sGameFreakLogo_Pal, BG_PLTT_ID(13), sizeof(sGameFreakLogo_Pal));
+        LoadPalette(sKholGamesBg_Pal, BG_PLTT_ID(0), sizeof(sKholGamesBg_Pal));
+        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sKholGamesBg_Gfx, 0, 0, 0);
+        DecompressAndCopyTileDataToVram(BG_GF_BACKGROUND, sKholGamesBg_Map, 0, 0, 1);
+        LoadPalette(sKholGamesLogo_Pal, BG_PLTT_ID(13), sizeof(sKholGamesLogo_Pal));
         break;
     case 2:
         if (!FreeTempTileDataBuffersIfPossible())
@@ -1103,11 +1103,11 @@ static void IntroCB_Init(struct IntroSequenceData * this)
     {
     case 0:
         InitWindows(sWindowTemplates);
-        DecompressDataWithHeaderWram(sGameFreakText_Gfx, this->gameFreakTextGfx);
-        DecompressDataWithHeaderWram(sGameFreakLogo_Gfx, this->gameFreakLogoGfx);
+        DecompressDataWithHeaderWram(sKholGamesText_Gfx, this->kholGamesTextGfx);
+        DecompressDataWithHeaderWram(sKholGamesLogo_Gfx, this->kholGamesLogoGfx);
         FillBgTilemapBufferRect(BG_GF_TEXT_LOGO, 0x000, 0, 0, 32, 32, 17);
         FillWindowPixelBuffer(WIN_GF_TEXT_LOGO, PIXEL_FILL(0));
-        BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->gameFreakTextGfx, 0, 40, 144, 16);
+        BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesTextGfx, 0, 40, 144, 16);
         PutWindowTilemap(WIN_GF_TEXT_LOGO);
         CopyWindowToVram(WIN_GF_TEXT_LOGO, COPYWIN_FULL);
         this->state++;
@@ -1154,7 +1154,7 @@ static void IntroCB_GF_Star(struct IntroSequenceData * this)
     switch (this->state)
     {
     case 0:
-        PlaySE(MUS_RG_GAME_FREAK);
+        PlaySE(MUS_RG_KHOL_GAMES);
         GFScene_LoadGfxCreateStar();
         this->timer = 0;
         this->state++;
@@ -1225,14 +1225,14 @@ static void IntroCB_GF_RevealLogo(struct IntroSequenceData * this)
         this->state++;
         break;
     case 1:
-        this->gameFreakLogoArtSprite = GFScene_CreateLogoSprite();
+        this->kholGamesLogoArtSprite = GFScene_CreateLogoSprite();
         this->state++;
         break;
     case 2:
         if (!IsBlendTaskActive())
         {
-            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->gameFreakLogoGfx, 0x38, 0x06, 0x20, 0x40);
-            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->gameFreakTextGfx, 0x00, 0x28, 0x90, 0x10);
+            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesLogoGfx, 0x38, 0x06, 0x20, 0x40);
+            BlitBitmapToWindow(WIN_GF_TEXT_LOGO, this->kholGamesTextGfx, 0x00, 0x28, 0x90, 0x10);
             CopyWindowToVram(WIN_GF_TEXT_LOGO, COPYWIN_GFX);
             this->state++;
         }
@@ -1240,7 +1240,7 @@ static void IntroCB_GF_RevealLogo(struct IntroSequenceData * this)
     case 3:
         if (!IsDma3ManagerBusyWithBgCopy())
         {
-            DestroySprite(this->gameFreakLogoArtSprite);
+            DestroySprite(this->kholGamesLogoArtSprite);
             GFScene_CreatePresentsSprite();
             this->timer = 0;
             this->state++;
@@ -1935,9 +1935,9 @@ static void GFScene_LoadGfxCreateStar(void)
     u8 spriteId;
     static EWRAM_DATA u32 sStarSparklesRngSeed = 0;
 
-    for (i = 0; i < ARRAY_COUNT(sSpriteSheets_GameFreakScene); i++)
-        LoadCompressedSpriteSheet(&sSpriteSheets_GameFreakScene[i]);
-    LoadSpritePalettes(sSpritePalettes_GameFreakScene);
+    for (i = 0; i < ARRAY_COUNT(sSpriteSheets_KholGamesScene); i++)
+        LoadCompressedSpriteSheet(&sSpriteSheets_KholGamesScene[i]);
+    LoadSpritePalettes(sSpritePalettes_KholGamesScene);
     sStarSpeedX = 96;
     sStarSpeedY = 16;
     sStarSparklesXmodMask = 0x07;
@@ -2078,7 +2078,7 @@ static void GFScene_Task_NameSparklesBig(u8 taskId)
 
 static struct Sprite *GFScene_CreateLogoSprite(void)
 {
-    u8 spriteId = CreateSprite(&sSpriteTemplate_GameFreakLogoArt, 120, 70, 4);
+    u8 spriteId = CreateSprite(&sSpriteTemplate_KholGamesLogoArt, 120, 70, 4);
     return &gSprites[spriteId];
 }
 
@@ -2306,7 +2306,7 @@ static void SpriteCB_SparklesSmall_Star(struct Sprite *sprite)
 #undef sSmSparkleStar_FallDist
 #undef sSmSparkleStar_Timer
 
-// Callback for the small sparkles during the "Game Freak" text reveal
+// Callback for the small sparkles during the "Khol Games" text reveal
 static void SpriteCB_SparklesSmall_Name(struct Sprite *sprite)
 {
     if (sprite->sSmSparkleName_AnimTimer)
@@ -2363,7 +2363,7 @@ static void SpriteCB_SparklesSmall_Name(struct Sprite *sprite)
 #undef sStar_SparkleTimer
 #undef sStar_SparkleRngSeed
 
-// Callback for the big sparkles during the "Game Freak" text reveal
+// Callback for the big sparkles during the "Khol Games" text reveal
 static void SpriteCB_SparklesBig(struct Sprite *sprite)
 {
     if (sprite->animEnded)

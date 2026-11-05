@@ -539,7 +539,7 @@ gSongTable::
 	song mus_rg_obtain_key_item, MUSIC_PLAYER_SE2, 2
 	song mus_rg_caught_intro, MUSIC_PLAYER_SE2, 2
 	song mus_rg_photo, MUSIC_PLAYER_SE2, 2
-	song mus_rg_game_freak, MUSIC_PLAYER_BGM, 0
+	song mus_rg_khol_games, MUSIC_PLAYER_BGM, 0
 	song mus_rg_caught, MUSIC_PLAYER_BGM, 0
 	song mus_rg_new_game_instruct, MUSIC_PLAYER_BGM, 0
 	song mus_rg_new_game_intro, MUSIC_PLAYER_BGM, 0

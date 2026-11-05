@@ -944,7 +944,7 @@ static void DecodeInstructionsIwram(u32 headerLoSize, const u8 *loVec, const u16
 //  Entrance point for smol compressed data
 static void SmolDecompressData(const struct SmolHeader *header, const u32 *data, void *dest)
 {
-    //  This is apparently needed due to Game Freak sending bullshit down the decompression pipeline
+    //  This is apparently needed due to Khol Games sending bullshit down the decompression pipeline
     if (header->loSize == 0 || header->symSize == 0)
         return;
     const u8 *leftoverPos = (u8 *)data;

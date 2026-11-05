@@ -4135,7 +4135,7 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_OBTAIN_KEY_ITEM)       \
     X(MUS_RG_CAUGHT_INTRO)          \
     X(MUS_RG_PHOTO)                 \
-    X(MUS_RG_GAME_FREAK)            \
+    X(MUS_RG_KHOL_GAMES)            \
     X(MUS_RG_CAUGHT)                \
     X(MUS_RG_NEW_GAME_INSTRUCT)     \
     X(MUS_RG_NEW_GAME_INTRO)        \

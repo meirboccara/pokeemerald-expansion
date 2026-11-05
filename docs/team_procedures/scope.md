@@ -108,7 +108,7 @@ Exceptions can be made for uniquely popular or requested features, such as Legen
 External programs like poryscript.
 
 ### Intergenerational Feature Compatibility
-Addresses limitations and issues resulting from including all generational behaviours in a GBA native title, and extrapolation of features no longer supported by Game Freak.
+Addresses limitations and issues resulting from including all generational behaviours in a GBA native title, and extrapolation of features no longer supported by Khol Games.
 
 ## Workflow for Proposed Feature Scope Discussion
 ### Contributors
