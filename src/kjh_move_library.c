@@ -116,6 +116,60 @@ bool32 KJH_IsMoveInLibrary(struct BoxPokemon *boxMon, u32 move)
     return FALSE;
 }
 
+// Collect from learnsets, not by asking about every possible move. The bitmap
+// deduplicates sources and preserves the old ascending-ID truncation order.
+u32 KJH_GetUnknownLibraryMoves(struct BoxPokemon *boxMon, u16 *moves, u32 maxMoves)
+{
+    u8 eligible[(MOVES_COUNT + 7) / 8] = {0};
+    u32 species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
+    u32 ancestor = species, baseSpecies, level = KJH_LibraryLevel(boxMon);
+    u32 count = 0;
+
+    do
+    {
+        const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(ancestor);
+        for (u32 i = 0; learnset[i].move != LEVEL_UP_MOVE_END && learnset[i].level <= level; i++)
+        {
+            u32 move = learnset[i].move;
+            if (move < MOVES_COUNT)
+                eligible[move / 8] |= 1 << (move % 8);
+        }
+        baseSpecies = ancestor;
+        ancestor = GetSpeciesPreEvolution(ancestor);
+    } while (ancestor != SPECIES_NONE);
+
+    if (KJH_HasEggMovesInLibrary(boxMon))
+    {
+        const u16 *eggMoves = GetSpeciesEggMoves(baseSpecies);
+        for (u32 i = 0; eggMoves[i] != MOVE_UNAVAILABLE; i++)
+        {
+            u32 move = eggMoves[i];
+            if (move < MOVES_COUNT)
+                eligible[move / 8] |= 1 << (move % 8);
+        }
+    }
+    if (species != SPECIES_EGG)
+    {
+        const u16 *teachable = GetSpeciesTeachableLearnset(species);
+        for (u32 i = 0; teachable[i] != MOVE_UNAVAILABLE; i++)
+        {
+            u32 move = teachable[i];
+            if (move < MOVES_COUNT && (IsTmInBag(move) || KJH_IsTutorMoveInLibrary(move)))
+                eligible[move / 8] |= 1 << (move % 8);
+        }
+    }
+    for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+    {
+        u32 move = GetBoxMonData(boxMon, MON_DATA_MOVE1 + slot);
+        if (move < MOVES_COUNT)
+            eligible[move / 8] &= ~(1 << (move % 8));
+    }
+    for (u32 move = 1; move < MOVES_COUNT && count < maxMoves; move++)
+        if (eligible[move / 8] & (1 << (move % 8)))
+            moves[count++] = move;
+    return count;
+}
+
 u32 KJH_GetNewLevelUpMoves(u32 species, u32 fromLevel, u32 toLevel, u16 *moves, u32 maxMoves)
 {
     u32 count = 0;
@@ -215,31 +269,25 @@ u16 KJH_BufferNextNewLibraryMoves(void)
         // An incomplete moveset also deserves an offer for older library moves.
         if (!emptySlot && GetMonData(mon, MON_DATA_PEAK_LEVEL) > gSpecialVar_0x8006)
             continue;
-        count = KJH_GetNewLevelUpMoves(species, emptySlot ? 0 : gSpecialVar_0x8005,
-                                     min(KJH_LibraryLevel(&mon->box), gSpecialVar_0x8006),
-                                     moves, ARRAY_COUNT(moves));
-        for (u32 i = 0; i < count; )
-        {
-            bool32 known = FALSE;
-            for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
-                if (GetMonData(mon, MON_DATA_MOVE1 + slot) == moves[i])
-                    known = TRUE;
-            if (known)
-                moves[i] = moves[--count];
-            else
-                i++;
-        }
         if (emptySlot)
         {
-            count = 0;
-            for (u32 move = 1; move < MOVES_COUNT && count < ARRAY_COUNT(moves); move++)
+            count = KJH_GetUnknownLibraryMoves(&mon->box, moves, ARRAY_COUNT(moves));
+        }
+        else
+        {
+            count = KJH_GetNewLevelUpMoves(species, gSpecialVar_0x8005,
+                                         min(KJH_LibraryLevel(&mon->box), gSpecialVar_0x8006),
+                                         moves, ARRAY_COUNT(moves));
+            for (u32 i = 0; i < count; )
             {
                 bool32 known = FALSE;
                 for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
-                    if (GetMonData(mon, MON_DATA_MOVE1 + slot) == move)
+                    if (GetMonData(mon, MON_DATA_MOVE1 + slot) == moves[i])
                         known = TRUE;
-                if (!known && KJH_IsMoveInLibrary(&mon->box, move))
-                    moves[count++] = move;
+                if (known)
+                    moves[i] = moves[--count];
+                else
+                    i++;
             }
         }
         if (count == 0)

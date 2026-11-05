@@ -807,17 +807,8 @@ static void CreateLearnableMovesList(void)
 
     if (sKjhGrowthReview)
     {
-        sMoveRelearnerStruct->numMenuChoices = 0;
-        for (u32 move = 1; move < MOVES_COUNT; move++)
-        {
-            bool32 known = FALSE;
-            for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
-                if (GetBoxMonData(boxmon, MON_DATA_MOVE1 + slot) == move)
-                    known = TRUE;
-            if (!known && KJH_IsMoveInLibrary(boxmon, move)
-                && sMoveRelearnerStruct->numMenuChoices < ARRAY_COUNT(sMoveRelearnerStruct->movesToLearn) - 1)
-                sMoveRelearnerStruct->movesToLearn[sMoveRelearnerStruct->numMenuChoices++] = move;
-        }
+        sMoveRelearnerStruct->numMenuChoices = KJH_GetUnknownLibraryMoves(boxmon,
+            sMoveRelearnerStruct->movesToLearn, ARRAY_COUNT(sMoveRelearnerStruct->movesToLearn) - 1);
     }
     if (P_SORT_MOVES)
         SortMovesAlphabetically(sMoveRelearnerStruct->movesToLearn, sMoveRelearnerStruct->numMenuChoices);

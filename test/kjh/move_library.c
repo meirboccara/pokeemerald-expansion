@@ -6,12 +6,127 @@
 #include "kjh_levelless.h"
 #include "kjh_move_library.h"
 #include "pokemon.h"
+#include "party_menu.h"
 #include "test/test.h"
 #include "constants/items.h"
 
 static void Create(struct Pokemon *mon, u32 species, u32 level)
 {
     CreateMon(mon, species, level, 0, OTID_STRUCT_PRESET(0));
+}
+
+// Cascaded hardware timers avoid the 16-bit BENCHMARK timer wrapping on the old scan.
+static void StartLibraryTimer(void)
+{
+    VBlankIntrWait();
+    REG_TM2CNT = 0;
+    REG_TM3CNT = 0;
+    REG_TM3CNT_H = TIMER_ENABLE | TIMER_COUNTUP;
+    REG_TM2CNT_H = TIMER_ENABLE | TIMER_64CLK;
+}
+
+static u32 StopLibraryTimer(void)
+{
+    REG_TM2CNT_H = 0;
+    REG_TM3CNT_H = 0;
+    return ((u32)REG_TM3CNT_L << 16) | REG_TM2CNT_L;
+}
+
+TEST("KJH: growth empty-slot review latency stays below four frames")
+{
+    u32 ticks;
+    ZeroPlayerPartyMons();
+    Create(&gPlayerParty[0], SPECIES_RAICHU, 5);
+    for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+        SetMonMoveSlot(&gPlayerParty[0], MOVE_NONE, slot);
+    FlagClear(FLAG_SYS_GAME_CLEAR);
+    gSpecialVar_0x8004 = 0;
+    gSpecialVar_0x8005 = 5;
+    gSpecialVar_0x8006 = 5;
+    StartLibraryTimer();
+    bool32 result = KJH_BufferNextNewLibraryMoves();
+    ticks = StopLibraryTimer();
+    Test_MgbaPrintf("growth review: %d ticks (64 GBA cycles/tick)", ticks);
+    EXPECT(result);
+    EXPECT_LT(ticks, 17556); // four 280896-cycle GBA frames
+}
+
+// The per-move scan KJH_GetUnknownLibraryMoves replaced: the reference for its result.
+static u32 ScanLibraryMoves(struct BoxPokemon *boxMon, u16 *moves, u32 maxMoves)
+{
+    u32 count = 0;
+    for (u32 move = 1; move < MOVES_COUNT && count < maxMoves; move++)
+    {
+        bool32 known = FALSE;
+        for (u32 slot = 0; slot < MAX_MON_MOVES; slot++)
+            if (GetBoxMonData(boxMon, MON_DATA_MOVE1 + slot) == move)
+                known = TRUE;
+        if (!known && KJH_IsMoveInLibrary(boxMon, move))
+            moves[count++] = move;
+    }
+    return count;
+}
+
+static void ExpectSameMoves(const u16 *a, u32 aCount, const u16 *b, u32 bCount)
+{
+    EXPECT_EQ(aCount, bCount);
+    for (u32 i = 0; i < aCount && i < bCount; i++)
+        EXPECT_EQ(a[i], b[i]);
+}
+
+TEST("KJH: unknown library moves match the per-move scan: pre-evolution level-up moves, known moves left out")
+{
+    struct Pokemon mon;
+    u16 expected[100], actual[100];
+    u32 expectedCount, actualCount, scanTicks, collectTicks;
+
+    Create(&mon, SPECIES_RAICHU, 50);
+    FlagClear(FLAG_SYS_GAME_CLEAR);
+    SetMonMoveSlot(&mon, MOVE_THUNDER_SHOCK, 0);
+    StartLibraryTimer();
+    expectedCount = ScanLibraryMoves(&mon.box, expected, ARRAY_COUNT(expected));
+    scanTicks = StopLibraryTimer();
+    StartLibraryTimer();
+    actualCount = KJH_GetUnknownLibraryMoves(&mon.box, actual, ARRAY_COUNT(actual));
+    collectTicks = StopLibraryTimer();
+    Test_MgbaPrintf("per-move scan: %d ticks, learnset collection: %d ticks", scanTicks, collectTicks);
+    EXPECT_GT(expectedCount, 0);
+    ExpectSameMoves(expected, expectedCount, actual, actualCount);
+    EXPECT_LT(collectTicks * 100, scanTicks);
+}
+
+TEST("KJH: unknown library moves match the per-move scan: egg moves, a TM in the bag, a tutor that has taught")
+{
+    struct Pokemon mon;
+    u16 expected[100], actual[100];
+    u32 expectedCount, friendship = KJH_BondToFriendship(KJH_LIBRARY_EGG_MOVES_BOND);
+
+    Create(&mon, SPECIES_SNORLAX, 30);
+    SetMonData(&mon, MON_DATA_FRIENDSHIP, &friendship);
+    FlagClear(FLAG_SYS_GAME_CLEAR);
+    ASSUME(CanLearnTeachableMove(SPECIES_SNORLAX, MOVE_EARTHQUAKE));
+    ASSUME(CanLearnTeachableMove(SPECIES_SNORLAX, MOVE_BODY_SLAM));
+    AddBagItem(GetTMHMItemIdFromMoveId(MOVE_EARTHQUAKE), 1);
+    FlagSet(FLAG_TUTOR_BODY_SLAM);
+    expectedCount = ScanLibraryMoves(&mon.box, expected, ARRAY_COUNT(expected));
+    ExpectSameMoves(expected, expectedCount, actual, KJH_GetUnknownLibraryMoves(&mon.box, actual, ARRAY_COUNT(actual)));
+    RemoveBagItem(GetTMHMItemIdFromMoveId(MOVE_EARTHQUAKE), 1);
+    FlagClear(FLAG_TUTOR_BODY_SLAM);
+}
+
+TEST("KJH: unknown library moves keep the per-move scan's lowest move IDs when the list is full")
+{
+    struct Pokemon mon;
+    u16 expected[100], actual[100];
+    u32 expectedCount;
+
+    Create(&mon, SPECIES_RAICHU, 50);
+    FlagSet(FLAG_SYS_GAME_CLEAR);
+    expectedCount = ScanLibraryMoves(&mon.box, expected, ARRAY_COUNT(expected));
+    ASSUME(expectedCount > 3);
+    ExpectSameMoves(expected, 3, actual, KJH_GetUnknownLibraryMoves(&mon.box, actual, 3));
+    ExpectSameMoves(expected, expectedCount, actual, KJH_GetUnknownLibraryMoves(&mon.box, actual, ARRAY_COUNT(actual)));
+    FlagClear(FLAG_SYS_GAME_CLEAR);
 }
 
 static u32 FirstLevelUpMoveAbove(u32 species, u32 level, u32 *learnedAt)

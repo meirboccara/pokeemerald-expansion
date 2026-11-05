@@ -16,6 +16,8 @@ u32 KJH_LibraryLevel(struct BoxPokemon *boxMon);
 bool32 KJH_HasEggMovesInLibrary(struct BoxPokemon *boxMon);
 bool32 KJH_IsTutorMoveInLibrary(u32 move);        // its Kanto tutor has taught it once (FireRed's FLAG_TUTOR_*)
 bool32 KJH_IsMoveInLibrary(struct BoxPokemon *boxMon, u32 move);
+// Unknown library moves in ascending move-ID order, truncated to maxMoves.
+u32 KJH_GetUnknownLibraryMoves(struct BoxPokemon *boxMon, u16 *moves, u32 maxMoves);
 // The level-up moves a species (and its pre-evolutions) learns above fromLevel and up to toLevel, each once
 u32 KJH_GetNewLevelUpMoves(u32 species, u32 fromLevel, u32 toLevel, u16 *moves, u32 maxMoves);
 // From the League's first room until the run ends, moves can't be changed (FLAG_KJH_MOVES_LOCKED)
