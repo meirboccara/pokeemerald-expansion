@@ -49,11 +49,24 @@ u32 KJH_LibraryLevel(struct BoxPokemon *boxMon)
     return max(GetBoxMonData(boxMon, MON_DATA_PEAK_LEVEL), GetLevelFromBoxMonExp(boxMon));
 }
 
+static u32 BoxTrainingEarned(struct BoxPokemon *boxMon)
+{
+    u32 placed = 0;
+
+    for (u32 stat = 0; stat < NUM_STATS; stat++)
+        placed += GetBoxMonData(boxMon, MON_DATA_HP_EV + stat);
+    // A library read must not seed the lifetime counter. Placed points and the bank still count
+    // when an older save has not recorded lifetime yet, and lifetime keeps the unlock after a reset.
+    return max(GetBoxMonData(boxMon, MON_DATA_TRAINING_LIFETIME_HALVES) / 2,
+               placed + GetBoxMonData(boxMon, MON_DATA_TRAINING_BANK));
+}
+
 bool32 KJH_HasEggMovesInLibrary(struct BoxPokemon *boxMon)
 {
     u32 peak = max(GetBoxMonData(boxMon, MON_DATA_PEAK_BOND),
                    KJH_FriendshipToBond(GetBoxMonData(boxMon, MON_DATA_FRIENDSHIP)));
-    return peak >= KJH_LIBRARY_EGG_MOVES_BOND;
+    return peak >= KJH_LIBRARY_EGG_MOVES_BOND
+        && BoxTrainingEarned(boxMon) >= KJH_LIBRARY_EGG_MOVES_TRAINING;
 }
 
 bool32 KJH_IsTutorMoveInLibrary(u32 move)

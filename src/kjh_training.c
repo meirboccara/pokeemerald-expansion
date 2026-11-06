@@ -217,6 +217,54 @@ static void AddHalves(struct Pokemon *mon, u32 halves)
     AddLifetime(mon, halves);
 }
 
+#if IS_FRLG
+static bool32 CenterCareClaimed(u32 section)
+{
+    return (gSaveBlock3Ptr->kjhCenterCare[section / 8] >> (section % 8)) & 1;
+}
+
+static void ClaimCenterCare(u32 section)
+{
+    gSaveBlock3Ptr->kjhCenterCare[section / 8] |= 1 << (section % 8);
+}
+#endif
+
+// A voluntary Center heal. The nurse scripts call this before HealPlayerParty; a whiteout does not.
+u16 KJH_GrantCenterCarePoint(void)
+{
+#if !IS_FRLG
+    return FALSE;
+#else
+    u32 section = gMapHeader.regionMapSectionId;
+
+    if (section >= MAPSEC_COUNT || CenterCareClaimed(section))
+        return FALSE;
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        u32 hp, maxHp;
+
+        if (GetMonData(mon, MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+            continue;
+        hp = GetMonData(mon, MON_DATA_HP);
+        maxHp = GetMonData(mon, MON_DATA_MAX_HP);
+        if (maxHp == 0 || (u32)hp * 2 >= maxHp)
+            continue;
+        AddHalves(mon, 2); // one training point
+        ClaimCenterCare(section);
+        return TRUE;
+    }
+    return FALSE;
+#endif
+}
+
+void KJH_ClearCenterCare(void)
+{
+#if IS_FRLG
+    memset(gSaveBlock3Ptr->kjhCenterCare, 0, sizeof(gSaveBlock3Ptr->kjhCenterCare));
+#endif
+}
+
 // Called once per foe knocked out or caught (Cmd_getexp). foughtBits: the party slots that fought it. A fainted
 // Pokémon gets nothing, as with the newer games' Exp. Share.
 void KJH_GiveTrainingPoints(enum BattlerId fainted, u32 foughtBits)

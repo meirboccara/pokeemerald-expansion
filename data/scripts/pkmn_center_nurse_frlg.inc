@@ -23,6 +23,8 @@ EventScript_PkmnCenterNurse_Frlg::
 
 EventScript_PkmnCenterNurse_HealPkmn_Frlg::
 	incrementgamestat GAME_STAT_USED_POKECENTER
+	specialvar VAR_RESULT, KJH_GrantCenterCarePoint
+	call_if_eq VAR_RESULT, TRUE, EventScript_PkmnCenterNurse_CenterCarePoint
 	message Text_TakeYourPkmnForFewSeconds_Frlg
 	waitmessage
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn_Frlg

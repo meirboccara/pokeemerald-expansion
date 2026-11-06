@@ -99,10 +99,12 @@ TEST("KJH: unknown library moves match the per-move scan: egg moves, a TM in the
 {
     struct Pokemon mon;
     u16 expected[100], actual[100];
-    u32 expectedCount, friendship = KJH_BondToFriendship(KJH_LIBRARY_EGG_MOVES_BOND);
+    u32 expectedCount, bank, friendship = KJH_BondToFriendship(14);
 
     Create(&mon, SPECIES_SNORLAX, 30);
     SetMonData(&mon, MON_DATA_FRIENDSHIP, &friendship);
+    bank = 100; // egg moves also need 100 earned training points
+    SetMonData(&mon, MON_DATA_TRAINING_BANK, &bank);
     FlagClear(FLAG_SYS_GAME_CLEAR);
     ASSUME(CanLearnTeachableMove(SPECIES_SNORLAX, MOVE_EARTHQUAKE));
     ASSUME(CanLearnTeachableMove(SPECIES_SNORLAX, MOVE_BODY_SLAM));
@@ -174,24 +176,76 @@ TEST("KJH: an evolved Pokemon keeps its pre-evolutions' level-up moves")
         EXPECT(KJH_IsMoveInLibrary(&mon.box, pre[i].move));
 }
 
-TEST("KJH: egg moves join the library at Bond 8 (peak)")
+static void SetBond(struct Pokemon *mon, u32 bond)
+{
+    u32 friendship = KJH_BondToFriendship(bond);
+
+    SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
+}
+
+static void SetTrainingBank(struct Pokemon *mon, u32 points)
+{
+    SetMonData(mon, MON_DATA_TRAINING_BANK, &points);
+}
+
+TEST("KJH: egg moves join the library at peak Bond 14 and 100 earned training points")
 {
     struct Pokemon mon;
     const u16 *eggMoves = GetSpeciesEggMoves(SPECIES_CHARMANDER);
-    u32 friendship;
+    u32 ev, halves;
 
     ASSUME(eggMoves[0] != MOVE_UNAVAILABLE);
+
     Create(&mon, SPECIES_CHARMANDER, 5);
-    friendship = KJH_BondToFriendship(KJH_LIBRARY_EGG_MOVES_BOND - 1);
-    SetMonData(&mon, MON_DATA_FRIENDSHIP, &friendship);
+    SetBond(&mon, 13);
+    SetTrainingBank(&mon, 100);
     EXPECT(!KJH_HasEggMovesInLibrary(&mon.box));
     EXPECT(!KJH_IsMoveInLibrary(&mon.box, eggMoves[0]));
-    friendship = KJH_BondToFriendship(KJH_LIBRARY_EGG_MOVES_BOND);
-    SetMonData(&mon, MON_DATA_FRIENDSHIP, &friendship);
-    friendship = KJH_BOND_MIN_FRIENDSHIP; // the peak keeps it
-    SetMonData(&mon, MON_DATA_FRIENDSHIP, &friendship);
+
+    Create(&mon, SPECIES_CHARMANDER, 5);
+    SetBond(&mon, 14);
+    SetTrainingBank(&mon, 99);
+    EXPECT(!KJH_HasEggMovesInLibrary(&mon.box));
+
+    Create(&mon, SPECIES_CHARMANDER, 5);
+    SetBond(&mon, 14);
+    SetTrainingBank(&mon, 100);
     EXPECT(KJH_HasEggMovesInLibrary(&mon.box));
     EXPECT(KJH_IsMoveInLibrary(&mon.box, eggMoves[0]));
+    SetBond(&mon, 1); // the peak keeps the bond half
+    EXPECT(KJH_HasEggMovesInLibrary(&mon.box));
+
+    Create(&mon, SPECIES_CHARMANDER, 5);
+    SetBond(&mon, 14);
+    ev = 100; // placed points count, and a library read must not write the lifetime counter
+    SetMonData(&mon, MON_DATA_ATK_EV, &ev);
+    EXPECT(KJH_HasEggMovesInLibrary(&mon.box));
+    EXPECT_EQ(GetMonData(&mon, MON_DATA_TRAINING_LIFETIME_HALVES), 0);
+
+    Create(&mon, SPECIES_CHARMANDER, 5);
+    SetBond(&mon, 14);
+    halves = 200; // 100 earned points with an empty bank: spending or a reset cannot lock them again
+    SetMonData(&mon, MON_DATA_TRAINING_LIFETIME_HALVES, &halves);
+    EXPECT(KJH_HasEggMovesInLibrary(&mon.box));
+}
+
+TEST("KJH: the egg-move milestone is Bond 14, kept at the peak, and the rows stay in order")
+{
+    bool32 found = FALSE;
+
+    EXPECT_EQ(KJH_BOND_MILESTONE_COUNT, 9);
+    for (u32 i = 0; i < KJH_BOND_MILESTONE_COUNT; i++)
+    {
+        if (i > 0)
+            EXPECT_GT(gKjhBondMilestones[i].bond, gKjhBondMilestones[i - 1].bond);
+        EXPECT_NE(gKjhBondMilestones[i].bond, 8);
+        if (gKjhBondMilestones[i].bond == 14)
+        {
+            found = TRUE;
+            EXPECT(gKjhBondMilestones[i].keptAtPeak);
+        }
+    }
+    EXPECT(found);
 }
 
 TEST("KJH: a TM in the bag and a tutor that has taught put their move in the library")

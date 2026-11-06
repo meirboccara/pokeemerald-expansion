@@ -9,6 +9,7 @@
 #include "main.h"
 #include "kjh_bond.h"
 #include "kjh_swarms.h"
+#include "kjh_training.h"
 #include "mass_outbreak.h"
 #include "overworld.h"
 #include "pokerus.h"
@@ -52,7 +53,10 @@ void DoDailyEvents(u32 daysSince)
     UpdateDailySeed();
     UpdateMassOutbreakDaysLeft(daysSince);
     if (IS_FRLG)
+    {
         KJH_StartDailySwarm(); // KJH (CF-5): today's swarm
+        KJH_ClearCenterCare();
+    }
     UpdateDewfordTrendPerDay(daysSince);
     UpdateTVShowsPerDay(daysSince);
     UpdateWeatherPerDay(daysSince);

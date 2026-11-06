@@ -355,3 +355,29 @@ static void Task_StatTrainer(u8 taskId)
         ChangeValue(task, -10);
     }
 }
+
+u16 KJH_OakNatureOfferSlot(void)
+{
+#if !IS_FRLG
+    return PARTY_SIZE;
+#else
+    static const u16 sBases[3] = {SPECIES_BULBASAUR, SPECIES_SQUIRTLE, SPECIES_CHARMANDER};
+    u32 starter = VarGet(VAR_STARTER_MON);
+
+    if (FlagGet(FLAG_KJH_OAK_NATURE_OFFERED) || starter >= ARRAY_COUNT(sBases))
+        return PARTY_SIZE;
+    for (u32 i = 0; i < PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+        u32 species = GetMonData(mon, MON_DATA_SPECIES);
+
+        if (species == SPECIES_NONE || GetMonData(mon, MON_DATA_IS_EGG))
+            continue;
+        while (GetSpeciesPreEvolution(species) != SPECIES_NONE)
+            species = GetSpeciesPreEvolution(species);
+        if (species == sBases[starter])
+            return i;
+    }
+    return PARTY_SIZE;
+#endif
+}

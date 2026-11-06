@@ -326,9 +326,9 @@ const struct KjhBondMilestone gKjhBondMilestones[KJH_BOND_MILESTONE_COUNT] =
 {
     { 3, FALSE, COMPOUND_STRING("Emotions")},
     { 5, FALSE, COMPOUND_STRING("Stats +2%")},
-    { 8, TRUE,  COMPOUND_STRING("Egg moves")},
     {10, FALSE, COMPOUND_STRING("Confusion")},
     {12, TRUE,  COMPOUND_STRING("Hidden Ab.")},
+    {14, TRUE,  COMPOUND_STRING("Egg moves")},
     {15, FALSE, COMPOUND_STRING("Stats +5%")},
     {18, TRUE,  COMPOUND_STRING("Evolve, Mega")},
     {19, FALSE, COMPOUND_STRING("Status")},

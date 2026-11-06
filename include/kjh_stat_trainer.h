@@ -42,4 +42,8 @@ void KJH_ScriptResetTrainingPoints(struct ScriptContext *ctx);
 // Left/right change a value by 1, SELECT/START by 10, A saves (VAR_RESULT TRUE), B cancels (FALSE).
 void KJH_ScriptStatTrainerEdit(struct ScriptContext *ctx);
 
+// Party slot of the Kanto starter line when Oak may still offer one nature change.
+// PARTY_SIZE if the offer was already made or that Pokemon is not in the party. Does not set the flag.
+u16 KJH_OakNatureOfferSlot(void);
+
 #endif // GUARD_KJH_STAT_TRAINER_H

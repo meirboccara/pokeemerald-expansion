@@ -648,6 +648,8 @@ gSpecials::
 	def_special KJH_HeadbuttWildEncounter
 	@ KJH (LV-5): Bond, src/kjh_bond.c
 	def_special KJH_SetStarterBond
+	def_special KJH_GrantCenterCarePoint
+	def_special KJH_OakNatureOfferSlot
 	@ KJH (LV-13): training masters, src/kjh_masters.c
 	def_special KJH_SpecialMasterFightsLeft
 	def_special KJH_SpecialMasterFought

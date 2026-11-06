@@ -175,3 +175,34 @@ KJH_Text_StatTrainerNatureDone::
 
 KJH_Text_StatTrainerBye::
 	.string "Come back any time!$"
+
+@ KJH: one nature change for the Kanto starter, on a quiet talk with Oak.
+@ Yes and No both spend the offer. No starter in the party spends nothing.
+KJH_EventScript_OakNatureOffer::
+	goto_if_set FLAG_KJH_OAK_NATURE_OFFERED, KJH_EventScript_OakNatureOfferDone
+	specialvar VAR_RESULT, KJH_OakNatureOfferSlot
+	goto_if_ge VAR_RESULT, PARTY_SIZE, KJH_EventScript_OakNatureOfferDone
+	copyvar VAR_0x8004, VAR_RESULT
+	bufferpartymonnick STR_VAR_1, VAR_0x8004
+	msgbox KJH_Text_OakNatureOffer, MSGBOX_YESNO
+	setflag FLAG_KJH_OAK_NATURE_OFFERED
+	goto_if_eq VAR_RESULT, YES, KJH_EventScript_OakNatureChange
+	return
+
+KJH_EventScript_OakNatureChange::
+	setvar VAR_0x8005, KJH_STAT_TRAINER_NATURE
+	call KJH_EventScript_StatTrainerHelpNature
+	callnative KJH_ScriptStatTrainerEdit, requests_effects=1, waitstate=1
+	goto_if_eq VAR_RESULT, FALSE, KJH_EventScript_OakNatureOfferDone
+	bufferpartymonnick STR_VAR_1, VAR_0x8004
+	msgbox KJH_Text_StatTrainerNatureDone
+	return
+
+KJH_EventScript_OakNatureOfferDone::
+	return
+
+KJH_Text_OakNatureOffer::
+	.string "That nature will shape {STR_VAR_1}\n"
+	.string "for the rest of its life.\p"
+	.string "I can change it once. Would you\n"
+	.string "like to?$"

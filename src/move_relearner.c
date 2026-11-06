@@ -969,7 +969,7 @@ static u32 GetRelearnerEggMoves(struct BoxPokemon *mon, u16 *moves)
 {
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
     u32 numMoves = 0;
-    if (IS_FRLG && !KJH_HasEggMovesInLibrary(mon)) // KJH (LV-10): from Bond 8
+    if (IS_FRLG && !KJH_HasEggMovesInLibrary(mon)) // KJH (LV-10): peak Bond 14 and 100 training points
         return 0;
     while (GetSpeciesPreEvolution(species) != SPECIES_NONE)
         species = GetSpeciesPreEvolution(species);
@@ -1087,7 +1087,7 @@ static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
 static bool32 HasRelearnerEggMoves(struct BoxPokemon *boxMon)
 {
     enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-    if (IS_FRLG && !KJH_HasEggMovesInLibrary(boxMon)) // KJH (LV-10): from Bond 8
+    if (IS_FRLG && !KJH_HasEggMovesInLibrary(boxMon)) // KJH (LV-10): peak Bond 14 and 100 training points
         return FALSE;
     while (GetSpeciesPreEvolution(species) != SPECIES_NONE)
         species = GetSpeciesPreEvolution(species);

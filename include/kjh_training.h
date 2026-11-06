@@ -46,6 +46,10 @@ u32 KJH_TrainingGoalOfEvolution(enum Species species, u32 index);
 
 // The game
 void KJH_GiveTrainingPoints(enum BattlerId fainted, u32 foughtBits); // a foe was knocked out: the whole party
+// One training point for the first party Pokemon below half HP, once per map section per in-game day.
+// MAPSEC_COUNT and above grant nothing. Returns TRUE when a point was given.
+u16 KJH_GrantCenterCarePoint(void);
+void KJH_ClearCenterCare(void); // DoDailyEvents: the towns can pay again
 u32 KJH_TrainingBank(struct Pokemon *mon);
 u32 KJH_TrainingPlaced(struct Pokemon *mon);                         // the sum of its EVs
 u32 KJH_TrainingPointsToPlace(struct Pokemon *mon);                  // the bank, as far as the stats have room

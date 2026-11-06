@@ -263,6 +263,7 @@ struct KjhRegionSwarm
 #define KJH_SWARM_REGIONS 2 // Johto, Hoenn
 
 #include "constants/items.h"
+#include "constants/region_map_sections.h"
 #define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
 
 struct SaveBlock3
@@ -289,6 +290,7 @@ struct SaveBlock3
     struct KjhRegionSwarm kjhSwarms[KJH_SWARM_REGIONS]; // KJH (CF-6): today's Johto and Hoenn swarms
     u16 hoennVars[HOENN_VARS_COUNT]; // KJH (ENG-9): Hoenn's variables (constants/hoenn_vars.h, GetVarPointer)
     u8 hoennFlags[HOENN_FLAGS_COUNT / 8]; // KJH (ENG-9): Hoenn's flags, Emerald's numbering (HOENN_FLAG)
+    u8 kjhCenterCare[ROUND_BITS_TO_BYTES(MAPSEC_COUNT)]; // KJH: one Center training point per map section per day
 #endif
 }; /* max size 1624 bytes */
 

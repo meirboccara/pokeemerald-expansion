@@ -149,7 +149,8 @@
 #define FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS 0x0AE
 
 // Unused?
-#define FLAG_0x0AF               0x0AF // KJH: free again since LV-7 removed ENG-4's party Exp. Share (FLAG_KJH_EXP_SHARE)
+#define FLAG_0x0AF               0x0AF
+#define FLAG_KJH_OAK_NATURE_OFFERED                    FLAG_0x0AF // KJH: Oak has offered the Kanto starter's nature once
 #define FLAG_0x0B0               0x0B0
 #define FLAG_KJH_GOT_BOX_LINK                              FLAG_0x0B0 // KJH: Bill gave the Pokemon Box Link (CF-1)
 #define FLAG_0x0B1               0x0B1

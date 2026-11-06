@@ -3,10 +3,11 @@
 
 // KJH (LV-10): the move library (docs/LEVELLESS_DESIGN.md §2, §6). Every move a Pokemon may use: its level-up moves
 // up to its library level (its pre-evolutions' too), TMs in the bag it can learn, the tutor moves of the tutors that have
-// taught once (FireRed's tutors teach one Pokemon, then the move is in every compatible Pokemon's library), and its egg moves from Bond 8 (peak). It swaps them for free with expansion's move relearner
+// taught once (FireRed's tutors teach one Pokemon, then the move is in every compatible Pokemon's library), and its egg moves from peak Bond 14 once it has earned 100 training points. It swaps them for free with expansion's move relearner
 // ("Change moves" in the party menu, or START on the Summary's moves page). Nothing new is stored.
 
-#define KJH_LIBRARY_EGG_MOVES_BOND 8
+#define KJH_LIBRARY_EGG_MOVES_BOND 14
+#define KJH_LIBRARY_EGG_MOVES_TRAINING 100 // earned training points; not the evolution goal
 
 struct BoxPokemon;
 
